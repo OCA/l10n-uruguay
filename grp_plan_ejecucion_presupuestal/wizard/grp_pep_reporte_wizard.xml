@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- WIZARD REPORTES -->
+        <record id="grp_pep_reportes_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.reporte.wizard.form</field>
+            <field name="model">grp.pep.reporte.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Ejecución de Reportes">
+                    <style>
+                    .oe_form_sheet{
+                        min-height: 0 !important;
+                    }
+                    </style>
+                    <sheet>
+                        <field name="tipo_reporte" invisible="1"/>
+                        <group>
+                            <field name="plan_anual_id"
+                                   style="width: 50%"
+                                   options="{'no_open': True, 'no_create_edit': True}"
+                                   domain="[('state', 'in', ('aprobado','en_ejecucion','cierre','finalizado'))]"/>
+                            <field name="version" attrs="{'invisible': [('tipo_reporte','not in',('plan_ejecucion_presupuestal','planificado_vs_afectado_concepto','planificado_vs_afectado_odg'))]}"
+                                   help="Valores válidos:
+                                         0: Versión aprobada del plan elegido.
+                                         1 hasta n: siendo n el último período cerrado del plan elegido."/>
+                        </group>
+                        <group>
+                            <field name="archivo_nombre" readonly="1"/>
+                            <field name="archivo_contenido" filename="archivo_nombre" readonly="1"/>
+                        </group>
+                        <footer>
+                            <button name="ejecutar"
+                                    string="Ejecutar Reporte"
+                                    type="object"
+                                    default_focus="1"
+                                    class="oe_highlight"/>
+                            <button string="Cerrar"
+                                    class="oe_link"
+                                    special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE GASTOS -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_gasto">
+            <field name="name">Reporte de Gastos</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'gastos'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE NECESIDADES -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_necesidad">
+            <field name="name">Reporte de Necesidades</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'necesidades'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE PLAN DE ADQUISICIONES -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_plan_adqui">
+            <field name="name">Reporte Plan de Adquisiciones</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'plan_adquisiciones'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE PLAN EJECUCION PRESUPUESTAL -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_pep">
+            <field name="name">Reporte Plan de Ejecución Presupuestal</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'plan_ejecucion_presupuestal'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE PLANIFICADO VS AFECTADO CONCEPTO -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_pva_concepto">
+            <field name="name">Reporte Planificado vs Afectado por Concepto</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'planificado_vs_afectado_concepto'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+
+        <!-- ACCION PARA EJECUTAR REPORTE PLANIFICADO VS AFECTADO ODG -->
+        <record model="ir.actions.act_window" id="action_grp_pep_monitoreo_pva_odg">
+            <field name="name">Reporte Planificado vs Afectado por ODG</field>
+            <field name="res_model">grp.pep.reporte.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_tipo_reporte': 'planificado_vs_afectado_odg'}</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="grp_pep_reportes_wizard"/>
+        </record>
+    </data>
+</openerp>

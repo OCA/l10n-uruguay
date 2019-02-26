@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--&lt;!&ndash;&lt;!&ndash; Herencia Vista form: Extracto Bancario&ndash;&gt;&ndash;&gt;-->
+        <record id="view_partner_bank_form_inherited" model="ir.ui.view">
+            <field name="name">Inherited Form View for Bank View</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="account.view_partner_bank_form_inherit"/>
+            <field name="arch" type="xml"  >
+
+               <group name="accounting" position="attributes">
+                     <attribute name="attrs"></attribute>
+               </group>
+
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

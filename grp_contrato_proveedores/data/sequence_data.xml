@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!--Contrato Proveedores Sequence-->
+        <record id="sequence_contrato" model="ir.sequence.type">
+            <field name="name">Secuencia Contrato Proveedores</field>
+            <field name="code">sec.contrato.proveedores</field>
+        </record>
+        <record id="sequence_contrato_seq" model="ir.sequence">
+            <field name="name">Secuencia Contrato Proveedores</field>
+            <field name="code">sec.contrato.proveedores</field>
+            <field name="prefix">Contratos-Inciso-%(year)s-</field>
+            <field name="padding">4</field>
+			<field name="active">TRUE</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <!--Ejecución futura de contratos Sequence-->
+        <record id="sequence_ejecucion_futura" model="ir.sequence.type">
+            <field name="name">Secuencia Ejecución Futura de Contratos</field>
+            <field name="code">sec.ejecucion.futura.contrato</field>
+        </record>
+        <record id="sequence_ejecucion_futura_contrato_seq" model="ir.sequence">
+            <field name="name">Secuencia Ejecución Futura de Contratos</field>
+            <field name="code">sec.ejecucion.futura.contrato</field>
+            <field name="prefix">EF_Contratos-%(year)s-</field>
+            <field name="padding">4</field>
+			<field name="active">TRUE</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+    </data>
+</openerp>

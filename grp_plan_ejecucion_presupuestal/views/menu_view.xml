@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- MENU ROOT -->
+    <menuitem name="Planes Presupuestales"
+              id="root_menu"
+              sequence="450"
+              groups="pep_elaboracion,pep_recetas,pep_conceptos,pep_existencias,pep_aprobacion,pep_adquisiciones,pep_monitoreo,pep_movimientos"/>
+
+    <!-- PRIMER NIVEL -->
+    <menuitem name="Elaboración"
+              id="elaboracion_menu"
+              sequence="10"
+              parent="root_menu"
+              groups="pep_elaboracion,pep_recetas,pep_conceptos,pep_existencias,pep_aprobacion,pep_adquisiciones"/>
+
+        <!-- SEGUNDO NIVEL -->
+        <menuitem name="Estructuras de Servicio"
+              id="elaboracion_estructuras_menu"
+              sequence="30"
+              parent="elaboracion_menu"
+              groups="pep_elaboracion,pep_recetas"/>
+
+            <!-- TERCER NIVEL -->
+            <!-- MENU PARA grp_pep_estructura_import_ws -->
+            <menuitem name="Importar desde WS"
+                      id="elaboracion_estructuras_importar_ws_menu"
+                      sequence="5"
+                      parent="elaboracion_estructuras_menu"
+                      action="estructura_de_servicios_import_ws_action"
+                      groups="pep_elaboracion,pep_recetas"/>
+
+            <!-- MENU PARA grp_pep_estructura_de_servicios -->
+            <menuitem name="Estructuras"
+                      id="elaboracion_estructuras_estructuras_menu"
+                      sequence="10"
+                      parent="elaboracion_estructuras_menu"
+                      action="estructura_de_servicios_tree_action"
+                      groups="pep_elaboracion,pep_recetas"/>
+
+            <!-- MENU PARA grp_pep_unidad_de_servicios -->
+            <menuitem name="Unidades"
+                      id="elaboracion_estructuras_unidades_menu"
+                      sequence="20"
+                      parent="elaboracion_estructuras_menu"
+                      action="unidad_de_servicio_tree_action"
+                      groups="pep_elaboracion,pep_recetas"/>
+
+        <!-- MENU PARA grp_pep_concepto -->
+        <menuitem
+            name="Conceptos"
+            id="elaboracion_concepto_menu"
+            action="action_grp_pep_concepto"
+            parent="elaboracion_menu"
+            sequence="40"
+            groups="pep_elaboracion,pep_conceptos"
+        />
+
+        <!-- MENU PARA grp_pep_receta -->
+        <menuitem
+            name="Recetas"
+            id="elaboracion_receta_menu"
+            action="action_grp_pep_receta"
+            parent="elaboracion_menu"
+            sequence="50"
+            groups="pep_elaboracion,pep_recetas"
+        />
+
+        <!-- MENU PARA grp_pep_anual -->
+        <menuitem
+            name="Plan Anual"
+            id="elaboracion_plan_anual_menu"
+            action="action_grp_pep_anual"
+            parent="elaboracion_menu"
+            sequence="55"
+            groups="pep_elaboracion,pep_existencias,pep_aprobacion,pep_adquisiciones"
+        />
+
+    <!-- PRIMER NIVEL -->
+    <menuitem name="Ejecución"
+              id="ejecucion_menu"
+              sequence="20"
+              parent="root_menu"
+              groups="pep_movimientos"/>
+
+        <!-- MENU PARA grp_pep_movimiento_ejecución -->
+        <menuitem
+            name="Movimientos"
+            id="ejecucion_movimiento_concepto_menu"
+            action="action_grp_pep_movimiento_ejecucion"
+            parent="ejecucion_menu"
+            sequence="40"
+            groups="pep_movimientos"
+        />
+
+        <!-- MENU PARA grp_pep_concepto_linea_gasto -->
+        <menuitem
+            name="Saldos Concepto/Llave"
+            id="ejecucion_saldo_concepto_llave_menu"
+            action="action_grp_pep_concepto_linea_gasto"
+            parent="ejecucion_menu"
+            sequence="50"
+            groups="pep_movimientos"
+        />
+
+    <!-- PRIMER NIVEL -->
+    <menuitem name="Monitoreo"
+              id="monitoreo_menu"
+              sequence="30"
+              parent="root_menu"
+              groups="pep_recetas,pep_existencias,pep_aprobacion,pep_adquisiciones,pep_monitoreo"/>
+
+        <!-- MENU PARA reporte -->
+        <menuitem
+            name="Gastos"
+            id="monitoreo_gasto_menu"
+            action="action_grp_pep_monitoreo_gasto"
+            parent="monitoreo_menu"
+            sequence="10"
+            groups="pep_recetas,pep_monitoreo"
+        />
+
+        <!-- MENU PARA reporte -->
+        <menuitem
+            name="Necesidades"
+            id="monitoreo_necesidad_menu"
+            action="action_grp_pep_monitoreo_necesidad"
+            parent="monitoreo_menu"
+            sequence="20"
+            groups="pep_recetas,pep_existencias,pep_monitoreo"
+        />
+
+        <!-- MENU PARA reporte -->
+        <menuitem
+            name="Plan de Adquisiciones"
+            id="monitoreo_plan_adqui_menu"
+            action="action_grp_pep_monitoreo_plan_adqui"
+            parent="monitoreo_menu"
+            sequence="30"
+            groups="pep_adquisiciones,pep_monitoreo"
+        />
+
+        <!-- MENU PARA reporte -->
+        <menuitem
+            name="Plan Ejecución Presupuestal"
+            id="monitoreo_pep_menu"
+            action="action_grp_pep_monitoreo_pep"
+            parent="monitoreo_menu"
+            sequence="40"
+            groups="pep_aprobacion,pep_monitoreo"
+        />
+
+       <!-- MENU PARA reporte -->
+        <menuitem
+            name="Planif. vs Afect. (Concepto)"
+            id="monitoreo_pve_concepto_menu"
+            action="action_grp_pep_monitoreo_pva_concepto"
+            parent="monitoreo_menu"
+            sequence="50"
+            groups="pep_monitoreo"
+        />
+
+       <!-- MENU PARA reporte -->
+        <menuitem
+            name="Planif. vs Afect. (ODG)"
+            id="monitoreo_pve_odg_menu"
+            action="action_grp_pep_monitoreo_pva_odg"
+            parent="monitoreo_menu"
+            sequence="60"
+            groups="pep_monitoreo"
+        />
+</data>
+</openerp>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="0">
+        <record id="asset.menu_maintenance_config" model="ir.ui.menu">
+            <field eval="[(4,ref('fleet.group_fleet_manager'))]" name="groups_id"/>
+        </record>
+        <record id="grp_seguridad.grp_group_proveedores_rupe" model="res.groups">
+            <field name="implied_ids" eval="[(4,ref('asset.group_mro_customer'))]"/>
+        </record>
+    </data>
+</openerp>

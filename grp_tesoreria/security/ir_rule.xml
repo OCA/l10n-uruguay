@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <record id="sa_SolicitanteAprobador_Department" model="ir.rule">
+            <field ref="grp_tesoreria.model_grp_solicitud_anticipos_fondos" name="model_id"/>
+            <field name="name">Ver Solicitud de Anticipos de la Unidad Organizativa</field>
+            <field name="domain_force">['|',('user_employee_id','=',False),('user_employee_id.department_id','child_of',[e.department_id.id for e in user.employee_ids])]</field>
+            <field eval="[(4,ref('grp_tesoreria.group_grp_solicitante_anticipos')),(4,ref('grp_tesoreria.group_grp_aprobador_anticipos'))]" name="groups"/>
+        </record>
+
+        <record id="sa_AdelantoAnticipos_UE" model="ir.rule">
+            <field ref="grp_tesoreria.model_grp_solicitud_anticipos_fondos" name="model_id"/>
+            <field name="name">Ver Solicitud de Anticipos de la Unidad Ejecutora</field>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field eval="[(4,ref('grp_tesoreria.group_grp_adelanto_anticipos')),(4,ref('grp_tesoreria.group_grp_autoriza_anticipo'))]" name="groups"/>
+        </record>
+
+        <record id="ra_SolicitanteAprobador_Department" model="ir.rule">
+            <field ref="hr_expense.model_hr_expense_expense" name="model_id"/>
+            <field name="name">Ver Rendiciones de Anticipos de la Unidad Organizativa</field>
+            <field name="domain_force">['|',('employee_id','=',False),('employee_id.department_id','child_of',[e.department_id.id for e in user.employee_ids])]</field>
+            <field eval="[(4,ref('grp_tesoreria.group_grp_solicitante_anticipos')),(4,ref('grp_tesoreria.group_grp_aprobador_anticipos'))]" name="groups"/>
+        </record>
+
+        <record id="ra_AutorizaAprobadorfinanciero_UE" model="ir.rule">
+            <field ref="hr_expense.model_hr_expense_expense" name="model_id"/>
+            <field name="name">Ver Rendiciones de Viáticos de la Unidad Ejecutora</field>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field eval="[(4,ref('grp_tesoreria.group_grp_adelanto_anticipos')),(4,ref('grp_tesoreria.group_grp_devolucion_anticipos'))]" name="groups"/>
+        </record>
+    </data>
+</openerp>

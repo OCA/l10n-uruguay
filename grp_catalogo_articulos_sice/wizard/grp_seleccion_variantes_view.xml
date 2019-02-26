@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="grp_carga_catalogo_sice_wizard_form" model="ir.ui.view">
+			<field name="name">grp.carga_catalogo_sice_wizard.form</field>
+			<field name="model">grp.carga_catalogo_sice_wizard</field>
+			<field name="arch" type="xml">
+				<form string="Carga de modelos GRP del catálogo de artículos SICE">
+					<sheet>
+					    <group>
+
+					    </group>
+
+
+					    <group>
+   						<footer>
+                        <button name="recibir_novedades_sice" string="Recibir novedades" type="object" />
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="grp_carga_catalogo_sice_wizard_act">
+			<field name="name">Carga de modelos GRP del catálogo de artículos SICE: Familias</field>
+			<field name="res_model">grp.carga_catalogo_sice_wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="grp_carga_catalogo_sice_wizard_form" />
+			<field name="target">new</field>
+		</record>
+
+
+		<menuitem id="grp_procesar_carga_catalogo_sice" name="Procesar carga del catálogo" parent="grp_catalogo_articulos_sice_menu" sequence="100"/>
+        <menuitem id="grp_carga_catalogo_sice_wizard_menu" action="grp_carga_catalogo_sice_wizard_act" name="Cargar catálogo" parent="grp_procesar_carga_catalogo_sice" sequence="10"/>
+
+	</data>
+</openerp>

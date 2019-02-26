@@ -1,0 +1,78 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * grp_tesoreria
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-30 13:16+0000\n"
+"PO-Revision-Date: 2017-05-30 13:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account
+#: code:addons/account/account_bank_statement.py:392
+#, python-format
+msgid ""
+"In order to delete a bank statement, you must first cancel it to delete "
+"related journal items."
+msgstr "No es posible eliminar una caja en estado Abierto."
+
+#. module: account
+#: view:account.bank.statement:account.view_bank_statement_form2
+msgid "Close CashBox"
+msgstr "Finalizar"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:account_voucher.action_vendor_payment
+#: model:ir.ui.menu,name:account_voucher.menu_action_vendor_payment
+msgid "Supplier Payments"
+msgstr "Gestión de pagos"
+
+#. module: account_voucher
+#: model:ir.actions.act_window,name:grp_tesoreria.grp_action_vendor_payment
+#: model:ir.ui.menu,name:account_voucher.menu_action_vendor_payment
+msgid "Gestión de pagos"
+msgstr "Gestión de pagos"
+
+#. module: grp_tesoreria
+#: help:grp.vale.caja,audit:0
+msgid ""
+"Check this box if you are unsure of that journal entry and if you want to "
+"note it as 'to be reviewed' by an accounting expert."
+msgstr "Marque esta opción si no está seguro de este asiento y desea marcarlo como 'Para ser revisado' por un experto contable."
+
+#. module: grp_tesoreria
+#: field:grp.vale.caja,audit:0
+msgid "To Review"
+msgstr "A revisar"
+
+#. module: grp_tesoreria
+#: field:grp.vale.caja,period_id:0
+msgid "Period"
+msgstr "Período"
+
+#. module: grp_tesoreria
+#: field:grp.vale.caja,number:0
+msgid "Number"
+msgstr "Número"
+
+#. module: grp_tesoreria
+#: field:grp.vale.caja,partner_id:0
+msgid "Partner"
+msgstr "Funcionario"
+
+#. module: npg_bank_account_reconciliation
+#: model:res.groups,name:npg_bank_account_reconciliation.group_bank_stmt_preparer
+msgid "Preparar conciliacion"
+msgstr "Preparar conciliacion"
+
+#. module: npg_bank_account_reconciliation
+#: model:res.groups,name:npg_bank_account_reconciliation.group_bank_stmt_verifier
+msgid "Validar conciliacion"
+msgstr "Validar conciliacion"

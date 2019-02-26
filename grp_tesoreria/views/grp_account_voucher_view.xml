@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 10 GAP 266 C-->
+
+        <record model="ir.ui.view" id="view_voucher_tree">
+            <field name="name">grp.tesoreria.account.voucher.payment.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_voucher_tree"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="payment_method" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_vendor_payment_form">
+            <field name="name">grp.tesoreria.account.voucher.payment.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+            <field name="arch" type="xml">
+        <!--TODO: M INCIDENCIA-->
+                <xpath expr="/form/sheet" position="before">
+                    <div name="show_error" attrs="{'invisible':['|',('show_warning','=',False),('payment_method_alert','=',False)]}" class="alert alert-danger" style="height: 60px;">
+                        <div class="oe_inline" style="float: left;">
+                            <span class="fa fa-warning" style="color: #DD0000;"/>
+                                <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 610px;">
+                                    <p><strong>Si va a modificar los datos del pago, revise que el número del cheque sea correcto. </strong></p>
+                                </span>
+                            <field name="payment_method_alert" invisible="1"/>
+                            <field name="show_warning" invisible="1"/>
+                        </div>
+                        <div class="oe_right">
+                            <button name="do_not_show_warning" string="Aceptar" type="object" class="oe_link"/>
+                            <div class="fa fa-close" style="font-weight: bold !important; cursor: pointer; color: #DD0000;"
+                            onclick="$('div[name|=\'show_error\']').slideUp();"/><br/>
+                        </div>
+                    </div>
+                </xpath>
+
+                <header position="replace">
+                    <header>
+                        <button name="proforma_voucher" string="Pagar" states="confirm" invisible="context.get('line_type', False)" attrs="{'invisible':['|',('payment_method','!=','transfer')]}" class="oe_highlight"/>
+                        <button name="confirm_voucher" type="object" string="Confirmar" states="draft" />
+                        <button name="draft_voucher" type="object" string="Volver a Borrador" states="confirm" /> <!--TODO: SPRING 10 GAP 222 K-->
+                        <button name="issue_voucher" string="Emitir" type="object" states="confirm" attrs="{'invisible':['|',('payment_method','!=','check')]}"/>
+                        <button name="cancel_voucher" string="Cancelar" type="object" states="posted"  attrs="{'invisible':['|',('show_cancel_voucher','=',False)]}"/>
+
+                        <button name="%(grp_tesoreria.act_grp_anular_voucher_wizard)d" string="Anular" type="action" states="cancel"
+                                context="{'default_voucher_id':id}"
+                                groups="grp_tesoreria.group_grp_tesoreria_cancelcion_pago"
+                                attrs="{'invisible':['|','|',('cancel_motive','!=',False),('payment_method','!=','check')]}"/>
+                        <button name="change_voucher" string="Modificar" type="object" states="issue" attrs="{'invisible':['|',('show_change_voucher','=',False)]}"/>
+                        <button name="change_voucher" string="Modificar" type="object" states="cancel" attrs="{'invisible':['|','|',('cancel_motive','!=',False),('payment_method','!=','check')]}" groups="grp_tesoreria.group_grp_tesoreria_cancelcion_pago"/>
+                        <!--<button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft" invisible="context.get('line_type', False)"/>-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmm,posted,cancel"
+                           statusbar_colors='{"proforma":"blue"}' />
+                    </header>
+                </header>
+                <!--<field name="advance_account_id" position="attributes">-->
+                        <!--<attribute name="attrs">{'readonly': [('state', 'not in', ['draft','confirm'])]}</attribute>-->
+                <!--</field>-->
+
+                <field name="journal_id" position="attributes">
+                    <attribute name="domain">['|','|',('caja_recaudadora','=',False),('caja_pagadora','=',True),('caja_chica_t','=',True),('type', 'in', ['bank','cash']),('caja_viaticos','=',False)]</attribute>
+                    <attribute name="string">Diario</attribute>
+                </field>
+
+                <!-- TODO Spring 10 GAP 222 K-->
+                <field name="partner_id" position="attributes">
+                    <attribute name="on_change">onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)</attribute>
+                    <attribute name="context">{'pago_ret_sueldo':pago_ret_sueldo}</attribute>
+                </field>
+
+                <field name="journal_id" position="after">
+                    <!--TODO: SPRING 10 GAP 266 C-->
+                    <field name="payment_method" required="1"/>
+                    <field name="endorse" states="posted,issue" attrs="{'invisible':['|',('payment_method','!=','check')]}"/>
+                    <field name="endorse_date" attrs="{'invisible':[('endorse','!=',True)], 'required':[('endorse','=',True)]}"/>
+
+                    <!-- TODO Spring 10 GAP 222 K-->
+                    <field name="pago_ret_sueldo" on_change="onchange_pago_ret_sueldo(partner_id, journal_id, amount, currency_id, type, date, pago_ret_sueldo, context)" context="{'invoice_currency':currency_id, 'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
+                    <field name="no_recibo" attrs="{'invisible' : [('pago_ret_sueldo','=',False)]}"/>
+
+                </field>
+                <field name="company_id" position="after">
+                    <field name="no_operation"
+                           attrs="{'invisible':[('payment_method','!=','transfer')], 'readonly': [('state','not in',['draft','confirm'])]}"/>
+
+                    <field name="checkbook_id" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"
+                           options="{'no_create': 1, 'no_quick_create': 1}"
+                           domain="[('invoice_id','=',journal_id),('state','=','available'),('active','=', True)]"/>
+                    <field name="serial" readonly="1" attrs="{'invisible':[('payment_method','!=','check')]}"/>
+                    <field name="check_id" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"
+                           options="{'no_create': 1, 'no_quick_create': 1}"
+                           domain="[('checkbook_id','=',checkbook_id),('state','=','available'),('cancel_use','!=', True)]"/>
+                    <field name="in_cashbox" readonly="1" options="{'save_readonly':True}"/><!--TODO: M INCIDENCIA-->
+                    <field name="cancel_motive" attrs="{'invisible':[('show_motive','=', False)], 'required':[('show_motive','=',True)]}"
+                                                groups="grp_tesoreria.group_grp_tesoreria_cancelcion_pago"/>
+                    <field name="valor_custodia_id" attrs="{'invisible':[('show_field_vc','=', False)], 'required':[('show_field_vc','=',True)]}" options="{'no_create': 1, 'no_quick_create': 1}"/>
+                    <field name="show_motive" invisible="1"/>
+                    <field name="caja_chica" invisible="1"/>
+                    <field name="show_cancel_voucher" invisible="1"/>
+                    <field name="show_change_voucher" invisible="1"/>
+                    <field name="show_field_vc" invisible="1"/>
+                </field>
+
+                <!-- TODO Spring 10 GAP 222 K-->
+                <field name="line_dr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids_pr(line_dr_ids, line_cr_ids, amount, currency_id, type, pago_ret_sueldo, no_recibo, context)</attribute>
+                </field>
+                <field name="line_cr_ids" position="attributes">
+                    <attribute name="on_change">onchange_line_ids_pr(line_dr_ids, line_cr_ids, amount, currency_id, type, pago_ret_sueldo, no_recibo, context)</attribute>
+                </field>
+                <xpath expr="//field[@name='line_dr_ids']/tree/field[@name='amount']" position="after">
+                    <field name="pago_ret_sueldo" invisible="1"/>
+                    <field name="apunte_vc" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='amount']" position="after">
+                    <field name="pago_ret_sueldo" invisible="1"/>
+                    <field name="apunte_vc" invisible="1"/>
+                </xpath>
+
+                <field name="reference" position="attributes">
+                    <attribute name="options">{'save_readonly':True}</attribute>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="grp_action_vendor_payment" model="ir.actions.act_window">
+            <field name="name">Gestión de pagos</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','payment')]</field>
+            <field name="context">{'type':'payment'}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_vendor_payment_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="grp_action_vendor_payment"/>
+        </record>
+        <record id="action_vendor_payment_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_vendor_payment_form"/>
+            <field name="act_window_id" ref="grp_action_vendor_payment"/>
+        </record>
+
+        <!--<menuitem action="grp_action_vendor_payment" icon="STOCK_JUSTIFY_FILL" sequence="12"-->
+            <!--id="menu_grp_action_vendor_payment" parent="account.menu_finance_payables"/>-->
+
+        <record id="account_voucher.menu_action_vendor_payment" model="ir.ui.menu">
+            <field name="action" ref="grp_action_vendor_payment"/>
+        </record>
+        <!--Modificando Pago a cliente-->
+
+        <!--TODO: SPRING 11 GAP 292 M-->
+        <record id="view_vendor_receipt_form" model="ir.ui.view">
+            <field name="name">grp.receipt.account.voucher.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="facturas_uy.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="attributes">
+                    <attribute name="string">Diario</attribute>
+                    <attribute name="domain">[('type','=','bank')]</attribute>
+                </field>
+                <field name="journal_id" position="after">
+                    <field name="payment_method" required="1"/>
+                    <field name="caja_recaudadora_id" invisible="1"/>
+                    <field name="receipt_serial" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="bank_id" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="receipt_check" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="check_date" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="no_bank_account" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="currency_id" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}" string="Divisa"/>
+                    <field name="check_amount" readonly="1" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                </field>
+
+                <!--TODO: M SPRING 11 GAP 292.A-->
+                <field name="date" position="after">
+                    <field name="entry_date" />
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <xpath expr="//field[@name='line_dr_ids']/tree"
+                       position="attributes">
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree"
+                       position="attributes">
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='line_cr_ids']/tree"
+                       position="inside">
+                    <field name="origin_voucher_id" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='line_dr_ids']/tree"
+                       position="inside">
+                    <field name="origin_voucher_id" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='line_dr_ids']/tree/field[@name='supplier_invoice_number']" position="after">
+                    <field name="supplier_invoice_number2"/>
+                </xpath>
+                <xpath expr="//field[@name='line_cr_ids']/tree/field[@name='supplier_invoice_number']" position="after">
+                    <field name="supplier_invoice_number2"/>
+                </xpath>
+
+                <field name="company_id" position="after">
+                    <field name="no_operation"
+                           attrs="{'invisible':[('payment_method','!=','transfer')], 'readonly': [('state','not in',['draft','confirm'])]}"/>
+                </field>
+
+                <field name="reference" position="attributes">
+                    <attribute name="options">{'save_readonly':True}</attribute>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="action_grp_caja_recaudadora_account_voucher" model="ir.actions.act_window">
+            <field name="name">Pagos de cliente</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('journal_id.type', 'in', ['bank', 'cash']), ('type','=','receipt')]</field>
+            <field name="context">{'type':'receipt'}</field>
+            <field name="view_id" ref="view_vendor_receipt_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <!--TODO: M SPRING 11 GAP 292.A-->
+        <record model="ir.ui.view" id="view_grp_vendor_receipt_dialog_form">
+            <field name="name">grp.account.voucher.receipt.dialog.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
+            <field name="arch" type="xml">
+                <field name="amount" position="replace"/>
+                <field name="journal_id" position="after">
+                    <field name="amount" class="oe_inline"
+                                string="Paid Amount"
+                                widget='monetary' options='{"currency_field": "currency_id"}'
+                                invisible="context.get('line_type', False)"
+                                on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                    <field name="payment_method" required="1"/>
+                    <field name="bank_id" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="receipt_check" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="receipt_serial" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="check_date" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="check_amount" readonly="1" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                    <field name="no_bank_account" attrs="{'invisible':[('payment_method','!=','check')],'required':[('payment_method','=','check')]}"/>
+                </field>
+                <field name="company_id" position="after">
+                    <field name="no_operation"
+                           attrs="{'invisible':[('payment_method','!=','transfer')], 'readonly': [('state','not in',['draft','confirm'])]}"/>
+                </field>
+                <field name="reference" position="attributes">
+                    <attribute name="options">{'save_readonly':True}</attribute>
+                </field>
+
+             </field>
+        </record>
+
+        <!--RAGU DEVOLUCION DE VIATICOS-->
+        <record id="view_grp_devolucion_viaticos_form" model="ir.ui.view">
+            <field name="name">grp.devolucion.viaticos.form.tesoreria</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="grp_viaticos.view_grp_devolucion_viaticos_form"/>
+            <field name="arch" type="xml">
+                <field name="tipo_cambio" position="after">
+                    <field name="in_cashbox" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+
+</data>
+</openerp>

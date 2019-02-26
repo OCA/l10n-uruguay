@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 11 GAP 292 M-->
+
+
+        <record id="view_grp_caja_recaudadora_tesoreria_tree" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.tesoreria.tree</field>
+            <field name="model">grp.caja.recaudadora.tesoreria</field>
+            <field name="arch" type="xml">
+                <tree string="Caja recudadora de Tesorería">
+                    <field name="user_uid"/>
+                    <field name="name"/>
+                    <field name="box_id"/>
+                    <field name="open_date"/>
+                    <field name="journal_id"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_recaudadora_tesoreria_form" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.tesoreria.form</field>
+            <field name="model">grp.caja.recaudadora.tesoreria</field>
+            <field name="arch" type="xml">
+                <form string="Caja recaudadora de Tesorería">
+                    <header>
+                        <button name="btn_open" states="draft" string="Abrir" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('id','=',False)]}" groups="grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="btn_reopen" states="collection_send,close" string="Abrir" type="object" class="oe_highlight"
+                                groups="grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="btn_collection_send" states="open" string="Confirmar remesa" type="object" class="oe_highlight"
+                                groups="grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="btn_close" states="open,collection_send" string="Cerrar" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('show_adv','=',True)]}" groups="grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="btn_close" states="open,collection_send" string="Cerrar" type="object" class="oe_highlight"
+                        confirm="¿Está seguro que desea cerrar con diferencia? existe una diferencia de saldos,
+                        si cierra la caja se creará un movimiento por la diferencia, presione cancelar para ajustar el cierre del control de caja"
+                        attrs="{'invisible':['|',('show_adv','=',False)]}" groups="grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="btn_check" states="close" string="Revisado" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('show_btn','=',True)]}"
+                                groups="grp_tesoreria.group_grp_cajero_verificador"/>
+                        <button name="action_remove_transaction" states="close" string="Quitar transacción" type="object" class="oe_highlight"
+                                attrs="{'invisible':['|',('show_btn','=',False)]}" groups="grp_tesoreria.group_grp_cajero_verificador"/>
+                        <button name="btn_cancel" states="checked" string="Cancelar caja" type="object" class="oe_highlight"
+                                groups="grp_tesoreria.group_grp_cajero_verificador"/>
+					    <field name="state" widget="statusbar" statusbar_visible="draft,open,collection_send,close,checked" />
+					    <field name="id" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div name="show_error" states="draft" class="alert alert-danger" style="height: 60px;">
+                            <div class="oe_inline" style="float: left;">
+                                <span class="fa fa-warning" style="color: #DD0000;"/>
+                                <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 610px;">
+                                    Atención: debe verificar el saldo inicial antes de abrir esta caja
+                                </span>
+                            </div>
+                        </div>
+                        <div class="oe_right oe_button_box" name="import_buttons">
+                            <button class="oe_inline oe_stat_button" name="%(grp_tesoreria.action_grp_caja_recaudadora_account_voucher)d"
+                                string="Importar recibos a cobrar" type="action" context="{'default_caja_recaudadora_id':id,'caja_recaudadora':True}"
+                                attrs="{'invisible':[('state','!=','open')]}" widget="statinfo" icon="fa-pencil-square-o"
+                                groups="grp_tesoreria.group_grp_cajero_recaudador" style="white-space: normal;height: 50px;"/> <!--TODO: M INCIDENCIA 19-09-17 -->
+
+                            <button class="oe_inline oe_stat_button" name="open_invoice"
+                                string="Realizar cobro" type="object"
+                                attrs="{'invisible':[('state','!=','open')]}" widget="statinfo" icon="fa-pencil-square-o"
+                                context="{'default_caja_recaudadora_id':id,'caja_recaudadora':True}"
+                                groups="grp_tesoreria.group_grp_cajero_recaudador" style="white-space: normal;height: 50px;"/>
+
+                            <button class="oe_inline oe_stat_button" name="open_valor_custodia"
+                                string="Recibir VC en efectivo" type="object" states="open"
+                                attrs="{'invisible':[('state','!=','open')]}" widget="statinfo" icon="fa-pencil-square-o"
+                                groups="grp_tesoreria.group_grp_cajero_recaudador" style="white-space: normal;height: 50px;"/>
+                        </div>
+                        <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
+                        <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}" readonly="1" nolabel="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="box_id" required="1"/>
+                                <field name="user_uid"/>
+                                <field name="journal_id"/>
+                                <field name="operating_unit_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="open_date"/>
+                                <field name="closing_date"/>
+                                <field name="remittance_date"
+                                    attrs="{'readonly' : [('state', '!=', 'open')]}"/>
+                                <field name="control_efectivo" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="caja_principal" invisible="1"/>
+                                <field name="show_adv" invisible="1"/>
+                                <field name="show_btn" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Control de efectivo y cheques" attrs="{'invisible' : ['|',('id', '=', False),('control_efectivo', '=', False)]}"><!--attrs="{'invisible' : [('cash_control', '=', False)]}"-->
+                                <group col="2" expand="1">
+                                    <group string="Control de apertura de efectivo" attrs="{'invisible' : [('state', '!=', 'draft')]}" >
+                                        <field name="opening_details_ids" colspan="2" nolabel="1" >
+                                            <tree string="Apertura de efectivo" editable="bottom">
+                                                <field name="pieces"/>
+                                                <field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)" />
+                                                <field name="subtotal_opening" string="Subtotal de apertura" sum="Total"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group></group>
+                                    <!--<group>-->
+                                        <group string="Control de apertura de caja" attrs="{'invisible' : [('state', '=', 'draft')]}" >
+                                            <field name="details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', '!=', 'draft')]}">
+                                                <tree string="Efectivo" editable="bottom">
+                                                    <field name="pieces"/>
+                                                    <field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)"/>
+                                                    <field name="subtotal_opening" string="Subtotal de apertura" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <!--<group></group>-->
+                                        <group string="Control de cierre de caja" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                            <field name="closing_details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', 'not in', ['open','collection_send'])]}">
+                                                <tree string="Cierre de efectivo" editable="bottom">
+                                                    <field name="pieces" readonly="1" />
+                                                    <field name="number_closing" on_change="on_change_sub_closing(pieces, number_closing)"/>
+                                                    <field name="subtotal_closing" string="Subtotal de cierre" sum="Total"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                    <!--</group>-->
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <separator string="Saldos de efectivo" colspan="2" style="text-align:center"/>
+                                        <label for="cash_initial_balance" class="oe_subtotal_footer_separator oe_open_balance" string="Saldo inicial" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="cash_initial_balance" readonly="1" nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency_id', 'save_readonly':True}" />
+                                        <label for="cash_total_entry_encoding" string="+ Transacciones" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="cash_total_entry_encoding" nolabel="1" class="oe_bold oe_account_total oe_inline" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"/>
+                                        <!--<label for="cash_in_amount" string="Ingresos" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" style="padding-right: 20px !important;"/>-->
+                                        <!--<field name="cash_in_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" class="oe_bold oe_account_total oe_inline"/>-->
+                                        <!--<label for="cash_out_amount" string="Egresos" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" style="padding-right: 20px !important;"/>-->
+                                        <!--<field name="cash_out_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"  class="oe_bold oe_account_total oe_inline"/>-->
+                                        <label for="cash_close_balance" string="= Saldo teórico de cierre" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="cash_close_balance" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <separator colspan="2" style="text-align:center"/>
+                                        <label for="cash_closing_balance" class="oe_subtotal_footer_separator oe_open_balance" string="Saldo de cierre real" style="padding-right: 215px !important; padding-top: 6px !important;"/>
+                                        <field name="cash_closing_balance"  nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency_id'}" />
+                                        <group/>
+                                        <group/>
+                                        <label for="cash_close_difference" string="Diferencia" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="cash_close_difference" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+
+                                    <group string="Control de apertura de cheques" >
+                                        <field name="check_details_ids" colspan="2" nolabel="1" readonly="1">
+                                            <tree string="Control de apertura de cheques">
+                                                <field name="voucher_id" invisible="1"/>
+                                                <field name="bank_id"/>
+                                                <field name="receipt_serial"/>
+                                                <field name="receipt_check"/>
+                                                <field name="date"/>
+                                                <field name="check_amount" sum="Total"/>
+                                                <field name="voucher_selected"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group string="Control de cierre de cheques" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <field name="closing_check_details_ids" colspan="2" nolabel="1"  readonly="1"><!--attrs="{'readonly' : [('state', '!=', 'open')]}"-->
+                                            <tree string="Control de cierre de cheques">
+                                                <field name="voucher_id" invisible="1"/>
+                                                <field name="bank_id"/>
+                                                <field name="receipt_serial"/>
+                                                <field name="receipt_check"/>
+                                                <field name="date"/>
+                                                <field name="check_amount" sum="Total"/>
+                                                <field name="voucher_selected"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <label for="opening_quantity_check" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Cantidad" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="opening_quantity_check"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                        <label for="total_amount_check" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="total_amount_check" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <label for="closing_quantity_check" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Cantidad" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="closing_quantity_check"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                        <label for="closing_total_amount_check" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="closing_total_amount_check" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                    </group>
+
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <separator string="Saldos de cheques" colspan="2" style="text-align:center"/>
+                                        <label for="check_initial_balance" class="oe_subtotal_footer_separator oe_open_balance" string="Saldo inicial" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="check_initial_balance" readonly="1" nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency_id','save_readonly':True}" />
+                                        <label for="check_total_entry_encoding" string="+ Transacciones" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="check_total_entry_encoding" nolabel="1" class="oe_bold oe_account_total oe_inline" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"/>
+                                        <!--<label for="check_in_amount" string="Ingresos" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" style="padding-right: 20px !important;"/>-->
+                                        <!--<field name="check_in_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" class="oe_bold oe_account_total oe_inline"/>-->
+                                        <!--<label for="check_out_amount" string="Egresos" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}" style="padding-right: 20px !important;"/>-->
+                                        <!--<field name="check_out_amount" nolabel="1" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"  class="oe_bold oe_account_total oe_inline"/>-->
+                                        <label for="check_close_balance" string="= Saldo teórico de cierre" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="check_close_balance" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+
+                                    <group class="oe_subtotal_footer oe_right" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <separator string="" colspan="2" style="text-align:center"/>
+                                        <label for="check_closing_balance" class="oe_subtotal_footer_separator oe_open_balance" string="Saldo de cierre real" style="padding-right: 215px !important; padding-top: 6px !important;"/>
+                                        <field name="check_closing_balance"  nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency_id'}" />
+                                        <group/>
+                                        <group/>
+                                        <label for="check_close_difference" string="Diferencia" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                                        <field name="check_close_difference" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <label for="total_close_balance" class="oe_subtotal_footer_separator oe_open_balance" style="padding-right: 23px !important; padding-top: 6px !important; color:#7C7BAD"/>
+                                        <field name="total_close_balance" nolabel="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency_id','save_readonly':True}" style="color:#7C7BAD"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Recibos" attrs="{'invisible':[('state','=','draft')]}">
+                                <group>
+                                    <field name="voucher_ids" nolabel="1" context="{'default_caja_recaudadora_id':id}" colspan="4">
+                                         <tree string="Recibos" editable="bottom" create="false" delete="false"
+                                            colors="gray:remove_transaction == True">
+                                             <field name="id" invisible="1"/>
+                                             <field name="caja_recaudadora_id" invisible="1"/>
+                                             <field name="edit_remove_transaction" invisible="1"/>
+                                             <field name="edit_cancel_transaction" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="caja_state" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <field name="number" />
+                                             <field name="nro_factura_grp"/>
+                                             <field name="operating_unit_id" />
+                                             <field name="currency_id" />
+                                             <field name="date" />
+                                             <field name="payment_method"/>
+                                             <field name="amount" readonly="1"/>
+                                             <field name="receipt_check"/>
+                                             <field name="no_recibo" required="1" attrs="{'readonly':[('caja_state','in',('close','checked'))]}"/>
+                                             <field name="remove_transaction" attrs="{'readonly':['|',('caja_state','in',('close','checked')),('edit_remove_transaction','=',False)]}"/><!---->
+                                             <field name="cancel_transaction" attrs="{'readonly':['|',('caja_state','!=','close'),('edit_cancel_transaction','=',False)]}"/>
+                                             <field name="entregado"/>
+                                             <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <field name="total_in_amount"/>
+                                </group>
+                            </page>
+                            <page string="Detalles" attrs="{'invisible':[('state','=','draft')]}">
+                                <group>
+                                    <field name="voucher_details_ids" nolabel="1"
+                                           context="{'default_caja_recaudadora_id':id}" >
+                                         <tree string="Recibos" editable="bottom" create="false" delete="false">
+                                             <field name="id" invisible="1"/>
+                                             <field name="caja_recaudadora_id" invisible="1"/>
+                                             <field name="edit_shipment" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="remove_transaction" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <!--<field name="number" />-->
+                                             <field name="operating_unit_id" />
+                                             <field name="currency_id" />
+                                             <field name="date" />
+                                             <field name="payment_method" />
+                                             <field name="receipt_check"/>
+                                             <field name="product_id" readonly="1"/>
+                                             <field name="price_subtotal" readonly="1"/>
+                                             <field name="plus_amount" readonly="1"/>
+                                             <field name="weight_amount" />
+                                             <field name="shipment" context="{'id':id}"/>
+                                             <field name="entrega_tesoreria"/>
+                                             <field name="entrega_caja" attrs="{'readonly':[('edit_entrega','=',False)]}"/>
+                                             <field name="fecha_entrega" attrs="{'readonly':[('entrega_caja','=',False)],'required':[('entrega_caja','=',True)]}"
+                                                options="{'save_readonly':True}"/>
+                                             <field name="siff_ticket" readonly="1"/>
+                                             <field name="type" invisible="1"/>
+                                             <field name="edit_entrega" invisible="1"/>
+                                             <field name="apertura_recibo" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Valores en custodia" attrs="{'invisible':[('state','=','draft')]}">
+                                <group>
+                                    <field name="valores_custodia_ids" nolabel="1" context="{'default_caja_recaudadora_id':id}">
+                                         <tree string="Valores en custodia" editable="bottom" create="false" delete="false">
+                                             <field name="id" invisible="1"/>
+                                             <field name="caja_recaudadora_id" invisible="1"/>
+                                             <field name="valor_custodia_id" invisible="1"/>
+                                             <field name="partner_id" readonly="1" string="Proveedor"/>
+                                             <!--<field name="operating_unit_id" />-->
+                                             <field name="fecha_recepcion" readonly="1"/>
+                                             <field name="name" readonly="1"/>
+                                             <field name="monto" readonly="1"/>
+                                             <field name="payment_method" readonly="1"/>
+                                             <field name="serie" readonly="1"/>
+                                             <field name="check_number" readonly="1"/>
+                                             <field name="check_date" readonly="1"/>
+                                             <field name="number_bank_account" readonly="1"/>
+                                             <field name="currency_id" readonly="1"/>
+                                             <field name="product_id" required="1" readonly="1"/>
+                                             <field name="amount" readonly="1"/>
+                                             <field name="shipment" />
+                                             <field name="entrega_tesoreria" attrs="{'readonly':[('caja_state','in',('close','checked'))]}"/>
+                                             <field name="remove_transaction" attrs="{'readonly':['|',('caja_state','in',('close','checked')),('apertura_recibo','=',True)]}"/>
+                                             <field name="siff_ticket" readonly="1"/>
+                                             <field name="apertura_recibo" readonly="1"/>
+                                             <field name="caja_state" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Cheques" attrs="{'invisible':[('state','=','draft')]}" default_focus="1">
+                                <group>
+                                    <field name="check_ids" nolabel="1" context="{'default_caja_recaudadora_id':id}" default_focus="1">
+                                         <tree string="Cheques" editable="bottom" create="false" delete="false">
+                                             <field name="id" invisible="1"/>
+                                             <field name="caja_recaudadora_id" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <field name="number" />
+                                             <field name="receipt_serial" />
+                                             <field name="no_bank_account" />
+                                             <field name="date" />
+                                             <field name="voucher_currency_id" />
+                                             <field name="check_amount" />
+                                             <field name="voucher_selected" />
+                                             <field name="entregado" />
+                                             <!--<field name="removido" />-->
+                                             <field name="type" invisible="1"/>
+                                             <!--<field name="no_recibo" required="0" invisible="1"/>-->
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Remesa" attrs="{'invisible':[('state','=','draft')]}">
+                                <group colspan="4" col="1">
+                                    <group>
+                                        <field name="cash_shipment_ids" colspan="4" col="1">
+                                             <tree string="Efectivo" create="false">
+                                                 <field name="caja_recaudadora_id" invisible="1"/>
+                                                 <field name="product_id"/>
+                                                 <field name="amount" sum="Total"/>
+                                                 <field name="amount_siif" sum="Total"/>
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+
+                                        <group class="oe_subtotal_footer oe_right">
+                                            <label for="cash_total_shipment" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="cash_total_shipment"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                            <label for="cash_shipment_siff_ticket" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Boleto SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="cash_shipment_siff_ticket" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" attrs="{'readonly':[('caja_principal','=',False)]}"/>
+                                            <label for="cash_shipment_bar_code" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Código de barra" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="cash_shipment_bar_code" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                            <label for="cash_total_shipment_no_siif" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total No SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="cash_total_shipment_no_siif"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="check_shipment_ids"  colspan="4" col="1">
+                                             <tree string="Cheque" create="false">
+                                                 <field name="caja_recaudadora_id" invisible="1"/>
+                                                 <field name="product_id"/>
+                                                 <field name="amount" sum="Total"/>
+                                                 <field name="amount_siif" sum="Total"/>
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                        <group class="oe_subtotal_footer oe_right">
+                                            <label for="check_total_shipment" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="check_total_shipment"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                            <label for="check_shipment_siff_ticket" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Boleto SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="check_shipment_siff_ticket" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" attrs="{'readonly':[('caja_principal','=',False)]}"/>
+                                            <label for="check_total_shipment_no_siif" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total No SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="check_total_shipment_no_siif"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="selected_check_ids"  colspan="4" col="1">
+                                             <tree string="Cheques" create="false" editable="bottom">
+                                                 <field name="id" invisible="1"/>
+                                                 <field name="caja_recaudadora_id" invisible="1"/>
+                                                 <field name="voucher_id" invisible="1"/>
+                                                 <field name="invoice_id" invisible="1"/>
+                                                 <field name="receipt_serial" readonly="1"/>
+                                                 <field name="receipt_check" readonly="1"/>
+                                                 <field name="no_bank_account" readonly="1"/>
+                                                 <field name="date" />
+                                                 <field name="check_amount" />
+                                                 <field name="check_shipment_bar_code" />
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group>
+                                        <field name="total_shipment_ids" colspan="4" col="1">
+                                             <tree string="Total" create="false">
+                                                 <field name="caja_recaudadora_id" invisible="1"/>
+                                                 <field name="product_id" />
+                                                 <field name="amount" sum="Total"/>
+                                                 <field name="amount_siif" sum="Total"/>
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                        <group class="oe_subtotal_footer oe_right">
+                                            <label for="total_shipment" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Total" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="total_shipment"  nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                            <label for="total_shipment_siff_ticket" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Boleto SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                            <field name="total_shipment_siff_ticket" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" attrs="{'readonly':[('caja_principal','=',False)]}"/>
+                                        </group>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Transacciones" attrs="{'invisible':[('state','=','draft')]}">
+                                <group>
+                                    <field name="transaction_ids" nolabel="1" attrs="{'readonly':[('state','in',['close','checked'])]}">
+                                         <tree string="Transacciones" editable="bottom">
+                                             <field name="caja_recaudadora_id" invisible="1"/>
+                                             <field name="ajuste" invisible="1"/>
+                                             <field name="date" />
+                                             <field name="concept_id" />
+                                             <field name="amount" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Asientos contables" attrs="{'invisible':[('state','!=','checked')]}">
+                                <group>
+                                    <field name="move_line_ids" nolabel="1">
+                                        <tree string="Asientos contables">
+                                            <field name="journal_id" />
+                                            <field name="period_id"/>
+                                            <field name="date"/>
+                                            <field name="name"/>
+                                            <field name="ref"/>
+                                            <field name="partner_id"/>
+                                            <field name="account_id" />
+                                            <field name="move_id" />
+                                            <field name="debit" sum="Total Debit"/>
+                                            <field name="credit" sum="Total Credit"/>
+                                            <field name="reconcile_ref"/>
+                                            <field name="state" invisible="1"/>
+                                            <field name="company_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                        </notebook>
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_caja_recaudadora_tesoreria" model="ir.actions.act_window">
+            <field name="name">Caja recaudadora de Tesorería</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.caja.recaudadora.tesoreria</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_caja_recaudadora_tesoreria_tree"/>
+        </record>
+
+
+    </data>
+</openerp>

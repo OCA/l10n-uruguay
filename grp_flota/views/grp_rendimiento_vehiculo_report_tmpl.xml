@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO: L SPRING 13 GAP 370-->
+<openerp>
+    <data>
+        <template id="reporte_rendimiento_vehiculo_view">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page" style="font-size:10px;">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <strong>Vehiculo</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Fecha</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Comprador</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Km</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Litro</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Rendimiento</strong>
+                                    </th>
+                                    <th class="text-center">
+                                        <strong>Precio total</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="o">
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-field="o.vehicle_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.fecha"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.purchaser_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.km"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.litro"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.rendimiento"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="o.precio_total"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

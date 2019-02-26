@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+            <!--TODO: M SPRING 14 GAP 473-->
+
+            <record id="action_grp_registro_caja_chica_report_xls" model="ir.actions.report.xml">
+              <field name="name">Planilla de Caja Chica</field>
+              <field name="model">account.bank.statement</field>
+              <field name="type">ir.actions.report.xml</field>
+              <field name="report_name">grp_tesoreria.grp_registro_caja_chica_xls</field>
+              <field name="report_type">xls</field>
+              <field name="auto" eval="False"/>
+            </record>
+
+            <record model="ir.values" id="action_grp_registro_caja_chica_report_xls_values">
+              <field name="name">Planilla de Caja Chica</field>
+              <field name="key2">client_action_multi</field>
+              <field name="value" eval="'ir.actions.report.xml,' +str(ref('action_grp_registro_caja_chica_report_xls'))" />
+              <field name="model">account.bank.statement</field>
+            </record>
+
+    </data>
+
+</openerp>

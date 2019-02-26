@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+
+<record id="anexo1_rep_webk_head" model="ir.header_webkit">
+                           <field name="footer_html"><![CDATA[
+            <html>
+                <body>
+                    <center>Anexo 1</center>
+                </body>
+            </html>]]>
+            </field>
+            <field name="orientation">Landscape</field>
+            <field name="format">A4</field>
+            <field name="html"><![CDATA[
+                <html>
+
+                    <body style="border:0; margin:15;" onload="subst()">
+                        <!--table class="header" style="border-bottom: 0px solid black; width: 100%">
+                            <tr>
+                                <td style="text-align:left; font-size:15px; font-weight: bold;"><span style="text-transform:uppercase; font-size:12px;">Heading 1</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left; font-size:12px; font-weight: bold;"><span style="text-transform:uppercase; font-size:12px;">Heading 2</td>
+                            </tr>
+                        </table--> </body>
+                </html>]]>
+                </field>
+                <field eval="20" name="margin_top"/>
+                <field eval="10" name="margin_bottom"/>
+                <field name="css"><![CDATA[
+    
+                    body {
+                        font-family:Arial;
+                        font-size:12;
+                    }
+                    
+                    .cell{
+                        border-spacing: 0;
+                        border-collapse: collapse;
+                        border-style:solid;
+                        border: 1px solid grey;
+                        font-size:10px;
+                        text-align:center;
+                    }
+
+
+                ]]>
+                          </field>
+                          <field name="name">Anexo 1 Header</field>
+                      </record>
+
+<report auto="False" id="anexo_report" model="anexo1.anexo" 
+        name="anexo.rpt" rml="anexo/report/report_template.html" webkit_header ="anexo1_rep_webk_head"
+        usage="default" string="Imprimir" report_type="webkit"/>
+
+</data>
+</openerp>

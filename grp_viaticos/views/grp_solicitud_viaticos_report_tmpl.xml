@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO: SPRING 11 GAP 27 L-->
+<openerp>
+    <data>
+        <template id="reporte_solicitud_viaticos_view">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.internal_layout">
+                        <div class="page">
+                            <style>
+                                table#t00 {
+                                width: 100%;
+                                background-color: white;
+                                border-collapse: collapse;
+                                }
+                                table#t01 {
+                                width: 100%;
+                                font-size:100%;
+                                background-color: white;
+                                border-collapse: collapse;
+                                cellpadding: 10px;
+                                }
+                                table#t01 th{
+                                border-right: 1px solid #DDD;text-align: left;
+                                }
+                                table#t01 td{
+                                padding: 2px 0px 2px 8px;
+                                }
+                                table#t02 {
+                                width:100%;border-collapse:collapse;
+                                }
+                                table#t02 th{
+                                border-left: 1px solid #dfdfdf;padding: 3px 6px;
+                                }
+                                table#t02 thead{
+                                border-bottom: 1px solid #cacaca;background: #eee;vertical-align: top;text-align: left;
+                                }
+                            </style>
+
+                            <table id="t00">
+                                <tr>
+                                    <td style="width: 10%;">
+                                        <img t-att-src="'data:image/png;base64,%s' % res_company.logo"
+                                             style="max-height: 100px;"/>
+                                    </td>
+                                    <td style="font-size:150%;width: 50%;text-align:center;">
+                                        <strong>Reporte de Solicitud de Viajes</strong>
+                                        <br></br>
+                                    </td>
+                                    <td style="font-size:75%;text-align:center;width: 20%">
+                                        <strong t-usertime="%d/%m/%Y %H:%M:%S"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <br></br>
+
+                            <table id="t01" style="font-size:100%;">
+                                <tr>
+                                    <th style="border-right: 1px solid transparent;text-align: left;">
+                                        <strong>N° Solicitud de Viajes:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <th style="border-right: 1px solid transparent;text-align: left;">
+                                        <strong>Estado:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.state"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <br></br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Tipo:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.tipo"/>
+                                    </td>
+                                    <th>
+                                        <strong>Fecha Ingreso:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.fecha_ingreso"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Motivo del Viaje:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.motivo_viaje"/>
+                                    </td>
+                                    <th>
+                                        <strong>Fecha Desde:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.fecha_desde"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Destino:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.destino"/>
+                                    </td>
+                                    <th>
+                                        <strong>Fecha Hasta:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.fecha_hasta"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Solicitante:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.solicitante_id.name"/>
+                                    </td>
+                                    <th>
+                                        <strong>Lugar de Partida:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.lugar_partida"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Cédula:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.cedula"/>
+                                    </td>
+                                    <th>
+                                        <strong>Tipo de Locomoción:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.tipo_locomocion"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Unidad Ejecutora:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.operating_unit_id.name"/>
+                                    </td>
+                                    <th>
+                                        <strong>Distancia recorrida (sólo ida):</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.km_recorrer"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Unidad organizativa:</strong>
+                                    </th>
+                                    <td colspan="4" width="37%%">
+                                        <span t-field="o.department_id"/>
+                                    </td>
+                                    <th>
+                                        <strong>Moneda:</strong>
+                                    </th>
+                                    <td>
+                                        <span t-field="o.currency_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>Categoría:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.categoria"/>
+                                    </td>
+                                    <th>
+                                        <strong>¿Lleva Adelanto?:</strong>
+                                    </th>
+                                    <td class="text-left">
+                                        <span t-if="o.lleva_adelanto==True">
+                                            <input type="checkbox"
+                                                   style="background: #E5E5E5 !important;color: #666;border-radius: 3px;"
+                                                   checked="True" disabled="True"/>
+                                        </span>
+                                        <span t-if="o.lleva_adelanto==False">
+                                            <input type="checkbox"
+                                                   style="background: #E5E5E5 !important;color: #666;border-radius: 3px;"
+                                                   disabled="True"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!--<th>-->
+                                        <!--<strong>¿Requiere Alojamiento?:</strong>-->
+                                    <!--</th>-->
+                                    <!--<td colspan="4" class="text-left">-->
+                                        <!--<span t-if="o.requiere_alojamiento==True">-->
+                                            <!--<input type="checkbox"-->
+                                                   <!--style="background: #E5E5E5 !important;color: #666;border-radius: 3px;"-->
+                                                   <!--checked="True" disabled="True"/>-->
+                                        <!--</span>-->
+                                        <!--<span t-if="o.requiere_alojamiento==False">-->
+                                            <!--<input type="checkbox"-->
+                                                   <!--style="background: #E5E5E5 !important;color: #666;border-radius: 3px;"-->
+                                                   <!--disabled="True"/>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                    <th>
+                                        <strong>Domicilio:</strong>
+                                    </th>
+                                    <td colspan="4">
+                                        <span t-field="o.domicilio_id.name"/>
+                                    </td>
+                                    <th>
+                                        <strong>Adelanto Pagado:</strong>
+                                    </th>
+                                    <td class="text-left">
+                                        <span t-if="o.adelanto_pagado==True">
+                                            <input type="checkbox" checked="True" disabled="True"/>
+                                        </span>
+                                        <span t-if="o.adelanto_pagado==False">
+                                            <input type="checkbox" disabled="True"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr t-if="o.tipo_locomocion=='locomocion_propia'">
+                                    <th/><td colspan="4"/>
+                                    <th>
+                                        <strong>KM a recorrer:</strong>
+                                    </th>
+                                    <td class="text-left">
+                                        <span t-field="o.km_recorrer_cmp"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <br></br>
+
+                            <h4>Líneas</h4>
+                            <table id="t02">
+                                <thead>
+                                    <tr>
+                                        <th style="border-left: 1px solid transparent;">Producto</th>
+                                        <th>Descripción</th>
+                                        <th>Horas</th>
+                                        <th>Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.lineas_ids" t-as="a" style="height: 27px;border-bottom: 1px solid #cacaca;">
+                                        <td>
+                                            <span t-field="a.product_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="a.descripcion"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="'%.2f' % (a.horas)"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="a.valor"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&amp;nbsp;</td>
+                                        <td>&amp;nbsp;</td>
+                                        <td>&amp;nbsp;</td>
+                                        <td>&amp;nbsp;</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot style="border-top: 2px solid #cacaca;border-bottom: 1px solid #cacaca;background: #eee;">
+                                    <tr>
+                                        <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                        <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                        <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                        <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table style="width: 20% !important;float: right;clear: both;border-collapse:collapse;margin: 25px 0 25px 0;text-align: right;">
+                                <tr style="border-top: 1px solid #cacaca;">
+                                    <td style="min-width: 184px !important;">
+                                        <h4>Total adelanto:</h4>
+                                    </td>
+                                    <td style="min-width: 184px !important;">
+                                        <h4>
+                                            <span t-field="o.total_adelanto"/>
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <h4>$</h4>
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid #cacaca;">
+                                    <td style="min-width: 184px !important;">
+                                        <h4>Total:</h4>
+                                    </td>
+                                    <td style="min-width: 184px !important;">
+                                        <h4>
+                                            <span t-field="o.total"/>
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <h4>$</h4>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table style="width: 100%;font-size:100%;">
+                                <tr>
+                                    <td>
+                                        <strong>Notas:</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <span t-field="o.notas"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</openerp>

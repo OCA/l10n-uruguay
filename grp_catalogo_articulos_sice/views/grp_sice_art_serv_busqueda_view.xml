@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- Vista Form: Búsqueda de Articulos SICE -->
+    <record model="ir.ui.view" id="view_grp_sice_art_serv_busqueda_form">
+        <field name="name">grp.sice_art_serv_busqueda_form</field>
+        <field name="model">grp.sice_art_serv_busqueda</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.sice_art_serv_busqueda" version="7.0">
+                <sheet>
+                    <h1>Artículos SICE</h1>
+                    <group>
+                        <h3><field name="name" style="width: 75%%"/></h3>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="fami_id" on_change="onchange_familia(fami_id,context)" options="{'no_create': True, 'no_open': True}" style="width: 75%%"/>
+                            <field name="subf_id" on_change="onchange_subfamilia(subf_id,context)" domain="[('fami_id', '=', fami_id)]" options="{'no_create': True, 'no_open': True}" style="width: 75%%"/>
+                            <field name="clas_id" on_change="onchange_clase(clas_id,context)"      domain="[('subf_id', '=', subf_id)]" options="{'no_create': True, 'no_open': True}" style="width: 75%%"/>
+                            <field name="subc_id"                                                  domain="[('clas_id', '=', clas_id)]" options="{'no_create': True, 'no_open': True}" style="width: 75%%"/>
+                            <field name="cod" select="1"/>
+                            <field name="descripcion" select="2" style="width: 50%%"/>
+                            <field name="odg" select="0" style="width: 30%%"/>
+                            <field name="ind_art_serv" select="0" style="width: 20%%"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <button
+                            name="grp_art_buscar"
+                            type="object"
+                            string="Buscar"
+                            icon="gtk-find"
+                        />
+                    </group>
+
+                    <notebook>
+                        <page string="Artículos">
+                            <group col="4" colspan="4">
+                                <field name="articulo_ids" nolabel='1' mode="tree">
+                                    <tree string="grp.sice_art_serv_busqueda" create="false" delete="false" editable="bottom" version="7.0">
+                                        <!-- Tarea ID 561 Inicio Comentar boton de Crear Producto GRP -->
+                                        <button
+                                            type="object"
+                                            name="set_attrib_template_parcial"
+                                            string="Crear Producto GRP"
+                                            icon="gtk-edit"
+                                            context="{'generar_variantes' : True, 'cargar_variantes' : False}"
+                                            />
+                                        <!-- Tarea ID 561 Fin -->
+                                        <button
+                                            type="object"
+                                            name="set_attrib_template"
+                                            string="Crear Producto con todas las variantes"
+                                            icon="gtk-dnd-multiple"
+                                            context="{'cargar_variantes' : True, 'generar_variantes' : False}"
+                                            />
+                                        <field name="cod" readonly="1"/>
+                                        <field name="descripcion" readonly="1"/>
+                                        <field name="fami_id" readonly="1"/>
+                                        <field name="subf_id" readonly="1"/>
+                                        <field name="clas_id" readonly="1"/>
+                                        <field name="subc_id" readonly="1"/>
+                                        <field name="ind_art_serv" readonly="1"/>
+                                        <field name="odg" readonly="1"/>
+                                        <field name="unme_id" readonly="1"/>
+                                        <field name="imp_id" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_grp_sice_art_serv_busqueda">
+        <field name="name">Articulos SICE</field>
+        <field name="res_model">grp.sice_art_serv_busqueda</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Artículos SICE"
+              id="menu_grp_sice_art_serv_busqueda"
+              action="action_grp_sice_art_serv_busqueda"
+              parent="stock.menu_stock_product"
+              sequence="6"
+    />
+</data>
+</openerp>

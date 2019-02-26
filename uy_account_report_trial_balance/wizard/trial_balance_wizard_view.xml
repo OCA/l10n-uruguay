@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="trial_balance_webkit_xls_wizard_view" model="ir.ui.view">
+        <field name="name">trial.balance.webkit.xls</field>
+        <field name="model">trial.balance.webkit</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account_financial_report_webkit_xls.trial_balance_webkit_xls_wizard_view"/>
+        <field name="arch" type="xml">
+        <data>
+            <xpath expr="/form/notebook/page[@name='accounts']/separator[@string='Print only']" position="before">
+                <group>
+                    <group>
+                        <field name="display_accounts" />
+                    </group>
+                    <group></group>
+                </group>
+            </xpath>
+            <notebook position="inside">
+                <page string="Other options" name="other_options">
+                    <table class="oe_form_group" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                        <tr class="oe_form_group_row">
+                            <td colspan="1" class="oe_form_group_cell oe_form_group_cell_label" width="1%">
+                                <label for="display_curr_columns" />
+                                <label string="(This option is only available for excel report)" style="font-weight: normal !important;" />
+                            </td>
+                            <td colspan="1" class="oe_form_group_cell" width="99%">
+                                <field name="display_curr_columns" />
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <group attrs="{'invisible': [('display_curr_columns','=',False)]}">
+                        <separator string="Opciones de conversión a la moneda secundaria" colspan="4" style="margin: 0;" />
+                        <field name="curr_rate_option" widget="radio" attrs="{'required': [('display_curr_columns','=',True)]}"/>
+                        <field name="curr_rate_date" attrs="{'invisible': [('curr_rate_option','!=','set_date')],'required': [('curr_rate_option','=','set_date')]}"/>
+                        <field name="curr_rate" attrs="{'invisible': [('curr_rate_option','!=','set_curr_rate')],'required': [('curr_rate_option','=','set_curr_rate')]}"/>
+                    </group>
+                </page>
+            </notebook>
+            <button name="xls_export"  position="replace">
+                <button name="xls_export" string="Imprimir Excel" type="object" context="{'xls_export':1}" colspan="2" class="oe_highlight"/>
+            </button>
+            <!-- financial report integration -->
+            <xpath expr="/form/group[@col='6']" position="after">
+                <label string="Select 'Financial report (Excel)' in order to show the necessary fields and obtain a financial report exporting to Excel."/>
+                <group>
+                    <group>
+                        <field name="financial_report" />
+                    </group>
+                    <group>
+                        <field name="account_report_id" domain="[('parent_id','=',False)]" attrs="{'invisible': [('financial_report','=',False)], 'required': [('financial_report','=',True)]}" />
+                    </group>
+                </group>
+            </xpath>
+            <page name="accounts" position='attributes'>
+                <attribute name="attrs">{'invisible': [('financial_report','=',True)]}</attribute>
+            </page>
+        </data>
+        </field>
+    </record>
+
+  </data>
+</openerp>

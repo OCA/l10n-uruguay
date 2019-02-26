@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 C-->
+        <record id="view_grp_caja_chica_mov_efectivo_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja_chica.mov_efectivo.wizard.form</field>
+            <field name="model">grp.caja_chica.mov_efectivo.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Movimiento en efectivo">
+                    <separator string="Movimientos en efectivo"/>
+                     <field name="caja_chica_id" invisible="1" />
+                    <field name="catch_mov_ids" height="300" width="700" context="{'caja_id':caja_chica_id}">
+                        <tree editable="bottom" >
+                            <field name="concept_cc_id" />
+                            <field name="partner_id" />
+                            <field name="operating_unit_id"/>
+                            <field name="dimension_id" />
+                            <field name="date" />
+                            <field name="amount" />
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Confirmar" name="transfer_catch_mov" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_chica_mov_efectivo_wizard" model="ir.actions.act_window">
+            <field name="name">Movimientos en efectivo</field>
+            <field name="res_model">grp.caja_chica.mov_efectivo.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_chica_mov_efectivo_wizard_form"/>
+        </record>
+
+        <record id="view_grp_caja_chica_mov_efectivo_form" model="ir.ui.view">
+            <field name="name">grp.caja.chica.movimiento.efectivo.form</field>
+            <field name="model">grp.caja.chica.movimiento.efectivo</field>
+            <field name="arch" type="xml">
+                <form string="Movimiento en efectivo">
+                        <group col="4">
+                            <group>
+                                <field name="concept_cc_id" />
+                                <field name="partner_id" />
+                                <!--<field name="operating_unit_id" readonly="1"/>-->
+                                <field name="operating_unit_id"/>
+                            </group>
+                            <group>
+                                <field name="dimension_id" />
+                                <field name="date" />
+                                <field name="amount" />
+                            </group>
+                        </group>
+                        <footer>
+                            <button string="Guardar" name="edit_mov" type="object" class="oe_highlight"/>
+                            or
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

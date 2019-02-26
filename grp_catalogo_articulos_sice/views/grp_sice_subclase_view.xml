@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Subclase SICE -->
+        <record id="view_grp_sice_subclase_tree" model="ir.ui.view">
+            <field name="name">grp.sice_subclase_tree</field>
+            <field name="model">grp.sice_subclase</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_subclase" create="false" delete="false">
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <field name="clas_id"/>
+                    <field name="name"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Search: Subclase SICE -->
+        <record id="view_grp_sice_subclase_search" model="ir.ui.view">
+            <field name="name">grp.sice_subclase_search</field>
+            <field name="model">grp.sice_subclase</field>
+            <field name="arch" type="xml">
+                <search string="Subclases de artículos SICE">
+                    <field name="descripcion"/>
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <field name="clas_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Familia" domain="[]" context="{'group_by':'fami_id'}"/>
+                        <filter string="Subfamilia" domain="[]" context="{'group_by':'subf_id'}"/>
+                        <filter string="Clase" domain="[]" context="{'group_by':'clas_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Subclases
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Subclases -->
+        <record id="grp_sice_subclase_action" model="ir.actions.act_window">
+            <field name="name">Subclases de artículos SICE</field>
+            <field name="res_model">grp.sice_subclase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Subfamilias
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Subclases -->
+        <menuitem name="Subclases" id="grp_sice_subclase_menu"
+                  parent="grp_catalogo_articulos_sice_menu" action="grp_sice_subclase_action" sequence="40"/>
+    </data>
+</openerp>

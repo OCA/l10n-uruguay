@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <!--TODO: K SPRINT 12 GAP 205-->
+        <record model="ir.actions.act_window" id="grp_crear_cont_condic_particulares_act">
+            <field name="name">Contrato de condiciones particulares</field>
+            <field name="res_model">grp.contrato.proveedores</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_ver_particulares_act">
+            <field name="name">Ver condiciones particulares</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.contrato.proveedores</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="domain">[('contrato_general_id','=',active_id)]</field>
+            <field name="view_id" ref="view_contract_proveedores_form"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_grp_ver_particulares_act_tree">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_contract_proveedores_tree"/>
+            <field name="act_window_id" ref="grp_ver_particulares_act"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_grp_ver_particulares_act_form">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_contract_proveedores_form"/>
+            <field name="act_window_id" ref="grp_ver_particulares_act"/>
+        </record>
+
+        <record id="view_contract_proveedores_form" model="ir.ui.view">
+            <field name="name">grp.contrato.proveedores.form</field>
+            <field name="model">grp.contrato.proveedores</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Contrato de proveedores" version="7.0">
+                    <header>
+                        <button name="action_confirm" states="draft" string="Confirmar Contrato" type="object"
+                                class="oe_highlight"/>
+                        <button name="action_end" states="vigente" string="Finalizar" type="object"
+                            attrs="{'invisible':['|',('contrato_general_id', '!=', False)]}"/>
+                        <button name="action_cancel" states="draft,vigente" attrs="{'invisible':['|',('contrato_general_id', '!=', False)]}" string="Cancelar Contrato" type="object"/>
+                        <button name="action_draft" states="cancel" string="Pasar a Borrador" type="object"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,vigente,end,cancel"/>
+
+                        <div name="show_error" class="alert alert-danger" style="height: 40px;"
+                             attrs="{'invisible':['|',('show_warning','=',False),('convenio','=',True)]}">
+                            <div class="oe_inline" style="float: left;">
+                                <span class="fa fa-warning" style="color: #DD0000;"/>
+                                <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 610px;">
+                                    <p>
+                                        <strong>No se ha realizado aún ninguna adjudicación ampliada para este contrato.</strong>
+                                    </p>
+                                </span>
+                                <field name="show_warning" invisible="1"/>
+                                <field name="renovacion_alert" invisible="1"/>
+                            </div>
+                            <div class="oe_right">
+                                <button name="do_not_show_warning" string="[No volver a mostrar]" type="object"
+                                        class="oe_link"/>
+                                <div class="fa fa-close"
+                                     style="font-weight: bold !important; cursor: pointer; color: #DD0000;"
+                                     onclick="$('div[name|=\'show_error\']').slideUp();"/>
+                                <br/>
+                            </div>
+                        </div>
+                    </header>
+                    <sheet string="Contrato de proveedores">
+                        <group>
+                            <group id="Cabezal">
+                                <div class="oe_title">
+                                    <label for="nro_interno" class="oe_inline"
+                                           attrs="{'invisible':[('se_valido','!=',True),('contrato_original_id','=',False)]}"/>
+                                    <h1>
+                                        <field name="nro_interno" readonly="1"
+                                               attrs="{'invisible':[('se_valido','!=',True),('contrato_original_id','=',False)]}"/>
+                                        <label string="Contrato borrador"
+                                               attrs="{'invisible':['|',('se_valido','!=',False),('contrato_original_id','!=',False)]}"/>
+                                    </h1>
+                                    <field name="convenio" invisible="1"/>
+                                    <field name="contrato_particular_ids" invisible="1"/>
+                                </div>
+                            </group>
+                            <group>
+                                <div class="oe_right oe_button_box" name="buttons" style="float: right; margin-left: -30px;">
+                                    <button type="action" name="%(grp_contrato_proveedores.grp_ver_particulares_act)d"
+                                       class="oe_inline oe_stat_button"
+                                       icon="fa-users" style="white-space: normal; width: 180px !important;"
+                                       string="Ver condiciones particulares"
+                                       attrs="{'invisible': ['|',('contrato_general_id', '!=', False),('contrato_particular_ids', '=', [])]}"/>
+                                    <button type="action"
+                                            name="%(grp_contrato_proveedores.grp_crear_cont_condic_particulares_act)d"
+                                            class="oe_inline oe_stat_button"
+                                            icon="fa-users" style="white-space: normal; width: 180px !important;"
+                                            string="Crear condiciones particulares"
+                                            states="vigente"
+                                            context="{'default_contrato_general_id':id, 'default_convenio':convenio, 'default_proveedor':proveedor,
+                                    'default_nro_contrato':nro_contrato, 'default_nro_cuenta':nro_cuenta, 'default_fecha_celebracion':fecha_celebracion,
+                                    'default_afectaciones_ids':afectaciones_ids, 'default_tipo_contrato_id':tipo_contrato_id,'default_operating_unit_id':operating_unit_id,'default_department_id':department_id}"
+                                            attrs="{'invisible': ['|','|','|',('contrato_general_id', '!=', False),('convenio','=',False),('state','=','cancelado')]}"
+                                            groups="grp_contrato_proveedores.group_grp_convenios"/>
+                                    <button string="Prórroga" states="vigente"
+                                            name="%(grp_contrato_proveedores.grp_crear_prorroga_wizard_act)d"
+                                            type="action" context="{'default_contrato_id':id}"
+                                            class="oe_inline oe_stat_button" icon="fa-expand"
+                                            style="white-space: normal;"
+                                            attrs="{'invisible':['|',('contrato_general_id', '!=', False)]}"/>
+                                    <button name="button_renovacion" states="vigente" string="Renovación/ampliación"
+                                            type="object"
+                                            class="oe_inline oe_stat_button" icon="fa-expand"
+                                            style="white-space: normal; width: 180px !important;"
+                                            attrs="{'invisible':['|',('contrato_general_id', '!=', False)]}"/>
+                                    <button string="Otras adendas"
+                                            name="%(grp_contrato_proveedores.grp_crear_adenda_wizard_act)d"
+                                            type="action" context="{'default_contrato_id':id}"
+                                            states="vigente"
+                                            attrs="{'invisible':['|',('contrato_general_id', '!=', False)]}"
+                                            class="oe_inline oe_stat_button" icon="fa-expand"
+                                            style="white-space: normal;"/>
+                                    <button string="Ajuste Contrato particular"
+                                            name="%(grp_contrato_proveedores.grp_crear_adenda_wizard_act)d"
+                                            type="action" context="{'default_contrato_id':id, 'ajuste_contrato_particular':1}"
+                                            states="vigente"
+                                            attrs="{'invisible':['|','|',('contrato_general_id', '!=', False),('convenio','=',False)]}"
+                                            class="oe_inline oe_stat_button" icon="fa-expand"
+                                            style="white-space: normal;"/>
+                                    <button name="action_partial_end" states="vigente" string="Finalización parcial"
+                                            type="object"
+                                            attrs="{'invisible':['|',('contrato_general_id', '=', False)]}"
+                                            class="oe_inline oe_stat_button" icon="fa-expand"
+                                            style="white-space: normal;"
+                                            groups="grp_contrato_proveedores.group_grp_contrato_proveedores"
+                                            confirm="Tenga en cuenta que al Finalizar parcialmente el contrato está cancelando el saldo pendiente del mismo. No se podrán ingresar más facturas asociadas a este contrato de condiciones particulares"/>
+                                </div>
+                            </group>
+                        </group>
+                        <group string="Resolución">
+                            <group>
+                                <field name="proveedor" domain="[('supplier', '=', True)]" required="True"
+                                       attrs="{'readonly':['|','|',('contrato_general_id', '!=', False),('state', '!=', 'draft'),('nro_adj_id', '!=', False)]}"/>
+                                <field name="tipo_resolucion"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)], 'required':[('contrato_general_id', '=', False)]}"/>
+                                <field name="nro_contrato" string="Nº Contrato/Resolución"
+                                       help="Tipo Resolución/Nro. Resolución/Año"
+                                       attrs="{'required':[('contrato_general_id', '=', False)], 'readonly':['|',('contrato_general_id', '!=', False),('state', '!=', 'draft')]}"/>
+                                <field name="nro_renovacion" readonly="1"
+                                       attrs="{'invisible':['|',('nro_renovacion', '=', 0),('contrato_original_id', '=', False)]}"/>
+                                <field name="fecha_resolucion"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)], 'required':['|',('convenio', '=', False),('contrato_general_id', '=', False)]}"/>
+                                <field name="nro_cuenta"
+                                       attrs="{'readonly':['|',('contrato_general_id', '!=', False),('state', '!=', 'draft')]}"/>
+                                <field name="monto_resolucion"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)]}"/>
+                                <field name="fecha_celebracion"
+                                       attrs="{'required':[('contrato_general_id', '=', False)], 'readonly':['|',('contrato_general_id', '!=', False),('state', '!=', 'draft')]}"/>
+
+                                <field name="se_valido" invisible="1"/>
+                                <field name="finalizado_parcial" invisible="1"/>
+                                <field name="id" invisible="1"/>
+                                <field name="secuencia" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="operating_unit_id"
+                                       attrs="{'readonly':['|',('state', '!=', 'draft'),('nro_adj_id', '!=', False)], 'invisible':[('contrato_general_id', '!=', False)], 'required':['|',('convenio', '=', False),('contrato_general_id', '=', False)]}"/>
+                                <field name="department_id"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)], 'required':[('contrato_general_id', '=', False)]}"/>
+                                <field name="nro_adj_id" readonly="True"
+                                       attrs="{'invisible':[('convenio', '=', True)], 'required':[('convenio', '=', False)]}"/>
+                                <field name="pedido_compra" domain="[('state', 'not in',['inicio'])]"
+                                       attrs="{'readonly':['|','|',('contrato_general_id', '!=', False),('state', '!=', 'draft'),('nro_adj_id', '!=', False)], 'invisible':[('convenio', '=', True)]}"/>
+                                <field name="tipo_compra" readonly="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="description" readonly="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="moneda" domain="[('name', 'in', ('USD','UYU','EUR'))]"
+                                       attrs="{'readonly':['|',('state', '!=', 'draft'),('nro_adj_id', '!=', False)], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="afectaciones_ids" widget="many2many_tags"
+                                       attrs="{'readonly':[('state', '!=', 'draft')],'invisible':[('convenio', '=', False)]}"/>
+                                <field name="monto_afectado" attrs="{'invisible':[('convenio', '=', False)]}"/>
+                                <field name="tipo_contrato_id"
+                                       attrs="{'readonly':['|',('contrato_general_id', '!=', False),('state', '!=', 'draft')], 'required':[('contrato_general_id', '=', False)]}"/>
+                                <field name="contrato_general_id" readonly="True"
+                                       attrs="{'invisible':[('contrato_general_id', '=', False)]}"/>
+                                <field name="contrato_original_id" readonly="True"
+                                       attrs="{'invisible':[('contrato_original_id', '=', False)]}"/>
+                                <field name="periodo_oc" invisible="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Vigencia" attrs="{'invisible':[('contrato_general_id', '!=', False)]}">
+                                <group>
+                                    <field name="fecha_inicio"
+                                           attrs="{'readonly':[('state', '!=', 'draft')], 'required':[('contrato_general_id', '=', False)]}"/>
+                                    <field name="fecha_fin" string="Fecha de finalización"
+                                           attrs="{'readonly':[('state', '!=', 'draft')], 'required':[('contrato_general_id', '=', False)]}"/>
+                                    <field name="prorroga" string="Renovación"
+                                           attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                                    <field name="tipo_prorroga" string="Tipo Renovación"
+                                           attrs="{'invisible':[('prorroga','!=', True)], 'readonly':[('state', '!=', 'draft')]}"/>
+                                    <field name="cantidad_renovaciones"
+                                           attrs="{'invisible':[('prorroga','!=', True)], 'readonly':[('state', '!=', 'draft')]}"/>
+                                    <field name="renovacion" invisible="1"/>
+                                    <field name="plazo" invisible="1"/>
+                                </group>
+                                <group col="1" colspan="4">
+                                    <field name="monedas_ids" readonly="1" nolabel="1">
+                                        <tree>
+                                            <field name="moneda"/>
+                                            <field name="monto_inicial"/>
+                                            <field name="monto_ajustado"/>
+                                            <field name="contrato_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':[('contrato_general_id', '=', False)]}">
+                            <group string="Adjudicación">
+                                <field name="codigo_articulo" readonly="1" attrs="{'invisible':[('convenio', '=', True)]}"/>
+                                <field name="cantidad"
+                                       attrs="{'readonly':['|',('contrato_general_id','=',False),('state','!=','draft')],'required':[('contrato_general_id','!=',False),('convenio', '=', True)]}"/>
+                                <field name="cantidad_pendiente"
+                                       attrs="{'invisible':[('convenio', '=', True)], 'readonly':['|','|',('convenio', '=', False),('contrato_general_id','=',False),('state','!=','draft')]}"/>
+                                <field name="currency"
+                                       attrs="{'readonly':['|',('contrato_general_id','=',False),('state','!=','draft')],'required':[('contrato_general_id','!=',False),('convenio', '=', True)]}"/>
+                                <field name="precio"
+                                       attrs="{'readonly':['|',('contrato_general_id','=',False),('state','!=','draft')],'required':[('contrato_general_id','!=',False),('convenio', '=', True)]}"/>
+                                <field name="precio_ajustado" readonly="1" options="{'save_readonly':True}"/>
+                            </group>
+                            <group>
+                                <field name="total_ajustado" widget="monetary" options="{'currency_field': 'moneda'}"/>
+                                <field name="factura_mensual"
+                                       attrs="{'invisible':[('contrato_general_id', '=', False)]}"/>
+                                <field name="cantidad_mensual"
+                                       attrs="{'invisible':[('factura_mensual', '=', False)], 'required':[('factura_mensual', '!=', False)]}"/>
+                                <field name="estimado_mensual"
+                                       attrs="{'invisible':[('factura_mensual', '=', False)], 'required':[('factura_mensual', '!=', False)]}"/>
+                                <field name="total_oc" widget="monetary" attrs="{'invisible':[('convenio', '=', True)]}"
+                                       options="{'currency_field': 'moneda'}"/>
+                                <field name="total_factura" widget="monetary"
+                                       attrs="{'invisible':[('convenio', '=', True)]}"
+                                       options="{'currency_field': 'moneda'}"/>
+                                <field name="total_comprometido" widget="monetary"
+                                       attrs="{'invisible':[('convenio', '=', False)]}"
+                                       options="{'currency_field': 'moneda'}"/>
+                                <field name="total_obligado" widget="monetary"
+                                       attrs="{'invisible':[('convenio', '=', False)]}"
+                                       options="{'currency_field': 'moneda'}"/>
+                                <field name="monto_facturar" widget="monetary" options="{'currency_field': 'moneda'}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="OC" attrs="{'invisible':[('convenio', '=', True)]}">
+                                <field name="orden_compra_ids" nolabel="1" widget="many2many">
+                                    <tree string="OC">
+                                        <field name="name" string="Numero documento"/>
+                                        <field name="date_order" string="Fecha documento"/>
+                                        <field name="state" invisible="1"/>
+                                        <field name="currency_oc" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="APG" attrs="{'invisible':[('convenio', '=', True)]}">
+                                <field name="apg_compra_ids" nolabel="1">
+                                    <tree string="APG">
+                                        <field name="name" string="Numero documento"/>
+                                        <field name="fecha" string="Fecha documento"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Facturas" attrs="{'invisible':[('convenio', '=', True)]}">
+                                <field name="invoice_ids" nolabel="1"
+                                       attrs="{'invisible':[('contrato_general_id', '!=', False)]}">
+                                    <tree string="Facturas">
+                                        <field name="supplier_invoice_number"/>
+                                        <field name="date_invoice"/>
+                                        <field name="comment" string="Observaciones"/>
+                                        <field name="total_nominal" string="Total" sum="Total"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                                <field name="invoice_line_ids" nolabel="1"
+                                       attrs="{'invisible':[('contrato_general_id', '=', False)]}">
+                                    <tree string="Facturas">
+                                        <field name="supplier_invoice_number"/>
+                                        <field name="date_invoice"/>
+                                        <field name="comment" string="Observaciones"/>
+                                        <field name="importe_imp_incl" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Afectación" attrs="{'invisible':[('convenio', '=', False)]}">
+                                <field name="afectaciones_p_ids" nolabel="1" widget="many2many">
+                                    <tree string="Afectación">
+                                        <field name="nro_afectacion" string="Número documento"/>
+                                        <field name="date" string="Fecha"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Compromiso" attrs="{'invisible':[('convenio', '=', False)]}">
+                                <field name="compromisos_ids" nolabel="1">
+                                    <tree string="Compromiso">
+                                        <field name="nro_compromiso" string="Número documento"/>
+                                        <field name="date" string="Fecha documento"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Obligación" attrs="{'invisible':[('convenio', '=', False)]}">
+                                <field name="obligaciones_ids" nolabel="1">
+                                    <tree string="Obligación">
+                                        <field name="nro_obligacion" string="Número documento"/>
+                                        <field name="date_invoice" string="Fecha"/>
+                                        <field name="state" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Proveedores habilitados" attrs="{'invisible':[('convenio', '=', False)]}">
+                                <group>
+                                    <field name="control_proveedores" style="width:40%%"/>
+                                </group>
+                                <field name="proveedores_hab_ids" nolabel="1">
+                                    <tree string="Proveedores" editable="bottom">
+                                        <field name="proveedor" domain="[('supplier','=',True)]"
+                                               attrs="{'required':[('control_proveedores', '=', True)]}"/>
+                                        <field name="monto_mensual"
+                                               attrs="{'required':[('control_proveedores', '=', True)]}"/>
+                                        <field name="fecha_inactivo"/>
+                                        <field name="control_proveedores" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Desvíos en factura"
+                                  attrs="{'invisible':['|',('convenio', '=', False),('control_proveedores', '=', False)]}">
+                                <field name="control_proveedores_ids" readonly="1" nolabel="1">
+                                    <tree>
+                                        <field name="proveedor"/>
+                                        <field name="mes"/>
+                                        <field name="monto_mensual"/>
+                                        <field name="monto_facturado"/>
+                                        <field name="motivo"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Paramétrica genérica">
+                                <group>
+                                    <group>
+                                        <field name="parametrica_formula_id"
+                                               attrs="{'readonly': [('realizado','=',True)]}"/>
+                                        <field name="parametrica_periodicidad_id"
+                                               attrs="{'readonly': [('realizado','=',True)]}"/>
+                                        <field name="fecha_base_ajuste"
+                                               attrs="{'required':[('parametrica_formula_id', '!=', False)],'readonly': [('realizado','=',True)]}"/>
+                                        <field name="realizado" invisible="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="ultima_actualizacion" readonly="1"
+                                               attrs="{'invisible':[('contrato_general_id', '=', False)]}"/>
+                                        <field name="proxima_actualizacion" readonly="1"
+                                               attrs="{'invisible':[('contrato_general_id', '=', False)]}"/>
+                                    </group>
+                                    <group>
+                                        <button name="action_cargarparametrica" type="object"
+                                                string="Cargar paramétrica"
+                                                icon="gtk-execute"
+                                                attrs="{'invisible':['|',('contrato_general_id', '!=', False),('show_cargar_parametrica','=',False)]}"/>
+                                        <button name="action_calcularparametricas" type="object"
+                                                string="Calcular ajustes"
+                                                icon="gtk-execute"
+                                                attrs="{'invisible':[('contrato_general_id', '=', False)]}"/>
+                                        <field name="show_cargar_parametrica" invisible="1"/>
+                                    </group>
+                                </group>
+                                <field name="parametrica_planificada_ids" readonly="1" nolabel="1" colspan="4"
+                                       attrs="{'invisible':[('contrato_general_id', '=', False)]}">
+                                    <tree editable="top">
+                                        <field name="fecha"/>
+                                        <field name="ejecutado"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Historial de paramétricas"
+                                  attrs="{'invisible':[('contrato_general_id', '=', False)]}">
+                                <button name="action_recalcularparametrica" type="object"
+                                        string="Cancelar última parametrización"
+                                        icon="gtk-execute"
+                                        states="draft,vigente"
+                                        attrs="{'invisible':['|',('contrato_general_id', '=', False)]}"/>
+                                <field name="parametrica_historica_ids" readonly="1" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="fecha_planificada_ejecutada"/>
+                                        <field name="porcentaje"/>
+                                        <field name="precio_ajustado"/>
+                                        <field name="importe"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Historial de finalizado parcial" attrs="{'invisible':['|',('contrato_general_id', '=', False),
+                                                                                            ('finalizado_parcial','=', False)]}"
+                                  groups="grp_contrato_proveedores.group_grp_contrato_proveedores">
+                                <field name="finalizado_parcial_ids" nolabel="1" readonly="1">
+                                    <tree string="Historial">
+                                        <field name="fecha"/>
+                                        <field name="total_finalizado"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Historial de finalizado parcial" attrs="{'invisible':['|',('contrato_general_id', '=', False),('finalizado_parcial','=', False)]}"
+                                  groups="grp_contrato_proveedores.group_grp_contrato_proveedores">
+                                <field name="finalizado_parcial_ids" nolabel="1" readonly="1">
+                                    <tree string="Historial de finalizado parcial">
+                                        <field name="fecha"/>
+                                        <field name="total_finalizado"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Cesiones" attrs="{'invisible':[('contrato_general_id', '!=', False)]}">
+                                <group>
+                                    <field name="cession_type" style="width:40%%"/>
+                                    <field name="give_amount_total"
+                                           attrs="{'invisible':[('cession_type', '!=', 'amout_cession')],'required':[('cession_type', '=', 'amout_cession')]}"/>
+                                </group>
+                                <field name="cession_ids" nolabel="1">
+                                    <tree string="Cesiones" editable="bottom">
+                                        <field name="date" required="1"/>
+                                        <field name="partner_id" required="1"/>
+                                        <field name="give_amount" sum="Amount"
+                                               attrs="{'readonly':[('cession_type', '!=', 'amout_cession')],'required':[('cession_type', '=', 'amout_cession')]}"
+                                               options="{'save_readonly':True}"/>
+                                        <field name="saldo_ceder" sum="Amount" readonly="1"/>
+                                        <field name="monto_ajustado_contrato"
+                                               invisible="1"/>
+                                        <field name="contract_id" invisible="1"/>
+                                        <field name="cession_type" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notas">
+                                <field name="note" placeholder="Notas..."/>
+                            </page>
+                            <page string="Historial de Acciones">
+                                <field name="acciones_ids" readonly="1" nolabel="1" widget="many2many">
+                                    <tree string="OC" editable="bottom" create="false" edit="false" delete="false">
+                                        <field name="link" readonly="1"/>
+                                        <field name="tipo" readonly="1"/>
+                                        <field name="se_copio" readonly="1"/>
+                                        <field name="se_registro" readonly="1"/>
+                                        <field name="fecha" readonly="1"/>
+                                        <field name="user_id" readonly="1"/>
+                                        <field name="descripcion" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Reporte  de incidentes"
+                                  attrs="{'invisible':[('contrato_general_id', '=', False)]}">
+                                <field name="incidente_ids" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="fecha"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group string="Retenciones" attrs="{'invisible':[('contrato_general_id','!=', False)]}">
+                            <field name="retenciones_ids" nolabel="1"
+                                   attrs="{'readonly':[('state', 'not in', ['draft','vigente'])]}">
+                                <tree string="Retenciones" editable="bottom">
+                                    <field name="producto_id"
+                                           attrs="{'readonly':[('retenciones_factura_ids','!=', [])]}"/>
+                                    <field name="cuenta_id"
+                                           attrs="{'readonly':[('retenciones_factura_ids','!=', [])]}"/>
+                                    <field name="descripcion"
+                                           attrs="{'readonly':[('retenciones_factura_ids','!=', [])]}"/>
+                                    <field name="importe_pesos"
+                                           attrs="{'readonly':[('retenciones_factura_ids','!=', [])]}"/>
+                                    <field name="saldo_retener"/>
+                                    <field name="retenciones_factura_ids" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- VISTA TREE CONTRATO PROVEEDORES CON_03 -->
+        <record id="view_contract_proveedores_tree" model="ir.ui.view">
+                <field name="name">grp.contrato.proveedores.tree</field>
+                <field name="model">grp.contrato.proveedores</field>
+                <field name="arch" type="xml">
+                    <tree string="Contratos de proveedores">
+                        <field name="proveedor" />
+                        <field name="pedido_compra"/>
+                        <field name="nro_interno" />
+                        <field name="tipo_compra"/>
+                        <field name="description"/>
+                        <field name="fecha_inicio" />
+                        <field name="fecha_fin" />
+                        <field name="periodo_oc" />
+                        <field name="contrato_general_id" />
+                        <field name="state" />
+                    </tree>
+                </field>
+        </record>
+
+        <!-- FILTER CONTRATO PROVEEDORES CON_03 -->
+        <record id="view_contract_proveedores_filter" model="ir.ui.view">
+                <field name="name">grp.contracto.proveedores.filter</field>
+                <field name="model">grp.contrato.proveedores</field>
+                <field name="arch" type="xml">
+                    <search string="Search Invoice">
+                        <field name="nro_interno"/>
+                        <filter name="vigente" string="Vigente" domain="[('state','=','vigente')]" help="Contratos Vigentes"/>
+                        <separator/>
+                        <field name= "state" />
+                        <group expand="0" string="Agrupar por...">
+                            <filter id="filter_adjudicacion" string="Adjudicación" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'nro_adj_id'}"/>
+                            <filter id="filter_proveedor" string="Proveedor" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'proveedor'}"/>
+                        </group>
+                   </search>
+                </field>
+            </record>
+
+	    <record model="ir.ui.view" id="purchase_order_form_view_inherited_contrato">
+		    <field name="name">purchase.order.form.view.inherited.contrato</field>
+		    <field name="model">purchase.order</field>
+		    <field name="inherit_id" ref="purchase.purchase_order_form"/><field name="inherit_id" ref="purchase.purchase_order_2_stock_picking"/>
+		    <field name="arch" type="xml">
+		        <xpath expr="//div[contains(@class, 'oe_right oe_button_box')]" position="inside">
+		            <div class="oe_right oe_button_box" name="buttons">
+		                <button type="object" name="abrir_contratos_tree_view" string="Contratos"
+		                    class="oe_inline oe_stat_button"
+		                    icon="fa-users" style="white-space: normal;" attrs="{'invisible': [('contrato_id','=',False)]}">
+		                </button>
+		            </div>
+		        </xpath>
+		        <field name= "date_order" position= "after">
+		            <field name= "contrato_id" domain="[('nro_adj_id', '=', doc_origen),('proveedor', '=', partner_id)]"/>
+		        </field>
+		    </field>
+	    </record>
+
+
+	    <record id="action_contract_proveedores_form" model="ir.actions.act_window">
+			<field name="name">Contratos de proveedores</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">grp.contrato.proveedores</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="context">{'default_convenio':True,'search_default_filter_adjudicacion':1,'search_default_filter_proveedor':1}</field>
+			<field name="view_id" ref="view_contract_proveedores_form"/>
+			<field name="search_view_id" ref="view_contract_proveedores_filter"/>
+
+		</record>
+
+
+		<record id="action_account_form_financiero1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_contract_proveedores_form"/>
+			<field name="act_window_id" ref="action_contract_proveedores_form"/>
+		</record>
+
+		<record id="action_account_tree_financiero1" model="ir.actions.act_window.view">
+			<field eval="0" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_contract_proveedores_form"/>
+			<field name="view_id" ref="view_contract_proveedores_tree"/>
+		</record>
+
+
+        <record id="view_tipo_resolucion_form" model="ir.ui.view">
+          <field name="name">grp.tipo.resolucion.form</field>
+          <field name="model">grp.tipo.resolucion</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+            <form string="Tipos de resolucion" version="7.0">
+                 <sheet string="Tipos de resolucion">
+                <group>
+                    <field name="name"/>
+                </group>
+                </sheet>
+              </form>
+          </field>
+        </record>
+
+        <record id="view_tipo_resolucion_tree" model="ir.ui.view">
+        <field name="name">grp.tipo.resolucion.tree</field>
+        <field name="model">grp.tipo.resolucion</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de resolucion">
+                <field name="name"/>
+            </tree>
+        </field>
+        </record>
+
+        <record id="action_tipo_resolucion_form" model="ir.actions.act_window">
+            <field name="name">Tipos de resolucion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.tipo.resolucion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_tipo_resolucion_form"/>
+        </record>
+
+            <record id="action_account_form_resolucion1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_tipo_resolucion_form"/>
+            <field name="act_window_id" ref="action_tipo_resolucion_form"/>
+        </record>
+
+        <record id="action_account_tree_resolucion1" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_tipo_resolucion_form"/>
+            <field name="view_id" ref="view_tipo_resolucion_tree"/>
+        </record>
+
+
+        <menuitem id="menu_prov_cont" parent="grp_compras_estatales.menu_grp_main" name="Contratos" sequence="11"/>
+        <menuitem id="menu_fact_prov" name="Contratos de proveedores" sequence="1" parent="menu_prov_cont" action="action_contract_proveedores_form"
+                  groups="grp_contrato_proveedores.group_grp_contrato_proveedores,grp_seguridad.grp_visualizacion_contrato_proveed"/>
+        <menuitem id="menu_tipo_resolucion" name="Tipos de resolución" sequence="2" parent="menu_prov_cont" action="action_tipo_resolucion_form" groups="grp_seguridad.grp_compras_pc_Comprador"/>
+
+        <!-- Se modifica la seguridad del menu contratos-->
+        <record id="contracts_pro.contracts_pro_main_root_menuitem" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('grp_contrato_proveedores.group_grp_contrato_proveedores')),(4,ref('grp_seguridad.grp_visualizacion_contrato_proveed'))]"/>
+        </record>
+
+
+
+</data>
+</openerp>

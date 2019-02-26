@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="grp_seguridad.grp_consulta_aprobacion_pagos" model="res.groups">
+            <field name="menu_access" eval="[(4, ref('grp_account.aprobacion_pagos')),(4, ref('account_voucher.menu_action_vendor_payment'))]" />
+        </record>
+    </data>
+</openerp>

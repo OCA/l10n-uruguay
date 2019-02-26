@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="grp_carga_catalogo_sice_wizard_form" model="ir.ui.view">
+			<field name="name">grp.carga_catalogo_sice_wizard.form</field>
+			<field name="model">grp.carga_catalogo_sice_wizard</field>
+			<field name="arch" type="xml">
+				<form string="Carga de modelos GRP del catálogo de artículos SICE">
+					<sheet>
+					    <group>
+							<button name="cargar_familias" type="object" string="Cargar familias" class="oe_highlight"/>
+							<label string=" "/>
+
+							<button name="cargar_subflias" type="object" string="Cargar subfamilias" class="oe_highlight"/>
+							<label string=" "/>
+
+							<button name="cargar_clases" type="object" string="Cargar clases" class="oe_highlight"/>
+							<label string=" "/>
+
+							<button name="cargar_subclases" type="object" string="Cargar subclases" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_impuestos" type="object" string="Cargar impuestos" class="oe_highlight"/>
+     						<label string=" "/>
+
+  						    <button name="cargar_porcentajes_impuestos" type="object" string="Cargar porcentajes de impuestos" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_medidas" type="object" string="Cargar medidas" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_unidades_med" type="object" string="Cargar unidades de medida" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_marcas" type="object" string="Cargar marcas" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_odg" type="object" string="Cargar ODG" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_colores" type="object" string="Cargar colores" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_presentaciones" type="object" string="Cargar presentaciones" class="oe_highlight"/>
+     						<label string=" "/>
+
+							<button name="cargar_propiedades" type="object" string="Cargar propiedades" class="oe_highlight"/>
+     						<label string=" "/>
+
+					    </group>
+					    <group>
+   						    <button name="cargar_articulos" type="object" string="Cargar Articulos" class="oe_highlight"/>
+     						<label string=" "/>
+
+   						    <button name="cargar_atributos_de_articulos" type="object" string="Cargar Atributos de Articulos" class="oe_highlight"/>
+     						<label string=" "/>
+
+   						    <!--<button name="cargar_colores_de_articulos" type="object" string="Cargar Colores de Articulos" class="oe_highlight"/>-->
+     						<!--<label string=" "/>-->
+
+   						    <button name="cargar_variantes" type="object" string="Cargar Variantes de Articulos" class="oe_highlight"/>
+     						<label string=" "/>
+
+   						    <button name="cargar_detalle_variantes" type="object" string="Cargar detalle de variantes de articulos" class="oe_highlight"/>
+     						<label string=" "/>
+
+   						    <button name="cargar_sinonimos_de_articulos" type="object" string="Cargar sinonimos de articulos" class="oe_highlight"/>
+     						<label string=" "/>
+					    </group>
+
+
+					    <group>
+   						    <button name="cargar_atributos_colores" type="object" string="Cargar atributo COLOR" class="oe_highlight"/>
+     						<label string=" "/>
+   						    <!--<button name="cargar_atributos_presentaciones" type="object" string="Cargar atributo PRESENTACION" class="oe_highlight"/>-->
+     						<!--<label string=" "/>-->
+   						    <button name="cargar_product_attribute_variantes" type="object" string="Cargar atributo VARIANTES" class="oe_highlight"/>
+   						    <button name="cargar_product_attribute_variantes" type="object" string="Cargar atributo VARIANTES" class="oe_highlight"/>
+     						<label string=" "/>
+   						    <button name="cargar_product_attribute_value_medida" type="object" string="Cargar valores de atributo VARIANTES (MEDIDA)" class="oe_highlight"/>
+     						<label string=" "/>
+   						    <button name="cargar_product_attribute_value_detalle" type="object" string="Cargar valores de atributo VARIANTES (DETALLE)" class="oe_highlight"/>
+     						<label string=" "/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="grp_carga_catalogo_sice_wizard_act">
+			<field name="name">Carga de modelos GRP del catálogo de artículos SICE: Familias</field>
+			<field name="res_model">grp.carga_catalogo_sice_wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="grp_carga_catalogo_sice_wizard_form" />
+			<field name="target">new</field>
+		</record>
+
+
+		<menuitem id="grp_procesar_carga_catalogo_sice" name="Procesar carga del catálogo" parent="grp_catalogo_articulos_sice_menu" sequence="100"/>
+        <menuitem id="grp_carga_catalogo_sice_wizard_menu" action="grp_carga_catalogo_sice_wizard_act" name="Cargar catálogo" parent="grp_procesar_carga_catalogo_sice" sequence="10"/>
+
+	</data>
+</openerp>

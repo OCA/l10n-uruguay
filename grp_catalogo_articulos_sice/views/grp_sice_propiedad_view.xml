@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Form: Propiedad -->
+        <record id="view_grp_sice_propiedad_form" model="ir.ui.view">
+            <field name="name">grp.sice_propiedad_form</field>
+            <field name="model">grp.sice_propiedad</field>
+            <field name="arch" type="xml">
+                <form string="Propiedad" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <field name="cod"/>
+                            <field name="descripcion"/>
+                            <field name="unme_id" options='{"no_open": True}'/>
+                            <field name="fecha_baja"/>
+                            <field name="motivo_baja"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Todos las unidades de medida" colspan="4">
+                            <field name="prop_unme_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Lista: Propiedad -->
+        <record id="view_grp_sice_propiedad_tree" model="ir.ui.view">
+            <field name="name">grp.sice_propiedad_tree</field>
+            <field name="model">grp.sice_propiedad</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_propiedad" create="false" delete="false">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="unme_id"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Search: Propiedad -->
+        <record id="view_grp_sice_propiedad_search" model="ir.ui.view">
+            <field name="name">grp.sice_propiedad_search</field>
+            <field name="model">grp.sice_propiedad</field>
+            <field name="arch" type="xml">
+                <search string="Variantes de artículos SICE">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="unme_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Variante" domain="[]" context="{'group_by':'descripcion'}"/>
+                        <filter string="Unidad de medida" domain="[]" context="{'group_by':'unme_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Propiedad
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Propiedades -->
+        <record id="grp_sice_propiedad_action" model="ir.actions.act_window">
+            <field name="name">Variantes de artículos SICE</field>
+            <field name="res_model">grp.sice_propiedad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú: Propiedades
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Variantes -->
+        <menuitem name="Variantes" id="grp_sice_propiedad_menu"
+                  parent="grp_catalogo_articulos_sice_menu" action="grp_sice_propiedad_action" sequence="130"/>
+    </data>
+</openerp>

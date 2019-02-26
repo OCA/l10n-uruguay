@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- VISTA FORM PARA grp.pep.anual.linea.actualizacion -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_linea_actualizacion_form">
+        <field name="name">grp.pep.anual.linea.actualizacion.form</field>
+        <field name="model">grp.pep.anual.linea.actualizacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form version="7.0">
+                <sheet>
+                    <h2 style="color: #7C7BAD;">
+                        <field name="product_id" readonly="1" class="oe_inline"/>
+                    </h2>
+                    <div class="oe_right oe_button_box" name="smart_buttons">
+                        <button
+                            class="oe_inline oe_stat_button"
+                            icon="fa-check-circle"
+                            name="set_procesado_true"
+                            type="object"
+                            string="Procesado"
+                            help="Inica que este producto ya fué actualizado"
+                        />
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="existencia" readonly="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Conceptos asociados">
+                            <field name="conceptos" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" editable="top" version="7.0">
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="cantidad_original" readonly="1"/>
+                                    <field name="actualizacion"/>
+                                    <field name="cantidad_actualizada" readonly="1"/>
+                                    <field name="precio_de_referencia" readonly="1"/>
+                                    <field name="importe_original_producto" readonly="1"/>
+                                    <field name="importe_actualizado_producto" readonly="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                </tree>
+                            </field>
+                         </page>
+                     </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</data>
+</openerp>

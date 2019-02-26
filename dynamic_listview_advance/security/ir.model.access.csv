@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_show_fields,access.user.show.fields,model_show_fields,,1,1,1,1

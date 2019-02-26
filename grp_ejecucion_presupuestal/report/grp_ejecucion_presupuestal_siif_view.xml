@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_tree" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.tree</field>
+            <field name="model">grp.ejecucion.presupuestal.siif</field>
+            <field name="arch" type="xml">
+                <tree string="Ejecución presupuestal" create="false" delete="false" edit="false">
+                    <field name="llave_presupuestal"/>
+                    <field name="credito_presupuestal"/>
+                    <field name="importe"/>
+                    <field name="saldo"/>
+                    <field name="importe_comprometer"/>
+                    <field name="fy_name"/>
+                    <field name="inciso"/>
+                    <field name="ue"/>
+                    <field name="objeto_gasto"/>
+                    <field name="auxiliar"/>
+                    <field name="financiamiento"/>
+                    <field name="programa"/>
+                    <field name="proyecto"/>
+                    <field name="moneda"/>
+                    <field name="tipo_credito"/>
+                    <!--<button name="open_document" string="Ver documento" type="object" icon="gtk-find" context="{'id_documento':'id_documento','tipo_documento':'tipo_documento'}"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_search" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.search</field>
+            <field name="model">grp.ejecucion.presupuestal.siif</field>
+            <field name="arch" type="xml">
+                <search string="Ejecución presupuestal">
+                    <field name="llave_presupuestal"/>
+                    <field name="credito_presupuestal"/>
+                    <field name="importe"/>
+                    <field name="saldo"/>
+                    <field name="importe_comprometer"/>
+                    <field name="fy_name"/>
+                    <field name="inciso"/>
+                    <field name="ue"/>
+                    <field name="objeto_gasto"/>
+                    <field name="auxiliar"/>
+                    <field name="financiamiento"/>
+                    <field name="programa"/>
+                    <field name="proyecto"/>
+                    <field name="moneda"/>
+                    <field name="tipo_credito"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Año fiscal" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'fy_name'}"/>
+                        <filter string="Llave presupuestal" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'llave_presupuestal'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_graph" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.graph</field>
+            <field name="model">grp.ejecucion.presupuestal.siif</field>
+            <field name="arch" type="xml">
+                <graph string="Ejecución presupuestal" type="pivot" stacked="True">
+                    <field name="credito_presupuestal" type="measure"/>
+                    <field name="importe" type="measure"/>
+                    <field name="saldo" type="measure"/>
+                    <field name="importe_comprometer" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_grp_ejecucion_presupuestal_siif" model="ir.actions.act_window">
+            <field name="name">Análisis ejercicios futuros</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.ejecucion.presupuestal.siif</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+            <!--<field name="view_id" ref="view_grp_agrupar_fondo_rotarios_tree"/>-->
+            <!--<field name="search_view_id" ref="view_grp_agrupar_fondo_rotarios"/>-->
+        </record>
+
+        <menuitem id="menu_grp_ejecucion_presupuestal_siif" name="Análisis ejercicios futuros" sequence="14"
+                  parent="grp_factura_siif.menu_reporting_presupuesto"
+                  action="action_grp_ejecucion_presupuestal_siif"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+
+    </data>
+</openerp>

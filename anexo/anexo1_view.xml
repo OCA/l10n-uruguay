@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+	<record model="ir.ui.view" id="view_anexo1_cuenta_form" >
+            <field name="name">anexo1.form</field>
+            <field name="model">anexo1.cuenta</field>
+            <field name="priority" eval="1"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cuenta">
+					<group>
+						<field name="codigoCuentas"/>
+						<field name="nombre"/>
+						<field name="codigoCuentaAmortizacion"/>
+						<field name="nombreCuentaAmortizacion"/>
+					</group>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_anexo1_form" >
+            <field name="name">anexo1.form</field>
+            <field name="model">anexo1.anexo</field>
+            <field name="priority" eval="1"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<form string="Cuentas">
+					<sheet>
+						<group>
+							<field name="tipo"/>
+							<field name="cuenta_ids" nolabel="1" mode="tree" colspan="4">
+								<tree string="Cuentas">
+									<field name="codigoCuentas"/>
+									<!--field name="nombre"/-->
+									<field name="codigoCuentaAmortizacion"/>
+									<!--field name="nombreCuentaAmortizacion"/-->
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_anexo1_tree" >
+            <field name="name">anexo1.tree</field>
+            <field name="model">anexo1.anexo</field>
+            <field name="priority" eval="1"/>
+            <!--field name="type">tree</field-->
+            <field name="arch" type="xml">
+				<tree string="Cuentas">
+					<field name="tipo"/>
+				</tree>
+			</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_anexo1_view">
+			<field name="name">Anexo 1</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">anexo1.anexo</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_anexo1_form"/>
+			<field name="domain">[]</field>
+			<field name="context">{}</field>
+		</record>
+
+        <record id="view_act_object_tree" model="ir.actions.act_window.view">
+                <field name="view_mode">tree</field>
+               <field name="view_id" ref="view_anexo1_tree" />
+               <field name="act_window_id" ref="action_anexo1_view" />
+		</record>
+
+       <menuitem id="menu_anexo1"  action="action_anexo1_view" name="Anexo 1" parent="account.menu_account_reports" sequence="2"/>
+
+    </data>
+</openerp>

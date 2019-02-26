@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	    <record model="res.country.state" id="UYAR">
+			<field name="name">ARTIGAS</field>
+			<field name="code">AR</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYCA">
+			<field name="name">CANELONES</field>
+			<field name="code">CA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYCL">
+			<field name="name">CERRO LARGO</field>
+			<field name="code">CL</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYCO">
+			<field name="name">COLONIA</field>
+			<field name="code">CO</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYDU">
+			<field name="name">DURAZNO</field>
+			<field name="code">DU</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYFS">
+			<field name="name">FLORES</field>
+			<field name="code">FS</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYFD">
+			<field name="name">FLORIDA</field>
+			<field name="code">FD</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYLA">
+			<field name="name">LAVALLEJA</field>
+			<field name="code">LA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYMA">
+			<field name="name">MALDONADO</field>
+			<field name="code">MA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYMO">
+			<field name="name">MONTEVIDEO</field>
+			<field name="code">MO</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYPA">
+			<field name="name">PAYSANDÚ</field>
+			<field name="code">PA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYRN">
+			<field name="name">RÍO NEGRO</field>
+			<field name="code">RN</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYRV">
+			<field name="name">RIVERA</field>
+			<field name="code">RV</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYRO">
+			<field name="name">ROCHA</field>
+			<field name="code">RO</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYSA">
+			<field name="name">SALTO</field>
+			<field name="code">SA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYSJ">
+			<field name="name">SAN JOSÉ</field>
+			<field name="code">SJ</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYSO">
+			<field name="name">SORIANO</field>
+			<field name="code">SO</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYTA">
+			<field name="name">TACUAREMBÓ</field>
+			<field name="code">TA</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+		<record model="res.country.state" id="UYTT">
+			<field name="name">TREINTA Y TRES</field>
+			<field name="code">TT</field>
+			<field name="country_id" ref="base.uy"/>
+		</record>
+</data>
+</openerp>

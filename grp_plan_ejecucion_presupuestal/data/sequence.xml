@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+    <!-- SECUENCIA PARA grp_pep_estructuras_de_servicio -->
+    <record id="seq_type_grp_pep_estructura_servicios" model="ir.sequence.type">
+        <field name="name">Tipo Secuencia Plan de Ejecución Estructura de Servicios</field>
+        <field name="code">grp.pep.estructura.code</field>
+    </record>
+
+    <record id="seq_grp_pep_estructura_de_servicios" model="ir.sequence">
+        <field name="name">Secuencia para Estructura de Servicios</field>
+        <field name="code">grp.pep.estructura.code</field>
+        <field name="prefix"></field>
+        <field name="padding">4</field>
+    </record>
+
+
+    <!-- SECUENCIA PARA grp_pep_receta -->
+    <record id="seq_type_grp_ceip_receta" model="ir.sequence.type">
+        <field name="name">Tipo Secuencia Recetas Plan de Compras</field>
+        <field name="code">grp.pep.receta.code</field>
+    </record>
+
+    <record id="seq_grp_ceip_receta" model="ir.sequence">
+        <field name="name">Secuencia para Recetas</field>
+        <field name="code">grp.pep.receta.code</field>
+        <field name="padding">4</field>
+    </record>
+
+
+     <!-- SECUENCIA PARA grp_pep_concepto -->
+    <record id="seq_type_grp_ceip_concepto" model="ir.sequence.type">
+        <field name="name">Tipo Secuencia Conceptos Plan de Compras</field>
+        <field name="code">grp.pep.concepto.code</field>
+    </record>
+
+    <record id="seq_grp_ceip_concepto" model="ir.sequence">
+        <field name="name">Secuencia para Conceptos</field>
+        <field name="code">grp.pep.concepto.code</field>
+        <field name="padding">4</field>
+    </record>
+
+</data>
+</openerp>

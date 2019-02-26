@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Familia -->
+        <record id="view_grp_sice_familia_tree" model="ir.ui.view">
+            <field name="name">grp.familia_tree</field>
+            <field name="model">grp.sice_familia</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_familia" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="comprable"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Acción: Clase SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Familias -->
+        <record id="grp_sice_familia_action" model="ir.actions.act_window">
+            <field name="name">Familias de artículos SICE</field>
+            <field name="res_model">grp.sice_familia</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Familias
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Familias -->
+        <menuitem name="Familias" id="grp_sice_familia_menu" parent="grp_catalogo_articulos_sice_menu"
+                  action="grp_sice_familia_action" sequence="10"/>
+    </data>
+</openerp>

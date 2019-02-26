@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <!--RAGU se elimina la restriccion de Odoo para Empleados-->
+        <delete id="hr_expense.property_rule_expense_employee" model="ir.rule"/>
+
+        <record id="sv_SolicitanteAprobador_Department" model="ir.rule">
+            <field ref="model_grp_solicitud_viaticos" name="model_id"/>
+            <field name="name">Ver Solicitud de viajes de la Unidad Organizativa</field>
+            <field name="domain_force">['|',('employee_id','=',False),('employee_id.department_id','child_of',[e.department_id.id for e in user.employee_ids])]</field>
+            <field eval="[(4,ref('grp_viaticos.grp_sv_solicitante')),(4,ref('grp_viaticos.grp_sv_aprobar_viaje'))]" name="groups"/>
+        </record>
+
+        <record id="sv_Autoriza_UE" model="ir.rule">
+            <field ref="model_grp_solicitud_viaticos" name="model_id"/>
+            <field name="name">Ver Solicitud de viajes de la Unidad Ejecutora</field>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field eval="[(4,ref('grp_viaticos.grp_sv_autoriza'))]" name="groups"/>
+        </record>
+
+        <record id="rv_SolicitanteAprobador_Department" model="ir.rule">
+            <field ref="hr_expense.model_hr_expense_expense" name="model_id"/>
+            <field name="name">Ver Rendiciones de Viáticos de la Unidad Organizativa</field>
+            <field name="domain_force">['|',('employee_id','=',False),('employee_id.department_id','child_of',[e.department_id.id for e in user.employee_ids])]</field>
+            <field eval="[(4,ref('grp_viaticos.grp_sv_solicitante')),(4,ref('grp_viaticos.grp_aprobar_rendicion'))]" name="groups"/>
+        </record>
+
+        <record id="rv_AutorizaAprobadorfinanciero_UE" model="ir.rule">
+            <field ref="hr_expense.model_hr_expense_expense" name="model_id"/>
+            <field name="name">Ver Rendiciones de Viáticos de la Unidad Ejecutora</field>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field eval="[(4,ref('grp_viaticos.grp_autorizar_rendicion')),(4,ref('grp_viaticos.grp_aprobar_rendicion_f'))]" name="groups"/>
+        </record>
+
+    </data>
+</openerp>

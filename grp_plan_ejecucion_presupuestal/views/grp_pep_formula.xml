@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- VISTA TREE PARA grp_pep_formula_linea -->
+    <record model="ir.ui.view" id="view_grp_pep_formula_linea_tree">
+        <field name="name">grp.pep.formula.linea.tree</field>
+        <field name="model">grp.pep.formula.linea</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree  editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="parent_concepto_id" invisible="1"/>
+                <field name="operador_linea"/>
+                <field name="concepto_id" domain="[('id','!=',parent.id)]" options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="concepto_importe"/>
+                <field name="operador_interno"/>
+                <field name="coeficiente"/>
+                <field name="subtotal" sum="Total"/>
+                <button icon="gtk-refresh" type="object" name="compute_subtotal"/>
+            </tree>
+        </field>
+    </record>
+
+</data>
+</openerp>

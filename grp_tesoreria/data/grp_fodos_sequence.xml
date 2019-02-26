@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Secuencia para Solicitud anticipos de fondos -->
+        <record id="seq_type_sol_antic_fondos_number" model="ir.sequence.type">
+            <field name="name">Solicitud anticipos de fondos</field>
+            <field name="code">sol.antic.fondos.number</field>
+        </record>
+        <record id="seq_sol_antic_fondos_number" model="ir.sequence">
+            <field name="name">Solicitud anticipos de fondos</field>
+            <field name="code">sol.antic.fondos.number</field>
+            <field name="prefix">%(year)s-Sol.Antic.Fondos-</field>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- Secuencia para Anticipos de fondos -->
+        <record id="seq_type_antic_fondos_number" model="ir.sequence.type">
+            <field name="name">Anticipos de fondos</field>
+            <field name="code">antic.fondos.number</field>
+        </record>
+        <record id="seq_antic_fondos_number" model="ir.sequence">
+            <field name="name">Anticipos de fondos</field>
+            <field name="code">antic.fondos.number</field>
+            <field name="prefix">Antic.Fondos/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- Secuencia para Rendición anticipos de fondos -->
+        <record id="seq_type_rend_antic_number" model="ir.sequence.type">
+            <field name="name">Rendición anticipos de fondos</field>
+            <field name="code">rend.antic.number</field>
+        </record>
+        <record id="seq_rend_antic_number" model="ir.sequence">
+            <field name="name">Rendición anticipos de fondos</field>
+            <field name="code">rend.antic.number</field>
+            <field name="prefix">%(year)s-Rend.Antic.Fondos-</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</openerp>

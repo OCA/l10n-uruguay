@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+         <!-- Grupo Contrato Proveedores -->
+        <record id="group_grp_contrato_proveedores" model="res.groups">
+            <field name="name">GRP - Contrato Proveedores</field>
+            <field name="category_id" ref="grp_seguridad.category_grp_contabilidad"/>
+        </record>
+
+        <!--TODO: K SPRING 12 GAP 205-->
+        <record id="group_grp_convenios" model="res.groups">
+            <field name="name">GRP – Convenios</field>
+            <field name="category_id" ref="grp_seguridad.category_grp_contabilidad"/>
+        </record>
+
+        <!-- Regla para seguridad por Operating Unit en la Adjudicacion-->
+        <record id="rule_grp_contrato_OU_permitidas" model="ir.rule">
+            <field name="model_id" ref="model_grp_contrato_proveedores"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Contratos de Unidades Operativas permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--Vista Form-->
+        <record id="view_grp_cot_form" model="ir.ui.view">
+            <field name="name">Adjudicaciones</field>
+            <field name="model">grp.cotizaciones</field>
+            <field name="inherit_id" ref="grp_compras_estatales.view_grp_cot_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sice_page_aceptadas']/tree/field[@name='product_id']" position="after">
+                    <field name='account_id' options="{'no_create': True}"/>
+                    <field name="parent_state" invisible="1"/>
+                    <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('parent_state','not in', [False, 'inicio'])]}"
+                        context="{
+                            'form_currency_id': currency,
+                            'form_amount': False,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': True,
+                            'analytics_id': analytics_id
+                        }" groups="analytic.group_analytic_accounting"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+                <xpath expr="//field[@name='sice_page_aceptadas']/tree/field[@name='odg']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

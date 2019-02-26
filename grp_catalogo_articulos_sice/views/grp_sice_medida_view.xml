@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Medidas SICE -->
+        <record id="view_grp_sice_medida_tree" model="ir.ui.view">
+            <field name="name">grp.sice_medida_tree</field>
+            <field name="model">grp.sice_medida</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_medida" create="false" delete="false">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Search: Medidas SICE -->
+        <record id="view_grp_sice_medida_search" model="ir.ui.view">
+            <field name="name">grp.sice_medida_search</field>
+            <field name="model">grp.sice_medida</field>
+            <field name="arch" type="xml">
+                <search string="Medidas">
+                    <field name="descripcion"/>
+                    <field name="cod"/>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Medidas SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Medidas -->
+        <record id="grp_sice_medida_action" model="ir.actions.act_window">
+            <field name="name">Medidas de artículos SICE</field>
+            <field name="res_model">grp.sice_medida</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Medidas SICE
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Medidas -->
+        <menuitem name="Medidas" id="grp_sice_medida_menu" parent="grp_catalogo_articulos_sice_menu"
+                  action="grp_sice_medida_action" sequence="70"/>
+    </data>
+</openerp>

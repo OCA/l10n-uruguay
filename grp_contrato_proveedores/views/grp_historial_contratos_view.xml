@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: L SPRING 12 GAP 84-->
+        <record id="view_grp_historial_contratos_form" model="ir.ui.view">
+            <field name="name">grp.historial.contratos.form</field>
+            <field name="model">grp.historial.contratos</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1"
+                               statusbar_visible="draft,vigente,end,cancel"/>
+                    </header>
+                    <sheet string="Historial de contratos">
+                        <group>
+                            <group id="Cabezal">
+                                <div class="oe_title">
+                                    <label for="nro_interno" class="oe_inline"
+                                           attrs="{'invisible':[('se_valido','!=',True),('contrato_original_id','=',False)]}"/>
+                                    <h1>
+                                        <field name="nro_interno"
+                                               attrs="{'invisible':[('se_valido','!=',True),('contrato_original_id','=',False)]}"
+                                               readonly="1"/>
+                                        <label string="Contrato borrador"
+                                               attrs="{'invisible':['|',('se_valido','!=',False),('contrato_original_id','!=',False)]}"/>
+                                    </h1>
+                                </div>
+                            </group>
+                        </group>
+                        <group string="Resolución">
+                            <group>
+                                <field name="se_valido" invisible="1"/>
+                                <field name="finalizado_parcial" invisible="1"/>
+                                <field name="id" invisible="1"/>
+                                <field name="secuencia" invisible="1"/>
+
+                                <field name="convenio" invisible="1"/>
+
+                                <field name="proveedor" domain="[('supplier', '=', True)]" required="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+
+                                <field name="tipo_resolucion"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)], 'required':[('contrato_general_id', '=', False)]}"/>
+
+
+                                <field name="nro_contrato" string="Nº Contrato/Resolución"
+                                       help="Tipo Resolución/Nro. Resolución/Año" required="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+
+                                <field name="nro_renovacion" readonly="1"
+                                       attrs="{'invisible':['|',('nro_renovacion', '=', 0),('contrato_original_id', '=', False)]}"/>
+
+                                <field name="fecha_resolucion" required="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)]}"/>
+
+                                <field name="nro_cuenta" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+
+                                <field name="monto_resolucion"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)]}"/>
+
+                                <field name="fecha_celebracion" required="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            </group>
+
+                            <group>
+                                <field name="operating_unit_id"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)]}"/>
+                                <field name="department_id"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '!=', False)], 'required':[('contrato_general_id', '=', False)]}"/>
+                                <field name="nro_adj_id" readonly="True"
+                                       attrs="{'invisible':[('convenio', '=', True)], 'required':[('convenio', '=', False)]}"/>
+
+                                <field name="pedido_compra" domain="[('state', 'not in',['inicio'])]"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('convenio', '=', True)]}"/>
+                                <field name="tipo_compra" readonly="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="description" readonly="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="moneda" domain="[('name', 'in', ('USD','UYU','EUR'))]"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('convenio', '=', True),('contrato_general_id', '!=', False)]}"/>
+                                <field name="periodo_oc" invisible="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+
+                                <field name="afectaciones_ids" widget="many2many_tags"
+                                       attrs="{'readonly':[('state', '!=', 'draft')],'invisible':[('convenio', '=', False)], 'required':[('convenio', '=', True)]}"/>
+                                <field name="monto_afectado" attrs="{'invisible':[('convenio', '=', False)]}"/>
+
+                                <field name="tipo_contrato_id" required="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                                <field name="contrato_general_id"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_general_id', '=', False)]}"/>
+
+                                <field name="contrato_original_id" readonly="True"
+                                       attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('contrato_original_id', '=', False)]}"/>
+                            </group>
+
+                        </group>
+
+                        <group>
+                            <group string="Vigencia" attrs="{'invisible':[('contrato_general_id', '!=', False)]}">
+                                <group>
+                                    <field name="fecha_inicio"
+                                           attrs="{'readonly':[('state', '!=', 'draft')], 'required':[('contrato_general_id', '=', False)]}"/>
+                                    <field name="fecha_fin" string="Fecha de finalización"
+                                           attrs="{'readonly':[('state', '!=', 'draft')], 'required':[('contrato_general_id', '=', False)]}"/>
+                                    <field name="prorroga" string="Renovación"
+                                           attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                                    <field name="tipo_prorroga" string="Tipo Renovación"
+                                           attrs="{'invisible':[('prorroga','!=', True)], 'readonly':[('state', '!=', 'draft')]}"/>
+
+                                    <field name="cantidad_renovaciones"
+                                           attrs="{'invisible':[('prorroga','!=', True)], 'readonly':[('state', '!=', 'draft')]}"/>
+
+                                    <field name="renovacion" invisible="1"/>
+                                    <field name="plazo" invisible="1"/>
+                                </group>
+                                <group col="4">
+                                    <field name="monedas_ids" readonly="1" nolabel="1">
+                                        <tree>
+                                            <field name="contrato_id" invisible="1"/>
+                                            <field name="moneda"/>
+                                            <field name="monto_inicial"/>
+                                            <field name="monto_ajustado"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </group>
+
+                        <group string="Adendas">
+                            <group>
+                                <field name="link"/>
+                                <field name="fecha_modificacion"/>
+                            </group>
+                            <group></group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--TODO: L SPRING 12 GAP 84-->
+        <record id="view_grp_historial_contratos_tree" model="ir.ui.view">
+            <field name="name">grp.historial.contratos.tree</field>
+            <field name="model">grp.historial.contratos</field>
+            <field name="arch" type="xml">
+                <tree string="Historial de contratos" create="false" edit="false" delete="false">
+                    <field name="proveedor"/>
+                    <field name="pedido_compra"/>
+                    <field name="tipo_compra"/>
+                    <field name="description"/>
+                    <field name="fecha_inicio"/>
+                    <field name="fecha_fin"/>
+                    <field name="periodo_oc"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--TODO: L SPRING 12 GAP 84-->
+        <record id="action_grp_historial_contratos" model="ir.actions.act_window">
+            <field name="name">Historial de contratos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.historial.contratos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_historial_contratos_tree"/>
+        </record>
+
+        <!--TODO: L SPRING 12 GAP 84-->
+        <menuitem id="menu_grp_historial_contratos" name="Historial de contratos" sequence="10" parent="menu_prov_cont"
+                  action="action_grp_historial_contratos"/>
+    </data>
+</openerp>

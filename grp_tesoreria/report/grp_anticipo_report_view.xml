@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: L SPRING 12 GAP 479 -->
+<openerp>
+    <data>
+        <record id="view_grp_anticipos_report_search" model="ir.ui.view">
+            <field name="name">grp.anticipos.report.search</field>
+            <field name="model">grp.anticipos.report</field>
+            <field name="arch" type="xml">
+                <search string="Trazabilidad anticipo de fondos">
+                    <field name="solicitud_anticipo_id"/>
+                    <field name="sa_user_uid"/>
+                    <field name="sa_fecha_ingreso"/>
+                    <field name="sa_aprobador_id"/>
+                    <field name="sa_operating_unit_id"/>
+                    <field name="sa_currency_id"/>
+                    <field name="sa_state"/>
+
+                    <field name="anticipo_fondo_id"/>
+                    <field name="af_fecha_aprobacion_pago"/>
+                    <field name="af_date"/>
+                    <field name="af_state"/>
+
+                    <field name="rendicion_anticipo_id"/>
+                    <field name="ra_entry_date"/>
+                    <field name="ra_name"/>
+                    <field name="ra_state"/>
+
+                    <field name="devolucion_anticipo_id"/>
+                    <field name="da_fecha_aprobacion_pago"/>
+                    <field name="da_date"/>
+                    <field name="da_state"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_grp_anticipos_report_graph" model="ir.ui.view">
+            <field name="name">grp.anticipos.report.graph</field>
+            <field name="model">grp.anticipos.report</field>
+            <field name="arch" type="xml">
+                <graph string="Trazabilidad anticipo de fondos" type="pivot" stacked="True">
+                    <field name="solicitud_anticipo_id"/>
+                    <field name="sa_amount_total" type="measure"/>
+                    <field name="ra_amount" type="measure"/>
+                    <field name="ra_diferencia" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="view_grp_anticipos_report_tree" model="ir.ui.view">
+            <field name="name">grp.anticipos.report.tree</field>
+            <field name="model">grp.anticipos.report</field>
+            <field name="arch" type="xml">
+                <tree string="Trazabilidad anticipo de fondos">
+                    <field name="solicitud_anticipo_id"/>
+                    <field name="sa_user_uid"/>
+                    <field name="sa_fecha_ingreso"/>
+                    <field name="sa_aprobador_id"/>
+                    <field name="sa_operating_unit_id"/>
+                    <field name="sa_currency_id"/>
+                    <field name="sa_state"/>
+                    <field name="sa_amount_total"/>
+
+                    <field name="anticipo_fondo_id"/>
+                    <field name="af_fecha_aprobacion_pago"/>
+                    <field name="af_date"/>
+                    <field name="af_state"/>
+
+                    <field name="rendicion_anticipo_id"/>
+                    <field name="ra_entry_date"/>
+                    <field name="ra_name"/>
+                    <field name="ra_amount"/>
+                    <field name="ra_diferencia"/>
+                    <field name="ra_state"/>
+
+                    <field name="devolucion_anticipo_id"/>
+                    <field name="da_fecha_aprobacion_pago"/>
+                    <field name="da_date"/>
+                    <field name="da_state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_grp_anticipos_report_all" model="ir.actions.act_window">
+            <field name="name">Trazabilidad anticipo de fondos</field>
+            <field name="res_model">grp.anticipos.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+        </record>
+
+        <menuitem action="action_grp_anticipos_report_all"
+                  name="Trazabilidad anticipo de fondos"
+                  id="menu_grp_anticipos_report" parent="menu_anticipos_fondos" sequence="5"
+                  groups="grp_viaticos.grp_aprobar_rendicion_f"/>
+
+    </data>
+</openerp>

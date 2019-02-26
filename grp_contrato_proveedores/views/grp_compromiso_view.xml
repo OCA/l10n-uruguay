@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 12 GAP 205-->
+        <record id="view_grp_compromiso_form" model="ir.ui.view">
+            <field name="name">view.grp.compromiso.form</field>
+            <field name="model">grp.compromiso</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="grp_factura_siif.view_grp_compromiso_form"/>
+            <field name="arch" type="xml">
+                <div name="buttons" position="inside">
+                    <button type="object" name="abrir_contratos_form_view" class="oe_inline oe_stat_button"
+                            icon="fa-users" style="white-space: normal;" string="Contratos"
+                            attrs="{'invisible': [('contrato_id','=',False)]}"
+                            groups="grp_contrato_proveedores.group_grp_convenios"/>
+                </div>
+                <xpath expr="//field[@name='pedido_compra_id']" position="after">
+                    <field name="contrato_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

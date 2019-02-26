@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+		<!--Extension de la vista lista de Atributos -->
+		<record id="attribute_tree_view_inh" model="ir.ui.view">
+			<field name="name">product.attribute.tree.inh</field>
+			<field name="model">product.attribute</field>
+			<field name="inherit_id" ref="product.attribute_tree_view"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="dimension_sice" invisible="1" readonly="1"/>
+					<field name="sice_propiedad_id" invisible="1" readonly="1"/>
+					<field name="sice_propiedad_cod" invisible="1" readonly="1"/>
+				</field>
+			</field>
+		</record>
+
+		<record id="product.attribute_action" model="ir.actions.act_window">
+            <field name="name">Attributes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.attribute</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('dimension_sice','=',False)]</field>
+        </record>
+
+        <record id="product.variants_action" model="ir.actions.act_window">
+            <field name="name">Attribute Values</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.attribute.value</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('attribute_id.dimension_sice','=',False)]</field>
+        </record>
+
+
+		<!-- Inicio 002 PCAR -->
+		<record id="grp_product_template_only_form_inherited" model="ir.ui.view">
+			<field name="name">grp.product.template.only.form.inherited</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view"/>
+			<field name="arch" type="xml">
+                <button string="Variant Prices" position="attributes">
+                    <attribute name="invisible">context.get('from_articulo_sice', False)</attribute>
+                </button>
+                <button name="%(product.product_variant_action)d" position="attributes">
+                    <attribute name="invisible">context.get('from_articulo_sice', False)</attribute>
+                </button>
+                <field name="name" position="attributes">
+                    <attribute name="readonly">context.get('from_articulo_sice', 0)</attribute>
+                </field>
+				<xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='attribute_id']"
+					   position="attributes">
+					<attribute name="attrs">{'readonly': [('solo_lectura','=',True)]}</attribute>
+					<attribute name="domain">[('dimension_sice', '=', False)]</attribute>
+					<attribute name="options">{'no_create': True}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='value_ids']"
+					   position="attributes">
+					<attribute name="attrs" >{'readonly': [('solo_lectura','=',True)]}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='value_ids']"
+					   position="after">
+					<field name="solo_lectura" invisible="1"/>
+				</xpath>
+                <xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='value_ids']"
+					   position="attributes">
+					<attribute name="options">{'no_create': True}</attribute>
+				</xpath>
+				<label for="name" position="before">
+                        <div invisible="not context.get('from_articulo_sice',False)">
+                            <button
+                                    name="crear_producto_grp"
+                                    type="object"
+                                    string="Crear Producto con variante"
+                                    class="oe_highlight"
+                                    context="{'creacion_inicial': False}"
+                                    />
+                            <label string="o"/>
+                            <button
+                                    name=""
+                                    type="object"
+                                    string="Descartar"
+                                    special="cancel"
+                                    class="oe_link"
+                                    />
+                            <hr size="1" style="color: #dddddd;"/>
+                            <separator/>
+                        </div>
+                    </label>
+                    <page name="variants" position="after">
+                        <page name="variantes_a_crear" string="Variantes a crear" invisible="context.get('cargar_variantes', True)">
+                            <button name="cargar_combinaciones" type="object" string="Actualizar combinaciones"
+                                    context="{'cargar_combinaciones': True}" invisible="not context.get('from_articulo_sice',False)"/>
+                            <field name="seleccion_variantes_ids" widget="one2many_list">
+                                <tree string="Combinaciones para crear" delete="0" create="0" editable="bottom" >
+                                    <field name="product_id" invisible="1" />
+                                    <field name="para_crear" attrs="{'readonly': [('creado','=',True)]}" />
+                                    <field name="creado" readonly="1" />
+                                    <field name="sice_color_desc" readonly="1"/>
+                                    <field name="med_cod_desc" readonly="1"/>
+                                    <field name="pres_desc" readonly="1"/>
+                                    <field name="med_cod_pres_desc" readonly="1"/>
+                                    <field name="det_variante_desc" readonly="1"/>
+                                    <field name="marca_desc" readonly="1"/>
+                                    <field name="valor_name" readonly="1"/>
+
+                                    <field name="med_cod_id" invisible="1" readonly="1"/>
+                                    <field name="pres_id" invisible="1" readonly="1"/>
+                                    <field name="med_cod_pres_id" invisible="1" readonly="1"/>
+                                    <field name="det_variante_id" invisible="1" readonly="1"/>
+                                    <field name="sice_color_id" invisible="1" readonly="1"/>
+                                    <field name="valor_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </page>
+			</field>
+		</record>
+
+        <record model="ir.ui.view" id="product_template_form_view_procurement_button_inherited">
+            <field name="name">product.template_procurement_inherited</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+            <!--<field name="inherit_id" ref="product.product_template_only_form_view"/>-->
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="invisible">context.get('from_articulo_sice', False)</attribute>
+                </xpath>
+                <!--<xpath expr="//div[@name='buttons']" position="inside">-->
+                   <!--<button class="oe_stat_button"-->
+                           <!--name="action_open_quants"-->
+                           <!--icon="fa-building-o"-->
+                           <!--type="object"  attrs="{'invisible':[('type', '=', 'service')]}" groups="stock.group_locations">-->
+                   <!--<div><field name="qty_available_text"/></div>-->
+                   <!--</button>-->
+                   <!--<button class="oe_inline oe_stat_button" string="Moves" name= "action_view_stock_moves" type="object" attrs="{'invisible':[('type', '=', 'service')]}" groups="stock.group_stock_user" icon="fa-arrows-v"/>-->
+                   <!--<button class="oe_inline oe_stat_button" name="action_view_orderpoints" type="object" -->
+                        <!--attrs="{'invisible':[('type', '=', 'service')]}" icon="fa-refresh" string="Reordering Rules"/>-->
+                   <!--<button class="oe_inline oe_stat_button" name="action_view_routes" string="Routes" type="object" icon="fa-cogs" attrs="{'invisible':[('type', '=', 'service')]}" />-->
+                <!--</xpath>-->
+            </field>
+        </record>
+
+
+		<!--product.product_normal_form_view-->
+        <record id="grp_sice_product_normal_form_view_inherited" model="ir.ui.view">
+			<field name="name">grp.sice.product.normal.form.view.inherited</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view"/>
+			<field name="arch" type="xml">
+				<field name="attribute_value_ids" position="before">
+                    <field name="attribute_id" readonly="1"/>
+                </field>
+                <page name="sales" position="after">
+                    <page name="atributos_sice" string="Atributos SICE">
+                        <group name="general">
+                            <field name="es_admin" invisible="1"/>
+                            <field name="med_cod_id"
+                                    attrs="{'readonly': [('es_admin', '!=', True)]}"/>
+                            <field name="pres_id"
+                                    attrs="{'readonly': [('es_admin', '!=', True)]}"/>
+                            <field name="med_cod_pres_id"
+                                    attrs="{'readonly': [('es_admin', '!=', True)]}"/>
+                            <field name="det_variante_id"
+                                    attrs="{'readonly': [('es_admin', '!=', True)]}"/>
+                            <field name="sice_color_id"
+                                    attrs="{'readonly': [('es_admin', '!=', True)]}"/>
+                        </group>
+                    </page>
+                </page>
+			</field>
+		</record>
+		<!-- fin 002 PCAR -->
+
+        <record id="product.menu_attribute_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_sale_manager'))]"/>
+        </record>
+        <record id="product.menu_variants_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_sale_manager'))]"/>
+        </record>
+        <record id="product.prod_config_main" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_sale_manager'))]"/>
+        </record>
+    </data>
+</openerp>

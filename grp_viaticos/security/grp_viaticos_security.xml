@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!-- ROLES PARA LA SOLICITUD DE VIATICOS -->
+        <record id="category_grp_viaticos" model="ir.module.category">
+            <field name="name">GRP - Viáticos</field>
+            <field name="sequence">0</field>
+        </record>
+
+        <record id="grp_sv_ingresa_monto" model="res.groups">
+            <field name="name">SV Ingresa monto</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <!--<field name="implied_ids" eval="[(4,ref('grp_compras_estatales.grp_menu_compras_estatales'))]"/>-->
+        </record>
+
+        <record id="grp_sv_solicitante" model="res.groups">
+            <field name="name">Solicitante viaje</field><!--TODO: SPRING 11 GAP 24 L-->
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <field name="implied_ids" eval="[(4,ref('grp_viaticos.grp_sv_ingresa_monto'))]"/>
+        </record>
+
+        <record id="grp_sv_solicitantesuperior" model="res.groups">
+            <field name="name">SV Solicitante superior</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <field name="implied_ids" eval="[(4,ref('grp_viaticos.grp_sv_solicitante'))]"/>
+        </record>
+
+        <record id="grp_rv_solicitantesuperior" model="res.groups">
+            <field name="name">RV Solicitante superior</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <field name="implied_ids" eval="[(4,ref('grp_viaticos.grp_sv_solicitante'))]"/>
+        </record>
+
+        <record id="grp_sv_autoriza" model="res.groups">
+            <field name="name">Autorizar viaje</field><!--TODO: SPRING 11 GAP 24 L-->
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <!--<field name="implied_ids" eval="[(4,ref('grp_compras_estatales.grp_menu_compras_estatales'))]"/>-->
+        </record>
+
+        <!--TODO: SPRING 11 GAP 24 L-->
+        <record id="grp_sv_aprobar_viaje" model="res.groups">
+            <field name="name">Aprobar viaje</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+        </record>
+
+        <record id="grp_sv_autorizar_financiero" model="res.groups">
+            <field name="name">Autorizar financiero</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+        </record>
+
+	<!--TODO: SPRING 11 GAP 25 K-->
+        <record id="grp_configurador viatico" model="res.groups">
+            <field name="name">Configurador viático</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K-->
+        <record id="grp_aprobar_rendicion" model="res.groups">
+            <field name="name">Aprobar rendición</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+        </record>
+
+        <record id="grp_autorizar_rendicion" model="res.groups">
+            <field name="name">Autorizar rendición</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+            <field name="implied_ids" eval="[(4,ref('grp_viaticos.grp_aprobar_rendicion'))]"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K-->
+        <record id="grp_aprobar_rendicion_f" model="res.groups">
+            <field name="name">Aprobar rendición financiero</field>
+            <field name="category_id" ref="category_grp_viaticos"/>
+        </record>
+
+        <!-- PCAR 08 03 2017 Inicio -->
+        <record id="rule_grp_analista_contable_expense" model="ir.rule">
+            <field name="name">Analista Contable Expense</field>
+            <field name="model_id" ref="hr_expense.model_hr_expense_expense"/>
+            <field name="groups" eval="[(4,ref('grp_seguridad.grp_analista_contable'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+        <!-- PCAR 08 03 2017 Fin -->
+
+    </data>
+</openerp>

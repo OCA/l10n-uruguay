@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: C SPRING 13 GAP_365_367_368-->
+        <record id="grp_cantidad_viajes_periodo_report_tree_view" model="ir.ui.view">
+            <field name="name">grp.cantidad.viajes.periodo.report.tree</field>
+            <field name="model">grp.cantidad.viajes.periodo.report</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cantidad de viajes por período" create="false" delete="false" edit="false">
+                    <field name="driver_id"/>
+                    <field name="travel_date"/>
+                    <field name="employee_id"/>
+                    <field name="target"/>
+                    <field name="cantidad_viaje"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="grp_cantidad_viajes_periodo_report_search_view" model="ir.ui.view">
+            <field name="name">grp.cantidad.viajes.periodo.report.filter</field>
+            <field name="model">grp.cantidad.viajes.periodo.report</field>
+            <field name="arch" type="xml">
+                <search string="Cantidad de viajes por período">
+                    <field name="driver_id"/>
+                    <field name="employee_id"/>
+                    <field name="target"/>
+                    <field name="travel_date" operator="&gt;=" string="Mayor igual que"/>
+                    <field name="travel_date" operator="&lt;=" string="Menor igual que"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Chofer" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'driver_id'}"/>
+                        <filter string="Solicitante" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'employee_id'}"/>
+                        <filter string="Destino" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'target'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_grp_cantidad_viajes_periodo_report" model="ir.actions.act_window">
+            <field name="name">Reporte cantidad de viajes por período</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.cantidad.viajes.periodo.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="grp_cantidad_viajes_periodo_report_tree_view"/>
+            <field name="search_view_id" ref="grp_cantidad_viajes_periodo_report_search_view"/>
+        </record>
+
+        <menuitem id="menu_cantidad_viajes_periodo_report" sequence="10"
+                  parent="fleet.fleet_vehicles"
+                  action="action_grp_cantidad_viajes_periodo_report"
+                  groups="fleet.group_fleet_manager"/>
+
+    </data>
+</openerp>

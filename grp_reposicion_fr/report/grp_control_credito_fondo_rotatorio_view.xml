@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="view_grp_control_credito_fondo_rotarios_tree" model="ir.ui.view">
+            <field name="name">grp.control.credito.fondo.rotarios.tree</field>
+            <field name="model">grp.control.credito.fondo.rotarios</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Control de crédito de Fondo rotatorio" create="false" delete="false" editable="bottom">
+                    <field name="nro_afectacion" readonly="1"/>
+                    <field name="date_invoice" readonly="1"/>
+                    <field name="siif_descripcion" readonly="1"/>
+                    <field name="ue_siif_id" readonly="1"/>
+                    <field name="odg_id" readonly="1"/>
+                    <field name="auxiliar_id" readonly="1"/>
+                    <field name="fin_id" readonly="1"/>
+                    <field name="programa_id" readonly="1"/>
+                    <field name="proyecto_id" readonly="1"/>
+                    <field name="mon_id" readonly="1"/>
+                    <field name="tc_id" readonly="1"/>
+                    <field name="procesado"/>
+                    <field name="fecha_procesado"/>
+                </tree>
+            </field>
+        </record>
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="action_grp_control_credito_fondo_rotarios" model="ir.actions.act_window">
+            <field name="name">Control de crédito de Fondo rotatorio</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.control.credito.fondo.rotarios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_control_credito_fondo_rotarios_tree"/>
+        </record>
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <menuitem id="menu_grp_control_credito_fondo_rotarios" name="Control de crédito de Fondo rotatorio" sequence="03"
+                  parent="menu_grp_reposicion_fondo_rotatorio"
+                  action="action_grp_control_credito_fondo_rotarios"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras,grp_tesoreria.group_grp_restringir_ctas_pagar_ue,grp_tesoreria.group_grp_consultar_ctas_pagar_ue"/>
+
+    </data>
+</openerp>

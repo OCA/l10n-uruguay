@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_audit_tracked_fields" name="Fields tracking"
+            parent="base.menu_reporting" sequence="50" groups="base.group_erp_manager"/>
+
+        <record model="ir.ui.view" id="view_audit_tracked_fields_rule_form">
+            <field name="name">audit.tracked_fields.rule.form</field>
+            <field name="model">audit.tracked_fields.rule</field>
+            <field name="arch" type="xml">
+                <form string="Configuration">
+                    <sheet>
+                        <group string="Configure tracking fields">
+                            <field name="model_id" options="{'no_create': 1, 'no_quick_create': 1}" style="width:40%%"/>
+                            <field name="model"/>
+                            <field name="field_ids" options="{'no_create': 1, 'no_quick_create': 1}" widget="many2many_tags"/>
+                            <field name="state" invisible="1"/>
+                            <field name="log_create" invisible="1"/>
+                            <field name="log_write" invisible="1"/>
+                            <field name="log_unlink" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_audit_tracked_fields_rule_tree">
+            <field name="name">audit.tracked_fields.rule.tree</field>
+            <field name="model">audit.tracked_fields.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Configurations">
+                    <field name="model_id"/>
+                    <field name="model"/>
+                    <field name="field_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_audit_tracked_fields_rule_search" model="ir.ui.view">
+            <field name="name">audit.tracked_fields.rule.search</field>
+            <field name="model">audit.tracked_fields.rule</field>
+            <field name="arch" type="xml">
+                <search string="Configurations">
+                    <field name="model_id"/>
+                    <field name="field_ids"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_audit_tracked_fields_rule" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="res_model">audit.tracked_fields.rule</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_audit_tracked_fields_rule_search"/>
+        </record>
+
+        <menuitem id="menu_audit_tracked_fields_rule" parent="menu_audit_tracked_fields" action="action_audit_tracked_fields_rule" sequence="5" />
+
+        <record id="view_audit_tracked_fields_log_tree" model="ir.ui.view">
+            <field name="name">audit.tracked_fields.log.tree</field>
+            <field name="model">audit.tracked_fields.log</field>
+            <field name="arch" type="xml">
+                <tree string="Logs" create="false" edit="false" delete="true">
+                    <field name="model_id"/>
+                    <field name="name"/>
+                    <field name="field_id" />
+                    <field name="create_date" string="Change Date"/>
+                    <field name="user_id"/>
+                    <field name="old_value_text" />
+                    <field name="new_value_text" />
+                    <field name="elapsed_time_computed" widget="float_time" />
+                    <field name="elapsed_time_set" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_audit_tracked_fields_log_form" model="ir.ui.view">
+            <field name="name">audit.tracked_fields.log.form</field>
+            <field name="model">audit.tracked_fields.log</field>
+            <field name="arch" type="xml">
+                <form string="Log" create="false" edit="false" delete="true">
+                    <sheet>
+                        <group string="Log">
+                            <group colspan="1">
+                                <label for="name" />
+                                <div>
+                                    <field name="name" readonly="1" nolabel="1" class="oe_inline" />
+                                    <button string="Go to record" type="object" name="open_related_record" icon="terp-gtk-jump-to-ltr" class="oe_inline" />
+                                </div>
+                                <field name="create_date" string="Change Date" readonly="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <label for="model_id" />
+                                <div>
+                                    <field name="model_id" readonly="1" nolabel="1" class="oe_inline" />
+                                    ( <field name="model" class="oe_inline" readonly="1"/> )
+                                </div>
+                            </group>
+                            <group colspan="1">
+                                <label for="field_id" />
+                                <div>
+                                    <field name="field_id" readonly="1" nolabel="1" class="oe_inline" />
+                                    ( <field name="field_name" class="oe_inline" readonly="1"/> )
+                                </div>
+                                <field name="old_value" readonly="1"/>
+                                <field name="new_value" readonly="1"/>
+                                <field name="old_value_text" readonly="1"/>
+                                <field name="new_value_text" readonly="1"/>
+                                <field name="elapsed_time_computed" widget="float_time" readonly="1"/>
+                            </group>
+                            <separator string="Description" style="font-size: 16px;"/>
+                            <field name="description" readonly="1" nolabel="1" colspan="4" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_audit_tracked_fields_log_graph" model="ir.ui.view">
+            <field name="name">audit.tracked_fields.log.graph</field>
+            <field name="model">audit.tracked_fields.log</field>
+            <field name="arch" type="xml">
+                <graph string="Tracking Fields Logs" type="pivot" stacked="True">
+                    <field name="model_id" type="row"/>
+                    <field name="name" type="row"/>
+                    <field name="field_id" type="row"/>
+                    <field name="new_value_text" type="row"/>
+                    <field name="elapsed_time" type="measure" string="Elapsed Time in hours"/>
+                </graph>
+            </field>
+        </record>
+
+       <record id="view_audit_tracked_fields_log_search" model="ir.ui.view">
+            <field name="name">audit.tracked_fields.log.search</field>
+            <field name="model">audit.tracked_fields.log</field>
+            <field name="arch" type="xml">
+                <search string="Logs">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="field_id"/>
+                    <field name="user_id"/>
+                    <field name="new_value" />
+                    <filter name="filter_log_fields" string="Logs create/update" domain="[('field_id','!=',False)]" />
+                    <group string="Group By...">
+                        <filter name="group_by_model_id"
+                            string="Model"
+                            domain="[]" context="{'group_by':'model_id'}"/>
+                        <filter name="group_by_res"
+                            string="Resource Name"
+                            domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_by_field_id"
+                            string="Field"
+                            domain="[]" context="{'group_by':'field_id'}"/>
+                        <filter name="group_by_new_value"
+                            string="Value"
+                            domain="[]" context="{'group_by':'new_value_text'}"/>
+                        <filter name="group_by_user_id"
+                            string="User"
+                            domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter name="group_by_date"
+                            string="Change Date"
+                            domain="[]" context="{'group_by':'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_audit_tracked_fields_log">
+            <field name="name">Logs</field>
+            <field name="res_model">audit.tracked_fields.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="search_view_id" ref="view_audit_tracked_fields_log_search"/>
+            <field name="context">{'search_default_filter_log_fields': True, 'format_elapsed_time': True}</field>
+        </record>
+
+        <menuitem id="menu_audit_tracked_fields_log" name="Logs"
+            parent="menu_audit_tracked_fields" action="action_audit_tracked_fields_log" sequence="10" />
+
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:
+-->
+<openerp>
+    <data>
+        <template id="web_custom_group_by_assets_backend" name="web_custom_group_by assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/search_view_custom_group/static/src/css/custom_group_by.css" />
+                <script type="text/javascript" src="/search_view_custom_group/static/src/js/custom_group_by.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

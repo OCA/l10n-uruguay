@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: L SPRING 12 GAP 479 -->
+<openerp>
+    <data>
+        <record id="view_grp_recaudacion_report_graph" model="ir.ui.view">
+            <field name="name">grp.recaudacion.report.graph</field>
+            <field name="model">grp.recaudacion.report</field>
+            <field name="arch" type="xml">
+                <graph string="Recaudación" type="pivot" stacked="True">
+                    <field name="payment_method"/>
+                    <field name="price_subtotal" type="measure"/>
+                    <field name="companycurrency_amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="view_grp_recaudacion_report_tree" model="ir.ui.view">
+            <field name="name">grp.recaudacion.report.tree</field>
+            <field name="model">grp.recaudacion.report</field>
+            <field name="arch" type="xml">
+                <tree string="Recaudación">
+                    <field name="payment_method"/>
+                    <field name="price_subtotal"/>
+                    <field name="companycurrency_amount"/>
+                    <field name="fecha_cobro"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_recaudacion_report_search" model="ir.ui.view">
+            <field name="name">grp.recaudacion.report.search</field>
+            <field name="model">grp.recaudacion.report</field>
+            <field name="arch" type="xml">
+                <search string="Recaudación">
+                    <field name="fecha_cobro"/>
+                    <filter name="state" string="Revisado" domain="[('state', '=' ,'checked')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_grp_recaudacion_report_all" model="ir.actions.act_window">
+            <field name="name">Recaudación</field>
+            <field name="res_model">grp.recaudacion.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree</field>
+            <field name="context">{'search_default_state':1,'group_by':[]}</field>
+            <field name="search_view_id" ref="view_grp_recaudacion_report_search"/>
+        </record>
+
+        <menuitem id="grp_tesoreria_report" name="Tesorería" parent="base.menu_reporting" sequence="50"/>
+        <menuitem action="action_grp_recaudacion_report_all"
+                  id="menu_grp_recaudacion_report" parent="grp_tesoreria_report" sequence="1"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_cajero_recaudador,grp_tesoreria.group_grp_cajero_verificador"/>
+
+    </data>
+</openerp>

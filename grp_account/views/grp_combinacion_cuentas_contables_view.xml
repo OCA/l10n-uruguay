@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista: Combinaciones válidas -->
+        <record id="combinaciones_contables_view_tree" model="ir.ui.view">
+            <field name="name">view.combinaciones.contables.tree</field>
+            <field name="model">grp.combinaciones_contables</field>
+            <field name="arch" type="xml">
+                <tree string="Combinaciones válidas">
+                    <field name="name"/>
+                    <field name="cuenta_contable_id"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form: Combinaciones válidas -->
+        <record id="combinaciones_contables_view_form" model="ir.ui.view">
+            <field name="name">view.combinaciones_contables.form</field>
+            <field name="model">grp.combinaciones_contables</field>
+
+            <field name="arch" type="xml">
+                <form string="Combinaciones válidas">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="cuenta_contable_id" />
+
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                           <field name="unidad_organizativa_ids" />
+                           <field name="cuenta_analitica_ids" />
+                           <field name="dimension_multiproposito_ids"  />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista search: Combinaciones válidas -->
+        <record model="ir.ui.view" id="view_combinaciones_contables_search">
+            <field name="name">combinaciones_contables_search</field>
+            <field name="model">grp.combinaciones_contables</field>
+            <field name="arch" type="xml">
+               <search string="Combinaciones válidas">
+                <field name="name"/>
+                <field name="cuenta_contable_id" />
+                <field name="unidad_organizativa_ids" />
+                <field name="cuenta_analitica_ids" />
+                <field name="dimension_multiproposito_ids" />
+                <group expand="1" string="Agrupado por">
+                    <filter name ="group_cuenta_contable_id" string="Cuenta contable"  domain="[]" context="{'group_by':'cuenta_contable_id'}"/>
+                </group>
+               </search>
+            </field>
+        </record>
+
+        <!--Acción: Combinaciones contables
+        Vistas tree, form
+        (N): Contabilidad/Configuracion/Contabilidad analítica/Combinaciones válidas -->
+        <record id="action_account_combinaciones_contables_form" model="ir.actions.act_window">
+            <field name="name">Combinaciones válidas</field>
+            <field name="res_model">grp.combinaciones_contables</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_group_cuenta_contable_id': 1}</field>
+        </record>
+
+        <!-- Menú: Combinaciones válidas
+        (N): Contabilidad/Configuracion/Contabilidad analítica/Combinaciones válidas -->
+        <menuitem name="Combinaciones válidas" id="account_def_combinaciones_contables" parent="account.menu_analytic_accounting" action="action_account_combinaciones_contables_form" sequence="20"/>
+    </data>
+</openerp>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_config_settings_advance_inherited" model="ir.ui.view">
+            <field name="name">view.account.settings.advance.inherited</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <field name="expense_currency_exchange_account_id" position="after">
+                    <field name="supplier_advance_account_id"/>
+                    <field name="customer_advance_account_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

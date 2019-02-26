@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_expenses_form" model="ir.ui.view">
+            <field name="name">grp.hr.expense.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="priority" eval="1"/> <!--TODO: M SPRING 14 GAP 29_31-->
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="flag_adelanto"/>
+                    <field name="adelanto" attrs="{'invisible':[('solicitud_viatico_id','=',False)]}" readonly="1"
+                    options="{'save_readonly':True}"/>
+                    <field name="paid_date" attrs="{'invisible':[('flag_adelanto','=',False)]}"/>
+                </field>
+                <field name="employee_id" position="after">
+                    <field name="solicitud_viatico_id" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                </field>
+                <field name="user_valid" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+
+                <button string="Refuse" position="attributes">
+                    <attribute name="groups">base.group_hr_user,grp_seguridad.grp_analista_contable</attribute>
+                </button>
+                <!-- PCAR 08 03 2017 Fin -->
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <button name="confirm" position="attributes">
+                    <attribute name="string">Enviar a aprobar</attribute>
+                    <attribute name="groups">base.group_user</attribute>
+                </button>
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <button name="validate" position="attributes">
+                    <attribute name="groups">grp_viaticos.grp_aprobar_rendicion</attribute>
+                </button>
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <button name="validate" position="after">
+                    <button name="action_autorizar" states="en_autorizacion" string="Autorizar" type="object" groups="grp_viaticos.grp_autorizar_rendicion" class="oe_highlight"/>
+                    <button name="confirmar" states="en_financiero" string="Confirmar" type="workflow" groups="grp_viaticos.grp_aprobar_rendicion_f" class="oe_highlight"/>
+                    <button name="refuse_f" states="en_financiero" string="Refuse" type="workflow" groups="grp_viaticos.grp_aprobar_rendicion_f"/>
+                    <button name="action_refuse2draft" states="cancelled" string="Cambiar a borrador" type="object" groups="grp_viaticos.grp_aprobar_rendicion,grp_viaticos.grp_aprobar_rendicion_f"/>
+                </button>
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <button name="refuse" position="attributes">
+                    <attribute name="states">confirm,en_autorizacion</attribute>
+                    <attribute name="groups">grp_viaticos.grp_aprobar_rendicion</attribute>
+                </button>
+                <button string="Generate Accounting Entries" position="replace">
+                    <button name="cancelar" states="autorizado,paid" string="Cancelar" type="workflow" groups="base.group_user"/>
+                    <button name="action_move_create" states="autorizado" string="Generate Accounting Entries"
+                            attrs="{'invisible':['|',('show_move_line_button','=',False)]}"
+                            type="object" groups="grp_viaticos.grp_aprobar_rendicion_f" class="oe_highlight"/>
+                </button>
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <button name="draft" position="replace"/>
+                    <!--<button name="draft" states="cancelled" string="Set to Draft" type="workflow" groups="grp_viaticos.grp_aprobar_rendicion,grp_viaticos.grp_aprobar_rendicion_f"/>-->
+                    <!--<button name="draft_cancelado" states="cancelado" string="Set to Draft" type="workflow" groups="base.group_user"/>-->
+                <!--</button>-->
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirm,en_autorizacion,en_financiero,autorizado,cancelled,cancelado,paid</attribute>
+                </field>
+
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <field name="department_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <xpath expr="/form/sheet/group" position="before">
+                    <div class="oe_title">
+                        <h1>
+                            <!--28/12/2018 ASM renombrar sequence (nombre reservado) a x_sequence-->
+                            <!--<field name="sequence" readonly="1"/>-->
+                            <field name="x_sequence" readonly="1"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <field name="employee_id" position="attributes">
+                    <attribute name="domain">[('user_id.default_operating_unit_id','=',user_operating_unit_id)]</attribute>
+                    <attribute name="attrs">{'readonly': ['|',('instance_editable','=',False),('solicitante_editable','=',False)]}</attribute>
+                    <attribute name="string">Solicitante</attribute>
+                    <attribute name="options">{'no_create_edit': true, 'no_quick_create': true }</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="attrs">{'readonly': [('instance_editable','=',False)]}</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly': [('instance_editable','=',False)]}</attribute>
+                </field>
+                <field name="currency_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="options">{'save_readonly':True}</attribute>
+                </field>
+
+                <xpath expr="/form/sheet/group" position="after">
+                    <group string="Viático"> <!--TODO: M SPRING 14 GAP 29_31-->
+                        <group>
+                            <field name="user_operating_unit_id" invisible="1"/>
+                            <field name="instance_editable" invisible="1"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="solicitante_editable" invisible="1"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="tipo" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="motivo_viaje" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="destino" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="operating_unit_id" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                            <field name="department_id" string="Unidad organizativa" readonly="1" />
+                            <field name="categoria" readonly="1" options="{'save_readonly':True}" required="1"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="requiere_alojamiento" invisible="1"
+                                       attrs="{'readonly': [('state','not in',['draft','confirm','en_autorizacion','en_financiero'])]}"/>
+                        </group>
+                        <group>
+                            <field name="fecha_desde" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="fecha_hasta" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="lugar_partida" required="1" attrs="{'readonly': [('instance_editable','=',False)]}"/> <!--TODO: M SPRING 14 GAP 29_31-->
+                            <field name="tipo_locomocion" attrs="{'readonly': [('instance_editable','=',False)],'required':[('tipo','=','interior')]}"/>
+                            <field name="voucher" attrs="{'invisible':[('tipo_locomocion','!=','bus')], 'required':[('tipo_locomocion','=','bus')],'readonly': [('instance_editable','=',False)]}"/>
+                            <field name="matricula" attrs="{'invisible':[('tipo_locomocion','!=','locomocion_propia')],'readonly': [('instance_editable','=',False)]}"/>
+                            <field name="km_recorrer" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                            <field name="km_recorrer_cmp" attrs="{'invisible':[('tipo_locomocion', 'not in',['locomocion_propia'])], 'required':[('tipo_locomocion', 'in',['locomocion_propia'])],'readonly': [('instance_editable','=',False)]}"/>
+                            <field name="tipo_cambio"/>
+                            <field name="show_move_line_button" invisible="1"/>
+                            <field name="edit_lines" invisible="1"/>
+                            <field name="config_importe_viatico_id" options="{'save_readonly':True}" invisible="1"/>
+                            <field name="config_complemento_viatico_id" options="{'save_readonly':True}" invisible="1"/>
+                            <field name="locomocion_propia_id" options="{'save_readonly':True}" invisible="1"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('edit_lines','=',False)]}</attribute>
+                    <attribute name="context">{'edit_lines': edit_lines}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']" position="before">
+                    <button name="action_generar_lineas" states="draft" string="Actualizar" type="object"
+                    />
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='date_value']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='ref']" position="after">
+                    <field name="company"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='uom_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='unit_amount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='unit_quantity']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='unit_quantity']" position="after">
+                    <field name="horas"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='total_amount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='total_amount']" position="after">
+                    <field name="edit_lines" invisible="1"/>
+                    <field name="total" attrs="{'readonly':[('edit_lines','=',False)],'required': [('edit_lines','=',True)]}"/>
+                    <field name="total_init"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="receipt_date"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('edit_lines','=',False)],'required': [('edit_lines','=',True)]}</attribute>
+                </xpath>
+                <field name="amount" position="after">
+                    <field name="diferencia" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Múltiples destinos" name="page_rendicion_multi">
+                        <field name="rendicion_multi" nolabel="1">
+                            <tree string="Múltiples destinos" editable="bottom">
+                                <field name="origen"/>
+                                <field name="destino"/>
+                                <field name="fecha_desde"/>
+                                <field name="fecha_hasta"/>
+                                <field name="rendicion_viatico_id" invisible="1"/>
+                            </tree>
+                            <form string="Múltiples destinos">
+                                <field name="origen"/>
+                                <field name="destino"/>
+                                <field name="fecha_desde"/>
+                                <field name="fecha_hasta"/>
+                                <field name="rendicion_viatico_id" invisible="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="grp_hr_expense_form_tree_rendicion" model="ir.ui.view">
+            <field name="name">grp.hr.expense.tree</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='employee_id']" position="attributes">
+                    <attribute name="string">Solicitante</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- PCAR 08 03 2017 Inicio -->
+        <menuitem id="hr_expense.next_id_49" name="Expenses" sequence="15" parent="hr.menu_hr_root"
+                groups="grp_seguridad.grp_analista_contable" />
+        <menuitem action="hr_expense.expense_all" id="hr_expense.menu_expense_all" name="Expenses"
+                parent="hr_expense.next_id_49"
+                groups="grp_seguridad.grp_analista_contable" />
+
+        <!--TODO: SPRING 11 GAP 318 K-->
+        <delete model="ir.ui.menu"
+            search="[('name','=','Gastos'),('parent_id','=','Capital humano')]" />
+
+        <record id="expense_all_1" model="ir.actions.act_window">
+            <field name="name">Rendición de Viáticos</field>
+            <field name="res_model">hr.expense.expense</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('doc_type','=','rendicion_viatico')]</field>
+            <field name="context">{'default_doc_type': 'rendicion_viatico'}</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses.
+              </p><p>
+                Odoo will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record id="expense_all_1_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="act_window_id" ref="expense_all_1"/>
+        </record>
+
+        <record id="expense_all_1_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_viaticos.view_expenses_form"/>
+            <field name="act_window_id" ref="expense_all_1"/>
+        </record>
+
+        <menuitem action="expense_all_1" id="menu_expense_all_1" name="Rendición de Viáticos"
+                parent="grp_compras_estatales.menu_sr_main"
+                groups="grp_seguridad.grp_analista_contable,grp_viaticos.grp_sv_solicitante,grp_viaticos.grp_aprobar_rendicion,grp_viaticos.grp_aprobar_rendicion_f" sequence="3"/> <!--TODO: SPRING 11 GAP 318 K cambiar el parent a grp_compras_estatales.menu_sr_main-->
+
+
+        <!--TODO: SPRING 11 GAP 318 K state en_autorizacion-->
+        <record id="act_en_autorizacion" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">en_autorizacion</field>
+            <field name="kind">function</field>
+            <field name="action">expense_en_autorizacion()</field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K state en_financiero-->
+        <record id="act_en_financiero" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">en_financiero</field>
+            <field name="kind">function</field>
+            <field name="action">expense_en_financiero()</field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K state autorizado-->
+        <record id="act_autorizado" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">autorizado</field>
+            <field name="kind">function</field>
+            <field name="action">expense_autorizado()</field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K state autorizado-->
+        <record id="act_cancelado" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">cancelado</field>
+            <field name="kind">function</field>
+            <field name="action">expense_cancelado()</field>
+        </record>
+
+        <record id="hr_expense.t2" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_confirm"/>
+            <field name="act_to" ref="act_en_autorizacion"/>
+            <field name="signal">validate</field>
+            <field name="group_id"></field>
+        </record> <!--TODO: SPRING 11 GAP 318 K cambiar transicion y grupo-->
+
+        <record id="hr_expense.t4" model="workflow.transition">
+            <!--<field name="act_from" ref="act_confirm"/>-->
+            <!--<field name="act_to" ref="act_refused"/>-->
+            <!--<field name="signal">refuse</field>-->
+            <field name="group_id"></field>
+        </record><!--TODO: SPRING 11 GAP 318 K cambiar grupo-->
+
+        <record id="hr_expense.t6" model="workflow.transition">
+            <field name="act_from" ref="act_en_autorizacion"/>
+            <field name="act_to" ref="hr_expense.act_refused"/>
+            <field name="signal">refuse</field>
+            <field name="group_id"></field>
+        </record><!--TODO: SPRING 11 GAP 318 K cambiar transicion y grupo-->
+
+        <record id="hr_expense.t7" model="workflow.transition">
+            <!--<field name="act_from" ref="act_confirm"/>-->
+            <!--<field name="act_to" ref="act_draft"/>-->
+            <!--<field name="signal">draft</field>-->
+            <field name="group_id"></field>
+        </record>
+
+        <record id="hr_expense.t8" model="workflow.transition">
+            <field name="act_from" ref="act_en_autorizacion"/>
+            <field name="act_to" ref="act_en_financiero"/>
+            <field name="signal">autorizar</field>
+            <field name="group_id"></field>
+        </record> <!--TODO: SPRING 11 GAP 318 K cambiar transicion y grupo-->
+
+        <record id="hr_expense.t10" model="workflow.transition">
+            <!--<field name="act_from" ref="act_refused"/>-->
+            <!--<field name="act_to" ref="act_draft"/>-->
+            <!--<field name="signal">draft</field>-->
+            <field name="group_id"></field>
+        </record><!--TODO: SPRING 11 GAP 318 K cambiar grupo-->
+        <!-- PCAR 08 03 2017 Fin -->
+
+        <!--TODO: SPRING 11 GAP 318 K creando transicion-->
+        <!--<record id="hr_expense.t12" model="workflow.transition">-->
+            <!--<field name="act_from" ref="hr_expense.act_refused"/>-->
+            <!--<field name="act_to" ref="hr_expense.act_draft"/>-->
+            <!--<field name="signal">draft</field>-->
+            <!--<field name="group_id"></field>-->
+        <!--</record>-->
+
+        <!--TODO: SPRING 11 GAP 318 K creando transicion-->
+        <record id="hr_expense.t13" model="workflow.transition">
+            <field name="act_from" ref="act_en_financiero"/>
+            <field name="act_to" ref="act_autorizado"/>
+            <field name="signal">confirmar</field>
+            <field name="group_id"></field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K creando transicion-->
+        <record id="hr_expense.t14" model="workflow.transition">
+            <field name="act_from" ref="act_en_financiero"/>
+            <field name="act_to" ref="act_cancelado"/>
+            <field name="signal">refuse_f</field>
+            <field name="group_id"></field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K creando transicion-->
+        <record id="hr_expense.t15" model="workflow.transition">
+            <field name="act_from" ref="act_autorizado"/>
+            <field name="act_to" ref="act_cancelado"/>
+            <field name="signal">cancelar</field>
+            <field name="group_id"></field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 318 K creando transicion-->
+        <record id="hr_expense.t16" model="workflow.transition">
+            <field name="act_from" ref="act_cancelado"/>
+            <field name="act_to" ref="hr_expense.act_draft"/>
+            <field name="signal">draft_cancelado</field>
+            <field name="group_id"></field>
+        </record>
+
+        <!-- Wizard de confirmación -->
+        <record id="grp_rendicion_cmp_viatico_wzd_form" model="ir.ui.view">
+            <field name="name">grp.rendicion.cmp.viatico.wzd.form</field>
+            <field name="model">grp.rendicion.cmp.viatico.wzd</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar rendición">
+                    <group>
+                        <div style="width: 100%;">
+                            <span class="fa fa-exclamation-triangle" style="width: 60px; height: 100px; float: left; font-size: 50px; color: #f6b806; margin-left: 20px;"/>
+                            <span style="font-size: 16px;">
+                                <p>La rendición contiene a los que corresponde complemento y otros no.</p>
+                                <p>Por favor verifique que los cálculos sean correctos.</p>
+                                <p>¿Desea continuar?</p>
+                            </span>
+                        </div>
+                    </group>
+                    <footer>
+                        <button name="action_confirm" string="Confirmar" class="oe_highlight" type="object"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

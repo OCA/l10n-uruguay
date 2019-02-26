@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- PERIODICIDAD MENSUAL 12 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_anual_12_form">
+        <field name="name">grp.pep.anual.12.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Conceptos y Distribución del Gasto</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-building-o"
+                                name="abrir_analisis_existencias"
+                                type="object"
+                                help="Ver análisis de existencias"
+                                string="Analisis de Existencias"
+                                states="analisis,actualizacion,verificacion,aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-money"
+                                name="abrir_comparar_credito_siif"
+                                type="object"
+                                help="Comparar Crédito SIIF"
+                                states="verificacion,aprobado,en_ejecucion,cierre,finalizado"
+                                string="Comparar Crédito SIIF"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE CONCEPTOS -->
+                        <page string="Conceptos" position="inside">
+                            <field name="lineas_concepto" nolabel="1" widget="one2many_list"
+                                   attrs="{'readonly': [('state','not in',('borrador','confeccion'))]}">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" required="1" options="{'no_open': True, 'no_create_edit': True}"
+                                           domain="[('plan_id', '=', parent.id), ('state', '=', 'completo')]"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="periodo1_porc"/>
+                                    <field name="periodo2_porc"/>
+                                    <field name="periodo3_porc"/>
+                                    <field name="periodo4_porc"/>
+                                    <field name="periodo5_porc"/>
+                                    <field name="periodo6_porc"/>
+                                    <field name="periodo7_porc"/>
+                                    <field name="periodo8_porc"/>
+                                    <field name="periodo9_porc"/>
+                                    <field name="periodo10_porc"/>
+                                    <field name="periodo11_porc"/>
+                                    <field name="periodo12_porc"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE DISTRIBUCION DEL GASTO -->
+                        <page string="Distribución del gasto" position="inside">
+                            <field name="lineas_gasto" nolabel="1" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <button name="button_llaves_wizard"
+                                            help="Llaves Presupuestales"
+                                            icon="terp-dolar"
+                                            type="object"
+                                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                                    <field name="cant_llaves" readonly="1"/>
+                                    <field name="periodo1_importe"/>
+                                    <field name="periodo2_importe"/>
+                                    <field name="periodo3_importe"/>
+                                    <field name="periodo4_importe"/>
+                                    <field name="periodo5_importe"/>
+                                    <field name="periodo6_importe"/>
+                                    <field name="periodo7_importe"/>
+                                    <field name="periodo8_importe"/>
+                                    <field name="periodo9_importe"/>
+                                    <field name="periodo10_importe"/>
+                                    <field name="periodo11_importe"/>
+                                    <field name="periodo12_importe"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE RECETAS -->
+                        <page string="Recetas" position="inside">
+                            <field name="lineas_receta" nolabel="1" options="{'no_create': True}" readonly="1">
+                                <tree colors="red:es_compatible_con_es == False" fonts="bold:es_compatible_con_es == False" version="7.0">
+                                    <field name="es_compatible_con_es" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="descripcion"/>
+                                    <field name="path_texto"/>
+                                    <field name="atendida_view"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE ACTUALIZACION DE EXISTENCIAS -->
+                        <page string="Actualización de necesidades" states="actualizacion">
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-download"
+                                    name="cargar_existencias_para_actualizar"
+                                    type="object"
+                                    confirm="Al cargar se comienza el proceso completo. ¿ Está usted seguro ?"
+                                    help="Cargar el resultado del análisis de existencias"
+                                    string="Cargar Existencias"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_actualizacion" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" colors="blue:procesado == False" fonts="bold:procesado == False" version="7.0">
+                                    <field name="procesado" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="existencia"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD BIMENSUAL 6 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_anual_6_form">
+        <field name="name">grp.pep.anual.6.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Conceptos y Distribución del Gasto</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-building-o"
+                                name="abrir_analisis_existencias"
+                                type="object"
+                                help="Ver análisis de existencias"
+                                string="Analisis de Existencias"
+                                states="analisis,actualizacion,verificacion,aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-money"
+                                name="abrir_comparar_credito_siif"
+                                type="object"
+                                help="Comparar Crédito SIIF"
+                                states="verificacion,aprobado,en_ejecucion,cierre,finalizado"
+                                string="Comparar Crédito SIIF"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE CONCEPTOS -->
+                        <page string="Conceptos" position="inside">
+                            <field name="lineas_concepto" nolabel="1" widget="one2many_list"
+                                   attrs="{'readonly': [('state','not in',('borrador','confeccion'))]}">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}"
+                                           domain="[('plan_id', '=', parent.id), ('state', '=', 'completo')]"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <field name="periodo1_porc"/>
+                                    <field name="periodo2_porc"/>
+                                    <field name="periodo3_porc"/>
+                                    <field name="periodo4_porc"/>
+                                    <field name="periodo5_porc"/>
+                                    <field name="periodo6_porc"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE DISTRIBUCION DEL GASTO -->
+                        <page string="Distribución del gasto" position="inside">
+                            <field name="lineas_gasto" nolabel="1" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <button name="button_llaves_wizard"
+                                            help="Llaves Presupuestales"
+                                            icon="terp-dolar"
+                                            type="object"
+                                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                                    <field name="cant_llaves" readonly="1"/>
+                                    <field name="periodo1_importe"/>
+                                    <field name="periodo2_importe"/>
+                                    <field name="periodo3_importe"/>
+                                    <field name="periodo4_importe"/>
+                                    <field name="periodo5_importe"/>
+                                    <field name="periodo6_importe"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE RECETAS -->
+                        <page string="Recetas" position="inside">
+                            <field name="lineas_receta" nolabel="1" options="{'no_create': True}" readonly="1">
+                                <tree colors="red:es_compatible_con_es == False" fonts="bold:es_compatible_con_es == False" version="7.0">
+                                    <field name="es_compatible_con_es" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="descripcion"/>
+                                    <field name="path_texto"/>
+                                    <field name="atendida_view"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE ACTUALIZACION DE EXISTENCIAS -->
+                        <page string="Actualización de necesidades" states="actualizacion">
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-download"
+                                    name="cargar_existencias_para_actualizar"
+                                    type="object"
+                                    confirm="Al cargar se comienza el proceso completo. ¿ Está usted seguro ?"
+                                    help="Cargar el resultado del análisis de existencias"
+                                    string="Cargar Existencias"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_actualizacion" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" colors="blue:procesado == False" fonts="bold:procesado == False" version="7.0">
+                                    <field name="procesado" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="existencia"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD TRIMESTRAL 4 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_anual_4_form">
+        <field name="name">grp.pep.anual.4.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Conceptos y Distribución del Gasto</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-building-o"
+                                name="abrir_analisis_existencias"
+                                type="object"
+                                help="Ver análisis de existencias"
+                                string="Analisis de Existencias"
+                                states="analisis,actualizacion,verificacion,aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-money"
+                                name="abrir_comparar_credito_siif"
+                                type="object"
+                                help="Comparar Crédito SIIF"
+                                states="verificacion,aprobado,en_ejecucion,cierre,finalizado"
+                                string="Comparar Crédito SIIF"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE CONCEPTOS -->
+                        <page string="Conceptos" position="inside">
+                            <field name="lineas_concepto" nolabel="1" widget="one2many_list"
+                                   attrs="{'readonly': [('state','not in',('borrador','confeccion'))]}">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}"
+                                           domain="[('plan_id', '=', parent.id), ('state', '=', 'completo')]"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <field name="periodo1_porc"/>
+                                    <field name="periodo2_porc"/>
+                                    <field name="periodo3_porc"/>
+                                    <field name="periodo4_porc"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE DISTRIBUCION DEL GASTO -->
+                        <page string="Distribución del gasto" position="inside">
+                            <field name="lineas_gasto" nolabel="1" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <button name="button_llaves_wizard"
+                                            help="Llaves Presupuestales"
+                                            icon="terp-dolar"
+                                            type="object"
+                                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                                    <field name="cant_llaves" readonly="1"/>
+                                    <field name="periodo1_importe"/>
+                                    <field name="periodo2_importe"/>
+                                    <field name="periodo3_importe"/>
+                                    <field name="periodo4_importe"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE RECETAS -->
+                        <page string="Recetas" position="inside">
+                            <field name="lineas_receta" nolabel="1" options="{'no_create': True}" readonly="1">
+                                <tree colors="red:es_compatible_con_es == False" fonts="bold:es_compatible_con_es == False" version="7.0">
+                                    <field name="es_compatible_con_es" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="descripcion"/>
+                                    <field name="path_texto"/>
+                                    <field name="atendida_view"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE ACTUALIZACION DE EXISTENCIAS -->
+                        <page string="Actualización de necesidades" states="actualizacion">
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-download"
+                                    name="cargar_existencias_para_actualizar"
+                                    type="object"
+                                    confirm="Al cargar se comienza el proceso completo. ¿ Está usted seguro ?"
+                                    help="Cargar el resultado del análisis de existencias"
+                                    string="Cargar Existencias"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_actualizacion" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" colors="blue:procesado == False" fonts="bold:procesado == False" version="7.0">
+                                    <field name="procesado" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="existencia"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD CUATRIMESTRAL 3 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_anual_3_form">
+        <field name="name">grp.pep.anual.3.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Conceptos y Distribución del Gasto</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-building-o"
+                                name="abrir_analisis_existencias"
+                                type="object"
+                                help="Ver análisis de existencias"
+                                string="Analisis de Existencias"
+                                states="analisis,actualizacion,verificacion,aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-money"
+                                name="abrir_comparar_credito_siif"
+                                type="object"
+                                help="Comparar Crédito SIIF"
+                                states="verificacion,aprobado,en_ejecucion,cierre,finalizado"
+                                string="Comparar Crédito SIIF"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE CONCEPTOS -->
+                        <page string="Conceptos" position="inside">
+                            <field name="lineas_concepto" nolabel="1" widget="one2many_list"
+                                   attrs="{'readonly': [('state','not in',('borrador','confeccion'))]}">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}"
+                                           domain="[('plan_id', '=', parent.id), ('state', '=', 'completo')]"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <field name="periodo1_porc"/>
+                                    <field name="periodo2_porc"/>
+                                    <field name="periodo3_porc"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE DISTRIBUCION DEL GASTO -->
+                        <page string="Distribución del gasto" position="inside">
+                            <field name="lineas_gasto" nolabel="1" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <button name="button_llaves_wizard"
+                                            help="Llaves Presupuestales"
+                                            icon="terp-dolar"
+                                            type="object"
+                                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                                    <field name="cant_llaves" readonly="1"/>
+                                    <field name="periodo1_importe"/>
+                                    <field name="periodo2_importe"/>
+                                    <field name="periodo3_importe"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE RECETAS -->
+                        <page string="Recetas" position="inside">
+                            <field name="lineas_receta" nolabel="1" options="{'no_create': True}" readonly="1">
+                                <tree colors="red:es_compatible_con_es == False" fonts="bold:es_compatible_con_es == False" version="7.0">
+                                    <field name="es_compatible_con_es" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="descripcion"/>
+                                    <field name="path_texto"/>
+                                    <field name="atendida_view"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE ACTUALIZACION DE EXISTENCIAS -->
+                        <page string="Actualización de necesidades" states="actualizacion">
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-download"
+                                    name="cargar_existencias_para_actualizar"
+                                    type="object"
+                                    confirm="Al cargar se comienza el proceso completo. ¿ Está usted seguro ?"
+                                    help="Cargar el resultado del análisis de existencias"
+                                    string="Cargar Existencias"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_actualizacion" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" colors="blue:procesado == False" fonts="bold:procesado == False" version="7.0">
+                                    <field name="procesado" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="existencia"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD SEMESTRAL 2 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_anual_2_form">
+        <field name="name">grp.pep.anual.2.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Conceptos y Distribución del Gasto</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-building-o"
+                                name="abrir_analisis_existencias"
+                                type="object"
+                                help="Ver análisis de existencias"
+                                string="Analisis de Existencias"
+                                states="analisis,actualizacion,verificacion,aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-money"
+                                name="abrir_comparar_credito_siif"
+                                type="object"
+                                help="Comparar Crédito SIIF"
+                                states="verificacion,aprobado,en_ejecucion,cierre,finalizado"
+                                string="Comparar Crédito SIIF"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE CONCEPTOS -->
+                        <page string="Conceptos" position="inside">
+                            <field name="lineas_concepto" nolabel="1" widget="one2many_list"
+                                   attrs="{'readonly': [('state','not in',('borrador','confeccion'))]}">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}"
+                                           domain="[('plan_id', '=', parent.id), ('state', '=', 'completo')]"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <field name="periodo1_porc"/>
+                                    <field name="periodo2_porc"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE DISTRIBUCION DEL GASTO -->
+                        <page string="Distribución del gasto" position="inside">
+                            <field name="lineas_gasto" nolabel="1" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree editable="bottom" default_order="posicion_en_plan">
+                                    <field name="periodicidad" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="posicion_en_plan" readonly="1"/>
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="metodo_calculo" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="importe_anual"/>
+                                    <button name="button_llaves_wizard"
+                                            help="Llaves Presupuestales"
+                                            icon="terp-dolar"
+                                            type="object"
+                                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                                    <field name="cant_llaves" readonly="1"/>
+                                    <field name="periodo1_importe"/>
+                                    <field name="periodo2_importe"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE RECETAS -->
+                        <page string="Recetas" position="inside">
+                            <field name="lineas_receta" nolabel="1" options="{'no_create': True}" readonly="1">
+                                <tree colors="red:es_compatible_con_es == False" fonts="bold:es_compatible_con_es == False" version="7.0">
+                                    <field name="es_compatible_con_es" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="descripcion"/>
+                                    <field name="path_texto"/>
+                                    <field name="atendida_view"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!-- PESTAÑA DE ACTUALIZACION DE EXISTENCIAS -->
+                        <page string="Actualización de necesidades" states="actualizacion">
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-download"
+                                    name="cargar_existencias_para_actualizar"
+                                    type="object"
+                                    confirm="Al cargar se comienza el proceso completo. ¿ Está usted seguro ?"
+                                    help="Cargar el resultado del análisis de existencias"
+                                    string="Cargar Existencias"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_actualizacion" nolabel="1" options="{'no_create': True}">
+                                <tree create="false" delete="false" colors="blue:procesado == False" fonts="bold:procesado == False" version="7.0">
+                                    <field name="procesado" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="existencia"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</data>
+</openerp>

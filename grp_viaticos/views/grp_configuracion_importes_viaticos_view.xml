@@ -1,0 +1,112 @@
+<!--TODO: SPRING 11 GAP 25 K-->
+<openerp>
+	<data>
+		<record id="grp_configuracion_importes_viaticos_view_form" model="ir.ui.view">
+            <field name="name">grp.configuracion.importes.viaticos.view.form</field>
+            <field name="model">grp.configuracion.importes.viaticos</field>
+            <field name="arch" type="xml">
+                <form string="Configuración importes de viáticos">
+                    <sheet>
+                    <!--<div class="oe_title">-->
+                        <!--<h1><field name="name"/></h1>-->
+                    <!--</div>-->
+                    <group>
+                        <group>
+                            <field name="fiscal_year_id"/>
+                            <field name="tipo"/>
+							<field name="viatico_anual" attrs="{'required': [('tipo','!=','complemento')]}"/>
+                        </group>
+                        <group>
+                            <field name="fecha_desde" />
+							<field name="fecha_hasta" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Alimentación" name="alimentacion" attrs="{'invisible': [('tipo','not in',['categ_a','categ_b'])]}">
+                            <group col="4">
+                                <group col="2" colspan="2">
+                                    <field name="product_alimentacion_id" colspan="2" attrs="{'required': [('tipo','in',['categ_a','categ_b'])]}"/>
+                                </group>
+                                <group colspan="2"/>
+                            </group>
+                            <newline/>
+                            <group col="4">
+                                <group col="68" colspan="2">
+                                    <group colspan="2">
+                                        <label colspan="1" string=""/>
+                                        <label colspan="1" string="X≤"/>
+                                        <newline/>
+                                        <field name="h_doce_uno" nolabel="1" colspan="1"/>
+                                        <label colspan="1" string="X≤"/>
+                                    </group>
+                                    <group colspan="2">
+                                        <field name="h_doce" nolabel="1" colspan="1"/>
+                                        <label colspan="1" string="Hs"/>
+                                        <newline/>
+                                        <field name="h_veinticuatro" nolabel="1" colspan="1"/>
+                                        <label colspan="1" string="Hs"/>
+                                    </group>
+                                    <group colspan="4">
+                                        <field name="valor_porciento_alimentacion" colspan="1"/>
+                                        <field name="valor_alimentacion" colspan="1"/>
+                                    </group>
+                                </group>
+                                <group colspan="2"/>
+                            </group>
+                        </page>
+                        <page string="Pernocte" name="pernocte" attrs="{'invisible': [('tipo','not in',['categ_a','categ_b'])]}">
+                            <group col="4">
+                                <group>
+                                    <field name="product_pernocte_id" colspan="2" attrs="{'required': [('tipo','in',['categ_a','categ_b'])]}"/>
+                                    <field name="valor_pernocte"/>
+                                </group>
+                                <group/>
+                            </group>
+                        </page>
+                        <page string="Complemento" name="complemento" attrs="{'invisible': [('tipo','!=','complemento')]}">
+                            <group name="lineas" colspan="4">
+                                <field name="complemento_ids" nolabel="1">
+                                    <tree editable="bottom" >
+                                        <field name="localidad"/>
+                                        <field name="product_alimentacion_id"/>
+                                        <field name="valor_alimentacion" />
+                                        <field name="product_pernocte_id"/>
+                                        <field name="valor_pernocte"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+		<record id="grp_configuracion_importes_viaticos_view_tree" model="ir.ui.view">
+			<field name="name">grp.configuracion.importes.viaticos.view.tree</field>
+			<field name="model">grp.configuracion.importes.viaticos</field>
+			<field name="arch" type="xml">
+				<tree string="Configuración importes de viáticos">
+					<field name="fiscal_year_id"/>
+					<field name="tipo"/>
+					<field name="viatico_anual"/>
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="action_grp_configuracion_importes_viaticos" model="ir.actions.act_window">
+			<field name="name">Configuración importes de viáticos</field>
+			<field name="res_model">grp.configuracion.importes.viaticos</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <menuitem id="menu_grp_configuracion_importes_viaticos" action="action_grp_configuracion_importes_viaticos"
+                  name="Configuración importes de viáticos"
+                  parent="grp_compras_estatales.menu_conf" sequence="6"
+             groups="grp_viaticos.grp_configurador viatico"/>
+
+	</data>
+</openerp>

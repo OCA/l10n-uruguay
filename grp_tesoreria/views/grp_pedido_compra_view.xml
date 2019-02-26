@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_pedidos_compra_form" model="ir.ui.view">
+            <field name="name">Pedidos de Compra</field>
+            <field name="model">grp.pedido.compra</field>
+            <field name="inherit_id" ref="grp_compras_estatales.view_pedidos_compra_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sice_id_compra']" position="after">
+                    <field name='requiere_presentacion_garantia'/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

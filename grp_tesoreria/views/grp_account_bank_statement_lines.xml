@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--&lt;!&ndash;Vista tree de Consulta registro de caja&ndash;&gt;-->
+        <record id="view_lineas_registro_caja_tree" model="ir.ui.view">
+            <field name="name">grp.account.bank.statement.lines.tree</field>
+            <field name="model">grp.account.bank.statement.lines</field>
+
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de Registro de Caja" create="false" edit="false" delete="false">
+                    <field name="user_id"/>
+                    <field name="closing_date"/>
+                    <field name="period_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <field name="concepto_id"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                    <field name="amount"/>
+                    <field name="amount_currency"/>
+                    <field name="account_id"/>
+                    <field name="bank_account_id"/>
+                    <!--<field name="company_id"/>-->
+                    <field name="operating_unit_id"/>
+                    <field name="journal_id"/>
+                    <field name="note"/>
+                    <field name="partner_name"/>
+                    <field name="sequence"/>
+                    <field name="fondo_rotarios"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista search -->
+        <record model="ir.ui.view" id="view_lineas_registro_caja_search">
+	        <field name="name">grp.account.bank.statement.lines.search</field>
+            <field name="model">grp.account.bank.statement.lines</field>
+	        <field name="priority" eval="8" />
+	        <field name="arch" type="xml">
+	            <search string="Lineas de Registro de Caja">
+		            <field name="state" />
+                    <group expand="0" string="Agrupar por...">
+                        <filter name ="group_state" string="Estado"  domain="[]" context="{'group_by':'state'}"/>
+                	</group>
+		        </search>
+	        </field>
+	    </record>
+
+
+        <!-- Action -->
+        <record model="ir.actions.act_window" id="action_lineas_registro_caja">
+            <field name="name">Consulta Registro de Caja</field>
+            <field name="res_model">grp.account.bank.statement.lines</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+
+        </record>
+
+        <menuitem id="lineas_registro_caja" name="Consulta Registro de Caja"
+                  action="action_lineas_registro_caja"
+                  parent="account.menu_finance_bank_and_cash" sequence="40"/>
+
+        </data>
+</openerp>

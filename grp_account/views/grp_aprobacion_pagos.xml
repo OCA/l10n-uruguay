@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Vista lista: Aprobacion pagos -->
+        <record id="aprobacion_pagos_view_tree" model="ir.ui.view">
+            <field name="name">view.aprobacion.pagos.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Aprobación Pagos" create="false" edit="false">
+                    <field name="doc_type" invisible="1"/>
+                    <field name="doc_type_computed"/>
+                    <field name="partner_id"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="currency_id"/>
+                    <field name="amount_total"/>
+                    <field name="residual"/>
+                    <field name="fecha_aprobacion"/>
+                    <field name="cuenta_bancaria_id"/>
+                    <field name="fecha_inicio_pago"/>
+                    <field name="fecha_pago"/>
+                    <field name="pago_aprobado"/>
+                    <field name="voucher_state"/>
+                    <field name="related_document"/>
+                    <button name="action_link_related_document" type="object" icon="gtk-find"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista search: Combinaciones válidas -->
+        <record model="ir.ui.view" id="view_aprobacion_pagos_search">
+            <field name="name">aprobacion_pagos_search</field>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Sin fecha de Aprobación">
+                    <filter name="fecha_aprobacion_filter" string="Sin fecha de Aprobaciòn"
+                            domain="[('fecha_aprobacion','=',False)]"/>
+                    <field name="voucher_state"/>
+                    <!--Incidencia 2382 campos dobles al filtrar-->
+                    <field name="cuenta_bancaria_id" />
+                    <field name="move_id" />
+                    <!---->
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Aprobacion pagos
+        Vistas tree-->
+        <record id="action_aprobacion_pagos_tree" model="ir.actions.act_window">
+            <field name="name">Aprobación Pagos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="aprobacion_pagos_view_tree"/>
+            <field name="search_view_id" ref="view_aprobacion_pagos_search"/>
+            <field name="domain">[('state','in',['open','paid'])]</field>
+            <field name="context">{'search_default_fecha_aprobacion_filter': 1, 'aprobacion_pagos':True}</field>
+        </record>
+
+        <!--
+        (N): Contabilidad/ Proveedores/ Aprobación de Pagos -->
+        <menuitem name="Aprobación Pagos" id="aprobacion_pagos" parent="account.menu_finance_payables"
+                  action="action_aprobacion_pagos_tree"
+                   sequence="10" groups="grp_seguridad.grp_consulta_aprobacion_pagos"/>
+
+
+		<!--<record model="ir.ui.view" id="view_account_invoice_inherit_facturas_uy">-->
+            <!--<field name="name">account.invoice.inherit.facturas_uy</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="inherit_id" ref="facturas_uy.view_invoice_supplier_voucher_inherit_facturas_uy"/>-->
+            <!--<field name="type">form</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<button name="invoice_pay_adjustment" position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': ['|','|',('fecha_aprobacion','=',False),('tipo_ejecucion_codigo_rel','!=','P')]}</attribute>-->
+                <!--</button>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <!--&lt;!&ndash; search  &ndash;&gt;-->
+        <!--<record id="view_account_voucher_search_inherit" model="ir.ui.view">-->
+            <!--<field name="name">account.voucher.inherit.select</field>-->
+            <!--<field name="model">account.voucher</field>-->
+            <!--<field name="inherit_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="partner_id" position="after">-->
+
+                    <!--<filter string="Pago Proveedoor" name="pago_proveedor"-->
+                            <!--domain="[('invoice_id.account_id','=','account_id'),('invoice_id.fecha_aprobacion','!=',False),-->
+                                 <!--('invoice_id.state','in',['open'])]"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <!--<record model="ir.actions.act_window" id="account_voucher.action_voucher_list">-->
+            <!--<field name="name">Journal Vouchers inherit</field>-->
+            <!--<field name="res_model">account.voucher</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>-->
+            <!--<field name="context">{'search_default_pago_proveedor': 1}</field>-->
+            <!--<field name="view_id" ref="account_voucher.view_voucher_tree"/>-->
+        <!--</record>-->
+
+    </data>
+</openerp>

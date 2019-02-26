@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record model="ir.module.category" id="pep_plan_ejecucion_presupuestal">
+          <field name="name">GRP - Plan de Ejecución Presupuestal</field>
+          <field name="description">Permisos de acceso para el módulo de plan de ejecución presupuestal.</field>
+          <field name="sequence">10</field>
+        </record>
+
+        <record id="pep_elaboracion" model="res.groups">
+            <field name="name">Elaboración de Plan de Ejecución</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable de elaboración del plan de ejecución (comprendiendo la confección del plan anual, comparación con crédito SIIF) así como también la realización de actualizaciones al plan y nuevas versiones en etapa de ejecución.</field>
+        </record>
+
+        <record id="pep_recetas" model="res.groups">
+            <field name="name">Responsable de Recetas</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable de configurar la estructura de unidades de servicios y confeccionar las recetas.</field>
+        </record>
+
+        <record id="pep_conceptos" model="res.groups">
+            <field name="name">Responsable de Conceptos</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable de configurar los conceptos</field>
+        </record>
+
+        <record id="pep_existencias" model="res.groups">
+            <field name="name">Análisis de Existencias</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable de realizar el análisis de existencias (considerar el stock existente y los procedimientos en curso) así como también hacer la actualización de las necesidades en los conceptos del plan.</field>
+        </record>
+
+        <record id="pep_aprobacion" model="res.groups">
+            <field name="name">Responsable aprobación Plan de Ejecución</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable aprobación Plan de Ejecución</field>
+        </record>
+
+        <record id="pep_adquisiciones" model="res.groups">
+            <field name="name">Elaboración de Plan de Adquisiciones</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Responsable de elaborar el plan de adquisiciones a enviar a ACCE (incluye el envío a acce)</field>
+        </record>
+
+        <record id="pep_monitoreo" model="res.groups">
+            <field name="name">Monitoreo de Plan de Ejecución</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Usuarios con acceso a los reportes comparativos de la planificación con la ejecución</field>
+        </record>
+
+        <record id="pep_movimientos" model="res.groups">
+            <field name="name">Movimientos de Ejecución</field>
+            <field name="category_id" ref="pep_plan_ejecucion_presupuestal"/>
+            <field name="comment">Permite visualizar el saldo afectado de un concepto y sus movimientos</field>
+        </record>
+    </data>
+</openerp>

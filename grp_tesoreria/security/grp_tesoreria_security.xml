@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id="category_grp_tesoreria" model="ir.module.category">
+            <field name="name">GRP - Tesorería</field>
+            <field name="sequence">0</field>
+        </record>
+
+        <!-- TODO: SPRING 11 GAP 285 C -->
+        <record id="category_cuenta_por_pagar_tesoreria" model="ir.module.category">
+            <field name="name">Cuenta por pagar</field>
+            <field name="sequence">0</field>
+        </record>
+
+        <!--Comentado MVARELA: No se usa y esta duplicado-->
+        <!--<record id="group_grp_aprobar_anticipo" model="res.groups">-->
+            <!--<field name="name">GRP - Aprobar Anticipo</field>-->
+            <!--<field name="category_id" ref="category_grp_tesoreria"/>-->
+        <!--</record>-->
+
+        <record id="group_grp_autoriza_anticipo" model="res.groups">
+            <field name="name">GRP - Autorizar Anticipo</field>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <record id="group_grp_autoriza_rendicion_anticipo" model="res.groups">
+            <field name="name">GRP - Autorizar rendición Anticipo</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <record id="group_grp_tesoreria" model="res.groups">
+            <field name="name">GRP - Tesorería</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_bank_and_cash')),(4, ref('account.journal_cash_move_lines')),(4, ref('account_transfer.account_transfer_menu'))]"/>
+            <!--<field name="implied_ids"-->
+                   <!--eval="[(4,ref('npg_bank_account_reconciliation.group_bank_stmt_preparer')),(4,ref('npg_bank_account_reconciliation.group_bank_stmt_verifier'))]"/>-->
+        </record>
+
+        <record id="group_grp_recaudacion_interior" model="res.groups">
+            <field name="name">GRP - Recaudación Interior</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance'))]"/>
+        </record>
+
+        <record id="npg_bank_account_reconciliation.group_bank_stmt_preparer" model="res.groups">
+        	<field name="name">Preparar conciliacion</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+
+    	</record>
+
+        <record id="npg_bank_account_reconciliation.group_bank_stmt_verifier" model="res.groups">
+        	<field name="name">Validar conciliacion</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+
+    	</record>
+
+        <record id="group_grp_tesoreria_interior" model="res.groups">
+            <field name="name">GRP - Tesorería Cajeros</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_bank_and_cash')),(4, ref('account.journal_cash_move_lines'))]"/>
+        </record>
+
+        <record id="group_grp_contabilidad_tesoreria" model="res.groups">
+            <field name="name">GRP - Contabilidad Tesorería</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_bank_and_cash')),(4, ref('account.journal_cash_move_lines'))]"/>
+        </record>
+
+        <!-- PCAR 12 06 2017 Grupo para Retenciones Manuales -->
+        <record id="group_grp_retenciones_manuales" model="res.groups">
+            <field name="name"> GRP - Retenciones Manuales</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+        <!-- PCAR 12 06 2017 Fin -->
+
+        <!-- TODO: SPRING 10 GAP 474 M -->
+        <record id="group_grp_cajero_pagador" model="res.groups">
+            <field name="name">GRP - Cajero pagador</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <record id="group_grp_consulta_cajas" model="res.groups">
+            <field name="name">GRP - Consulta de cajas</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_payables')),(4, ref('account.menu_finance_bank_and_cash')),(4, ref('account.journal_cash_move_lines'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 474 M -->
+        <record id="group_grp_caja_chica" model="res.groups">
+            <field name="name">GRP - Cajero caja chica</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 474 M -->
+        <record id="group_grp_cajero_recaudador" model="res.groups">
+            <field name="name">GRP - Cajero recaudador</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 474 M -->
+        <record id="group_grp_gestor_OPI" model="res.groups">
+            <field name="name">GRP - Gestor de OPI</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),
+            (4,ref('grp_tesoreria.menu_grp_account_tesoreria'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 474 M -->
+        <record id="group_grp_cajero_verificador" model="res.groups">
+            <field name="name">GRP - Cajero Verificador</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance'))]"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 283 L -->
+        <record id="group_grp_gestor_chequera" model="res.groups">
+            <field name="name">GRP - Gestor de Chequeras</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- Incidencia 1462 -->
+        <record id="group_grp_aprobar_opi" model="res.groups">
+            <field name="name">GRP - Aprobar OPI</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 266 C -->
+        <record id="group_grp_tesoreria_cancelcion_pago" model="res.groups">
+            <field name="name">GRP - Tesorería Cancelación Pagos</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <!--TODO: SPRING 10 GAP 274.275 K-->
+        <!--Grupo para Aprobación Habilitaciones -->
+        <record id="group_grp_aprobacion_habilitaciones" model="res.groups">
+            <field name="name">GRP - Aprobación Habilitaciones</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="group_grp_restringir_ctas_pagar_ue" model="res.groups">
+            <field name="name">GRP - Restringir  Ctas. a pagar por UE</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_payables'))]"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="group_grp_consultar_ctas_pagar_ue" model="res.groups">
+            <field name="name">GRP - Consulta Ctas. a pagar</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_payables')),(4, ref('account_financial_report_webkit.menu_account_open_invoices'))]"/>
+        </record>
+
+        <!-- TODO: SPRING 11 GAP 285 C -->
+        <record id="group_grp_tesoreria_aprobacion_transferencia" model="res.groups">
+            <field name="name">GRP – Aprobador Transferencia</field>
+            <field name="category_id" ref="grp_tesoreria.category_grp_tesoreria"/>
+        </record>
+
+        <!-- TODO: M SPRING 13 GAP 281-->
+        <record id="group_grp_rendicion_cuentas" model="res.groups">
+            <field name="name">GRP – Rendición de cuentas</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!-- TODO: M SPRING 14 GAP 29_31-->
+        <record id="group_grp_solicitante_anticipos" model="res.groups">
+            <field name="name"> GRP - Solicitante anticipos</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4,ref('account.menu_finance')),(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!-- TODO: M SPRING 14 GAP 29_31-->
+        <record id="group_grp_aprobador_anticipos" model="res.groups">
+            <field name="name"> GRP - Aprobador anticipos</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!-- TODO: M SPRING 14 GAP 29_31-->
+        <record id="group_grp_adelanto_anticipos" model="res.groups">
+            <field name="name"> GRP - Adelanto de anticipos</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!-- TODO: M SPRING 14 GAP 29_31-->
+        <record id="group_grp_devolucion_anticipos" model="res.groups">
+            <field name="name"> GRP - Devolución de anticipos</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance_bank_and_cash'))]"/>
+        </record>
+
+        <!-- TODO: K SPRING 15-->
+        <record id="group_grp_remesa" model="res.groups">
+            <field name="name">GRP - Remesa</field>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+            <field name="menu_access"
+                   eval="[(4, ref('account.menu_finance')),(4, ref('grp_tesoreria.menu_grp_account_tesoreria'))]"/>
+        </record>
+
+        <record id="rule_account_voucher_Responsable_SIIF_only_read" model="ir.rule">
+            <field name="name">Responsable_SIIF solo lectura sobre gestión de pagos</field>
+            <field name="model_id" ref="account_voucher.model_account_voucher"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4,ref('grp_seguridad.grp_compras_apg_Responsable_SIIF'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="rule_grp_restringir_ctas_pagar_ue_invoice" model="ir.rule">
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','=',user.default_operating_unit_id.id)]</field>
+            <field name="name">Restringir acceso a Facturas a la UE por defecto (y no las permitidas)</field>
+            <field name="groups" eval="[(4,ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="rule_grp_restringir_ctas_pagar_ue_voucher" model="ir.rule">
+            <field name="model_id" ref="account_voucher.model_account_voucher"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','=',user.default_operating_unit_id.id)]</field>
+            <field name="name">Restringir acceso a Facturas a la UE por defecto (y no las permitidas)</field>
+            <field name="groups" eval="[(4,ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <!-- Se comenta, el campo no existe en res.partner-->
+        <!--&lt;!&ndash;TODO: SPRING 11 GAP 495 K&ndash;&gt;-->
+        <!--<record id="rule_grp_restringir_ctas_pagar_ue_res_partner" model="ir.rule">-->
+            <!--<field name="model_id" ref="base.model_res_partner"/>-->
+            <!--<field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','=',user.default_operating_unit_id.id)]</field>-->
+            <!--<field name="name">Restringir acceso a Facturas a la UE por defecto (y no las permitidas)</field>-->
+            <!--<field name="groups" eval="[(4,ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue'))]"/>-->
+            <!--<field name="perm_read" eval="1"/>-->
+            <!--<field name="perm_write" eval="1"/>-->
+            <!--<field name="perm_unlink" eval="1"/>-->
+            <!--<field name="perm_create" eval="1"/>-->
+        <!--</record>-->
+
+        <record id="rule_grp_vale_caja_ue" model="ir.rule">
+            <field name="model_id" ref="model_grp_vale_caja"/>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Ver vales de operating units permitidas</field>
+            <field name="global" eval="True"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <!-- Regla para seguridad por Operating Unit en la Consulta de registro de caja-->
+        <record id="rule_grp_account_bank_statement_lines_OU_permitidas" model="ir.rule">
+            <field name="model_id" ref="model_grp_account_bank_statement_lines"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Consulta de registros de caja de Unidades Operativas permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <!-- Regla para seguridad por Operating Unit en la transferencias BROU-->
+        <record id="rule_grp_transferencia_cabezal_OU_permitidas" model="ir.rule">
+            <field name="model_id" ref="model_grp_transferencia_cabezal"/>
+            <field name="domain_force">['|',('journal_id.operating_unit_id','=',False),('journal_id.operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Transferencias BROU de Unidades Operativas permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record id="rule_grp_recaudacion_report_ue" model="ir.rule">
+            <field name="model_id" ref="model_grp_recaudacion_report"/>
+            <field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[user.id for user in user.operating_unit_ids])]</field>
+            <field name="name">Ver Reportes de Recaudación de Operating Units permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record model='ir.ui.menu' id='account.menu_finance_receivables'>
+            <field name="groups_id" eval="[(4,ref('group_grp_cajero_recaudador')),(4,ref('group_grp_cajero_verificador')),(4,ref('group_grp_consulta_cajas'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='account.menu_finance'>
+            <field name="groups_id" eval="[(3, ref('account.group_account_invoice')),(4,ref('group_grp_aprobador_anticipos')),(4,ref('group_grp_autoriza_anticipo')),(4,ref('group_grp_retenciones_manuales')),(4,ref('group_grp_aprobacion_habilitaciones'))]"/>
+        </record>
+
+        <record model="res.groups" id="account.group_account_user">
+            <field name="menu_access" eval="[(5,)]"/>
+        </record>
+        <record model="res.groups" id="account.group_account_manager">
+            <field name="menu_access" eval="[(5,)]"/>
+        </record>
+
+        <!--ARQUEO-->
+
+        <record id="group_grp_cashbox_register" model="res.groups">
+            <field name="name">GRP - Configuración Arqueo</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_configuration'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+        <record id="group_grp_cashbox_register_responsible" model="res.groups">
+            <field name="name">GRP - Responsable Arqueo</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_configuration'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+        <record id="group_grp_cashbox_register_manager" model="res.groups">
+            <field name="name">GRP - Revisor Arqueo</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance')),(4, ref('account.menu_finance_configuration'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+        <record id="group_grp_cashbox_register_consultant" model="res.groups">
+            <field name="name">GRP - Consulta Arqueo</field>
+            <field name="menu_access" eval="[(4, ref('account.menu_finance'))]"/>
+            <field name="category_id" ref="category_grp_tesoreria"/>
+        </record>
+
+    </data>
+</openerp>

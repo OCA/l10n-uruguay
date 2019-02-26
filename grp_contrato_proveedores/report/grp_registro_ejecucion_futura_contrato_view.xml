@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="view_grp_registro_ejecucion_futura_contrato_tree" model="ir.ui.view">
+            <field name="name">grp.registro.ejecucion.futura.contrato.tree</field>
+            <field name="model">grp.registro.ejecucion.futura.contrato</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Estimado a ejecutar de contratos" create="false" delete="false">
+                    <field name="id_ejecucion"/>
+                    <field name="nro_interno"/>
+                    <field name="proveedor"/>
+                    <field name="moneda"/>
+                    <field name="monto_ajustado"/>
+                    <field name="monto_facturar"/>
+                    <field name="monto_ejecutar_actual"/>
+                    <field name="monto_ejecutar_futuro"/>
+                    <field name="tipo_cambio"/>
+                    <field name="monto_ejecutar_fut_pesos"/>
+                </tree>
+            </field>
+        </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="action_grp_registro_ejecucion_futura_contrato" model="ir.actions.act_window">
+            <field name="name">Registro ejecución futura de contratos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.registro.ejecucion.futura.contrato</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_registro_ejecucion_futura_contrato_tree"/>
+        </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <menuitem id="menu_grp_registro_ejecucion_futura_contrato" name="Registro ejecución futura de contratos" sequence="08"
+                  parent="menu_prov_cont"
+                  action="action_grp_registro_ejecucion_futura_contrato"
+                  groups="grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+
+    </data>
+</openerp>

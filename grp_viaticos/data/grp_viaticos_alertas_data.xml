@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: K SPRING 12 GAP 33 -->
+        <!--Alerta renovaciones automatizadas de Contrato-->
+        <record forcecreate="True" id="ir_cron_grp_anticipos_sin_rendir_generator" model="ir.cron">
+            <field name="name">Alerta a la Administración financiera de los anticipos sin rendir</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.voucher'" name="model"/>
+            <field eval="'enviar_notificacion_af_anticipos'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+        <record model="ir.actions.server" id="act_alerta_func_anticipos">
+            <field name="name">Notificación al Funcionario de anticipos sin rendir</field>
+            <field name="model_id" ref="model_account_voucher"/>
+            <field name="state">code</field>
+            <field name="code">self.enviar_notificacion_func_anticipos(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+
+        <record id="automated_alerta_func_anticipos" model="base.action.rule">
+              <field name="name">Alerta al Funcionario de anticipos sin rendir</field>
+              <field name="model_id" ref="model_account_voucher"/>
+              <field name="active">1</field>
+              <field name="kind">on_time</field>
+              <field name="trg_date_id" search="[('model','=','account.voucher'),('name','=','fecha_hasta')]"/>
+              <field name="trg_date_range">5</field>
+              <field name="trg_date_range_type">day</field>
+              <field name="server_action_ids" eval="[(6,0,[ref('act_alerta_func_anticipos')])]"/>
+        </record>
+    </data>
+</openerp>

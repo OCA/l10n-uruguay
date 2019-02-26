@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 C-->
+        <record id="view_grp_caja_chica_valores_custodia_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja_chica.valores_custodia.wizard.form</field>
+            <field name="model">grp.caja_chica.valores_custodia.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Valores en custodia en efectivo">
+                    <separator string="Valores en custodia"/>
+                    <field name="valores_custodia_ids" height="300" width="700">
+                        <tree editable="bottom" edit="true">
+                            <field name="name" readonly="1"/>
+                            <field name="tipo_id" readonly="1"/>
+                            <field name="fecha" readonly="1"/>
+                            <field name="fecha_vencimiento" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="descripcion" readonly="1"/>
+                            <field name="monto" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="fecha_fin_contrato" readonly="1"/>
+
+                            <field name="fecha_baja" readonly="1"/>
+                            <field name="diario_baja" readonly="1"/>
+
+                            <field name="fecha_entregado" readonly="1"/>
+
+                            <field name="state" readonly="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Confirmar" name="transfer_account_voucher" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_chica_valores_custodia_wizard" model="ir.actions.act_window">
+            <field name="name">Valores en custodia en efectivo</field>
+            <field name="res_model">grp.caja_chica.valores_custodia.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_chica_valores_custodia_wizard_form"/>
+        </record>
+    </data>
+</openerp>

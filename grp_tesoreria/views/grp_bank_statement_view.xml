@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--
+        #############################################################################################
+        #    Proyecto:   grp
+        #    Fecha:      10/08/2015
+        #    Autor:      Carolina Fernández & Enrique Chaviano
+        #    CompaÃ±ia:  Quanam - www.quanam.com
+        #    Adecuacion: Tesoreria
+        #############################################################################################
+        #Ref  Id Tarea                        Desa       Fecha        Descripcion
+        #001  TR_01     CFERNANDEZ  10/08/2015     Modificacion del modelo estandar de diarios
+        #003  TR_04     CFERNANDEZ  20/08/2015     Modificaciones a la ventana estandar registro de caja
+        #004  TR_05     CFERNANDEZ    20/08/2015   Modificaciones a la ventana estandar extractos bancarios
+        #############################################################################################
+        -->
+
+        <!-- 001- Inicio-->
+        <!-- 001- Inicio-->
+        <record id="account_journal_inherited_form" model="ir.ui.view">
+            <field name="name">account.journal.inherited.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="caja_viaticos" attrs="{'invisible': [('type', 'not in', ['cash'])]}" string="Caja chica"/><!-- TODO: SPRING 10 GAP 474 M-->
+                    <field name="caja_recaudadora"/><!-- TODO: SPRING 10 GAP 474 M-->
+                    <field name="caja_pagadora"/><!-- TODO: SPRING 10 GAP 474 M-->
+                    <field name="caja_chica_t"/><!-- TODO: SPRING 10 GAP 474 M-->
+                    <field name="fondo_rotatorio" attrs="{'invisible': [('type', 'not in', ['bank'])]}"/><!-- TODO: SPRING 10 GAP 266 C-->
+                    <field name="recaudacion_cta" attrs="{'invisible': [('type', 'not in', ['bank'])]}"/><!-- TODO: SPRING 11 GAP 292 M-->
+                </field>
+                <page string="Cash Registers" position="after">
+                    <page string="Usuarios autorizados" attrs="{'invisible': [('type', 'not in', ['bank', 'cash'])]}">
+                        <group>
+                            <group>
+                                <field name="cuenta_analitica_id"/><!-- TODO: SPRING 11 GAP 292 M-->
+                                <field name="users" string="Usuarios"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+        <!-- 001- Fin-->
+
+        <!--RAGU ocultando Reestablecer a nuevo-->
+        <!--RAGU reabrir en estado revisado-->
+        <record id="bank_statement_draft_form_inherit2" model="ir.ui.view">
+            <field name="name">bank.statement.draft.form2.tesoreria.inherit</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account_cancel.bank_statement_draft_form_inherit2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_cancel']" position="after">
+                    <button name="button_reopen" states="revisado" string="Abrir" type="object" groups="grp_tesoreria.group_grp_contabilidad_tesoreria"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- 003-Inicio-->
+        <!-- Cash registers-->
+        <record id="view_bank_statement_form2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.tesoreria</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="grp_account_distribution.view_bank_statement_form2"/>
+            <field name="arch" type="xml">
+                <button name="button_cancel" position="after">
+                    <button name="action_cancelado" states="open" string="Cerrar caja" type="object"
+                            confirm="Esta seguro que desea cerrar la caja? Si hay una diferencia de saldos y se cierra la caja se creara un movimiento por la diferencia, presione cancelar para ajustar el cierre del control de caja."
+                            groups="grp_tesoreria.group_grp_tesoreria_interior"/>
+                    <button name="action_revisado" states="end" string="Revisado" type="object"
+                            groups="grp_tesoreria.group_grp_tesoreria"/>
+                    <button name="action_abrir" states="end" string="Abrir" type="object"
+                            groups="grp_tesoreria.group_grp_tesoreria,grp_tesoreria.group_grp_tesoreria_interior"/>
+                    <!--<button name="action_ver_tres_en_uno" string="Ver 3 en 1" type="object"-->
+                            <!--attrs="{'invisible': [('ver_tres_en_uno','!=',True)]}"/>-->
+                    <field name="es_diario_control_efectivo" invisible="True"/>
+                    <!--<field name="tiene_permiso_grp_interior" invisible="True"/>-->
+                    <field name="tiene_grupos" invisible="True"/>
+                </button>
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">draft,open,end,revisado,confirm</attribute>
+                </field>
+
+                <button name="button_confirm_cash" position="attributes">
+                    <attribute name="groups">grp_tesoreria.group_grp_contabilidad_tesoreria</attribute>
+                    <attribute name="states">revisado</attribute>
+                </button>
+
+                <button name="button_open" position="attributes">
+                    <attribute name="groups">grp_tesoreria.group_grp_tesoreria_interior</attribute>
+                    <!-- GAPF0020_128 Inicio -->
+                    <attribute name="attrs">{'invisible': ['|',('control_revision','=',True)]}</attribute>
+                    <!-- GAPF0020_128 Fin -->
+                </button>
+
+                <!-- GAPF0020_128 Inicio -->
+                <button name="button_open" position="after">
+                    <button name="button_open"
+                            states="draft"
+                            string="Open CashBox"
+                            type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': ['|',('control_revision','!=',True)]}"
+                            confirm="El registro de caja anterior no ha sido revisado."
+                            groups="grp_tesoreria.group_grp_tesoreria_interior"/>
+                </button>
+                <!-- GAPF0020_128 Fin -->
+
+                <xpath expr="//button[@string='Reconcile']" position="attributes">
+                    <attribute name="groups">grp_tesoreria.group_grp_contabilidad_tesoreria</attribute>
+                    <attribute name="states">revisado</attribute>
+                </xpath>
+
+                <!--<field name="line_ids" position="attributes">-->
+                    <!--<attribute name="attrs">{'readonly': ['|',('state','not in',('open')),('tiene_grupos','=',True)]}</attribute>-->
+                <!--</field>-->
+
+                <field name="journal_id" position="attributes">
+                    <attribute name="domain">[('type', '=', 'cash'),('caja_viaticos','=',True),('users','=',uid)]</attribute>
+                    <attribute name="attrs">{'readonly': [('state','not in',('draft', 'open', False))]}</attribute>
+                </field>
+
+                <field name="user_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state','not in',('open'))]}</attribute>
+                </field>
+
+                <field name="period_id" position="after">
+                    <field name="caja_viaticos" invisible="1"/>
+                    <!-- GAPF0020_218 Inicio -->
+                    <field name="control_revision" invisible="1"/>
+                </field>
+
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='date']" position="after">
+                    <field name="concepto_id" domain="[('caja_chica','=',True)]" required="True"
+                           on_change="onchange_concepto_id(concepto_id)"
+                           attrs="{'readonly':[('concepto_editable','=',False)]}"/>
+                    <field name="concepto_editable" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                </xpath>
+
+                <!--<xpath expr="/form/sheet/notebook/page/field/tree/field[@name='date']" position="attributes">-->
+                    <!--<attribute name="attrs">{'readonly': [('state','not in',('draft','open'))]}</attribute>-->
+                <!--</xpath>-->
+                <!--<xpath expr="/form/sheet/notebook/page/field/tree/field[@name='entry_date']" position="attributes">-->
+                    <!--<attribute name="states">draft,open</attribute>-->
+                <!--</xpath>-->
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='name']" position="attributes">
+                    <attribute name="string">Descripción</attribute>
+                    <attribute name="attrs">{'readonly': [('state','not in',('draft', 'open', False))]}</attribute>
+                </xpath>
+
+                <xpath expr="/form/sheet/notebook/page[@string='Cash Transactions']" position="after">
+                    <page string="Llave presupuestal"
+                          attrs="{'invisible': [('state','not in',('confirm')),('caja_viaticos','!=',False)]}">
+                        <group>
+                            <field name="linea_llp_ids" nolabel="1" readonly="True">
+                                <tree editable="bottom" string="Linea llave presupuestal">
+                                    <field name="registro_caja_id" invisible="1"/>
+                                    <field name="concepto_id"/>
+                                    <field name="programa_id"/>
+                                    <field name="proyecto_id"/>
+                                    <field name="odg_id"/>
+                                    <field name="auxiliar_id"/>
+                                    <field name="mon_id"/>
+                                    <field name="tc_id"/>
+                                    <field name="importe"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+
+                <sheet position='after'>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </sheet>
+
+                <!--RAGU actualizar saldo inicial-->
+                <xpath expr="//field[@name='balance_start']" position="after">
+                    <button name="action_update_balance_start" type="object" class="oe_link oe_inline" string="(Actualizar Saldo inicial)" colspan="2" states="draft"/>
+                </xpath>
+
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='analytics_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+
+                <field name="balance_end" position="after">
+                    <label for="expense_amount" string="Total de gastos" class="oe_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                    <field name="expense_amount" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency'}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="grp_view_bank_statement_form2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.cash.grp.tesoreria</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="facturas_uy.grp_view_bank_statement_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='entry_date']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='date']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='partner_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='amount']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='ref']" position="attributes">
+                    <attribute name="attrs">{'readonly': ['|',('journal_entry_id', '!=', False),('state','not in',('draft','open', False))]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--003-Fin-->
+
+        <!-- 004-Inicio-->
+        <!-- estracto bancario -->
+        <record id="account_bank_extractos_inherited_form" model="ir.ui.view">
+            <field name="name">account.bank.statement.form</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+                <button name="button_cancel" position="after">
+                    <button name="action_cancelado" states="open" string="Finalizar" type="object" groups="grp_tesoreria.group_grp_contabilidad_tesoreria"/>
+                </button>
+                <field name="state" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,end,confirm"
+                           statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                </field>
+                <!--1 Boton reconciliar solo para el grupo grp Tesoreria -->
+                <xpath expr="//button[@string='Reconcile']" position="attributes">
+                    <attribute name="groups">grp_tesoreria.group_grp_tesoreria</attribute>
+                </xpath>
+                <!--2 Boton importar facturas-->
+                <xpath expr="//button[@string='Import Invoice']" position="attributes">
+                    <attribute name="groups">grp_tesoreria.group_grp_tesoreria</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="wizard_cerrar_caja_account_bank">
+            <field name="name">account.bank.statement.wizard.cerrar.caja</field>
+            <field name="model">account.bank.statement</field>
+            <field name="arch" type="xml">
+                <form string="Wizard" version="7.0">
+                    <p>
+                    </p>
+                    <footer>
+                        <button type="object" name="ejecutar_priorizadas" string="Consultar priorizadas"
+                                class="oe_highlight"/>
+                        or
+                        <button type="object" string="Cancelar" special="cancel" class="oe_link"/>
+                        or
+                        <button type="object" name="ir_a_priorizadas" string="Ir a priorizadas" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <!--004-Fin-->
+        <record id="account_conciliacion_bank_inherited_form" model="ir.ui.view">
+            <field name="name">bank.acc.rec.statement.form</field>
+            <field name="model">bank.acc.rec.statement</field>
+            <field name="inherit_id" ref="npg_bank_account_reconciliation.view_bank_acc_rec_statement_form"/>
+            <field name="arch" type="xml">
+                <field name="account_id" position="before">
+                    <field name="journal_id" on_change="onchange_journal_id(journal_id)"
+                           domain="[('type','in',['bank'])]"/>
+                </field>
+                <field name="account_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="res_users_inherited_form" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="journal_ids" invisible="True"/>
+                </field>
+            </field>
+        </record>
+
+        <!--RAGU ocultando cancelar que impone account_cancel a las lineas-->
+        <record id="bank_statement_cancel_form_inherit" model="ir.ui.view">
+            <field name="name">bank.statement.cancel.form.tesoreria.inherit</field>
+            <field name="model">account.bank.statement</field>
+            <field name="sequence">17</field>
+            <field name="inherit_id" ref="account_cancel.bank_statement_cancel_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='cancel']" position="replace"/>
+            </field>
+        </record>
+
+        <record id="bank_statement_cancel_form_inherit2" model="ir.ui.view">
+            <field name="name">bank.statement.cancel.form.tesoreria.inherit2</field>
+            <field name="model">account.bank.statement</field>
+            <field name="sequence">17</field>
+            <field name="inherit_id" ref="account_cancel.bank_statement_cancel_form_inherit2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='cancel']" position="replace"/>
+            </field>
+        </record>
+
+
+        <menuitem string="Bank Statements" action="account.action_bank_statement_tree"
+                  id="account.menu_bank_statement_tree" parent="account.menu_finance_bank_and_cash" sequence="7"
+                  groups="base.group_system"/>
+        <!--TODO: ver que grupos acceden-->
+
+        <menuitem
+                icon="STOCK_JUSTIFY_FILL"
+                action="npg_bank_account_reconciliation.action_bank_acc_rec_statement"
+                id="npg_bank_account_reconciliation.npg_bank_acc_rec_statement_menu"
+                parent="account.menu_finance_bank_and_cash"
+                sequence="5" string="Conciliación Bancaria"
+                groups="npg_bank_account_reconciliation.group_bank_stmt_preparer,npg_bank_account_reconciliation.group_bank_stmt_verifier"/>
+
+        <!-- Permisos a grp interior al wizard estandar de sacar dinero -->
+
+        <act_window
+                name="Take Money Out"
+                res_model="cash.box.out"
+                src_model="account.bank.statement"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"
+                id="account.action_cash_box_out" groups="grp_tesoreria.group_grp_tesoreria_interior"/>
+
+        <!-- Permisos a grp interior al wizard estandar de poner dinero -->
+
+        <act_window
+                name="Put Money In"
+                res_model="cash.box.in"
+                src_model="account.bank.statement"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"
+                id="account.action_cash_box_in" groups="grp_tesoreria.group_grp_tesoreria_interior"/>
+
+    </data>
+</openerp>

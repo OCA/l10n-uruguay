@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Vista lista: Tipos valores custodias-->
+        <record id="tipo_valores_custodias_view_tree" model="ir.ui.view">
+            <field name="name">view.tipo.valores.custodias.tree</field>
+            <field name="model">grp.tipo_valores_custodias</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo valores en custodias ">
+                    <field name="name"/>
+                    <field name="efectivo"/>
+                    <field name="account_id"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Vista form: Tipo valores custodias -->
+        <record id="dimension_multiproposito_view_form" model="ir.ui.view">
+            <field name="name">view.tipo.valores.custodias.form</field>
+            <field name="model">grp.tipo_valores_custodias</field>
+            <field name="arch" type="xml">
+                <form string="Tipo valores en custodias ">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="efectivo"/>
+                            <field name="transferencia"/>
+                            <field name="account_id"/>
+                            <field name="product_id"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Acción: Tipo valores custodias
+        Vistas tree, form
+        (N): Contabilidad / Configuración / Varios / Valores en custodia -->
+        <record id="action_tipo_valores_custodias_form" model="ir.actions.act_window">
+            <field name="name">Tipo valores custodias</field>
+            <field name="res_model">grp.tipo_valores_custodias</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+
+        </record>
+
+        <menuitem name="Tipo valores custodias" id="tipo_valores_custodias_menu" parent="account.menu_configuration_misc"
+                  action="action_tipo_valores_custodias_form" sequence="30"/>
+
+    </data>
+</openerp>

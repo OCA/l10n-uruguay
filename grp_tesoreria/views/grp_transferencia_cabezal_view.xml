@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 11 GAP 285 C-->
+
+        <record id="view_grp_transferencia_cabezal_filter" model="ir.ui.view">
+            <field name="name">grp.transferencia.cabezal.search</field>
+            <field name="model">grp.transferencia.cabezal</field>
+            <field name="arch" type="xml">
+                <search string="Transferencias por BROU">
+                    <field name="date"/>
+                    <field name="production_date"/>
+                    <filter string="Borrador" name="state_draft" domain="[('state','=','draft')]" icon="terp-document-new"/>
+                    <filter string="Confirmado" name="state_open" domain="[('state','=','confirm')]" icon="terp-check"/>
+                    <filter string="Finalizado" name="state_confirmed" domain="[('state','=','end')]" icon="terp-camera_test"/>
+                    <field name="journal_id" domain="[('type', '=', 'bank')]" />
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Estado" context="{'group_by': 'state'}" icon="terp-stock_effects-object-colorize"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_transferencia_cabezal_tree2" model="ir.ui.view">
+            <field name="name">grp.transferencia.cabezal.tree</field>
+            <field name="model">grp.transferencia.cabezal</field>
+            <field name="arch" type="xml">
+                <tree string="Transferencias por BROU">
+                    <field name="journal_id"/>
+                    <field name="agreement"/>
+                    <field name="date"/>
+                    <field name="production_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_grp_transferencia_cabezal_form2" model="ir.ui.view">
+            <field name="name">grp.transferencia.cabezal.form</field>
+            <field name="model">grp.transferencia.cabezal</field>
+            <field name="arch" type="xml">
+                <form string="Transferencia por BROU">
+                <header>
+                    <button name="button_confirm" states="draft" string="Confirmar" type="object" class="oe_highlight" />
+                    <button name="button_cancel" states="confirm" string="Cancelar" type="object" class="oe_highlight"
+                    attrs="{'invisible':['|','|',('state_brou','!=', 'draft'),('state_other','!=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirm,end"/>
+                </header>
+                <sheet >
+                    <group col="4" colspan="4">
+                        <group col="2" style="width: 50%%">
+                            <field name="journal_id"/>
+                            <field name="agreement"/>
+                            <field name="date"/>
+                            <field name="production_date"/>
+                            <field name="id" invisible="1"/>
+                            <field name="mov_line_domain" invisible="1"/>
+                            <field name="id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Comprobantes" >
+                            <div class="oe_left oe_button_box" name="buttons">
+                                <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_transferencia_cabezal_comp_wizard)d" type="action"
+                                    icon="fa-pencil-square-o" string="Seleccionar comprobantes" states="draft" style="white-space: normal;height: 50px;"
+                                        context="{'domain':mov_line_domain[0][2],'default_transfer_id':id}">
+                                </button>
+                            </div>
+                            <field name="line_ids" context="{'domain':mov_line_domain[0][2]}">
+                                <tree editable="bottom" create="false">
+                                    <field name="move_line_id" domain="[('id','in', context.get('domain',[]))]"/>
+                                    <field name="nro_factura_proveedor" />
+                                    <field name="type" />
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="date" />
+                                    <field name="number" />
+                                    <field name="currency_id" />
+                                    <field name="amount" />
+                                    <field name="approve_date" />
+                                    <field name="bank_id" required="1" domain="[('id','in', bank_domain[0][2])]"/>
+                                    <field name="bank_domain" invisible="1"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                        <page string="Resumen BROU" attrs="{'invisible':[('state','=', 'draft')]}">
+                            <div class="oe_left oe_button_box" name="buttons" style="width: 60%">
+                                <button class="oe_left oe_stat_button" states="confirm" name="generate_file_brou" type="object"
+                                    icon="fa-pencil-square-o" string="Generar archivo" attrs="{'invisible':['|',('state_brou','!=','draft')]}"/>
+                                <button class="oe_left oe_stat_button" context="{'brou':True}" states="confirm" name="btn_send" type="object"
+                                    icon="fa-pencil-square-o" string="Enviar" attrs="{'invisible':['|','|',('file_generate','=', False),('state_brou','!=','draft')]}"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_select_all" type="object"
+                                    icon="fa-pencil-square-o" context="{'brou':True}" string="Seleccionar Todo" attrs="{'invisible':['|',('state_brou','!=','file_return')]}"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_remove_all" type="object"
+                                    icon="fa-pencil-square-o" string="Desmarcar Todo" context="{'brou':True}" attrs="{'invisible':['|',('state_brou','!=','file_return')]}"/>
+                                <button class="oe_stat_button" states="confirm" context="{'brou':True}" name="btn_confirm" type="object"
+                                    icon="fa-pencil-square-o" string="Confirmar" attrs="{'invisible':['|',('state_brou','!=', 'file_return')]}"
+                                groups="grp_tesoreria.group_grp_tesoreria_aprobacion_transferencia" confirm="Está seguro que las líneas seleccionadas son las confirmadas?"/>
+                                <button class="oe_stat_button" states="confirm" context="{'brou':True}" name="btn_cancel" type="object"
+                                    icon="fa-pencil-square-o" string="Cancelar" attrs="{'invisible':['|',('state_brou','!=', 'file_return')]}"
+                                groups="grp_tesoreria.group_grp_tesoreria_aprobacion_transferencia"/>
+                            </div>
+                            <group col="2" expand="1">
+                                <group style="width: 50%%">
+                                    <field name="file_generate" filename="filename" readonly="1"/>
+                                    <field name="filename" invisible="1"/>
+                                    <field name="file_return" attrs="{'readonly':[('state_brou','!=','send')]}"/>
+                                    <field name="file_return_name" invisible="1"/>
+                                    <field name="state_brou" readonly="1"/>
+                                </group>
+                                <field name="line_brou_ids" colspan="2" nolabel="1">
+                                    <tree editable="bottom" create="false">
+                                        <field name="partner_id"  readonly="1"/>
+                                        <field name="currency_id"  readonly="1"/>
+                                        <field name="nro_factura_proveedor"  readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="concept" readonly="1"/>
+                                        <field name="office" readonly="1"/>
+                                        <field name="acc_number" readonly="1"/>
+                                        <field name="digit" readonly="1"/>
+                                        <field name="paid" attrs="{'readonly':[('state_brou','!=','file_return')]}"/>
+                                        <field name="state_brou" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Resumen otros bancos" attrs="{'invisible':[('state','=', 'draft')]}">
+                            <div class="oe_left oe_button_box" name="buttons">
+                                <button class="oe_left oe_stat_button" states="confirm" name="generate_file_other" type="object"
+                                    icon="fa-pencil-square-o" string="Generar archivo" attrs="{'invisible':['|',('state_other','!=','draft')]}"/>
+                                <button class="oe_left oe_stat_button" states="confirm" name="btn_send" type="object"
+                                    icon="fa-pencil-square-o" string="Enviar" attrs="{'invisible':['|','|',('show_btn_send','=', False),('state_other','!=','draft')]}"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_select_all" type="object"
+                                    icon="fa-pencil-square-o" string="Seleccionar Todo" attrs="{'invisible':['|',('state_other','!=', 'file_return')]}"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_remove_all" type="object"
+                                    icon="fa-pencil-square-o" string="Desmarcar Todo" attrs="{'invisible':['|',('state_other','!=', 'file_return')]}"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_confirm" type="object"
+                                    icon="fa-pencil-square-o" string="Confirmar" attrs="{'invisible':['|',('state_other','!=', 'file_return')]}"
+                                groups="grp_tesoreria.group_grp_tesoreria_aprobacion_transferencia" confirm="Está seguro que las líneas seleccionadas son las confirmadas?"/>
+                                <button class="oe_stat_button" states="confirm" name="btn_cancel" type="object"
+                                    icon="fa-pencil-square-o" string="Cancelar" attrs="{'invisible':['|',('state_other','!=', 'file_return')]}"
+                                groups="grp_tesoreria.group_grp_tesoreria_aprobacion_transferencia"/>
+                            </div>
+                            <group col="2" expand="1">
+                                <group col="2" style="width: 50%%">
+                                    <field name="state_other" readonly="1"/>
+                                    <field name="show_btn_send" invisible="1"/>
+                                </group>
+                            </group>
+                            <group col="2" expand="1">
+                                 <group col="2" style="width: 60%%" string="Archivos">
+                                      <field name="other_files_ids" nolabel="1" ><!--readonly="1"-->
+                                          <tree editable="bottom" >
+                                            <field name="currency" />
+                                            <field name="file_generate" />
+                                            <field name="filename" invisible="1"/>
+                                            <field name="state_other" invisible="1"/>
+                                            <field name="file_return" attrs="{'readonly':[('state_other','!=','send')]}"/>
+                                            <field name="file_return_name" invisible="1"/>
+                                          </tree>
+                                      </field>
+                                 </group>
+                                <field name="line_other1_ids" colspan="2" nolabel="1">
+                                    <tree editable="bottom" create="false">
+                                        <field name="partner_id" readonly="1"/>
+                                        <field name="currency_id" readonly="1"/>
+                                        <field name="nro_factura_proveedor"  readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="bic" readonly="1"/>
+                                        <field name="acc_number" readonly="1"/>
+                                        <field name="receiver" />
+                                        <field name="transfer_motive"/>
+                                        <field name="receiver_address"/>
+                                        <field name="observation"/>
+                                        <field name="paid" attrs="{'readonly':[('state_other','!=','file_return')]}"/>
+                                        <field name="state_other" invisible="1"/>
+                                        <field name="type" />
+                                    </tree>
+                                </field>
+                                <field name="line_other2_ids" colspan="2" nolabel="1">
+                                    <tree editable="bottom" create="false">
+                                        <field name="partner_id" readonly="1"/>
+                                        <field name="currency_id" readonly="1"/>
+                                        <field name="nro_factura_proveedor"  readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="bic" readonly="1"/>
+                                        <field name="acc_number" readonly="1"/>
+                                        <field name="receiver" />
+                                        <field name="transfer_motive"/>
+                                        <field name="receiver_address"/>
+                                        <field name="observation"/>
+                                        <field name="paid" attrs="{'readonly':[('state_other','!=','file_return')]}"/>
+                                        <field name="state_other" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <field name="line_other3_ids" colspan="2" nolabel="1">
+                                    <tree editable="bottom" create="false">
+                                        <field name="partner_id" readonly="1"/>
+                                        <field name="currency_id" readonly="1"/>
+                                        <field name="nro_factura_proveedor"  readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="bic" readonly="1"/>
+                                        <field name="acc_number" readonly="1"/>
+                                        <field name="receiver" />
+                                        <field name="transfer_motive"/>
+                                        <field name="receiver_address"/>
+                                        <field name="observation"/>
+                                        <field name="paid" attrs="{'readonly':[('state_other','!=','file_return')]}"/>
+                                        <field name="state_other" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                    <!--<div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>-->
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_grp_transferencia_cabezal_line_form" model="ir.ui.view">
+            <field name="name">grp.transferencia.cabezal.line.form</field>
+            <field name="model">grp.transferencia.cabezal.line</field>
+            <field name="arch" type="xml">
+                <form string="Comprobante">
+                     <sheet string="Comprobante">
+                    <group col="4" colspan="4">
+                        <group col="2" >
+                            <field name="move_line_id" />
+                            <field name="type" required="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="number" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="date" readonly="1"/>
+                            <field name="approve_date" readonly="1"/>
+                            <field name="amount" readonly="1"/>
+                            <field name="bank_id" required="1" domain="[('id','in', bank_domain[0][2])]"/>
+                            <!--<field name="mov_ids_domain" invisible="1"/>-->
+                            <field name="bank_domain" invisible="1"/>
+                        </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_grp_transferencia_cabezal" model="ir.actions.act_window">
+                <field name="name">Transferencias por BROU</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">grp.transferencia.cabezal</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="search_view_id" ref="view_grp_transferencia_cabezal_filter"/>
+            </record>
+
+        <!--TODO: C INCIDENCIA-->
+        <record id="view_grp_res_company_form_inherited_transfer" model="ir.ui.view">
+            <field name="name">grp.view.res.company.form.inherited.transfer</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <field name="company_registry" position="after">
+                    <field name="agreement" required="True" />
+                </field>
+            </field>
+        </record>
+
+        <menuitem id="menu_grp_transferencia_cabezal" parent="account.menu_finance_payables" sequence="20"
+                  action="action_view_grp_transferencia_cabezal" groups="grp_tesoreria.group_grp_tesoreria_aprobacion_transferencia,grp_tesoreria.group_grp_tesoreria"/>
+
+
+    </data>
+</openerp>

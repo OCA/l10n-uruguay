@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Search herencia: agrega agrupaciones por Comisión de Ayuda y patronato -->
+        <record id="view_hr_expense_filter_inherited" model="ir.ui.view">
+            <field name="name">Inherited hr_expense filter</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="arch" type="xml">
+                <field name="department_id" postition="after">
+                    <filter string="En comisión" icon="terp-personal" domain="[('employee_id.is_comision_apoyo','=','1')]" context="{}" help="Empleados en Comisión"/>
+                    <filter string="Patronato" icon="terp-personal" domain="[('employee_id.is_patronato','=','1')]" context="{}" help="Empleados de Patronato"/>
+                    <filter string="Otros" icon="terp-personal" domain="[('employee_id.is_otros','=','1')]" context="{}" help="Otros"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="grp_view_expenses_form" model="ir.ui.view">
+            <field name="name">hr.expense.form.grp</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="entry_date" readonly="1"/>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="string">Fecha asiento</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

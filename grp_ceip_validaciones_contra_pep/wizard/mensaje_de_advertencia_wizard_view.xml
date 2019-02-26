@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_mensaje_de_advertencia_wizard_form">
+            <field name="name">mensaje.de.advertencia.form</field>
+            <field name="model">mensaje.de.advertencia.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form version="7.0">
+                    <group>
+                        <center><field name="mensaje_a_mostrar" nolabel="1" /></center>
+                    </group>
+                </form>
+                <footer>
+                    <button name="boton_continuar" type="object" string="Continuar" class="oe_highlight"/>
+                    o
+                    <button type="special" special="cancel" string="Cancelar" class="oe_link"/>
+                </footer>
+            </field>
+        </record>
+
+    </data>
+</openerp>

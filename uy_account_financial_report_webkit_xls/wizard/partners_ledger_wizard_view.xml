@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="partner_ledger_webkit_xls_wizard_view" model="ir.ui.view">
+      <field name="name">partners.ledger.webkit.xls</field>
+      <field name="model">partners.ledger.webkit</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="account_financial_report_webkit_xls.partner_ledger_webkit_xls_wizard_view"/>
+      <field name="arch" type="xml">
+        <data>
+           <button string="Export"  position="replace">
+               <button name="xls_export" string="Imprimir Excel" type="object" context="{'xls_export':1}" colspan="2" class="oe_highlight"/>
+           </button>
+        </data>
+      </field>
+    </record>
+
+  </data>
+</openerp>

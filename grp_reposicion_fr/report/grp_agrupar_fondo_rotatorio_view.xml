@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="view_grp_agrupar_fondo_rotarios_tree" model="ir.ui.view">
+            <field name="name">grp.agrupar.fondo.rotarios.tree</field>
+            <field name="model">grp.agrupar.fondo.rotarios</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Agrupador fondo rotatorio" create="false" delete="false">
+                    <field name="tipo_documento"/>
+                    <field name="proveedor"/>
+                    <field name="fecha_factura"/>
+                    <field name="n_documento"/>
+                    <field name="total"/>
+                    <field name="estado"/>
+                    <field name="ue"/>
+                    <field name="inciso"/>
+                    <field name="operating_unit_id"/>
+                    <field name="journal_id"/>
+                    <field name="fecha_pago"/>
+                    <field name="currency_id"/>
+                    <field name="id_documento" invisible="1"/>
+                    <button name="open_document" string="Ver Factura" type="object" icon="gtk-find" context="{'id_documento':'id_documento','tipo_documento':'tipo_documento'}"/>
+                </tree>
+            </field>
+        </record>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="view_grp_agrupar_fondo_rotarios" model="ir.ui.view">
+            <field name="name">grp.agrupar.fondo.rotarios.filter</field>
+            <field name="model">grp.agrupar.fondo.rotarios</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Fondos Rotarorios">
+                    <field name="ue"/>
+                    <field name="inciso"/>
+                    <field name="tipo_documento"/>
+                    <field name="fecha_factura"/>
+                    <field name="journal_id"/>
+                    <field name="operating_unit_id"/>
+                    <field name="fecha_pago"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Inciso" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'inciso'}"/>
+                        <filter string="Tipo de documento" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'tipo_documento'}"/>
+                        <filter string="Diario" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'journal_id'}"/>
+                        <filter string="Unidad ejecutora" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'operating_unit_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="action_grp_agrupar_fondo_rotarios" model="ir.actions.act_window">
+            <field name="name">Agrupador fondo rotatorio</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.agrupar.fondo.rotarios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_agrupar_fondo_rotarios_tree"/>
+            <field name="search_view_id" ref="view_grp_agrupar_fondo_rotarios"/>
+        </record>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <menuitem id="menu_grp_agrupar_fondo_rotarios" name="Agrupador fondo rotatorio" sequence="01"
+                  parent="menu_grp_reposicion_fondo_rotatorio"
+                  action="action_grp_agrupar_fondo_rotarios"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="action_agrupar_comprobantes" model="ir.actions.server">
+            <field name="name">Agrupar comprobantes</field>
+            <field name="model_id" ref="model_grp_agrupar_fondo_rotarios"/>
+            <field name="state">code</field>
+            <field name="code">
+                if context.get('active_model') == 'grp.agrupar.fondo.rotarios' and context.get('active_ids'):
+                    action = self.agrupar_comprobantes(cr, uid, context['active_ids'], context=context)
+            </field>
+        </record>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="ir_agrupar_comprobantes" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'grp.agrupar.fondo.rotarios'" name="model"/>
+            <field name="name">Agrupar comprobantes</field>
+            <field eval="'ir.actions.server,%d'%action_agrupar_comprobantes" name="value"/>
+            <field name="groups">grp_seguridad.grp_compras_apg_Responsable_SIIF</field>
+        </record>
+
+    </data>
+</openerp>

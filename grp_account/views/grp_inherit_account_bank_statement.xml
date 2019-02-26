@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--&lt;!&ndash; Herencia Vista form: Extracto Bancario&ndash;&gt;-->
+        <record id="account_bank_statement_form_inherited" model="ir.ui.view">
+            <field name="name">Inherited Form View for Bank Statement View</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml"  >
+                <xpath expr="//sheet/group/group/field[@name='journal_id']" position="after" >
+                    <field name="bank_id" />
+                    <field name="agencia"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--&lt;!&ndash; Herencia Vista Tree: Extracto Bancario&ndash;&gt;-->
+        <record id="account_bank_statement_tree_inherited" model="ir.ui.view">
+            <field name="name">Inherited Tree View for Bank Statement View</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_tree"/>
+
+            <field name="arch" type="xml"  >
+
+                <xpath expr="//tree/field[@name='journal_id']" position="after" >
+                    <field name="bank_id" />
+                    <field name="agencia"/>
+
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

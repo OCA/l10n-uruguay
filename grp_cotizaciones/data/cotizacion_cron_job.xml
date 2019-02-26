@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record forcecreate="True" id="ir_cron_cotizacion_action" model="ir.cron">
+            <field name="name">SIIF: Actualización de la cotización de las monedas</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall" eval="False" />
+            <field name="model">res.currency</field>
+            <field name="function">get_cotizaciones</field>
+            <field name="args">()</field>
+        </record>
+    </data>
+</openerp>

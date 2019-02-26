@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Herencia Vista form: Registro de los servicios  de los vehiculos -->
+        <record id="fleet_vehicle_log_services_form_inherited" model="ir.ui.view">
+            <field name="name">Inherited Form View for Fleet View</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_form"/>
+
+            <field name="arch" type="xml"  >
+
+                <xpath expr="//sheet/group[position()=1]" position="inside" >
+                    <group>
+
+                    </group>
+                    <group string="Detalle cambio de cubiertas" attrs="{'invisible':[('ocultar', '=', True)]}" >
+                        <field name="cantidad_cubiertas" attrs="{'required': [('ocultar', '=', False)]}"/>
+                        <field name="origen_cubierta" attrs="{'required': [('ocultar', '=', False)]}"/>
+                        <field name="ocultar" invisible="1"/>
+                    </group>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <!--TODO SPRING 5 GAP 41 MODELOS NUEVOS-->
+        <!--EQUIPAMIENTO-->
+        <record id="grp_fleet_vehicle_equipment_search" model="ir.ui.view">
+            <field name="name">grp.fleet.vehicle.equipment.search</field>
+            <field name="model">grp.fleet.vehicle.equipment</field>
+            <field name="arch" type="xml">
+                <search string="Equipamientos">
+                    <field name="vehicle_id" />
+                </search>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='grp_fleet_vehicle_equipment_tree'>
+            <field name="name">grp.fleet.vehicle.equipment.tree</field>
+            <field name="model">grp.fleet.vehicle.equipment</field>
+            <field name="arch" type="xml">
+                <tree string="Equipamientos" editable="top">
+                    <field name="vehicle_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="deliver_date"/>
+                    <field name="due_date"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='action_grp_grp_fleet_vehicle_equipment_inside'>
+            <field name="name">Equipamientos</field>
+            <field name="res_model">grp.fleet.vehicle.equipment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!--INCIDENTE-->
+        <record id="grp_fleet_vehicle_situation_search" model="ir.ui.view">
+            <field name="name">grp.fleet.vehicle.situation.search</field>
+            <field name="model">grp.fleet.vehicle.situation</field>
+            <field name="arch" type="xml">
+                <search string="Situaciones">
+                    <field name="vehicle_id" />
+                </search>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='grp_fleet_vehicle_situation_tree'>
+            <field name="name">grp.fleet.vehicle.situation.tree</field>
+            <field name="model">grp.fleet.vehicle.situation</field>
+            <field name="arch" type="xml">
+                <tree string="Incidentes" editable="top">
+                    <field name="vehicle_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='action_grp_grp_fleet_vehicle_situation_inside'>
+            <field name="name">Incidentes</field>
+            <field name="res_model">grp.fleet.vehicle.situation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!--TODO SPIRNG 5 GAP 49-->
+        <record model='ir.ui.view' id='grp_preventive_service_tree'>
+            <field name="name">fleet.vehicle.preventive.service.tree</field>
+            <field name="model">fleet.vehicle.preventive.service</field>
+            <field name="arch" type="xml">
+                <tree string="Servicios Preventivos" editable="top">
+                    <field name="service_id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="vehicle_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--TODO SPIRNG 5 GAP 49-->
+        <record model='ir.actions.act_window' id='action_grp_vehicle_preventive_service'>
+            <field name="name">Servicios preventivos</field>
+            <field name="res_model">fleet.vehicle.preventive.service</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('vehicle_id', 'in', [active_id])]</field>
+        </record>
+
+        <record model='ir.ui.view' id='fleet_vehicle_form'>
+            <field name="name">fleet.vehicle.form.grp</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_form"/>
+            <field name="arch" type="xml">
+
+                <!--ADICIONANDO TIPO DE VEHICULO-->
+                <field name="tag_ids" position="after">
+                    <label for="type" class="oe_edit_only"/>
+                    <h4>
+                        <field name="type" class="oe_inline"/>
+                    </h4>
+                    <field name="drive_book_warning" invisible="1"/>
+                </field>
+                <!--CAMPOS Y BOTONERA PARA TIPO OFICIAL-->
+                <field name="driver_id" position="replace">
+                    <field name="state" invisible="1"/>
+                    <field name="drive_ids" attrs="{'required':[('type', '=', 'official')],'invisible': [('type', '!=', 'official')]}" widget="many2many_tags"/>
+                    <field name="motive" attrs="{'invisible': [('type', '!=', 'official')]}"/>
+                </field>
+                <field name="transmission" position="before">
+                    <field name="engine_number" attrs="{'required':[('type', '=', 'official')]}"/>
+                </field>
+                <field name="vin_sn" position="attributes">
+                    <attribute name="attrs">{'required': [('type', '=', 'official')],'invisible': [('type','in',[False,'private'])]}</attribute>
+                </field>
+                <field name="acquisition_date" position="attributes">
+                    <attribute name="attrs">{'required': [('type', '=', 'official')]}</attribute>
+                </field>
+                <field name="acquisition_date" position="after">
+                    <field name="register_date" attrs="{'required':[('type', '=', 'official')]}"/>
+                </field>
+                <!--TODO SPRING 5 GAP 44-->
+                <field name="car_value" position="after">
+                    <field name="policy_number" attrs="{'required':[('type', '=', 'official')]}"/>
+                </field>
+                <xpath expr="//sheet/div[2]" position="inside">
+                    <button name="%(action_grp_grp_fleet_vehicle_equipment_inside)d"
+                            groups="fleet.group_fleet_manager"
+                            type="action"
+                            context="{'default_vehicle_id':active_id,'search_default_vehicle_id': active_id}"
+                            class="oe_stat_button"
+                            icon="fa-puzzle-piece"
+                            attrs="{'invisible': [('type','in',[False,'private'])]}"
+                            help="Equipamiento del vehículo">
+                        <field name="equipment_count" widget="statinfo" string="Equipamientos"/>
+                    </button>
+                    <button name="%(action_grp_grp_fleet_vehicle_situation_inside)d"
+                            groups="fleet.group_fleet_manager"
+                            type="action"
+                            context="{'default_vehicle_id':active_id,'search_default_vehicle_id': active_id}"
+                            class="oe_stat_button"
+                            icon="fa-bullseye"
+                            attrs="{'invisible': [('type','in',[False,'private'])]}"
+                            help="Incidentes del vehículo">
+                        <field name="situation_count" widget="statinfo" string="Incidentes"/>
+                    </button>
+
+                    <!--TODO SPIRNG 5 GAP 49-->
+                    <button name="%(action_grp_vehicle_preventive_service)d"
+                        type="action"
+                        context="{'default_vehicle_id':active_id}"
+                        class="oe_stat_button"
+                        attrs="{'invisible':[('type', '!=', 'official')]}"
+                        icon="fa-wrench">
+                        <field name="preventive_service_count" widget="statinfo" string="Serv. Preventivos"/>
+                    </button>
+                </xpath>
+
+                <!--CAMPOS Y MODIFICACIONES PARA TIPO PARTICULAR-->
+                <xpath expr="//sheet" position="before">
+                    <div attrs="{'invisible':[('drive_book_warning', '=',False)]}" class="alert alert-danger">
+                        <p><strong>Se deberá adjuntar la libreta de conducir.</strong></p>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet/group[2]" position="after">
+                    <group attrs="{'invisible':[('type', '!=', 'private')]}" colspan="2">
+                        <field name="name_holder" attrs="{'required':[('type', '=', 'private')]}"/>
+                        <field name="employee_id" attrs="{'required':[('type', '=', 'private')]}"/>
+                        <field name="sticker" attrs="{'required':[('type', '=', 'private')]}"/>
+                    </group>
+                </xpath>
+                <!--OCULTANDO BOTONERA-->
+                <xpath expr="//sheet/div[2]/button[1]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/button[2]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/button[3]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/button[4]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/div[2]/button[5]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+
+                <field name="location" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </field>
+
+                <xpath expr="//sheet/group[1]/group[2]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+                <xpath expr="//sheet/group[2]" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type','in',[False,'private'])]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='fleet_vehicle_tree'>
+            <field name="name">fleet.vehicle.tree.grp</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_tree"/>
+            <field name="arch" type="xml">
+                <tree string="Vehicle" position="replace">
+                <tree string="Vehicle" colors="orange:contract_renewal_due_soon and not contract_renewal_overdue;red:contract_renewal_overdue">
+                    <field name="type"/>
+                    <field name="engine_number"/>
+                    <field name="vin_sn"/>
+                    <field name="acquisition_date"/>
+                    <field name="register_date"/>
+                    <field name="name_holder"/>
+                    <field name="employee_id"/>
+                    <field name="sticker"/>
+                    <field name="state_id"/>
+                    <field name="contract_renewal_due_soon" invisible="1"/>
+                    <field name="contract_renewal_overdue" invisible="1"/>
+                    <field name="contract_renewal_total" invisible="1"/>
+                </tree>
+                </tree>
+            </field>
+        </record>
+
+        <!--TODO SPRING 5 GAP 42-->
+        <!--MULTA-->
+        <record model='ir.ui.view' id='grp_fleet_multa_tree'>
+            <field name="name">grp.fleet.multa.tree</field>
+            <field name="model">grp.fleet.multa</field>
+            <field name="arch" type="xml">
+                <tree string="Multas" editable="top">
+                    <field name="type"/>
+                    <field name="amount"/>
+                    <field name="currency_id"/>
+                    <field name="date"/>
+                    <field name="vehicle_id"/>
+                    <field name="description"/>
+                    <field name="driver_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='action_grp_fleet_multa_inside'>
+            <field name="name">Multas</field>
+            <field name="res_model">grp.fleet.multa</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!--EQUIPAMIENTO-->
+        <record id="grp_fleet_chofer_equipamiento_search" model="ir.ui.view">
+            <field name="name">grp.fleet.chofer.equipamiento.search</field>
+            <field name="model">grp.fleet.chofer.equipamiento</field>
+            <field name="arch" type="xml">
+                <search string="Equipamientos">
+                    <field name="driver_id" />
+                </search>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='grp_fleet_chofer_equipamiento_tree'>
+            <field name="name">grp.fleet.chofer.equipamiento.tree</field>
+            <field name="model">grp.fleet.chofer.equipamiento</field>
+            <field name="arch" type="xml">
+                <tree string="Equipamientos" editable="top">
+                    <field name="driver_id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="deliver_date"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='action_grp_fleet_chofer_equipamiento_inside'>
+            <field name="name">Equipamientos</field>
+            <field name="res_model">grp.fleet.chofer.equipamiento</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!--CHOFER-->
+        <record model='ir.ui.view' id='grp_fleet_chofer_form'>
+            <field name="name">grp.fleet.chofer.form</field>
+            <field name="model">grp.fleet.chofer</field>
+            <field name="arch" type="xml">
+                <form string="Chofer">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                        </div>
+                        <div class="oe_right oe_button_box">
+                            <button name="%(action_grp_fleet_multa_inside)d"
+                                type="action"
+                                context="{'default_driver_id':active_id,'search_default_driver_id':active_id}"
+                                class="oe_stat_button"
+                                icon="fa-money">
+                                <field name="fine_count" widget="statinfo" string="Multas"/>
+                            </button>
+                            <button name="%(action_grp_fleet_chofer_equipamiento_inside)d"
+                                type="action"
+                                context="{'default_driver_id':active_id,'search_default_driver_id':active_id}"
+                                class="oe_stat_button"
+                                icon="fa-puzzle-piece">
+                                <field name="equipment_count" widget="statinfo" string="Equipamientos"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="is_employee"/>
+                                <field name="employee_id" attrs="{'required':[('is_employee', '=', True)],'invisible':[('is_employee', '=', False)]}"/>
+                                <field name="name" attrs="{'readonly':[('is_employee', '=', True)],'required':[('is_employee', '=', False)]}"/>
+                                <field name="phone" attrs="{'readonly':[('is_employee', '=', True)],'required':[('is_employee', '=', False)], 'invisible':[('is_employee', '!=', True)]}"/>
+                                <field name="email" attrs="{'readonly':[('is_employee', '=', True)],'required':[('is_employee', '=', False)], 'invisible':[('is_employee', '!=', True)]}"/>
+                                <field name="ci" attrs="{'readonly':[('is_employee', '=', True)],'required':[('is_employee', '=', False)], 'invisible':[('is_employee', '!=', True)]}"/><!--TODO: L VARIANZA GRP-->
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Libreta">
+                                <field name="notebook_category"/>
+                                <field name="notebook_duedate"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--CHOFERES-->
+        <record model='ir.ui.view' id='grp_fleet_chofer_tree'>
+            <field name="name">grp.fleet.chofer.tree</field>
+            <field name="model">grp.fleet.chofer</field>
+            <field name="arch" type="xml">
+                <tree string="Choferes">
+                    <field name="is_employee"/>
+                    <field name="name"/>
+                    <field name="notebook_duedate"/>
+                    <field name="notebook_category"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='grp_fleet_chofer_act'>
+            <field name="name">Choferes</field>
+            <field name="res_model">grp.fleet.chofer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.fleet_configuration'>
+            <field name="sequence">10</field>
+        </record>
+
+        <menuitem name="Choferes" parent="fleet.menu_root" id="grp_fleet_choferes" sequence="5" groups="fleet.group_fleet_user"/>
+        <menuitem action="grp_fleet_chofer_act" parent="grp_fleet_choferes" id="grp_fleet_choferes_menu" groups="fleet.group_fleet_user"/>
+
+        <!--TODO SPRING 5 GAP 50-->
+        <record id="view_department_form" model="ir.ui.view">
+            <field name="name">hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="travelrequest_destinyrequired" />
+                </xpath>
+            </field>
+        </record>
+
+        <!--TODO SPRING 5 GAP 249-->
+        <record model='ir.ui.view' id='grp_fleet_vehicle_log_contract_form'>
+            <field name="name">grp.fleet.vehicle.log_contract.form</field>
+            <field name="model">fleet.vehicle.log.contract</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_contract_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form/sheet/notebook/page[@string='Generated Recurring Costs']" position="after">
+                    <page string="Facturas">
+                        <group>
+                            <field name="invoice_ids" widget="many2many" nolabel="1" domain="[('fleet_contract_id','=',False)]">
+                                <tree>
+                                    <field name="supplier_invoice_number" string="Nº de Factura"/>
+                                    <field name="date_invoice" string="Fecha de factura"/><!--TODO L INCIDENCIA-->
+                                    <field name="partner_id" string="Proveedor"/><!--TODO L INCIDENCIA-->
+                                    <field name="currency_id" string="Moneda"/><!--TODO L INCIDENCIA-->
+                                    <field name="amount_total" sum="amount_total" string="Importe total de la factura"/><!--TODO L INCIDENCIA-->
+                                    <field name="state" invisible="1"/>
+                                    <field name="fleet_contract_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--TODO: L SPRING 13 GAP 48-->
+        <record model='ir.ui.view' id='grp_fleet_vehicle_log_fuel_inherit_tree'>
+            <field name="name">grp.fleet.vehicle.log.fuel.inherit.tree</field>
+            <field name="model">fleet.vehicle.log.fuel</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_fuel_tree"/>
+            <field name="arch" type="xml">
+                <field name="liter" position="before">
+                    <field name="odometer" string="Km"/>
+                </field>
+                <field name="liter" position="after">
+                    <field name="rendimiento" sum="Rendimiento"/>
+                </field>
+            </field>
+        </record>
+
+        <!--TODO: L SPRING 13 GAP 370-->
+        <record model='ir.ui.view' id='grp_fleet_vehicle_log_fuel_form'>
+            <field name="name">grp.fleet.vehicle.fuel.form</field>
+            <field name="model">fleet.vehicle.log.fuel</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_fuel_form"/>
+            <field name="arch" type="xml">
+                <field name="liter" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="amount" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="options">{'save_readonly':True}</attribute>
+                </field>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

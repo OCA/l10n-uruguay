@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 12 GAP 70, 71, 73, 74-->
+        <record id="grp_crear_renovacion_wizard_view" model="ir.ui.view">
+            <field name="name">grp.crear.renovacion.wizard.form</field>
+            <field name="model">grp.crear.renovacion.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Renovación/ampliación de contratos">
+                    <group>
+                        <group colspan="2">
+                            <field name="tipo" attrs="{'readonly':[('convenio', '=', True)],'required':[('convenio', '=', False)]}" options="{'save_readonly':True}"/>
+                             <field name="adjudicacion_id" options="{'no_create': True, 'save_readonly':True}"
+                                attrs="{'invisible':[('convenio', '=', True)],'required':[('convenio', '=', False)]}"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="contrato_id" invisible="True"/>
+                            <field name="convenio"/>
+                            <field name="nro_renovacion" attrs="{'invisible':[('tipo', '!=', 'renovacion')]}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="crear_renovacion" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_crear_renovacion_wizard_act">
+            <field name="name">Renovación/ampliación de contratos</field>
+            <field name="res_model">grp.crear.renovacion.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_crear_renovacion_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: L SPRING 12 GAP 479 -->
+<openerp>
+    <data>
+        <record id="view_grp_remesas_siif_report_search" model="ir.ui.view">
+            <field name="name">grp.remesas.siif.report.search</field>
+            <field name="model">grp.remesas.siif.report</field>
+            <field name="arch" type="xml">
+                <search string="Reporte Remesas SIIF">
+                    <field name="caja_recaudadora_id"/>
+                    <field name="boleto_siif_id"/>
+                    <field name="remesa_id"/>
+                    <field name="date"/>
+                    <field name="siff_ticket"/>
+                    <field name="user_uid"/>
+                    <field name="operating_unit_id"/>
+                    <field name="importe"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Día" domain="[]" context="{'group_by':'date:day'}"/>
+                        <filter string="Mes" domain="[]" context="{'group_by':'date:month'}"/>
+                        <filter string="Tipo" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_grp_remesas_siif_report_graph" model="ir.ui.view">
+            <field name="name">grp.remesas.siif.report.graph</field>
+            <field name="model">grp.remesas.siif.report</field>
+            <field name="arch" type="xml">
+                <graph string="Reporte Remesas SIIF" type="pivot" stacked="True">
+                    <field name="type"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="view_grp_remesas_siif_report_tree" model="ir.ui.view">
+            <field name="name">grp.remesas.siif.report.tree</field>
+            <field name="model">grp.remesas.siif.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte Remesas SIIF">
+                    <field name="caja_recaudadora_id" invisible="1"/>
+                    <field name="boleto_siif_id" invisible="1"/>
+                    <field name="remesa_id" invisible="1"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="siff_ticket"/>
+                    <field name="user_uid"/>
+                    <field name="operating_unit_id"/>
+                    <field name="name"/>
+                    <field name="importe"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_grp_remesas_siif_report_all" model="ir.actions.act_window">
+            <field name="name">Reporte Remesas SIIF</field>
+            <field name="res_model">grp.remesas.siif.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+        </record>
+
+        <menuitem action="action_grp_remesas_siif_report_all"
+                  name="Reporte Remesas SIIF"
+                  id="menu_grp_remesas_siif_report" parent="menu_grp_account_tesoreria" sequence="1000"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_cajero_recaudador,grp_tesoreria.group_grp_cajero_verificador"/>
+
+    </data>
+</openerp>

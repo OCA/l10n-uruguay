@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 11 GAP 292 M-->
+        <record id="grp_invoice_form" model="ir.ui.view">
+            <field name="name">grp.account.invoice.customer.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="fiscal_position" position="after">
+                    <field name="in_box" readonly="1"/>
+                    <field name="caja_recaudadora_id" invisible="1"/>
+                </field>
+
+                <!--TODO: M SPRING 11 GAP 292.A-->
+                 <button name="action_invoice_sent" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+
+                <button name="invoice_open" position="after">
+                    <button name="action_caja" type="object" string="Ir a caja recaudadora" states="paid,cancel"
+                             class="oe_highlight" attrs="{'invisible': ['|',('caja_recaudadora_id', '=', False)]}"/><!---->
+                </button>
+
+                <button name="invoice_cancel" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|',('in_box', '!=', False)]}</attribute>
+                </button>
+                <button name="invoice_print" position="attributes">
+                    <attribute name="attrs">{'invisible':['|',('sent','=',True), ('state', '!=', 'paid')]}</attribute>
+                </button>
+
+                <field name="partner_id" position="after">
+                    <field name="origin_id" required="1"/>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="context">{'search_default_customer':1, 'show_address': 1, 'journal_id':journal_id}</attribute>
+                </field>
+
+                 <field name="fiscal_position" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_invoice" position="replace">
+                    <field name="date_invoice" on_change="onchange_date_invoice(payment_term, date_invoice)"/>
+                    <field name="entry_date" />
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <xpath expr="//field[@name='invoice_line']/tree//field[@name='account_analytic_id']"
+                       position="replace">
+                    <field name="account_analytic_id" groups="analytic.group_analytic_accounting"
+                        domain="[('type','!=','view'), ('company_id', '=', parent.company_id), ('state','not in',('close','cancelled'))]"
+                        invisible="1"/>
+                    <field name="analytics_id" string="Dimensiones"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']/tree//field[@name='price_subtotal']"
+                       position="after">
+                    <field name="monto_moneda_base" readonly="1"/>
+                </xpath>
+
+                <field name="operating_unit_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+                    <!--<attribute name="domain">context.get('valid_ou_ids', False) and [('id','in',context['valid_ou_ids'])] or []</attribute>-->
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="amount_untaxed" position="after">
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="total_pesos_no_round"
+                           readonly="1"
+                           widget="monetary"
+                           string="Total en pesos"
+                           options="{'currency_field': 'company_currency_id'}"/>
+                </field>
+            </field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 292 M-->
+        <record id="grp_action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Facturas de cliente</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field eval="False" name="view_id"/>
+            <field name="view_id" ref="account.invoice_form"/>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="target">new</field>
+            <field name="nodestroy">True</field>
+        </record>
+
+
+
+    </data>
+</openerp>

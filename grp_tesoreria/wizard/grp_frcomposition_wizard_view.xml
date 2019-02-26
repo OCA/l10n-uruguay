@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 15-->
+        <record id="view_grp_fr_composition_wizard_form" model="ir.ui.view">
+            <field name="name">grp.fr.composition.wizard.form</field>
+            <field name="model">grp.fr.composition.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Composición de FR">
+                    <group>
+                        <field name="date"/>
+                        <field name="fiscal_year_id"/>
+                        <field name="inciso_id"/>
+                        <field name="operating_unit_id"/>
+                        <label for="id" string="UE códigos"/>
+                        <div>
+                            <field name="operating_unit_code" class="oe_inline"/> - <field name="unidad_ejecutora" class="oe_inline"/>
+                        </div>
+                        <field name="fr_siif_id" attrs="{'required': [('operating_unit_id','!=',False)]}"/>
+                    </group>
+                    <footer>
+                        <button string="Imprimir Excel" name="action_print_xls" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_fr_composition_wizard" model="ir.actions.act_window">
+            <field name="name">Composición de FR</field>
+            <field name="res_model">grp.fr.composition.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_fr_composition_wizard_form"/>
+        </record>
+
+        <menuitem id="menu_fr_composition_item_menu"
+                  name="Composición de FR" sequence="5" parent="grp_factura_siif.menu_reporting_presupuesto"
+                  action="act_grp_fr_composition_wizard"/>
+    </data>
+</openerp>

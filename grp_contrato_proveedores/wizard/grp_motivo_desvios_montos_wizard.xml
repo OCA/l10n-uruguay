@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 12 GAP 205-->
+        <record id="grp_motivo_desvios_montos_wizard_view" model="ir.ui.view">
+            <field name="name">grp.motivo.desvios.montos.wizard.form</field>
+            <field name="model">grp.motivo.desvios.montos.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Motivo de desvío entre monto facturado y pactado">
+                    <group>
+                        <label string='El monto que está facturando este proveedor es mayor al establecido en el contrato. Indique el motivo del desvío:'/>
+                    </group>
+                    <group>
+                        <group colspan="2">
+                            <field name="motivo" required="True"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="contrato_id" invisible="1"/>
+                            <field name="invoice_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="crear_control_proveedores" type="object" class="oe_highlight"/>
+                        O
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_motivo_desvios_montos_wizard_act">
+            <field name="name">Motivo de desvío entre monto facturado y pactado</field>
+            <field name="res_model">grp.motivo.desvios.montos.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_motivo_desvios_montos_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

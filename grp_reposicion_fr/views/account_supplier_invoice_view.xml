@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="invoice_siif_ce_supplier_fr_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.siif.ce.supplier.fr.form_h</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="grp_factura_siif.invoice_siif_ce_supplier_form_inherit"/>
+            <field name="arch" type="xml">
+                <!--<xpath expr="/form/header/button[@name='btn_obligar']" position="replace">-->
+                    <!--<button name="btn_obligar" states="sice,paid" string="Obligar" type="object" attrs="{'invisible':['|','|','|',('tipo_ejecucion_codigo_rel','=',False),'|','&amp;',('state','=','sice'),('tipo_ejecucion_codigo_rel','in',['P','R']),'&amp;',('state','=','paid'),('tipo_ejecucion_codigo_rel','!=','P'),'&amp;','&amp;',('state','=','paid'),('tipo_ejecucion_codigo_rel','=','P'),('fondo_rotarios','=',True)]}" class="oe_highlight" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>-->
+                <!--</xpath>-->
+                <field name="move_id" position="after">
+                    <field name="fondo_rotarios" readonly="1"/>
+                    <field name="fondo_rotatorio_id"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</openerp>

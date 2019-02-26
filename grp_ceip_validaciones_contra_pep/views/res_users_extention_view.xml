@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_res_users_extention_form" model="ir.ui.view">
+            <field name="name">res.users.extention.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="grp_ceip_restricciones_almacen.view_users_form"/>
+            <field name="arch" type="xml">
+                <group string="Messaging and Social" position="inside">
+                    <field name="es_responsable_de_validacion_pep" groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>

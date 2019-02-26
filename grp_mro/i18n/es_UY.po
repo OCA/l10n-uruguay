@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* grp_mro
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20170620\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-22 20:10+0000\n"
+"PO-Revision-Date: 2017-08-22 20:10+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: grp_mro
+#: model:ir.model,name:grp_mro.model_account_asset_category
+msgid "Asset category"
+msgstr "Categoría de activo"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,description:0
+msgid "Característica"
+msgstr "Característica"
+
+#. module: grp_mro
+#: field:mro.request,cause_id:0
+msgid "Causa"
+msgstr "Causa"
+
+#. module: grp_mro
+#: view:grp.mro.request.cause:grp_mro.grp_mro_request_cause_tree
+#: model:ir.actions.act_window,name:grp_mro.action_grp_mro_request_cause
+#: model:ir.ui.menu,name:grp_mro.menu_grp_mro_request_cause
+msgid "Causas de solicitud"
+msgstr "Causas de solicitud"
+
+#. module: grp_mro
+#: selection:mro.request,type:0
+msgid "Correctivo"
+msgstr "Correctivo"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: grp_mro
+#: view:mro.order:grp_mro.fleet_vehicle_log_services_form_inherited
+msgid "Fecha prevista"
+msgstr "Fecha prevista"
+
+#. module: grp_mro
+#: view:mro.order:grp_mro.fleet_vehicle_log_services_form_inherited
+msgid "Fecha requerida"
+msgstr "Fecha requerida"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: grp_mro
+#: model:ir.model,name:grp_mro.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: grp_mro
+#: model:ir.model,name:grp_mro.model_mro_request
+msgid "Maintenance Request"
+msgstr "Petición de mantenimiento"
+
+#. module: grp_mro
+#: field:grp.mro.request.cause,name:0
+msgid "Nombre"
+msgstr "Nombre"
+
+#. module: grp_mro
+#: selection:mro.request,type:0
+msgid "Predictivo"
+msgstr "Predictivo"
+
+#. module: grp_mro
+#: selection:mro.request,type:0
+msgid "Preventivo"
+msgstr "Preventivo"
+
+#. module: grp_mro
+#: field:mro.request,type:0
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: mro
+#: field:mro.request,asset_id:0
+msgid "Asset"
+msgstr "Activo de vehículo"
+
+#. module: mro
+#: selection:mro.request,state:0
+msgid "Claim"
+msgstr "En proceso"

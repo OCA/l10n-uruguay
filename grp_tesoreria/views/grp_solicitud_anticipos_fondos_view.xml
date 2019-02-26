@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record id="view_grp_solicitud_anticipos_fondos_search" model="ir.ui.view">
+            <field name="name">grp.solicitud.anticipos.fondos.search</field>
+            <field name="model">grp.solicitud.anticipos.fondos</field>
+            <field name="arch" type="xml">
+                <search string="Busqueda de solicitudes anticipos fondos">
+                    <field name="user_uid"/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Solicitante" icon="terp-personal" domain="[]" context="{'group_by':'user_uid'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_solicitud_anticipos_fondos_tree" model="ir.ui.view">
+            <field name="name">grp.solicitud.anticipos.fondos.tree</field>
+            <field name="model">grp.solicitud.anticipos.fondos</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitudes anticipos fondos">
+                    <field name="user_uid" />
+                    <field name="operating_unit_id"/>
+                    <field name="fecha_ingreso"/>
+                    <field name="aprobador_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_solicitud_anticipos_fondos_form" model="ir.ui.view">
+            <field name="name">grp.solicitud.anticipos.fondos.form</field>
+            <field name="model">grp.solicitud.anticipos.fondos</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud anticipos fondos">
+                    <header>
+                        <button name="action_enviar_aprobar" type="object" states="borrador" string="Enviar a aprobar"
+                                class="oe_highlight" groups="grp_tesoreria.group_grp_solicitante_anticipos"/>
+
+                        <button name="action_aprobar" type="object" states="en_aprobacion" string="Aprobar"
+                                class="oe_highlight" groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+                        <button name="action_autorizar" type="object" states="aprobado" string="Enviar a autorizar"
+                                class="oe_highlight" groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+
+                        <!--EN AUTORIZACION-->
+                        <button name="action_autorizado" type="object" states="en_autorizacion" string="Autorizar"
+                                class="oe_highlight" groups="grp_tesoreria.group_grp_autoriza_anticipo"/>
+                        <button name="action_rechazar" type="object" states="en_autorizacion" string="Rechazar"
+                                groups="grp_tesoreria.group_grp_autoriza_anticipo"/>
+                        <button name="action_pasar_borrador" type="object" states="en_autorizacion"
+                                string="Pasar a borrador" groups="grp_tesoreria.group_grp_autoriza_anticipo"/>
+
+
+                        <button name="action_rechazar" type="object" states="en_aprobacion" string="Rechazar"
+                                groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+                        <button name="action_pasar_borrador" type="object" states="en_aprobacion,rechazado"
+                                string="Pasar a borrador" groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+
+
+                        <button name="action_cancelar" type="object" states="aprobado" string="Cancelar"
+                                groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+                        <button name="action_cancelar" type="object" states="rechazado,autorizado" string="Cancelar"
+                                groups="grp_tesoreria.group_grp_solicitante_anticipos"/>
+
+                        <field name="state" widget="statusbar" nolabel="1"
+                               statusbar_colors='{"en_aprobacion":"blue","aprobado":"blue", "cancelado":"red"}'/>
+                    </header>
+                    <sheet string="Solicitud anticipos fondos">
+                        <group id="Cabezal">
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="user_uid"/>
+                                <field name="operating_unit_id" required="1"/>
+                                <field name="currency_id" required="1" options="{'no_create': true}"/>
+                                <field name="aprobador_id" readonly="1"/>
+                                <field name="adelanto_pagado" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="cedula"/>
+                                <field name="employee_id" invisible="1"/>
+                                <field name="descripcion"/>
+                                <field name="fecha_ingreso" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Información">
+                                <field name="line_ids" attrs="{'readonly':[('state','!=', 'borrador')]}">
+                                    <tree editable="bottom">
+                                        <field name="concept_id"/>
+                                        <field name="account_id" required="1"/>
+                                        <field name="amount" required="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <div class="oe_subtotal_footer_separator">
+                                            <label for="amount_total"/>
+                                        </div>
+                                        <field name="amount_total" class="oe_subtotal_footer_separator" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="action_view_grp_solicitud_anticipos_fondos" model="ir.actions.act_window">
+            <field name="name">Solicitud anticipos de fondos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.solicitud.anticipos.fondos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_grp_solicitud_anticipos_fondos_search"/>
+        </record>
+        <menuitem id="menu_anticipos_fondos" name="Anticipos de fondos" parent="account.menu_finance_bank_and_cash"
+                  sequence="499"
+                  groups="grp_tesoreria.group_grp_solicitante_anticipos,grp_tesoreria.group_grp_aprobador_anticipos,grp_tesoreria.group_grp_autoriza_anticipo"/>
+
+        <menuitem id="concepto_solicitud_anticipo_fondos" name="Solicitud anticipo de fondos"
+                  parent="menu_anticipos_fondos" action="action_view_grp_solicitud_anticipos_fondos" sequence="1"
+                  groups="grp_tesoreria.group_grp_solicitante_anticipos,grp_tesoreria.group_grp_aprobador_anticipos,grp_tesoreria.group_grp_autoriza_anticipo"/>
+
+    </data>
+</openerp>

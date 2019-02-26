@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- VISTA FORM PARA grp_pep_anual -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_form">
+        <field name="name">grp.pep.anual.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_borrador_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Confeccionar Plan"
+                            class="oe_highlight"
+                            states="borrador"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_borrador"
+                            type="object"
+                            string="Borrador"
+                            help="Volver a Borrador"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_confeccion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Análisis de existencias"
+                            class="oe_highlight"
+                            states="confeccion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_confeccion"
+                            type="object"
+                            string="Confección"
+                            help="Volver a Confección"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_analisis_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Actualizar necesidad"
+                            class="oe_highlight"
+                            states="analisis"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_analisis"
+                            type="object"
+                            string="Análisis"
+                            help="Volver a Análisis"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_actualizacion_verificacion"
+                            type="object"
+                            string="Verificación"
+                            help="Verificar crédito SIIF"
+                            class="oe_highlight"
+                            states="actualizacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_actualizacion"
+                            type="object"
+                            string="Actualización"
+                            help="Volver a Actualización"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_existencias"
+                    />
+                    <button
+                            name="btn_pep_verificacion_aprobado"
+                            type="object"
+                            string="Aprobar"
+                            help="Aprobar Plan"
+                            class="oe_highlight"
+                            states="verificacion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_aprobacion"
+                    />
+                    <button
+                            name="btn_pep_aprobado_en_ejecucion"
+                            type="object"
+                            string="Ejecutar"
+                            help="Comenzar ejecución"
+                            class="oe_highlight"
+                            states="aprobado"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Información General</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-stack-overflow"
+                                name="abrir_plan_adquisiciones"
+                                type="object"
+                                help="Ver plan de adquisiciones"
+                                string="Plan de Adquisiciones"
+                                states="aprobado,en_ejecucion,cierre,finalizado"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-dollar"
+                                name="abrir_conceptos_y_distribucion"
+                                type="object"
+                                help=""
+                                string="Plan Presupuestal"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-pencil-square-o"
+                                name="abrir_ajustar_plan"
+                                type="object"
+                                help="Ajustar Plan"
+                                states="en_ejecucion,cierre,finalizado"
+                                string="Ajustar Plan"/>
+                    </div>
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_elaboracion,grp_plan_ejecucion_presupuestal.pep_recetas,grp_plan_ejecucion_presupuestal.pep_conceptos,grp_plan_ejecucion_presupuestal.pep_adquisiciones,grp_plan_ejecucion_presupuestal.pep_monitoreo,grp_plan_ejecucion_presupuestal.pep_movimientos">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="estructura_de_servicios_id" required="1" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                        </group>
+                    </group>
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_elaboracion,grp_plan_ejecucion_presupuestal.pep_recetas,grp_plan_ejecucion_presupuestal.pep_conceptos,grp_plan_ejecucion_presupuestal.pep_adquisiciones,grp_plan_ejecucion_presupuestal.pep_monitoreo,grp_plan_ejecucion_presupuestal.pep_movimientos">
+                        <group string="Información del Organismo">
+                            <field name="numero_inciso" readonly="1" widget="char"/>
+                            <field name="inciso_id" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="numero_unidad_ejecutora" readonly="1" widget="char"/>
+                            <field name="unidad_ejecutora_id" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                        </group>
+                        <group string="Información del Plan">
+                            <field name="plan_activo"/>
+                            <field name="periodicidad" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="presupuesto_anual"/>
+                            <field name="anio_fiscal" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="tipo_control_conceptos" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                        </group>
+                    </group>
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_elaboracion,grp_plan_ejecucion_presupuestal.pep_recetas,grp_plan_ejecucion_presupuestal.pep_conceptos,grp_plan_ejecucion_presupuestal.pep_adquisiciones,grp_plan_ejecucion_presupuestal.pep_monitoreo,grp_plan_ejecucion_presupuestal.pep_movimientos">
+                        <group string="Jerarca que Autoriza">
+                            <field name="jerarca_id" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="cargo_jerarca"/>
+                            <field name="telefono_jerarca"/>
+                            <field name="correo_jerarca"/>
+                        </group>
+                        <group string="Responsable de Elaboración">
+                            <field name="responsable_id" options="{'no_open': True, 'no_create_edit': True}"
+                                   attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="telefono_responsable"/>
+                            <field name="correo_responsable"/>
+                        </group>
+                    </group>
+                    <!-- CAMPOS NO EDITABLES PARA EL GRUPO APROBACION -->
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_existencias">
+                        <group>
+                            <field name="fn_name"/>
+                            <field name="fn_plan_base_id"/>
+                        </group>
+                        <group>
+                            <field name="fn_estructura_de_servicios_id"/>
+                            <field name="fn_fecha_creacion" string="Fecha de Creación"/>
+                        </group>
+                    </group>
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_existencias">
+                        <group string="Información del Organismo">
+                            <field name="fn_numero_inciso" widget="char"/>
+                            <field name="fn_inciso_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="fn_numero_unidad_ejecutora" widget="char"/>
+                            <field name="fn_unidad_ejecutora_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                        </group>
+                        <group string="Información del Plan">
+                            <field name="fn_plan_activo"/>
+                            <field name="fn_periodicidad"/>
+                            <field name="fn_presupuesto_anual"/>
+                            <field name="fn_anio_fiscal" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="fn_tipo_control_conceptos"/>
+                        </group>
+                    </group>
+                    <group groups="grp_plan_ejecucion_presupuestal.pep_aprobacion,grp_plan_ejecucion_presupuestal.pep_existencias">
+                        <group string="Jerarca que Autoriza">
+                            <field name="fn_jerarca_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="fn_cargo_jerarca"/>
+                            <field name="fn_telefono_jerarca"/>
+                            <field name="fn_correo_jerarca"/>
+                        </group>
+                        <group string="Responsable de Elaboración">
+                            <field name="fn_responsable_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="fn_telefono_responsable"/>
+                            <field name="fn_correo_responsable"/>
+                        </group>
+                    </group>
+                <field name="lineas_receta" invisible="1"/>
+                <field name="lineas_concepto" invisible="1"/>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_anual_aprobacion -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_aprobacion_form">
+        <field name="name">grp.pep.anual.aprobacion.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Resultado de Aprobación del Plan Anual">
+                <h3>Indique cual fué el resultado del proceso de aprobación.</h3>
+                <group>
+                    <field name="aprobacion_resultado"
+                           style="width: 50%%"
+                           required="1"/>
+                    <field name="aprobacion_observaciones"
+                           style="width: 50%%"
+                           attrs="{'required': [('aprobacion_resultado', '=', 'rechazado')]}"/>
+                </group>
+                <field name="lineas_aprobacion" readonly="1">
+                       <tree default_order="create_date desc">
+                            <field name="plan_anual_id" invisible="1"/>
+                            <field name="aprobacion_resultado"/>
+                            <field name="create_date" readonly="1" string="Fecha"/>
+                            <field name="aprobacion_observaciones"/>
+                       </tree>
+                </field>
+            </form>
+            <footer>
+                <button name="guardar_aprobacion" type="object" string="Guardar" context="{'desde_panel_aprobacion': True}"/>
+                <button name="cancel" string="Cerrar" special="cancel" class="oe_link"/>
+            </footer>
+        </field>
+    </record>
+
+    <!-- VISTA TREE PARA grp_pep_anual -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_tree">
+        <field name="name">grp.pep.anual.tree</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="grp.pep.anual">
+                <field name="name"/>
+                <field name="inciso_id"/>
+                <field name="unidad_ejecutora_id"/>
+                <field name="jerarca_id" string="Jerarca"/>
+                <field name="responsable_id" string="Responsable"/>
+                <field name="periodicidad"/>
+                <field name="anio_fiscal"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACCION PARA grp_pep_anual -->
+    <record model="ir.actions.act_window" id="action_grp_pep_anual">
+        <field name="name">Plan Anual</field>
+        <field name="res_model">grp.pep.anual</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree'}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_grp_pep_anual_form')})]"/>
+    </record>
+
+    <!-- PRECISION DECIMAL PARA PORCENTAJES -->
+    <record model="decimal.precision" id="decimal_precision_pep_porcentajes">
+        <field name="name">PEP Porcentajes</field>
+        <field name="digits">6</field>
+    </record>
+
+</data>
+</openerp>

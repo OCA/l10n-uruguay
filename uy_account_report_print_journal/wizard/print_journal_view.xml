@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="account_report_print_journal_view_webkit" model="ir.ui.view">
+            <field name="name">Journals</field>
+            <field name="model">print.journal.webkit</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_financial_report_webkit.account_report_print_journal_view_webkit"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="amount_currency" position="replace">
+                        <field name="gb_journal_period" />
+                        <field name="amount_currency" />
+                        <label for="gb_period" attrs="{'invisible': [('gb_journal_period','=',True)]}"/>
+                        <div>
+                            <field name="gb_period" class="oe_inline" attrs="{'invisible': [('gb_journal_period','=',True)]}" />
+                            <field name="order_period" widget="selection" attrs="{'invisible': ['|',('gb_journal_period','=',True),('gb_period','=',False)],'required': [('gb_journal_period','=',False),('gb_period','=',True)]}" class="oe_inline" style="margin-left: 10px;"/>
+                        </div>
+                    </field>
+                    <field name="fiscalyear_id" position="attributes">
+                        <attribute name="on_change">onchange_fiscalyear(fiscalyear_id)</attribute>
+                    </field>
+                    <button name="check_report" position="after">
+                        <button name="visualize_report" string="Visualize" type="object" />
+                    </button>
+
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

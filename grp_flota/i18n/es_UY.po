@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* grp_flota
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-20 13:16+0000\n"
+"PO-Revision-Date: 2017-04-20 13:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: grp_flota
+#: model:fleet.service.type,name:fleet.type_service_45
+msgid "Tire Replacement"
+msgstr "Cambio de cubierta"
+
+#. module: fleet
+#: field:fleet.vehicle,vin_sn:0
+msgid "Chassis Number"
+msgstr "Número de chasis"
+
+#. module: fleet
+#: selection:fleet.vehicle,fuel_type:0
+msgid "Gasoline"
+msgstr "Nafta"

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <delete model="ir.cron" id="base_user_role.cron_update_users"/>
+    </data>
+</openerp>

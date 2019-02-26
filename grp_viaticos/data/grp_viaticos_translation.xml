@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!--&lt;!&ndash; Campo traduccion de Cuenta Adelanto &ndash;&gt;-->
+        <!--<record id="translation_viaticos_1" model="ir.translation">-->
+            <!--<field name="source">Advance account</field>-->
+            <!--<field name="value">Cuenta adelanto</field>-->
+            <!--<field name="name">account.voucher,advance_account_id</field>-->
+            <!--<field name="lang">es_UY</field>-->
+            <!--<field name="type">field</field>-->
+        <!--</record>-->
+    </data>
+</openerp>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_doc_tree" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.doc.tree</field>
+            <field name="model">grp.ejecucion.presupuestal.siif.documentos</field>
+            <field name="arch" type="xml">
+                <tree string="Ejecución presupuestal documentos" create="false" delete="false" edit="false">
+                    <field name="name"/>
+                    <field name="llave_presupuestal"/>
+                    <field name="importe"/>
+                    <field name="fy_name"/>
+                    <field name="inciso"/>
+                    <field name="ue"/>
+                    <field name="odg"/>
+                    <field name="auxiliar"/>
+                    <field name="fin"/>
+                    <field name="programa"/>
+                    <field name="proyecto"/>
+                    <field name="moneda"/>
+                    <field name="tc"/>
+                    <field name="apg_id"/>
+                    <field name="afectacion_id"/>
+                    <!--<button name="open_document" string="Ver documento" type="object" icon="gtk-find" context="{'id_documento':'id_documento','tipo_documento':'tipo_documento'}"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_doc_search" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.doc.search</field>
+            <field name="model">grp.ejecucion.presupuestal.siif.documentos</field>
+            <field name="arch" type="xml">
+                <search string="Ejecución presupuestal documentos">
+                    <field name="llave_presupuestal"/>
+                    <field name="name"/>
+                    <field name="fy_name"/>
+                    <field name="inciso"/>
+                    <field name="ue"/>
+                    <field name="odg"/>
+                    <field name="auxiliar"/>
+                    <field name="fin"/>
+                    <field name="programa"/>
+                    <field name="proyecto"/>
+                    <field name="moneda"/>
+                    <field name="tc"/>
+                    <field name="apg_id"/>
+                    <field name="afectacion_id"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Año fiscal" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'fy_name'}"/>
+                        <filter string="Documento" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'name'}"/>
+                        <filter string="Llave presupuestal" icon="terp-stock_effects-object-colorize" domain="[]"
+                                context="{'group_by':'llave_presupuestal'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_ejecucion_presupuestal_siif_doc_graph" model="ir.ui.view">
+            <field name="name">grp.ejecucion.presupuestal.siif.doc.graph</field>
+            <field name="model">grp.ejecucion.presupuestal.siif.documentos</field>
+            <field name="arch" type="xml">
+                <graph string="Ejecución presupuestal documentos" type="pivot" stacked="True">
+                    <field name="importe" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_grp_ejecucion_presupuestal_siif_doc" model="ir.actions.act_window">
+            <field name="name">Análisis ejercicios futuros con documentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.ejecucion.presupuestal.siif.documentos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+            <!--<field name="view_id" ref="view_grp_agrupar_fondo_rotarios_tree"/>-->
+            <!--<field name="search_view_id" ref="view_grp_agrupar_fondo_rotarios"/>-->
+        </record>
+
+        <menuitem id="menu_grp_ejecucion_presupuestal_siif_doc" name="Análisis ejercicios futuros con documentos" sequence="15"
+                  parent="grp_factura_siif.menu_reporting_presupuesto"
+                  action="action_grp_ejecucion_presupuestal_siif_doc"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+
+    </data>
+</openerp>

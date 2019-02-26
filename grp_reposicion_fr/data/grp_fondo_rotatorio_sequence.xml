@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!-- Secuencia para 3 en 1-Fondo rotatorio -->
+        <record id="seq_type_fr_number" model="ir.sequence.type">
+            <field name="name">3 en 1-Fondo rotatorio</field>
+            <field name="code">fr.number</field>
+        </record>
+        <record id="seq_fr_number" model="ir.sequence">
+            <field name="name">3 en 1-Fondo rotatorio</field>
+            <field name="code">fr.number</field>
+            <field name="prefix">%(fy)s-3en1-FR-</field>
+            <field name="padding">4</field>
+        </record>
+
+        <function name="_update_prefix" model="grp.fondo.rotatorio"/>
+
+    </data>
+</openerp>

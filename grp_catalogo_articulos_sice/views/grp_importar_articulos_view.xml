@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_grp_importar_articulos_form" model="ir.ui.view">
+            <field name="name">grp.importar.articulos.form</field>
+            <field name="model">grp.importar.articulos</field>
+            <field name="arch" type="xml">
+                <form string="Importar Articulos SICE">
+                    <header>
+                        <button name="cargar_articulos"
+                                string="Importar Articulos"
+                                type="object"
+                                attrs="{'invisible': [('csv_file','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="csv_filename"/>
+                            <field name="csv_file"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_importar_articulos_tree" model="ir.ui.view">
+            <field name="name">grp.importar.articulos.tree</field>
+            <field name="model">grp.importar.articulos</field>
+            <field name="arch" type="xml">
+                <tree string="Importar Articulos SICE">
+                    <field name="csv_filename"/>
+                    <!--<field name="csv_file"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_importar_articulos_search" model="ir.ui.view">
+            <field name="name">grp.importar.articulos.search</field>
+            <field name="model">grp.importar.articulos</field>
+            <field name="arch" type="xml">
+                <search string="Importar Artículos SICE">
+                    <field name="csv_filename"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_importar_articulos_action" model="ir.actions.act_window">
+            <field name="name">Importar Artículos SICE</field>
+            <field name="res_model">grp.importar.articulos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Importar Artículos SICE" id="grp_importar_articulos_sice_menu"
+                  parent="stock.menu_stock_product" action="view_grp_importar_articulos_action"
+                  sequence="5" groups="base.group_no_one"/>
+    </data>
+</openerp>

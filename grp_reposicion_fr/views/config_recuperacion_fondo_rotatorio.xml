@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="config_recuperacion_fondo_rotatorio_form" model="ir.ui.view">
+            <field name="name">config.recuperacion.fondo.rotatorio.form</field>
+            <field name="model">config.recuperacion.fondo.rotatorio</field>
+            <field name="arch" type="xml">
+                <form string="Configuración Recuperación Fondo Rotatorio">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="cuenta_credito_id"/>
+                                <field name="unidad_ejecutora_id"/>
+                                <field name="journal_id"/>
+                            </group>
+                            <group/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="config_recuperacion_fondo_rotatorio_tree" model="ir.ui.view">
+            <field name="name">config.recuperacion.fondo.rotatorio.tree</field>
+            <field name="model">config.recuperacion.fondo.rotatorio</field>
+            <field name="arch" type="xml">
+                <tree string="Configuración Recuperación Fondos Rotatorios">
+                    <field name="cuenta_credito_id"/>
+                    <field name="unidad_ejecutora_id"/>
+                    <field name="journal_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="config_recuperacion_fondo_rotatorio_search" model="ir.ui.view">
+            <field name="name">config.recuperacion.fondo.rotatorio.search</field>
+            <field name="model">config.recuperacion.fondo.rotatorio</field>
+            <field name="arch" type="xml">
+                <search string="Configuración Recuperación Fondos Rotatorios">
+                    <field name="cuenta_credito_id"/>
+                    <field name="unidad_ejecutora_id"/>
+                    <field name="journal_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="config_recuperacion_fondo_rotatorio_action" model="ir.actions.act_window">
+            <field name="name">Configuración Recuperación Fondo Rotatorios</field>
+            <field name="res_model">config.recuperacion.fondo.rotatorio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click para agregar una Configuración Recuperación de Fondos Rotatorios.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_config_recuperacion_fondo_rotatorio_action"
+                  name="Configuración Recuperación Fondos Rotatorios"
+                  action="config_recuperacion_fondo_rotatorio_action"
+                  parent="grp_factura_siif.menu_config_siif"
+                  sequence="60"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+
+    </data>
+</openerp>

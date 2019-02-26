@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="accounting_report_view" model="ir.ui.view">
+            <field name="name">Accounting Report</field>
+            <field name="model">accounting.report</field>
+            <field name="inherit_id" ref="account.accounting_report_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Opciones de dimensiones">
+                        <group>
+                            <field name="display_org_unit_column" />
+                            <field name="display_analytic_acc_column" />
+                            <field name="display_multiprop_column" />
+                        </group>
+                   </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

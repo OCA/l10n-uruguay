@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- PERIODICIDAD MENSUAL 12 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_ejecucion_12_form">
+        <field name="name">grp.pep.ejecucion.12.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Ajuste del plan</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE EJECUCION -->
+                        <page position="inside">
+                            <field name="lineas_ejecucion" nolabel="1" widget="one2many_list"
+                                   options="{'no_open': True, 'no_create': True, 'no_edit':[('state','!=','en_ejecucion')]}">
+                                <tree create="false" delete="false" colors="blue:actualizar == True" fonts="bold:actualizar == True">
+                                   <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="periodo_activo" invisible="1"/>
+                                    <field name="actualizar" invisible="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="periodo1_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 1)]}"/>
+                                    <field name="periodo2_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 2)]}"/>
+                                    <field name="periodo3_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 3)]}"/>
+                                    <field name="periodo4_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 4)]}"/>
+                                    <field name="periodo5_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 5)]}"/>
+                                    <field name="periodo6_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 6)]}"/>
+                                    <field name="periodo7_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 7)]}"/>
+                                    <field name="periodo8_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 8)]}"/>
+                                    <field name="periodo9_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 9)]}"/>
+                                    <field name="periodo10_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 10)]}"/>
+                                    <field name="periodo11_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 11)]}"/>
+                                    <field name="periodo12_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 12)]}"/>
+                                </tree>
+                            </field>
+                            <button name="btn_copiar_importes_ajuste"
+                                    type="object"
+                                    string="Confirma ajustes"
+                                    class="oe_edit_only"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD BIMENSUAL 6 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_ejecucion_6_form">
+        <field name="name">grp.pep.ejecucion.6.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Ajuste del plan</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE EJECUCION -->
+                        <page position="inside">
+                            <field name="lineas_ejecucion" nolabel="1" widget="one2many_list"
+                                   options="{'no_open': True, 'no_create': True, 'no_edit':[('state','!=','en_ejecucion')]}">
+                                <tree create="false" delete="false" colors="blue:actualizar == True" fonts="bold:actualizar == True">
+                                   <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="periodo_activo" invisible="1"/>
+                                    <field name="actualizar" invisible="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="periodo1_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 1)]}"/>
+                                    <field name="periodo2_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 2)]}"/>
+                                    <field name="periodo3_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 3)]}"/>
+                                    <field name="periodo4_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 4)]}"/>
+                                    <field name="periodo5_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 5)]}"/>
+                                    <field name="periodo6_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 6)]}"/>
+                                </tree>
+                            </field>
+                            <button name="btn_copiar_importes_ajuste"
+                                    type="object"
+                                    string="Confirma ajustes"
+                                    class="oe_edit_only"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD TRIMESTRAL 4 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_ejecucion_4_form">
+        <field name="name">grp.pep.ejecucion.4.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Ajuste del plan</h3>
+                     <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE EJECUCION -->
+                        <page position="inside">
+                            <field name="lineas_ejecucion" nolabel="1" widget="one2many_list"
+                                   options="{'no_create': True, 'no_edit':[('state','!=','en_ejecucion')]}">
+                                <tree create="false" delete="false" colors="blue:actualizar == True" fonts="bold:actualizar == True">
+                                   <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="periodo_activo" invisible="1"/>
+                                    <field name="actualizar" invisible="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="periodo1_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 1)]}"/>
+                                    <field name="periodo2_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 2)]}"/>
+                                    <field name="periodo3_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 3)]}"/>
+                                    <field name="periodo4_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 4)]}"/>
+                                </tree>
+                            </field>
+                            <button name="btn_copiar_importes_ajuste"
+                                    type="object"
+                                    string="Confirma ajustes"
+                                    class="oe_edit_only"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD CUATRIMESTRAL 3 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_ejecucion_3_form">
+        <field name="name">grp.pep.ejecucion.3.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Ajuste del plan</h3>
+                     <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE EJECUCION -->
+                        <page position="inside">
+                            <field name="lineas_ejecucion" nolabel="1" widget="one2many_list"
+                                   options="{'no_open': True, 'no_create': True, 'no_edit':[('state','!=','en_ejecucion')]}">
+                                <tree create="false" delete="false" colors="blue:actualizar == True" fonts="bold:actualizar == True">
+                                   <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="periodo_activo" invisible="1"/>
+                                    <field name="actualizar" invisible="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="periodo1_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 1)]}"/>
+                                    <field name="periodo2_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 2)]}"/>
+                                    <field name="periodo3_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 3)]}"/>
+                                </tree>
+                            </field>
+                            <button name="btn_copiar_importes_ajuste"
+                                    type="object"
+                                    string="Confirma ajustes"
+                                    class="oe_edit_only"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PERIODICIDAD SEMESTRAL 2 PERIODOS-->
+    <record model="ir.ui.view" id="view_grp_pep_ejecucion_2_form">
+        <field name="name">grp.pep.ejecucion.2.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual" version="7.0">
+                <header>
+                    <button
+                            name="btn_pep_cerrar_periodo"
+                            type="object"
+                            string="Cerrar período"
+                            help="Cerrar el período actual"
+                            class="oe_highlight"
+                            states="en_ejecucion"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <button
+                            name="btn_pep_cierre_finalizado"
+                            type="object"
+                            string="Finalizar Plan"
+                            help="Finalizar la ejecución del plan"
+                            class="oe_highlight"
+                            states="cierre"
+                            groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.anual">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Ajuste del plan</h3>
+                     <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general del plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- PESTAÑA DE EJECUCION -->
+                        <page position="inside">
+                            <field name="lineas_ejecucion" nolabel="1" widget="one2many_list"
+                                   options="{'no_open': True, 'no_create': True, 'no_edit':[('state','!=','en_ejecucion')]}">
+                                <tree create="false" delete="false" colors="blue:actualizar == True" fonts="bold:actualizar == True">
+                                   <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="periodo_activo" invisible="1"/>
+                                    <field name="actualizar" invisible="1"/>
+                                    <field name="importe_anual" readonly="1"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="periodo1_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 1)]}"/>
+                                    <field name="periodo2_importe" attrs="{'readonly': [('periodo_activo', '&gt;', 2)]}"/>
+                                </tree>
+                            </field>
+                            <button name="btn_copiar_importes_ajuste"
+                                    type="object"
+                                    string="Confirma ajustes"
+                                    class="oe_edit_only"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_elaboracion"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_grp_pep_anual_linea_ejecucion_form">
+        <field name="name">grp.pep.anual.linea.ejecucion.form</field>
+        <field name="model">grp.pep.anual.linea.ejecucion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.anual.linea.ejecucion" version="7.0">
+                <sheet>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button oe_edit_only"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-refresh"
+                                name="button_guardar_llaves"
+                                type="object"
+                                help="Ver plan de adquisiciones"
+                                string="Actualizar importe"
+                        />
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                            <field name="periodo_activo" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="importe_anual" readonly="1"/>
+                            <field name="importe_ajustado" readonly="1"/>
+                            <field name="actualizar" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Llaves">
+                            <field name="llaves" nolabel="1" widget="one2many_list">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="es_periodo_cerrado" invisible="1"/>
+                                    <field name="modificado" invisible="1"/>
+                                    <field name="llave_str" readonly="1"/>
+                                    <field name="periodo" readonly="1"/>
+                                    <field name="importe" attrs="{'readonly': ['|',('es_periodo_cerrado','=',True),('plan_state','in',('cierre','finalizado'))]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA TREE PARA grp_pep_movimiento_ejecucion -->
+    <record model="ir.ui.view" id="view_grp_pep_movimiento_ejecucion_tree">
+        <field name="name">grp.pep.movimiento.ejecucion.tree</field>
+        <field name="model">grp.pep.movimiento.ejecucion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false" colors="red:importe &lt; 0;"  version="7.0">
+                <field name="plan_anual_id"/>
+                <field name="periodo"/>
+                <field name="concepto_id"/>
+                <field name="llave_str"/>
+                <field name="importe"/>
+                <field name="codigo_documento_asociado"/>
+                <field name="proceso_origen"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA SEARCH PARA grp_pep_movimiento_ejecucion -->
+    <record model="ir.ui.view" id="grp_pep_movimiento_ejecucion_search">
+        <field name="name">grp.pep.movimiento.ejecucion.search</field>
+        <field name="model">grp.pep.movimiento.ejecucion</field>
+        <field name="arch" type="xml">
+            <search string="Movimientos">
+                <!-- Buscar -->
+                <field name="concepto_id" string="Concepto"/>
+                <field name="codigo_documento_asociado" string="Documento"/>
+                <!-- Agrupar -->
+                <group expand="0" string="Agrupar por ...">
+                    <filter string="Plan" context="{'group_by': 'plan_anual_id'}"/>
+                    <filter string="Período" context="{'group_by': 'periodo'}"/>
+                    <filter string="Concepto" context="{'group_by': 'concepto_id'}"/>
+                    <filter string="Llave" context="{'group_by': 'llave_str'}"/>
+                </group>
+                <!-- Filtrar -->
+                <group expand="0" string="Filtrar por ...">
+                    <filter string="Plan activo" domain="[('plan_anual_id.plan_activo','=',True)]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACCION PARA grp_pep_movimiento_ejecucion -->
+    <record model="ir.actions.act_window" id="action_grp_pep_movimiento_ejecucion">
+        <field name="name">Movimientos</field>
+        <field name="res_model">grp.pep.movimiento.ejecucion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</data>
+</openerp>

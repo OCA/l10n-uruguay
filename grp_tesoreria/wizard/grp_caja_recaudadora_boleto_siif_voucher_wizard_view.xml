@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 M-->
+
+
+
+        <record id="view_grp_caja_recaudadora_boleto_siif_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.boleto.siif.voucher.wizard.form</field>
+            <field name="model">grp.caja.recaudadora.boleto.siif.voucher.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Recibos">
+                    <separator string="Recibos"/>
+                    <field name="boleto_siif_id" invisible="1"/>
+                    <field height="300" width="700" name="line_ids" domain="[('select','=',False)]">
+                        <tree string="Recibos" create="false" editable="bottom" delete="false">
+                             <field name="select"/>
+                            <field name="partner_id"/>
+                            <field name="operating_unit_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="number"/>
+                            <field name="currency_id"/>
+                            <field name="amount" readonly="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Cargar" name="transfer_account_voucher" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_boleto_siif_account_voucher_wizard" model="ir.actions.act_window">
+            <field name="name">Recibos</field>
+            <field name="res_model">grp.caja.recaudadora.boleto.siif.voucher.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_recaudadora_boleto_siif_wizard_form"/>
+        </record>
+    </data>
+</openerp>

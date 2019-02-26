@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="grp_confirmacion_elemina_ret_manuales_wizard_view" model="ir.ui.view">
+            <field name="name">grp.confirmacion.eleminar.ret.manuales.wizard.form</field>
+            <field name="model">grp.confirmacion.eleminar.ret.manuales.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Eliminar línea retenciones manuales" version="7.0">
+                <group>
+                </group>
+                <footer>
+                    <button name="eliminar_lineas" string="Aceptar" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_confirmacion_elemina_ret_manuales_wizard_act">
+            <field name="name">Elimina retenciones manuales</field>
+            <field name="res_model">grp.confirmacion.eleminar.ret.manuales.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_confirmacion_elemina_ret_manuales_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

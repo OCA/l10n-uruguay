@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="grp_ejecucion_futura_contrato_wizard_view" model="ir.ui.view">
+            <field name="name">grp.ejecucion.futura.contrato.wizard.form</field>
+            <field name="model">grp.ejecucion.futura.contrato.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Ejecución futura de contratos">
+                    <group col="4" colspan="4" string="Tipos de cambio estimados">
+                        <field name="linea_ids" nolabel="1">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="moneda" readonly="1"/>
+                                <field name="monto" required="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="procesar_datos" string="Procesar" type="object" default_focus="1" class="oe_highlight"/>
+                        O
+                        <button name="procesar_datos_xls" string="Procesar Excel" type="object" default_focus="1" context="{'xls_export':1}" class="oe_highlight"/>
+                        O
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record model="ir.actions.act_window" id="grp_ejecucion_futura_contrato_wizard_act">
+            <field name="name">Ejecución futura de contratos</field>
+            <field name="res_model">grp.ejecucion.futura.contrato.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_ejecucion_futura_contrato_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <!--TODO: K SPRING 13 GAP 452-->
+        <menuitem id="menu_ejecucion_futura"
+                  name="Ejecución futura de contratos" sequence="7" parent="menu_prov_cont"
+                  action="grp_ejecucion_futura_contrato_wizard_act"
+                  groups="grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="paperformat_ejecucion_futura_contrato" model="report.paperformat">
+            <field name="name">Ejecución futura de contratos</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!--TODO: K SPRING 13 GAP 452-->
+        <report auto="False" id="report_ejecucion_futura_contrato_wizard"
+				model="grp.contrato.proveedores"
+				string="Ejecución futura de contratos"
+				report_type="qweb-pdf"
+				name="grp_contrato_proveedores.report_ejecucion_futura_contrato"
+		    	file="grp_contrato_proveedores.report_ejecucion_futura_contrato"
+                usage="default"
+                menu="False"
+                groups="grp_seguridad.grp_compras_apg_Jefe_de_compras"
+		/>
+
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="report_ejecucion_futura_contrato_wizard" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_ejecucion_futura_contrato"/>
+        </record>
+    </data>
+</openerp>

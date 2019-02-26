@@ -1,0 +1,291 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * audit_tracking_fields
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-25 17:54+0000\n"
+"PO-Revision-Date: 2017-07-25 17:54+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_form
+msgid "( ID:"
+msgstr "( ID:"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,description:0
+msgid "Additional Information"
+msgstr "Información adicional"
+
+#. module: audit_tracking_fields
+#: model:ir.model,name:audit_tracking_fields.model_audit_tracked_fields_log
+msgid "Audit Tracked Fields - Log"
+msgstr "Logs - Seguimiento de Campos"
+
+#. module: audit_tracking_fields
+#: model:ir.model,name:audit_tracking_fields.model_audit_tracked_fields_rule
+msgid "Audit Tracked Fields - Settings"
+msgstr "Configuración - Seguimiento de Campos"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_form
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_tree
+msgid "Change Date"
+msgstr "Fecha de Modificación"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.rule:audit_tracking_fields.view_audit_tracked_fields_rule_form
+#: model:ir.actions.act_window,name:audit_tracking_fields.action_audit_tracked_fields_rule
+#: model:ir.ui.menu,name:audit_tracking_fields.menu_audit_tracked_fields_rule
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.rule:audit_tracking_fields.view_audit_tracked_fields_rule_search
+#: view:audit.tracked_fields.rule:audit_tracking_fields.view_audit_tracked_fields_rule_tree
+msgid "Configurations"
+msgstr "Configuraciones"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.rule:audit_tracking_fields.view_audit_tracked_fields_rule_form
+msgid "Configure tracking fields"
+msgstr "Configuración Seguimiento de Campos"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,create_uid:0
+#: field:audit.tracked_fields.rule,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,create_date:0
+#: field:audit.tracked_fields.rule,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_form
+msgid "Description"
+msgstr "Descripción"
+
+#. module: audit_tracking_fields
+#: selection:audit.tracked_fields.rule,state:0
+msgid "Draft"
+msgstr "Nuevo"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,elapsed_time:0
+#: field:audit.tracked_fields.log,elapsed_time_computed:0
+msgid "Elapsed Time"
+msgstr "Tiempo transcurrido"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_graph
+msgid "Elapsed Time in hours"
+msgstr "Tiempo transcurrido en horas"
+
+#. module: audit_tracking_fields
+#: help:audit.tracked_fields.log,elapsed_time:0
+#: help:audit.tracked_fields.log,elapsed_time_computed:0
+msgid "Elapsed time in hours with the field value of record."
+msgstr "Tiempo transcurrido en horas del registro con este valor del campo."
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: field:audit.tracked_fields.log,field_id:0
+msgid "Field"
+msgstr "Campo"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,field_names:0
+msgid "Fields Names List"
+msgstr "Nombres de Campos"
+
+#. module: audit_tracking_fields
+#: model:ir.ui.menu,name:audit_tracking_fields.menu_audit_tracked_fields
+msgid "Fields tracking"
+msgstr "Seguimiento de Campos"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_form
+msgid "Go to record"
+msgstr "Ir al Registro"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,id:0
+#: field:audit.tracked_fields.rule,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,write_uid:0
+#: field:audit.tracked_fields.rule,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,write_date:0
+#: field:audit.tracked_fields.rule,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_form
+msgid "Log"
+msgstr "Registro"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,log_create:0
+msgid "Log Creates"
+msgstr "Auditar creación"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,log_unlink:0
+msgid "Log Deletes"
+msgstr "Auditar eliminación"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,log_write:0
+msgid "Log Writes"
+msgstr "Auditar actualización"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_tree
+#: model:ir.actions.act_window,name:audit_tracking_fields.action_audit_tracked_fields_log
+#: model:ir.ui.menu,name:audit_tracking_fields.menu_audit_tracked_fields_log
+msgid "Logs"
+msgstr "Registros"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+msgid "Logs create/update"
+msgstr "Logs crear/modificar"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: field:audit.tracked_fields.log,model_id:0
+#: field:audit.tracked_fields.rule,model_id:0
+msgid "Model"
+msgstr "Modelo"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,model:0
+#: field:audit.tracked_fields.rule,model:0
+msgid "Model Technical Name"
+msgstr "Nombre Técnico Modelo"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,new_value:0
+msgid "New Value"
+msgstr "Valor nuevo (crudo)"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,new_value_text:0
+msgid "New Value"
+msgstr "Valor nuevo"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,old_value:0
+msgid "Old Value"
+msgstr "Valor antiguo (crudo)"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,old_value_text:0
+msgid "Old Value"
+msgstr "Valor antiguo"
+
+#. module: audit_tracking_fields
+#: code:addons/audit_tracking_fields/models/audit_tracked_fields.py:244
+#: code:addons\audit_tracking_fields\models\audit_tracked_fields.py:244
+#, python-format
+msgid "Record Created"
+msgstr "Registro creado"
+
+#. module: audit_tracking_fields
+#: code:addons/audit_tracking_fields/models/audit_tracked_fields.py:280
+#: code:addons\audit_tracking_fields\models\audit_tracked_fields.py:280
+#, python-format
+msgid "Record Deleted"
+msgstr "Registro eliminado"
+
+#. module: audit_tracking_fields
+#: code:addons/audit_tracking_fields/models/audit_tracked_fields.py:263
+#: code:addons\audit_tracking_fields\models\audit_tracked_fields.py:263
+#, python-format
+msgid "Record Updated"
+msgstr "Registro modificado"
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.log,res_id:0
+msgid "Related Resource ID"
+msgstr "ID Registro relacionado"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: field:audit.tracked_fields.log,name:0
+msgid "Resource Name"
+msgstr "Nombre del Registro"
+
+#. module: audit_tracking_fields
+#: help:audit.tracked_fields.rule,model_id:0
+msgid "Select model for which you want to track a field."
+msgstr "Seleccione el modelo para el cual quiere hacer seguimiento de campos."
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: audit_tracking_fields
+#: selection:audit.tracked_fields.rule,state:0
+msgid "Subscribed"
+msgstr "Suscrito"
+
+#. module: audit_tracking_fields
+#: sql_constraint:audit.tracked_fields.rule:0
+msgid "There is already a configuration defined on this model\n"
+"You cannot define another: please edit the existing one."
+msgstr "Ya existe una configuración para este modelo\n"
+"No puede definir una nueva: por favor, edite la configuración existente."
+
+#. module: audit_tracking_fields
+#: field:audit.tracked_fields.rule,field_ids:0
+msgid "Tracking Fields"
+msgstr "Campos a auditar"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_graph
+msgid "Tracking Fields Logs"
+msgstr "Logs Seguimiento a Campos"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+#: field:audit.tracked_fields.log,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: audit_tracking_fields
+#: help:audit.tracked_fields.log,user_id:0
+msgid "User that makes field modification"
+msgstr "Usuario que hace la modificación"
+
+#. module: audit_tracking_fields
+#: view:audit.tracked_fields.log:audit_tracking_fields.view_audit_tracked_fields_log_search
+msgid "Value"
+msgstr "Valor"
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 11 GAP 292.A-->
+        <record id="view_grp_concepto_factura_form" model="ir.ui.view">
+            <field name="name">grp.concepto.factura.form</field>
+            <field name="model">grp.concepto.factura</field>
+            <field name="arch" type="xml">
+                <form string="Mapeo conceptos-facturas">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="concept" required="1"/>
+                                <field name="product_id" required="1"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_concepto_factura_tree" model="ir.ui.view">
+            <field name="name">grp.concepto.factura.tree</field>
+            <field name="model">grp.concepto.factura</field>
+            <field name="arch" type="xml">
+                <tree string="Mapeo conceptos-facturas">
+                    <field name="concept"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_concepto_factura" model="ir.actions.act_window">
+            <field name="name">Mapeo conceptos-facturas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.concepto.factura</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_concepto_factura_tree"/>
+        </record>
+
+
+        <menuitem id="menu_grp_concepto_factura" name="Mapeo conceptos-facturas"
+                  parent="menu_grp_config_tesoreria" action="action_view_grp_concepto_factura" sequence="3"
+                  groups="grp_seguridad.grp_configuracion_contabilidad"/>
+
+    </data>
+</openerp>

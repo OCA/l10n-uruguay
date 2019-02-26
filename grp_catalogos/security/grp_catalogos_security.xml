@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- GRUPOS -->
+        <record id="grp_conf_estructura" model="res.groups">
+            <field name="name">Configuración de estructura</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="menu_access" eval="[(4, ref('hr.menu_hr_configuration'))]"/>
+        </record>
+
+    </data>
+</openerp>

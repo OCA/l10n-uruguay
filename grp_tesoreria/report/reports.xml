@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="action_tribunal_account_report_xlsx" model="ir.actions.report.xml">
+            <field name="name">Arqueo de Caja Tesorería</field>
+            <field name="model">grp.cashbox.register.execution</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="report_name">grp_tesoreria.report_grp_cashbox_register_xls</field>
+            <field name="report_type">xls</field>
+            <field name="auto" eval="False"/>
+        </record>
+
+        <record id="action_fr_composition_xlsx" model="ir.actions.report.xml">
+            <field name="name">Composición de FR</field>
+            <field name="model">grp.fr.composition.wizard</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="report_name">grp_tesoreria.report_grp_fr_composition_xls</field>
+            <field name="report_type">xls</field>
+            <field name="auto" eval="False"/>
+        </record>
+    </data>
+</openerp>

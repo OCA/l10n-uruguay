@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Inherit report (from module hr) GENERAL_GAPF0020_393_Cambiar nombre a viáticos por persona-->
+        <!--<template id="report_expense_inherit" inherit_id="report_expense_2">-->
+            <!--<xpath expr="//div[@class='page']" position="replace">-->
+                <!--<div class="page">-->
+                    <!--<style>-->
+                        <!--table#t00 {-->
+                        <!--width: 100%;-->
+                        <!--background-color: white;-->
+                        <!--border-collapse: collapse;-->
+                        <!--}-->
+                        <!--table#t01 {-->
+                        <!--width: 100%;-->
+                        <!--font-size:100%;-->
+                        <!--background-color: white;-->
+                        <!--border-collapse: collapse;-->
+                        <!--cellpadding: 10px;-->
+                        <!--}-->
+                        <!--table#t01 th{-->
+                        <!--border-right: 1px solid #DDD;text-align: left;-->
+                        <!--}-->
+                        <!--table#t01 td{-->
+                        <!--padding: 2px 0px 2px 8px;-->
+                        <!--}-->
+                        <!--table#t02 {-->
+                        <!--width:100%;border-collapse:collapse;-->
+                        <!--}-->
+                        <!--table#t02 th{-->
+                        <!--border-left: 1px solid #dfdfdf;padding: 3px 6px;-->
+                        <!--}-->
+                        <!--table#t02 thead{-->
+                        <!--border-bottom: 1px solid #cacaca;background: #eee;vertical-align: top;text-align: left;-->
+                        <!--}-->
+                        <!--table#t03 {-->
+                        <!--width: 100%;-->
+                        <!--font-size:100%;-->
+                        <!--background-color: white;-->
+                        <!--border-collapse: collapse;-->
+                        <!--cellpadding: 10px;-->
+                        <!--}-->
+                        <!--table#t03 th{-->
+                        <!--border-right: 1px solid #DDD;text-align: left;-->
+                        <!--}-->
+                        <!--table#t03 td{-->
+                        <!--padding: 2px 0px 2px 8px;-->
+                        <!--}-->
+                        <!--.tableFecha{-->
+                             <!--border-collapse: collapse;-->
+                        <!--}-->
+                        <!--.tableFecha > thead > tr > th,-->
+                        <!--.tableFecha > tbody > tr > th,-->
+                        <!--.tableFecha > tfoot > tr > th,-->
+                        <!--.tableFecha > thead > tr > td,-->
+                        <!--.tableFecha > tbody > tr > td,-->
+                        <!--.tableFecha > tfoot > tr > td {-->
+                            <!--border: 1px solid black;-->
+                        <!--}-->
+                    <!--</style>-->
+                    <!--<table id="t00">-->
+                        <!--<tr>-->
+                            <!--<td style="width: 15%;">-->
+
+                            <!--</td>-->
+                            <!--<td style="font-size:150%;width: 70%;text-align:center;">-->
+                                <!--<strong>Viáticos por persona</strong>-->
+                                <!--<br></br>-->
+                            <!--</td>-->
+                            <!--<td style="font-size:75%;text-align:center;width: 15%">-->
+                                  <!--<table class="tableFecha" style=" border: 1px solid black;width: 100%;">-->
+                                      <!--<tr align="center" valign="middle" style="text-align: center;">-->
+                                         <!--<th colspan="3" style="text-align: center;">Fecha</th>-->
+                                      <!--</tr>-->
+                                      <!--<tr  align="center" valign="middle" style="text-align: center;">-->
+                                          <!--<td style="width=5%;"><t t-esc="time.strftime('%d')"/></td>-->
+                                          <!--<td style="width=5%;"><t t-esc="time.strftime('%m')"/></td>-->
+                                          <!--<td style="width=5%;"><t t-esc="time.strftime('%Y')"/></td>-->
+
+                                      <!--</tr>-->
+                                  <!--</table>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                    <!--<h4 style="font-weight: bold;">Nº Rendición: <span t-field="o.sequence"/></h4>-->
+                    <!--<h3 style="font-weight: bold;">DATOS DEL FUNCIONARIO</h3>-->
+                    <!--<table id="t01" style="font-size:100%;">-->
+                         <!--<tr>-->
+                            <!--<th colspan="2">-->
+                                <!--<strong>U.E -Nº:</strong>-->
+                            <!--</th>-->
+                            <!--<td colspan="4">-->
+                                <!--<span t-field="o.operating_unit_id.code"/>-->
+                            <!--</td>-->
+                            <!--<th>-->
+                                <!--<strong>Oficina:</strong>-->
+                            <!--</th>-->
+                            <!--<td>-->
+                                <!--<span t-field="o.employee_id.department_id"/>-->
+                            <!--</td>-->
+                         <!--</tr>-->
+                         <!--<tr>-->
+                            <!--<th colspan="2">-->
+                                <!--<strong>Nombre:</strong>-->
+                            <!--</th>-->
+                            <!--<td colspan="4">-->
+                                <!--<span t-field="o.employee_id"/>-->
+                            <!--</td>-->
+                            <!--<th>-->
+                                <!--<strong>CI:</strong>-->
+                            <!--</th>-->
+                            <!--<td>-->
+                                <!--<span t-field="o.employee_id.identification_id"/>-->
+                            <!--</td>-->
+                         <!--</tr>-->
+                     <!--</table>-->
+                    <!--<h3 style="font-weight: bold;">DESTINO DE VIAJE</h3>-->
+                    <!--<table id="t01" style="font-size:100%;">-->
+                     <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Tipo:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.tipo"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>Fecha Desde:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.fecha_desde,'%Y-%m-%d %H:%M:%S'))"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Motivo del viaje:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.motivo_viaje"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>Fecha Hasta:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-esc="time.strftime('%d/%m/%Y',time.strptime(o.fecha_hasta,'%Y-%m-%d %H:%M:%S'))"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Localidad o zona:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.destino"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>Lugar de partida:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-field="o.lugar_partida"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+
+                     <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Categoría:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.categoria"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>Tipo de locomoción:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-field="o.tipo_locomocion"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2" style="border-right: 0px;">-->
+
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+
+                        <!--</td>-->
+                        <!--<th>-->
+                           <!--<strong>Voucher:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-field="o.voucher"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2" style="border-right: 0px;">-->
+
+                        <!--</th>-->
+                        <!--<td class="text-left" colspan="4">-->
+
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>KM a recorrer:</strong>-->
+                        <!--</th>-->
+                        <!--<td>-->
+                            <!--<span t-field="o.km_recorrer"/>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2" style="border-right: 0px;">-->
+                            <!--<strong>Observaciones: </strong>-->
+                        <!--</th>-->
+                        <!--<td class="text-left" colspan="6">-->
+                            <!--<span t-field="o.note"/>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+
+                    <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Solicitud de Viáticos:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.solicitud_viatico_id"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+                            <!--<strong>Descripción:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.name"/>-->
+                        <!--</td>-->
+                     <!--</tr>-->
+                     <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<strong>Moneda:</strong>-->
+                        <!--</th>-->
+                        <!--<td colspan="4">-->
+                            <!--<span t-field="o.currency_id"/>-->
+                        <!--</td>-->
+                        <!--<th>-->
+
+                        <!--</th>-->
+                        <!--<td>-->
+
+                        <!--</td>-->
+                     <!--</tr>-->
+
+
+                    <!--</table>-->
+
+                    <!--<h3 style="font-weight: bold;">LIQUIDACIÓN DEPARTAMENTO DE CONTABILIDAD Y PRESUPUESTO</h3>-->
+
+                    <!--<table id="t02">-->
+                         <!--<tr>-->
+                            <!--<td style="width: 25%;">-->
+
+                            <!--</td>-->
+                            <!--<td style="width: 70%">-->
+                                <!--<table id="t02">-->
+                                    <!--<thead>-->
+                                        <!--<tr>-->
+
+                                            <!--<th>Producto</th>-->
+                                            <!--<th class="text-right">Total</th>-->
+                                        <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                        <!--<tr t-foreach="o.line_ids" t-as="line">-->
+                                            <!--<td>-->
+                                                <!--<span t-field="line.name"/>-->
+                                                <!--<span t-field="line.description"/><br/>-->
+                                                <!--<span t-field="line.analytic_account.complete_name"/>-->
+                                            <!--</td>-->
+                                            <!--<td class="text-right">-->
+                                                <!--<span t-field="line.total_amount"-->
+                                                    <!--t-field-options='{"widget": "monetary", "display_currency":"o.currency_id"}'/>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                    <!--</tbody>-->
+                                     <!--<tfoot style="border-top: 2px solid #cacaca;border-bottom: 1px solid #cacaca;background: #eee;">-->
+                                        <!--<tr>-->
+                                            <!--<td style="padding: 3px 6px;line-height: 18px;"></td>-->
+                                            <!--<td style="padding: 3px 6px;line-height: 18px;"></td>-->
+
+                                        <!--</tr>-->
+                                    <!--</tfoot>-->
+                                <!--</table>-->
+                                <!--<table style="float: right;clear: both;border-collapse:collapse;margin: 25px 0 25px 0;text-align: right;">-->
+                                    <!--<tr >-->
+                                        <!--<td style="min-width: 184px !important;">-->
+                                            <!--<h4>Total:</h4>-->
+                                        <!--</td>-->
+                                        <!--<td style="min-width: 184px !important;">-->
+                                            <!--<h4>-->
+                                                <!--<span t-field="o.amount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                            <!--</h4>-->
+                                        <!--</td>-->
+
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>-->
+                                            <!--<strong>Adelanto de Viáticos :</strong>-->
+                                        <!--</td>-->
+                                        <!--<td>-->
+                                            <!--<span t-field="o.adelanto" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--<tr>-->
+                                        <!--<td>-->
+                                            <!--<strong>A devolver :</strong>-->
+                                        <!--</td>-->
+                                        <!--<td>-->
+
+                                            <!--<t t-if="o.diferencia &lt; 0" >-->
+                                                <!--<span t-esc="abs(o.diferencia)" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                            <!--</t>-->
+                                        <!--</td>-->
+                                     <!--</tr>-->
+                                     <!--<tr>-->
+                                        <!--<td>-->
+                                            <!--<strong>A pagar :</strong>-->
+                                        <!--</td>-->
+                                        <!--<td>-->
+
+                                            <!--<t t-if="o.diferencia &gt; 0" >-->
+                                                <!--<span t-esc="o.diferencia" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                            <!--</t>-->
+                                        <!--</td>-->
+                                 <!--</tr>-->
+                             <!--</table>-->
+                            <!--</td>-->
+                            <!--<td style="width: 5%">-->
+
+                            <!--</td>-->
+                        <!--</tr>-->
+                     <!--</table>-->
+
+                    <!--<br/>-->
+                    <!--<br/>-->
+                    <!--<table id="t00">-->
+                        <!--<tr>-->
+                             <!--<td style="width: 30%;text-align:left;">-->
+                                <!--<span>Firma funcionario: </span>-->
+                                <!--<span t-field="o.employee_id"/>-->
+                            <!--</td>-->
+
+                        <!--</tr>-->
+                        <!--<tr>-->
+                             <!--<td style="width: 30%;text-align:left;">-->
+                                <!--<span>Firma Jefe de Servicio: </span>-->
+                                <!--<span t-field="o.usuario_validacion_rendicion"/>-->
+                            <!--</td>-->
+
+                        <!--</tr>-->
+                        <!--<tr>-->
+                             <!--<td style="width: 30%;text-align:left;">-->
+                                <!--<span>Firma Director UE: </span>-->
+                                <!--<span t-field="o.usuario_aprobador_rendicion"/>-->
+                            <!--</td>-->
+
+                        <!--</tr>-->
+                    <!--</table>-->
+
+
+                <!--</div>-->
+            <!--</xpath>-->
+        <!--</template>-->
+
+        <template id="report_expense_2">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <h2>Rendición por Persona</h2>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>Empleado:</strong>
+                                    <p t-field="o.employee_id.name"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Fecha:</strong>
+                                    <p t-field="o.date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Descripción:</strong>
+                                    <p t-field="o.name"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Validado por:</strong>
+                                    <p t-field="o.user_valid"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Nombre</th>
+                                        <th class="text-center">Ref.</th>
+                                        <th>Dimensión</th>
+                                        <!--<th class="text-center">Ctd.</th>-->
+                                        <th class="text-right">Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.line_ids" t-as="line">
+                                        <td><span t-field="line.date_value"/></td>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                            <span t-field="line.description"/><br/>
+                                            <span t-field="line.analytic_account.complete_name"/>
+                                        </td>
+                                        <td style="text-center">
+                                            <span t-field="line.ref"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.analytics_id.name"/>
+                                        </td>
+                                        <!--<td class="text-center">-->
+                                            <!--<span t-field="line.unit_quantity"/>-->
+                                        <!--</td>-->
+                                        <td class="text-right">
+                                            <span t-field="line.total_amount"
+                                                t-field-options='{"widget": "monetary", "display_currency":"o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="row">
+                                <div class="col-xs-4 pull-right">
+                                    <table class="table table-condensed">
+                                        <tr class="border-black">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.amount"
+                                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <p t-field="o.note"/>
+                            <p>Certifica que los datos son ciertos,<br/>(Fecha y firma).<br/><br/></p>
+                            <p>Este documento debe ser firmado y fechado para su reembolso.</p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+            id="action_report_hr_expense_2"
+            string="Rendición por persona"
+            model="hr.expense.expense"
+            report_type="qweb-pdf"
+            name="grp_hr_expense.report_expense_2"
+            file="hr_expense.report_expense_2"
+            groups="grp_tesoreria.group_grp_aprobador_anticipos,grp_tesoreria.group_grp_solicitante_anticipos,grp_viaticos.grp_aprobar_rendicion,grp_viaticos.grp_aprobar_rendicion_f,grp_viaticos.grp_sv_solicitante,grp_seguridad.grp_analista_contable"
+        />
+
+        <report
+            id="hr_expense.action_report_hr_expense"
+            string="HR Expense"
+            model="hr.expense.expense"
+            report_type="qweb-pdf"
+            name="hr_expense.report_expense"
+            file="hr_expense.report_expense"
+            groups="base.group_no_one"
+            menu="False"
+        />
+    </data>
+</openerp>

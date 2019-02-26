@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: M SPRING 11 GAP 292-->
+
+        <record id="view_grp_boleto_siif_valores_custodia_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.boleto.siif.valores.custodia.wizard.form</field>
+            <field name="model">grp.caja.recaudadora.boleto.siif.valores.custodia.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Recibos">
+                    <separator string="Recibos"/>
+                    <field name="boleto_siif_id" invisible="1"/>
+                    <field height="300" width="700" name="line_ids" domain="[('select','=',False)]">
+                        <tree string="Recibos" create="false" editable="bottom" delete="false">
+                             <field name="select"/>
+                            <field name="partner_id"/>
+                            <field name="fecha_recepcion" />
+                            <field name="name"/>
+                            <field name="monto"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Cargar" name="transfer_account_voucher" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_boleto_siif_valores_custodia_wizard" model="ir.actions.act_window">
+            <field name="name">Recibos</field>
+            <field name="res_model">grp.caja.recaudadora.boleto.siif.valores.custodia.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_boleto_siif_valores_custodia_wizard_form"/>
+        </record>
+    </data>
+</openerp>

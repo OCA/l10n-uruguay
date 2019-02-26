@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Marca -->
+        <record id="view_grp_sice_marca_tree" model="ir.ui.view">
+            <field name="name">grp.sice_marca_tree</field>
+            <field name="model">grp.sice_marca</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_marca" create="false" delete="false">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Acción: Marca SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Marcas -->
+        <record id="grp_sice_marca_action" model="ir.actions.act_window">
+            <field name="name">Marcas de artículos SICE</field>
+            <field name="res_model">grp.sice_marca</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Marcas
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Marcas -->
+        <menuitem name="Marcas" id="grp_sice_marca_menu" parent="grp_catalogo_articulos_sice_menu"
+                  action="grp_sice_marca_action" sequence="90"/>
+    </data>
+</openerp>

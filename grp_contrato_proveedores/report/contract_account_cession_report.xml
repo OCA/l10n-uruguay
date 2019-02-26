@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+            <!--TODO: M SPRING 12 GAP 79-->
+
+            <record id="action_contract_account_cession_report_xls" model="ir.actions.report.xml">
+              <field name="name">Cuenta corriente de cesiones</field>
+              <field name="model">grp.contrato.proveedores</field>
+              <field name="type">ir.actions.report.xml</field>
+              <field name="report_name">contract.account.cession.xls</field>
+              <field name="report_type">xls</field>
+              <field name="auto" eval="False"/>
+            </record>
+
+            <record model="ir.values" id="action_contract_account_cession_report_xls_values">
+              <field name="name">Cuenta corriente de cesiones XLS</field>
+              <field name="key2">client_action_multi</field>
+              <field name="value" eval="'ir.actions.report.xml,' +str(ref('action_contract_account_cession_report_xls'))" />
+              <field name="model">grp.contrato.proveedores</field>
+            </record>
+
+            <!--<report id="report_contrato_proveedores_cesiones"
+                    model="grp.contrato.proveedores"
+                    name="contract.account.cession.xls"
+                    string="Cuenta corriente de cesiones"
+                    file="contract.account.cession.xls"/>-->
+
+    </data>
+
+</openerp>

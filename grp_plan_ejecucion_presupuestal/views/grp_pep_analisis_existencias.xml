@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- VISTA TREE PARA selección de stock_move (Compras Consideradas) -->
+    <record model="ir.ui.view" id="view_grp_pep_stock_move_selection_tree">
+        <field name="name">grp.pep.stock.move.selection.tree</field>
+        <field name="model">stock.move</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <field name="product_id" readonly="1"/>
+            <field name="origin" readonly="1"/>
+            <field name="create_date" readonly="1"/>
+            <field name="product_uom_qty" readonly="1"/>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_anual_linea_existencia (Compras Consideradas) -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_existencias_compras_consideradas_form">
+        <field name="name">grp.pep.anual.existencias.compras.consideradas.form</field>
+        <field name="model">grp.pep.anual.linea.existencia</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Remitos de Compras Considerados">
+                <p>Indique los remitos de compras relacionados al producto actual que<br></br>
+                   desea considerar como existencias en el análisis.</p>
+                <field name="plan_anual_id" invisible="1"/>
+                <field name="product_id" readonly="1" string="Producto"/>
+                <field name="stock_move_domain_ids" invisible="1"/>
+                <field name="stock_move_ids"
+                       context="{'stock_move_domain_ids': stock_move_domain_ids,
+                                 'tree_view_ref' : 'grp_plan_ejecucion_presupuestal.view_grp_pep_stock_move_selection_tree'}"
+                       domain="[('id', 'in', stock_move_domain_ids[0][2])]">
+                       <tree>
+                            <field name="product_id" readonly="1"/>
+                            <field name="origin" readonly="1"/>
+                            <field name="create_date" readonly="1"/>
+                            <field name="product_uom_qty" readonly="1"/>
+                       </tree>
+                </field>
+            </form>
+            <footer>
+                <button name="write" type="object" string="Guardar" context="{'no_copiar_necesidad': False}"/> or
+                <button name="cancel" string="Cerrar" special="cancel" class="oe_link"/>
+            </footer>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_anual_existencias -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_existencias_form">
+        <field name="name">grp.pep.anual.existencias.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Existencias">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="Análisis de Existencias">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h3>Análisis de Existencias</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-dollar"
+                                name="abrir_conceptos_y_distribucion"
+                                type="object"
+                                help=""
+                                string="Plan Presupuestal"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general el plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Existencias">
+                            <p>A continuación se muestra una lista con los <b>productos contenidos en conceptos asociados al plan</b>.<br></br>
+                               - Se muestran en <span style="color: red; font-weight: bold">rojo</span> los productos cuya <b>cantidad
+                               a comprar actualizada es menor que su necesidad.</b> <br></br>
+                               - Se muestran en <span style="color: green; font-weight: bold">verde</span> los productos cuya <b>cantidad
+                               a comprar actualizada es igual que su necesidad.</b> <br></br>
+                               - Se muestran en <span style="color: black; font-weight: bold">negro</span> los productos cuya <b>cantidad
+                               a comprar actualizada es mayor que su necesidad.</b> <br></br>
+                            </p>
+                            <button class="oe_stat_button oe_edit_only"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa fa-tasks"
+                                    name="cargar_existencias"
+                                    type="object"
+                                    help="Borra el análisis actual y vuelve a cargar las lineas del análisis de existencias a partir de los conceptos del plan."
+                                    string="Cargar Existencias"
+                                    states="analisis,actualizacion"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_existencias"/>
+                            <field name="lineas_existencia"
+                                   nolabel="1"
+                                   context="{'default_plan_anual_id': active_id}">
+                                <tree editable="bottom"
+                                      create="false"
+                                      colors="red:show_warning==True;green:show_success==True">
+                                    <field name="show_warning" invisible="1"/>
+                                    <field name="show_success" invisible="1"/>
+                                    <field name="plan_anual_id" invisible="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="cantidad_planificada"
+                                           readonly="1"
+                                           help="Es la cantidad del producto que se desprende de los conceptos del plan."/>
+                                    <field name="inventario_cantidad_a_mano"
+                                           readonly="1"
+                                           help="Es la cantidad a mano del producto restando las cantidades mínimas en reglas de re-abastecimiento."/>
+                                    <field name="inventario_salida"
+                                           readonly="1"
+                                           help="Es la cantidad del producto que está planificada que salga del stock."/>
+                                    <field name="cantidad_considerada"
+                                           help="Es la cantidad del producto en lineas de remito reservadas, para ordenes de compra confirmadas."/>
+                                    <button name="abrir_compras_consideradas"
+                                            type="object"
+                                            help="Ver compras consideradas"
+                                            string="Compras"
+                                            class="oe_edit_only"
+                                            context="{'no_copiar_necesidad': True}"
+                                            attrs="{'readonly':['|',('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"
+                                    />
+                                    <field name="necesidad"
+                                           help="Es la cantidad de producto que se necesita comprar calculada como N = CCP - (ICM - IS) - CCC"/>
+                                    <field name="cantidad_comprar"  attrs="{'readonly':['|',('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"
+                                           help="Es la cantidad del producto que se decide comprar efectivamente."/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</data>
+</openerp>

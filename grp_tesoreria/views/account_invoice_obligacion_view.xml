@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 10 GAP 274.275 K-->
+		<record id="view_account_form_obligacion" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.obligacion</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_account_form_obligacion"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="replace">
+                    <field name="partner_id"
+                      on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id,siif_concepto_gasto,doc_type,context)"
+                      context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'journal_id':journal_id}"
+                      domain="[('supplier', '=', True)]"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

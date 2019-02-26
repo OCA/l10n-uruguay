@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: SPRING 10 GAP 274.275 K-->
+<openerp>
+    <data>
+        <record id="grp_account_journal_inherited_form" model="ir.ui.view">
+            <field name="name">grp.account.journal.inherited.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="grp_tesoreria.account_journal_inherited_form"/>
+            <field name="arch" type="xml">
+                <field name="analytic_journal_id" position="before">
+                    <field name="habilitaciones"/>
+                    <field name="fondo_rotatorio_siif" attrs="{'invisible': [('type','!=','cash')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

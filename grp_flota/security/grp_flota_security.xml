@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <!--TODO SPRING 5 GAP 42-->
+        <record id="group_fleet_private_vehicle" model="res.groups">
+            <field name="name">Creación de vehículos particulares</field>
+            <field name="category_id" ref="fleet.module_fleet_category"/>
+        </record>
+
+        <record model="ir.rule" id="grp_fleet_vehicle_group_private_vehicle_creation">
+            <field name="name">Rol de creación de vehículos particulares sólo puede acceder a este tipo de vehículos</field>
+            <field name="model_id" ref="model_fleet_vehicle"/>
+            <field name="groups" eval="[(4, ref('group_fleet_private_vehicle'))]"/>
+            <field name="domain_force">[('type','=','private')]</field>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.menu_root'>
+            <field name="groups_id" eval="[(4,ref('group_fleet_private_vehicle'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.fleet_vehicles'>
+            <field name="groups_id" eval="[(4,ref('group_fleet_private_vehicle'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.fleet_vehicle_menu'>
+            <field name="groups_id" eval="[(4,ref('group_fleet_private_vehicle'))]"/>
+        </record>
+
+        <!--TODO SPRING 5 GAP 50-->
+        <record id="group_fleet_sv_solicitante_viaje" model="res.groups">
+            <field name="name">Solicitante de viaje</field>
+            <field name="category_id" ref="fleet.module_fleet_category"/>
+        </record>
+        <record id="group_fleet_sv_aprobador_viaje" model="res.groups">
+            <field name="name">Aprobador SV</field>
+            <field name="category_id" ref="fleet.module_fleet_category"/>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.menu_root'>
+            <field name="groups_id" eval="[(4,ref('group_fleet_sv_solicitante_viaje')),(4,ref('group_fleet_sv_aprobador_viaje'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.fleet_vehicles'>
+            <field name="groups_id" eval="[(4,ref('group_fleet_sv_solicitante_viaje')),(4,ref('group_fleet_sv_aprobador_viaje'))]"/>
+        </record>
+
+         <!--TODO SPRING 5 GAP 51-->
+        <record id="group_fleet_responsable_transporte" model="res.groups">
+            <field name="name">Responsable de transporte</field>
+            <field name="category_id" ref="fleet.module_fleet_category"/>
+        </record>
+
+        <record id="fleet.group_fleet_user" model="res.groups">
+            <field name="menu_access" eval="[(4, ref('base.menu_mro_root')), (4, ref('mro.menu_mro_maintenance')), (4, ref('mro.menu_mro_request'))]"/>
+        </record>
+
+        <record id="regla_flota_solicitud_viaje_solicitante_aprob_read" model="ir.rule">
+            <field name="name">Regla SV Flota Solicitante Aprobador lectura</field>
+            <field name="model_id" ref="model_grp_flota_solicitud_viaje"/>
+            <field name="domain_force">['|',('department_id','=',False),('department_id','child_of',[e.department_id.id for e in user.employee_ids])]</field>
+            <field name="groups" eval="[(4,ref('grp_flota.group_fleet_sv_solicitante_viaje')),
+            (4,ref('grp_flota.group_fleet_sv_aprobador_viaje'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record id="regla_flota_solicitud_viaje_responsable_aprob_read" model="ir.rule">
+            <field name="name">Regla SV Flota Responsable transporte lectura</field>
+            <field name="model_id" ref="model_grp_flota_solicitud_viaje"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('grp_flota.group_fleet_responsable_transporte'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+    </data>
+</openerp>

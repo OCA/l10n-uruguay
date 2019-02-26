@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Expenses -->
+        <record id="view_expenses_form" model="ir.ui.view">
+            <field name="name">hr.expense.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <field name="department_id" position="attributes">
+                    <attribute name="attrs">{'invisible':[('line_ids','!=',[])]}</attribute>
+                </field>
+                <!--TODO: SPRING 11 GAP 318 K-->
+                <!--<field name="department_id" position="after">-->
+                    <!--<field name="department_id_str" attrs="{'invisible':[('line_ids','=',[])]}"/>-->
+                <!--</field>-->
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/form//field[@name='analytic_account']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']//tree/field[@name='analytic_account']" position="after">
+                    <field name='account_id' options="{'no_create': True}"/>
+                    <field name="parent_state" invisible="1"/>
+                    <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('parent_state','not in', [False, 'draft'])]}"
+                        context="{
+                            'journal_id':parent.journal_id,
+                            'form_currency_id': parent.currency_id,
+                            'form_amount': unit_amount,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': True,
+                            'dim_multi_id_not_apply': True,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id,
+                            'department_id': parent.department_id
+                        }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']//form//field[@name='analytic_account']" position="after">
+                    <field name='account_id' options="{'no_create': True}"/>
+                    <field name="parent_state" invisible="1"/>
+                    <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('parent_state','not in', [False, 'draft'])]}"
+                        context="{
+                            'journal_id':parent.journal_id,
+                            'form_currency_id': parent.currency_id,
+                            'form_amount': unit_amount,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': True,
+                            'dim_multi_id_not_apply': True,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id,
+                            'department_id': parent.department_id
+                        }"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_grp_rendicion_anticipo_form1" model="ir.ui.view">
+            <field name="name">grp.rendicion.anticipo.fondo.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_rendicion_anticipo_form1"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='total']" position="before">
+                    <field name="parent_state" invisible="1"/>
+                    <field name="unit_amount" invisible="1"/>
+                    <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('parent_state','not in', [False, 'draft'])]}"
+                        context="{
+                            'journal_id':parent.journal_id,
+                            'form_currency_id': parent.currency_id,
+                            'form_amount': unit_amount,
+                            'account_id': account_concept_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': True,
+                            'dim_multi_id_not_apply': True,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id,
+                            'department_id': False
+                        }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

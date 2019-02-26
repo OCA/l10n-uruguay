@@ -1,0 +1,67 @@
+<!--TODO: SPRING 11 GAP 25 K-->
+<openerp>
+	<data>
+		<record id="grp_locomocion_propia_view_form" model="ir.ui.view">
+            <field name="name">grp.locomocion.propia.view.form</field>
+            <field name="model">grp.locomocion.propia</field>
+            <field name="arch" type="xml">
+                <form string="Locomoción propia">
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="relacion_km"/>
+							<field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="fecha_desde" />
+							<field name="fecha_hasta" />
+							<field name="activo" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Valor nafta" name="valor_nafta">
+                            <group name="lineas" colspan="4">
+                                <field name="valor_nafta_ids" nolabel="1">
+                                    <tree editable="bottom" >
+                                        <field name="fecha_desde"/>
+                                        <field name="importe"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+		<record id="grp_locomocion_propia_view_tree" model="ir.ui.view">
+			<field name="name">grp.locomocion.propia.view.tree</field>
+			<field name="model">grp.locomocion.propia</field>
+			<field name="arch" type="xml">
+				<tree string="Locomoción propia">
+					<field name="fecha_desde"/>
+					<field name="fecha_hasta"/>
+					<field name="relacion_km"/>
+					<field name="activo"/>
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="action_grp_locomocion_propia" model="ir.actions.act_window">
+			<field name="name">Locomoción propia</field>
+			<field name="res_model">grp.locomocion.propia</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <menuitem id="menu_grp_locomocion_propia" action="action_grp_locomocion_propia"
+                  name="Locomoción propia"
+                  parent="grp_compras_estatales.menu_conf" sequence="7"
+             groups="grp_viaticos.grp_configurador viatico"/>
+
+	</data>
+</openerp>

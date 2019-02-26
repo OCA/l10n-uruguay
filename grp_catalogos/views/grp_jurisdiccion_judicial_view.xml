@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista: Jurisdiccion Judicial -->
+        <record id="jurisdiccion_view_tree" model="ir.ui.view">
+            <field name="name">view.jurisdiccion.tree</field>
+            <field name="model">grp.jurisdiccion.judicial</field>
+            <field name="arch" type="xml">
+                <tree string="Jurisdiccion" create="true">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form: Jurisdiccion Judicial -->
+        <record id="jurisdiccion_view_form" model="ir.ui.view">
+            <field name="name">view.jurisdiccion.form</field>
+            <field name="model">grp.jurisdiccion.judicial</field>
+            <field name="arch" type="xml">
+                <form string="Jurisdiccion Judicial">
+                    <sheet>
+                        <group string="Jurisdicción judicial">
+                        <field name="name"/>
+                        <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Acción: Jurisdicciones Judiciales
+        Vistas tree, form
+        (N): Capital humano/Configuracion/Empleado/Jurisdicciones Judiciales -->
+        <record id="jurisdiccion_action" model="ir.actions.act_window">
+            <field name="name">Jurisdicciones Judiciales</field>
+            <field name="res_model">grp.jurisdiccion.judicial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click para crear una nueva Jurisdicción Judicial</p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú: Jurisdiccion Judicial
+        (N): Capital humano/Configuracion/Empleado/Jurisdicciones Judiciales -->
+        <menuitem id="menu_hr_configuracion_empleado_jurisdiccion" name="Jurisdicciones Judiciales" action="jurisdiccion_action" parent="menu_hr_configuracion_empleado" sequence="22"/>
+
+    </data>
+</openerp>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+         <!-- TODO C SPRING 12 GAP_360 -->
+        <record model="ir.ui.view" id="grp_contrato_proveedores_graph_view">
+            <field name="name">grp.contrato.historial.parametrica.report.graph</field>
+            <field name="model">grp.contrato.historial.parametrica.report</field>
+            <field name="arch" type="xml">
+                <graph string="Historial de ajustes de contratos" type="pivot">
+                    <field name="proveedor" type="row"/>
+                    <field name="porcentaje" type="measure"/>
+                    <field name="precio_ajustado_parametrica" type="measure"/>
+                    <field name="importe" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_contract_proveedores_filter_graph" model="ir.ui.view">
+            <field name="name">grp.contrato.historial.parametrica.report.filter.graph</field>
+            <field name="model">grp.contrato.historial.parametrica.report</field>
+            <field name="arch" type="xml">
+                <search string="Historial de ajustes de contratos">
+                    <group expand="0" string="Agrupar por...">
+                        <filter name="group_proveedor" string="Proveedor" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'proveedor'}"/>
+                        <filter name="group_contrato_general" string="Contrato de condiciones generales" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'contrato_general_id'}"/>
+                        <filter name="group_nro_interno" string="Contrato de condiciones particulares" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'nro_interno'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_contrato_proveedores_graph" model="ir.actions.act_window">
+            <field name="name">Historial de ajustes de contratos</field>
+            <field name="res_model">grp.contrato.historial.parametrica.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="grp_contrato_proveedores_graph_view"></field>
+            <!--<field name="domain">[('contrato_general_id', '!=', False)]</field>-->
+            <field name="search_view_id" ref="view_contract_proveedores_filter_graph"/>
+            <field name="context">{'search_default_group_proveedor':1, 'search_default_group_contrato_general':1, 'search_default_group_nro_interno':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+        </record>
+
+        <menuitem action="action_contrato_proveedores_graph" id="menu_action_contrato_proveedores_graph" parent="base.next_id_73" sequence="5" groups="grp_contrato_proveedores.group_grp_contrato_proveedores"/>
+</data>
+</openerp>

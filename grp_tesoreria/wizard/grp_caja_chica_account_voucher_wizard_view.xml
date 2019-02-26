@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 C-->
+        <record id="view_grp_caja_chica_account_voucher_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja.chica.account.voucher.wizard.form</field>
+            <field name="model">grp.caja.chica.account.voucher.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Pago a proveedores">
+                    <group>
+                        <group>
+                            <field name="payment_date"/>
+                            <field name="entry_date"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <field name="account_voucher_ids" height="300" width="700" options="{'no_create': true}"/>
+                    <footer>
+                        <button string="Confirmar" name="transfer_account_voucher" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_chica_account_voucher_wizard" model="ir.actions.act_window">
+            <field name="name">Registro de pago a proveedoress</field>
+            <field name="res_model">grp.caja.chica.account.voucher.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_chica_account_voucher_wizard_form"/>
+        </record>
+    </data>
+</openerp>

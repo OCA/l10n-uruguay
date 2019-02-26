@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: ODG SICE -->
+        <record id="view_grp_sice_odg_tree" model="ir.ui.view">
+            <field name="name">grp.sice_odg_tree</field>
+            <field name="model">grp.sice_odg</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_odg" create="false" delete="false">
+                    <field name="odg"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Acción: ODG SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/ODG -->
+        <record id="grp_sice_odg_action" model="ir.actions.act_window">
+            <field name="name">Objetos del gasto SICE</field>
+            <field name="res_model">grp.sice_odg</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: ODG SICE
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/ODG -->
+        <menuitem name="ODG" id="grp_sice_odg_menu" parent="grp_catalogo_articulos_sice_menu"
+                  action="grp_sice_odg_action" sequence="100"/>
+    </data>
+</openerp>

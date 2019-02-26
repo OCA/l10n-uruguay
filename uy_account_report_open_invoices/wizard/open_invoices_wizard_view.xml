@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="open_invoices_webkit_xls_wizard_view" model="ir.ui.view">
+            <field name="name">open.invoices.webkit.xls</field>
+            <field name="model">open.invoices.webkit</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_financial_report_webkit_xls.open_invoices_webkit_xls_wizard_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <page name="partners" position="after">
+                        <page string="Other Filters" name="other_filters">
+                            <group>
+                                <field name="filter_currency_id" options="{'no_create': true}" />
+                            </group>
+                        </page>
+                    </page>
+                    <field name="group_by_currency" position="after">
+                        <field name="only_residual_amount" />
+                        <label for="display_curr_columns" style="white-space: normal; width: 265px;" string="Mostrar columnas Moneda secundaria (Solo disponible para el informe Excel)" />
+                        <field name="display_curr_columns" nolabel="1" />
+                    </field>
+                    <button string="Export"  position="replace">
+                        <button name="xls_export" string="Imprimir Excel" type="object" context="{'xls_export':1}" colspan="2" class="oe_highlight"/>
+                    </button>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

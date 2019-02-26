@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 11 GAP 292 M-->
+
+
+        <record id="view_grp_caja_recaudadora_boleto_siif_tree" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.tesoreria.boleto.siif.tree</field>
+            <field name="model">grp.caja.recaudadora.tesoreria.boleto.siif</field>
+            <field name="arch" type="xml">
+                <tree string="Boleto SIIF">
+                    <field name="date"/>
+                    <field name="user_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_recaudadora_boleto_siif_form" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.tesoreria.boleto.siif.form</field>
+            <field name="model">grp.caja.recaudadora.tesoreria.boleto.siif</field>
+            <field name="arch" type="xml">
+                <form string="Boleto SIIF">
+                    <header>
+                        <button name="btn_send" states="draft" string="Enviar a tesorería" type="object" class="oe_highlight" />
+                        <button name="btn_collection_send" states="send" string="Enviar a recaudación" type="object" class="oe_highlight"/>
+                        <button name="btn_cancel" states="send,collection_send" string="Cancelar" type="object" class="oe_highlight"/>
+
+					    <field name="state" widget="statusbar" statusbar_visible="draft,send,collection_send" />
+					    <field name="id" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only" attrs="{'invisible':[('name','=','/')]}"/>
+                        <h1><field name="name" class="oe_inline" attrs="{'invisible':[('name','=','/')]}" readonly="1" nolabel="1"/></h1>
+                        <group>
+                            <group>
+                                <field name="box_id" required="0" invisible="1"/>
+                                <field name="date" required="1"/>
+                            </group>
+                            <group>
+                                <field name="user_uid"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detalles de caja">
+                                <div class="oe_left oe_button_box" name="buttons">
+                                    <!--<button class="oe_left oe_stat_button" name="transfer_caja_recaudadora" type="object"-->
+                                        <!--icon="fa-pencil-square-o" string="Importar cajas">-->
+                                    <!--</button>-->
+                                    <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_caja_recaudadora_boleto_siif_cajas_wizard)d"
+                                            type="action" icon="fa-pencil-square-o" string="Importar cajas">
+                                    </button>
+                                </div>
+                                <group>
+                                    <field name="box_details_ids" nolabel="1" >
+                                         <tree string="Detalles" editable="bottom">
+                                             <field name="id" invisible="1"/>
+                                             <field name="boleto_siif_id" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <field name="number" />
+                                             <field name="operating_unit_id" />
+                                             <field name="currency_id" />
+                                             <field name="date" />
+                                             <field name="payment_method" />
+                                             <!--<field name="amount" sum="Total"/>-->
+                                             <field name="receipt_check"/>
+                                             <field name="product_id"/>
+                                             <field name="price_subtotal" />
+                                             <field name="weight_amount" />
+                                             <field name="shipment" />
+                                             <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Recibos" >
+                                <div class="oe_left oe_button_box" name="buttons">
+                                    <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_boleto_siif_account_voucher_wizard)d" type="action"
+                                        icon="fa-pencil-square-o" string="Importar recibos" context="{'default_boleto_siif_id':id}">
+                                    </button>
+                                </div>
+                                <group>
+                                    <field name="voucher_ids" nolabel="1" >
+                                         <tree string="Recibos" editable="bottom">
+                                             <field name="id" invisible="1"/>
+                                             <field name="boleto_siif_id" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <field name="number" />
+                                             <field name="operating_unit_id" />
+                                             <field name="currency_id" />
+                                             <field name="date" />
+                                             <field name="amount" sum="Total"/>
+                                             <field name="receipt_check"/>
+                                             <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Detalles">
+                                <group>
+                                    <field name="voucher_details_ids" nolabel="1" >
+                                         <tree string="Recibos" editable="bottom">
+                                             <field name="id" invisible="1"/>
+                                             <field name="boleto_siif_id" invisible="1"/>
+                                             <field name="voucher_id" invisible="1"/>
+                                             <field name="invoice_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <field name="number" />
+                                             <field name="operating_unit_id" />
+                                             <field name="currency_id" />
+                                             <field name="date" />
+                                             <field name="payment_method" />
+                                             <field name="amount" sum="Total"/>
+                                             <field name="receipt_check"/>
+                                             <field name="product_id"/>
+                                             <field name="price_subtotal" />
+                                             <field name="weight_amount" />
+                                             <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Valores en custodia">
+                                <div class="oe_left oe_button_box" name="buttons">
+                                    <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_boleto_siif_valores_custodia_wizard)d" type="action"
+                                        icon="fa-pencil-square-o" string="Importar valores en custodia"
+                                         style="white-space: normal;height: 50px;" context="{'default_boleto_siif_id':id}">
+                                    </button>
+                                </div>
+                                <group>
+                                    <field name="valores_custodia_ids" nolabel="1" >
+                                         <tree string="Valores en custodia" editable="bottom" create="false">
+                                             <field name="id" invisible="1"/>
+                                             <field name="boleto_siif_id" invisible="1"/>
+                                             <field name="valor_custodia_id" invisible="1"/>
+                                             <field name="partner_id" />
+                                             <!--<field name="operating_unit_id" />-->
+                                             <field name="fecha_recepcion" />
+                                             <field name="name" />
+                                             <field name="monto" />
+                                             <field name="product_id" required="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Remesa" >
+                                <group colspan="4" col="1">
+                                    <group>
+                                        <field name="product_ue_shipment_ids" colspan="4" col="1">
+                                             <tree string="Remesas por producto y UE">
+                                                 <field name="boleto_siif_id" invisible="1"/>
+                                                 <field name="product_id" />
+                                                 <field name="operating_unit_id" />
+                                                 <field name="amount" sum="Total"/>
+                                                 <field name="amount_siif" sum="Total"/>
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group>
+                                        <field name="total_shipment_ids" colspan="4" col="1">
+                                             <tree string="Repesas por producto">
+                                                 <field name="boleto_siif_id" invisible="1"/>
+                                                 <field name="product_id" />
+                                                 <field name="amount" sum="Total"/>
+                                                 <field name="amount_siif" sum="Total"/>
+                                                 <field name="type" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <label for="cash_shipment_siff_ticket" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Boleto SIIF" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="cash_shipment_siff_ticket" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                        <label for="cash_shipment_bar_code" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Código de barra" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="cash_shipment_bar_code" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_caja_recaudadora_boleto_siif" model="ir.actions.act_window">
+            <field name="name">Boleto SIIF</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.caja.recaudadora.tesoreria.boleto.siif</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_caja_recaudadora_boleto_siif_tree"/>
+        </record>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,318 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * dynamic_listview_advance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-05 17:44+0000\n"
+"PO-Revision-Date: 2017-07-05 17:44+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,action_id:0
+msgid "Action"
+msgstr "Acción"
+
+#. module: dynamic_listview_advance
+#: help:show.fields,action_id:0
+msgid "Action ID not relational. A model may use the same view definition (same view_id) for diferent actions"
+msgstr "Action ID not relational. A model may use the same view definition (same view_id) for diferent actions"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:49
+#, python-format
+msgid "All user"
+msgstr "Todos los usuarios"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:52
+#, python-format
+msgid "All users"
+msgstr "Todos los usuarios"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:47
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:48
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:49
+#, python-format
+msgid "Apply changes"
+msgstr "Aplicar los cambios"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:21
+#, python-format
+msgid "Base"
+msgstr "Base"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:58
+#, python-format
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:7
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:9
+#, python-format
+msgid "Choose fields to show"
+msgstr "Seleccione los campos a mostrar"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:73
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:85
+#, python-format
+msgid "Choose fields to show!"
+msgstr "Seleccione los campos a mostrar"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:75
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:87
+#, python-format
+msgid "Choose fields to show!."
+msgstr "Seleccione los campos a mostrar"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:43
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:44
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:45
+#, python-format
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:17
+#: field:show.fields,color:0
+#, python-format
+msgid "Color"
+msgstr "Color"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:7
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:73
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:85
+#, python-format
+msgid "Columns"
+msgstr "Columnas"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:27
+#, python-format
+msgid "Complete"
+msgstr "Complete"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:24
+#, python-format
+msgid "Danger"
+msgstr "Peligro"
+
+#. module: dynamic_listview_advance
+#: model:ir.module.category,name:dynamic_listview_advance.module_category_show_fields
+msgid "Edit Lists views"
+msgstr "Editar vistas Listas"
+
+#. module: dynamic_listview_advance
+#: model:ir.module.category,description:dynamic_listview_advance.module_category_show_fields
+msgid "Edit columns in list views dynamically."
+msgstr "Editar columnas en vistas Listas dinámicamente."
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:10
+#, python-format
+msgid "Fields Settings"
+msgstr "Configuración campos"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,fields_show:0
+msgid "Fields Show"
+msgstr "Mostrar campos"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,fields_string:0
+msgid "Fields String"
+msgstr "Etiquetas campos"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,all_user:0
+msgid "Fix header List View"
+msgstr "Fix header List View"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:46
+#, python-format
+msgid "For All User"
+msgstr "Para todos los usuarios"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:39
+#, python-format
+msgid "Info"
+msgstr "Info"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: dynamic_listview_advance
+#: model:res.groups,name:dynamic_listview_advance.group_show_fields_manager
+msgid "Manager"
+msgstr "Responsable"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,model_name:0
+msgid "Model Name"
+msgstr "Nombre modelo"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:36
+#, python-format
+msgid "Primary"
+msgstr "Primario"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml\listview_button_view.xml:39
+#: code:addons/dynamic_listview_advance/static/src/xml\listview_button_view.xml:40
+#: code:addons/dynamic_listview_advance/static/src/xml\listview_button_view.xml:41
+#, python-format
+msgid "Reset to the original view"
+msgstr "Resetear a la vista por defecto"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:63
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:106
+#: field:show.fields,fields_sequence:0
+#, python-format
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:69
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:70
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:71
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:81
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:82
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:83
+#, python-format
+msgid "Settings"
+msgstr "Configuración"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:57
+#, python-format
+msgid "Settings (toggle to Show/Hide)"
+msgstr "Configuración (clic para Mostrar/Ocultar)"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:64
+#, python-format
+msgid "String Of Field"
+msgstr "Etiqueta del campo"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:33
+#, python-format
+msgid "Success"
+msgstr "Satisfactorio"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:65
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:66
+#: code:addons/dynamic_listview_advance/static/src/xml/listview_button_view.xml:67
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:57
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:92
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:93
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:94
+#, python-format
+msgid "Update"
+msgstr "Actualizar"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,color_for_list:0
+msgid "Use Color/bgcolor for listview"
+msgstr "Use Color/bgcolor for listview"
+
+#. module: dynamic_listview_advance
+#: model:res.groups,name:dynamic_listview_advance.group_show_fields
+#: field:show.fields,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,view_id:0
+msgid "View"
+msgstr "Vista"
+
+#. module: dynamic_listview_advance
+#: help:show.fields,view_id:0
+msgid "View ID. A model may have multiple views"
+msgstr "View ID. A model may have multiple views"
+
+#. module: dynamic_listview_advance
+#: field:show.fields,view_type:0
+msgid "View Type"
+msgstr "Tipo de vista"
+
+#. module: dynamic_listview_advance
+#. openerp-web
+#: code:addons\dynamic_listview_advance\static\src\xml\my_control.xml:30
+#, python-format
+msgid "Warning"
+msgstr "Warning"
+

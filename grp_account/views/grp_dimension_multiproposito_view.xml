@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista: Dimension Multiproposito -->
+        <record id="dimension_multiproposito_view_tree" model="ir.ui.view">
+            <field name="name">view.dimension.multiproposito.tree</field>
+            <field name="model">grp.dimension_multiproposito</field>
+            <field name="arch" type="xml">
+                <tree string="Dimensión Multipropósito">
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Vista form: Dimensión Multipropósito -->
+        <record id="dimension_multiproposito_view_form" model="ir.ui.view">
+            <field name="name">view.dimension.multiproposito.form</field>
+            <field name="model">grp.dimension_multiproposito</field>
+
+            <field name="arch" type="xml">
+                <form string="Dimensión Multipropósito">
+                    <sheet>
+                        <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Acción: Dimensión Multipropósito
+        Vistas tree, form
+        (N): Contabilidad/Configuracion/Contabilidad analítica/Dimensión multipropósito -->
+        <record id="action_account_dimension_multiproposito_form" model="ir.actions.act_window">
+            <field name="name">Dimensiones multipropósito</field>
+            <field name="res_model">grp.dimension_multiproposito</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click para crear una nueva dimensión multipropósito</p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú: Dimensión Multipropósito
+        (N): Contabilidad/Configuracion/Contabilidad analítica/Dimensión multipropósito -->
+        <menuitem name="Dimensión multipropósito" id="account_def_dimension_multiproposito" parent="account.menu_analytic_accounting" action="action_account_dimension_multiproposito_form" sequence="15"/>
+    </data>
+</openerp>

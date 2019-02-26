@@ -1,0 +1,50 @@
+<openerp>
+    <data>
+
+        <record id="aprobar_pago_guardar_view" model="ir.ui.view">
+            <field name="name">aprobar.pago.form</field>
+            <field name="model">aprobar.pago.guardar</field>
+            <field name="arch" type="xml">
+                <form string="Aprobar Pago">
+                    <group>
+                        <field name="fecha_aprobacion"/>
+                        <field name="cuenta_bancaria_id" domain="[('type', '=', 'bank')]"/>
+                    </group>
+                    <footer>
+                        <button string="Guardar" name="pago_guardar" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_aprobar_pago_guardar"
+            multi="True"
+            key2="client_action_multi" name="Aprobar Pago"
+            res_model="aprobar.pago.guardar" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" groups="grp_seguridad.grp_aprobacion_pagos"
+           />
+
+        <record id="aprobar_pago_cancel_view" model="ir.ui.view">
+            <field name="name">aprobar.pago.cancel.form</field>
+            <field name="model">aprobar.pago.cancel</field>
+            <field name="arch" type="xml">
+                <form string="Cancelar Aprobación">
+                    <footer>
+                        <button string="Cancelar Aprobación de Pagos" name="pagos_cancel" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_aprobar_cancelar"
+            multi="True"
+            key2="client_action_multi" name="Cancelar Aprobación Pago"
+            res_model="aprobar.pago.cancel" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" groups="grp_seguridad.grp_aprobacion_pagos"/>
+  
+    </data>
+</openerp>

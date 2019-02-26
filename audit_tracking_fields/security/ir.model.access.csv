@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_audit_tracked_fields_rule_user,audit_tracked_fields_rule_user,model_audit_tracked_fields_rule,,1,1,1,1
+
+access_audit_tracked_fields_log_user,audit_tracked_fields_log_user,model_audit_tracked_fields_log,,1,0,0,0
+access_audit_tracked_fields_log_manager,audit_tracked_fields_log_manager,model_audit_tracked_fields_log,base.group_erp_manager,1,1,1,1

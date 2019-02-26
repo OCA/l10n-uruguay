@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_res_users_role_form" model="ir.ui.view">
+            <field name="name">res.users.role.form</field>
+            <field name="model">res.users.role</field>
+            <field name="inherit_id" ref="base_user_role.view_res_users_role_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Unidades ejecutoras">
+                        <field name="operating_unit_ids" nolabel="1"/>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='date_from']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='date_to']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='user_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

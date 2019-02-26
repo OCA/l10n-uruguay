@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Form: Impuesto -->
+        <record id="view_grp_sice_impuesto_form" model="ir.ui.view">
+            <field name="name">grp.sice_impuesto_form</field>
+            <field name="model">grp.sice_impuesto</field>
+            <field name="arch" type="xml">
+                <form string="Impuesto" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group string="Impuesto">
+                            <field name="cod"/>
+                            <field name="descripcion"/>
+                            <field name="fecha_baja"/>
+                            <field name="motivo_baja"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Porcentajes">
+                            <field name="porcentaje_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="porcentaje"/>
+                                    <field name="fecha_vigencia"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Lista: Impuesto -->
+        <record id="view_grp_sice_impuesto_tree" model="ir.ui.view">
+            <field name="name">grp.sice_impuesto_tree</field>
+            <field name="model">grp.sice_impuesto</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_impuesto" create="false" delete="false">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Acción: Impuesto SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Impuestos -->
+        <record id="grp_sice_impuesto_action" model="ir.actions.act_window">
+            <field name="name">Impuestos de artículos SICE</field>
+            <field name="res_model">grp.sice_impuesto</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú: Impuestos
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Impuestos -->
+        <menuitem name="Impuestos" id="grp_sice_impuesto_menu" parent="grp_catalogo_articulos_sice_menu"
+                  action="grp_sice_impuesto_action" sequence="50"/>
+    </data>
+</openerp>
+

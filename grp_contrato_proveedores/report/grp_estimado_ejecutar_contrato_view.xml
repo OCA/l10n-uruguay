@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="view_grp_estimado_ejecutar_contrato_tree" model="ir.ui.view">
+            <field name="name">grp.estimado.ejecutar.contrato.tree</field>
+            <field name="model">grp.estimado.ejecutar.contrato</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Estimado a ejecutar de contratos" create="false" delete="false" editable="bottom">
+                    <field name="nro_interno" readonly="1"/>
+                    <field name="proveedor" readonly="1"/>
+                    <field name="fecha_inicio" readonly="1"/>
+                    <field name="fecha_fin" readonly="1"/>
+                    <field name="moneda" readonly="1"/>
+                    <field name="monto_ajustado" readonly="1"/>
+                    <field name="monto_facturar" readonly="1"/>
+                    <field name="monto_ejecutar_actual"/>
+                    <field name="monto_ejecutar_futuro" readonly="1"/>
+                    <field name="listo"/>
+                    <field name="fecha_procesamiento" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="view_grp_estimado_ejecutar_contrato_filter" model="ir.ui.view">
+                <field name="name">grp.estimado.ejecutar.contrato.filter</field>
+                <field name="model">grp.estimado.ejecutar.contrato</field>
+                <field name="arch" type="xml">
+                    <search string="Buscar Contrato">
+                        <field name= "nro_interno"/>
+                        <field name= "proveedor"/>
+                   </search>
+                </field>
+            </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <record id="action_grp_estimado_ejecutar_contrato" model="ir.actions.act_window">
+            <field name="name">Estimado a ejecutar de contratos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.estimado.ejecutar.contrato</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_estimado_ejecutar_contrato_tree"/>
+            <field name="search_view_id" ref="view_grp_estimado_ejecutar_contrato_filter"/>
+        </record>
+        <!--TODO: K SPRING 13 GAP 452-->
+        <menuitem id="menu_grp_estimado_ejecutar_contrato" name="Estimado a ejecutar contratos" sequence="06"
+                  parent="menu_prov_cont"
+                  action="action_grp_estimado_ejecutar_contrato"
+                  groups="grp_seguridad.grp_compras_apg_Jefe_de_compras"/>
+
+    </data>
+</openerp>

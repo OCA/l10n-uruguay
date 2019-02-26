@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_grp_cashbox_register_execution_form" model="ir.ui.view">
+            <field name="name">grp.cashbox.register.execution.form</field>
+            <field name="model">grp.cashbox.register.execution</field>
+            <field name="arch" type="xml">
+                <form string="Arqueo de caja">
+                    <header>
+                        <button name="action_confirm" states="draft" type="object" class="oe_highlight" string="Confirmar"
+                        groups="grp_tesoreria.group_grp_cashbox_register_responsible,grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_draft" states="confirm" type="object" string="Volver a Borrador"
+                        groups="grp_tesoreria.group_grp_cashbox_register_responsible,grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_checked" states="confirm" type="object" string="Revisado sin observaciones" class="oe_highlight"
+                        groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_checked_wobservation" states="confirm" type="object" string="Revisado con observaciones"
+                        groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_cancel" states="checked,checked_wobs" type="object" string="Cancelar"
+                        groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_print_report_xls" states="confirm" type="object" string="Imprimir" class="oe_highlight"
+                        groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="date" class="oe_inline"/>
+                            <h1>
+                                <field name="date" readonly="1" options="{'save_readonly':True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="cashbox_register_id"/>
+                            </group>
+                            <group>
+                                <field name="hour_start" widget="float_time"/>
+                                <field name="hour_end" widget="float_time"/>
+                                <field name="observations"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Presentes">
+                                <field name="title_ids">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                        <field name="operating_unit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Cajas a arquear">
+                                <group col="1">
+                                    <field name="caja_pagadora_ids">
+                                        <tree editable="top">
+                                            <field name="caja"/>
+                                            <field name="operating_unit_ids"/>
+                                            <field name="currency_id"/>
+                                        </tree>
+                                    </field>
+                                    <field name="caja_cheque_ids">
+                                        <tree editable="top">
+                                            <field name="caja"/>
+                                            <field name="operating_unit_ids"/>
+                                            <field name="currency_id"/>
+                                        </tree>
+                                    </field>
+                                    <field name="caja_recaudadora_ids">
+                                        <tree editable="top">
+                                            <field name="caja"/>
+                                            <field name="operating_unit_ids"/>
+                                            <field name="currency_id"/>
+                                        </tree>
+                                    </field>
+                                    <field name="caja_fondo_terceros_ids">
+                                        <tree editable="top">
+                                            <field name="caja"/>
+                                            <field name="operating_unit_ids"/>
+                                            <field name="currency_id"/>
+                                        </tree>
+                                    </field>
+                                    <field name="caja_otras_ids">
+                                        <tree editable="top">
+                                            <field name="caja"/>
+                                            <field name="operating_unit_ids"/>
+                                            <field name="currency_id"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Composición de efectivo">
+                                <field name="composition_ids">
+                                    <tree editable="top" create="false" edit="false" delete="false">
+                                        <field name="currency_id"/>
+                                        <field name="composition_id"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_cashbox_register_execution_tree" model="ir.ui.view">
+            <field name="name">grp.cashbox.register.execution.tree</field>
+            <field name="model">grp.cashbox.register.execution</field>
+            <field name="arch" type="xml">
+                <tree string="Arqueos de caja">
+                    <field name="date"/>
+                    <field name="cashbox_register_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_cashbox_register_execution" model="ir.actions.act_window">
+            <field name="name">Arqueos de caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.cashbox.register.execution</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_grp_cashbox_register_execution" name="Arqueos de caja"
+                  parent="menu_grp_account_tesoreria" sequence="501"
+                  action="action_view_grp_cashbox_register_execution"/>
+
+
+
+    </data>
+</openerp>

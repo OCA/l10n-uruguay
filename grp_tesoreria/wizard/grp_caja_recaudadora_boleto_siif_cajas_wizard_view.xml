@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_grp_caja_recaudadora_boleto_siif_cajas_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja.recaudadora.boleto.siif.cajas.wizard.form</field>
+            <field name="model">grp.caja.recaudadora.boleto.siif.cajas.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Seleccionar cajas">
+                    <separator string="Seleccionar cajas"/>
+                    <field name="caja_ids" context="{'boleto_siif': True}">
+                    </field>
+                    <footer>
+                        <button string="Cargar" name="cargar_lineas" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_recaudadora_boleto_siif_cajas_wizard" model="ir.actions.act_window">
+            <field name="name">Importar cajas</field>
+            <field name="res_model">grp.caja.recaudadora.boleto.siif.cajas.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_recaudadora_boleto_siif_cajas_wizard_form"/>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="grp_pep_receta_us_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.receta.us.wizard.form</field>
+            <field name="model">grp.pep.receta.us.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Unidades de servicio" version="7.0">
+                <field name="estructura_id" invisible="1"/>
+                <field name="cant_nivel_2" invisible="1"/>
+                <field name="cant_nivel_3" invisible="1"/>
+                <field name="cant_nivel_4" invisible="1"/>
+                <field name="cant_nivel_5" invisible="1"/>
+                <field name="cant_nivel_6" invisible="1"/>
+                <field name="cant_nivel_7" invisible="1"/>
+                <field name="cant_nivel_8" invisible="1"/>
+                <field name="cant_nivel_9" invisible="1"/>
+                <field name="cant_nivel_10" invisible="1"/>
+                <field name="us_nivel_1" domain="[('nivel_nro', '=', 1), ('estructura_id', '=', estructura_id)]"
+                       options="{'no_open': True, 'no_create_edit': True}"
+                       attrs="{'required': True}"/>
+                <field name="us_nivel_2" domain="[('nivel_nro', '=', 2), ('parent_id', '=', us_nivel_1)]"
+                       attrs="{'invisible': ['|',('us_nivel_1','=',False), ('cant_nivel_2','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_3" domain="[('nivel_nro', '=', 3), ('parent_id', '=', us_nivel_2)]"
+                       attrs="{'invisible': ['|',('us_nivel_2','=',False), ('cant_nivel_3','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_4" domain="[('nivel_nro', '=', 4), ('parent_id', '=', us_nivel_3)]"
+                       attrs="{'invisible': ['|',('us_nivel_3','=',False), ('cant_nivel_4','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_5" domain="[('nivel_nro', '=', 5), ('parent_id', '=', us_nivel_4)]"
+                       attrs="{'invisible': ['|',('us_nivel_4','=',False), ('cant_nivel_5','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_6" domain="[('nivel_nro', '=', 6), ('parent_id', '=', us_nivel_5)]"
+                       attrs="{'invisible': ['|',('us_nivel_5','=',False), ('cant_nivel_6','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_7" domain="[('nivel_nro', '=', 7), ('parent_id', '=', us_nivel_6)]"
+                       attrs="{'invisible': ['|',('us_nivel_6','=',False), ('cant_nivel_7','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_8" domain="[('nivel_nro', '=', 8), ('parent_id', '=', us_nivel_7)]"
+                       attrs="{'invisible': ['|',('us_nivel_7','=',False), ('cant_nivel_8','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_9" domain="[('nivel_nro', '=', 9), ('parent_id', '=', us_nivel_8)]"
+                       attrs="{'invisible': ['|',('us_nivel_8','=',False), ('cant_nivel_9','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="us_nivel_10" domain="[('nivel_nro', '=', 10), ('parent_id', '=', us_nivel_9)]"
+                       attrs="{'invisible': ['|',('us_nivel_9','=',False), ('cant_nivel_10','=',0)]}"
+                       options="{'no_open': True, 'no_create_edit': True}"/>
+                <footer>
+                    <button name="guardar_path" string="Aceptar" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+    </data>
+</openerp>

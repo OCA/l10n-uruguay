@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- VISTA FORM EXPORT ADQUISICIONES -->
+    <record id="grp_pep_export_adquisicion_form" model="ir.ui.view">
+        <field name="name">Descargar Exportación de Plan de Adquisiciones</field>
+        <field name="model">grp.pep.export.adquisiciones</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Descargar Exportación">
+                <group>
+                    <field name="archivo_nombre" readonly="1"/>
+                    export_estructura.xls
+                    <field name="archivo_contenido" filename="archivo_nombre" readonly="1"/>
+                </group>
+                <footer>
+                    <button string="Cerrar Ventana" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_anual_linea_adquisicion (Detalle) -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_adquisicion_detalle_form">
+        <field name="name">grp.pep.anual.adquisicion.detalle.form</field>
+        <field name="model">grp.pep.anual.linea.adquisicion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de Adquisicion">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="plan_state" invisible="1"/>
+                            <field name="plan_anual_id" readonly="1"/>
+                            <field name="id_planificacion" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   help="Número que otorga el organismo para identificar la adquisición planificada. Deberá ser referenciado en la publicación del futuro procedimiento de compra"/>
+                            <field name="tipo_de_objeto"
+                                   readonly="1"/>
+                            <field name="descripcion_objeto" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   help="Breve descripción del objeto a contratar, ej. productos de limpieza."/>
+                            <field name="identificacion_objeto" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="codigo_odg" readonly="1"/>
+                            <field name="descripcion_odg" readonly="1"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="procedimiento_contratacion" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   options="{'no_open': True, 'no_create_edit': True}"
+                                   help="Montos TOCAF definidos para el año anterior al año fiscal del plan."/>
+                            <field name="cantidad_estimada" readonly="1"/>
+                            <field name="importe_estimado" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="fecha_estimada_convocatoria"
+                                   help="Fecha estimada en la cual se estima publicar la convocatoria. En el caso de aquellas contrataciones que no requieran de convocatoria este campo se deja vacío"/>
+                            <field name="fecha_estimada_recepcion" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   help="Fecha estimada en la cual se estima estar recibiendo el bien o servicio. Esta fecha puede caer por fuera del período planificado. En caso de tratarse de un flujo de entregas se dispone acá la primer fecha estimada de entrega."/>
+                            <field name="estimacion_renovacion"
+                                   attrs="{'required': [('tipo_de_objeto', '=', 'servicio')],
+                                           'readonly': [('tipo_de_objeto', '!=', 'servicio')]}"/>
+                            <field name="ff_id" readonly="1"/>
+                            <field name="destino_adquisicion" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   help="Lugar geográfico a nivel departamental, donde se entregará el bien o se deberá cumplir el servicio."/>
+                        </group>
+                        <group>
+                            <field name="sujeto_autorizacion_externa" attrs="{'readonly':['|',('plan_state','=','finalizado')]}"
+                                   required="1"
+                                   help="Seleccionar si la disponibilidad de fondos para la contratación se encuentra sujeta o no a la autorización por parte de un órgano externo al organismo comprador al momento de la planificación."/>
+                            <field name="compras_innovadoras" readonly="1"/>
+                            <field name="compras_innovadoras_desc"
+                                   attrs="{'readonly': [('compras_innovadoras', '=', False)],
+                                           'required': [('compras_innovadoras', '=', True)]}"/>
+                            <field name="observaciones"
+                                   help="Información extra que considere relevante. En este campo se incluye, asimismo, toda fundamentación de ajuste de la planificación, en caso de ocurrir ajuste."/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+            <footer>
+                <button name="write" type="object" string="Guardar" /> or
+                <button name="cancel" string="Cerrar" special="cancel" class="oe_link"/>
+            </footer>
+        </field>
+    </record>
+
+    <!-- VISTA FORM READONLY PARA grp_pep_anual_linea_adquisicion (Detalle) -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_adquisicion_detalle_readonly_form">
+        <field name="name">grp.pep.anual.adquisicion.detalle.readonly.form</field>
+        <field name="model">grp.pep.anual.linea.adquisicion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de Adquisicion">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="plan_state" invisible="1"/>
+                            <field name="plan_anual_id" readonly="1"/>
+                            <field name="id_planificacion"
+                                   help="Número que otorga el organismo para identificar la adquisición planificada. Deberá ser referenciado en la publicación del futuro procedimiento de compra"
+                                   readonly="1"/>
+                            <field name="tipo_de_objeto"
+                                   readonly="1"/>
+                            <field name="descripcion_objeto"
+                                   help="Breve descripción del objeto a contratar, ej. productos de limpieza."
+                                   readonly="1"/>
+                            <field name="identificacion_objeto" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="codigo_odg" readonly="1"/>
+                            <field name="descripcion_odg" readonly="1"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="procedimiento_contratacion"
+                                   options="{'no_open': True, 'no_create_edit': True}"
+                                   help="Montos TOCAF definidos para el año anterior al año fiscal del plan."
+                                   readonly="1"/>
+                            <field name="cantidad_estimada" readonly="1"/>
+                            <field name="importe_estimado" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="fecha_estimada_convocatoria"
+                                   help="Fecha estimada en la cual se estima publicar la convocatoria. En el caso de aquellas contrataciones que no requieran de convocatoria este campo se deja vacío"
+                                   readonly="1"/>
+                            <field name="fecha_estimada_recepcion"
+                                   help="Fecha estimada en la cual se estima estar recibiendo el bien o servicio. Esta fecha puede caer por fuera del período planificado. En caso de tratarse de un flujo de entregas se dispone acá la primer fecha estimada de entrega."
+                                   readonly="1"/>
+                            <field name="estimacion_renovacion"
+                                   readonly="1"/>
+                            <field name="ff_id" readonly="1"/>
+                            <field name="destino_adquisicion"
+                                   help="Lugar geográfico a nivel departamental, donde se entregará el bien o se deberá cumplir el servicio."
+                                   readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="sujeto_autorizacion_externa"
+                                   help="Seleccionar si la disponibilidad de fondos para la contratación se encuentra sujeta o no a la autorización por parte de un órgano externo al organismo comprador al momento de la planificación."
+                                   readonly="1"/>
+                            <field name="compras_innovadoras" readonly="1"/>
+                            <field name="compras_innovadoras_desc" readonly="1"/>
+                            <field name="observaciones"
+                                   help="Información extra que considere relevante. En este campo se incluye, asimismo, toda fundamentación de ajuste de la planificación, en caso de ocurrir ajuste."
+                                   readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+            <footer>
+                <button name="write" type="object" string="Guardar" invisible="1"/>
+                <button name="cancel" string="Cerrar" special="cancel" class="oe_link"/>
+            </footer>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_anual_adquisiciones -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_adquisiciones_form">
+        <field name="name">grp.pep.anual.adquisiciones.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Plan de Adquisiciones">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="Plan de Adquisiciones">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                    <h3>Plan de Adquisiciones</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general el plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                        <!-- CAMPOS EDITABLES SOLO PARA EL GRUPO DE ADQUISICIONES -->
+                        <group string="Información de Plan de Adquisiciones" groups="grp_plan_ejecucion_presupuestal.pep_adquisiciones">
+                            <field name="responsable_adqui_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="telefono_responsable_adqui"/>
+                            <field name="correo_responsable_adqui"/>
+                        </group>
+                        <group string="&#160;" groups="grp_plan_ejecucion_presupuestal.pep_adquisiciones">
+                            <field name="presupuesto_anual_adqui"/>
+                            <field name="fecha_actualizacion_adqui" readonly="1"/>
+                            <field name="unidad_de_compra" required="1"/>
+                        </group>
+                        <!-- CAMPOS NO EDITABLES PARA EL RESTO -->
+                        <group string="Información de Plan de Adquisiciones" groups="grp_plan_ejecucion_presupuestal.pep_elaboracion,grp_plan_ejecucion_presupuestal.pep_recetas,grp_plan_ejecucion_presupuestal.pep_conceptos,grp_plan_ejecucion_presupuestal.pep_existencias,grp_plan_ejecucion_presupuestal.pep_monitoreo,grp_plan_ejecucion_presupuestal.pep_movimientos,grp_plan_ejecucion_presupuestal.pep_aprobacion">
+                            <field name="fn_responsable_adqui_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="fn_telefono_responsable_adqui"/>
+                            <field name="fn_correo_responsable_adqui"/>
+                        </group>
+                        <group string="&#160;" groups="grp_plan_ejecucion_presupuestal.pep_elaboracion,grp_plan_ejecucion_presupuestal.pep_recetas,grp_plan_ejecucion_presupuestal.pep_conceptos,grp_plan_ejecucion_presupuestal.pep_existencias,grp_plan_ejecucion_presupuestal.pep_monitoreo,grp_plan_ejecucion_presupuestal.pep_movimientos,grp_plan_ejecucion_presupuestal.pep_aprobacion">
+                            <field name="fn_presupuesto_anual_adqui"/>
+                            <field name="fn_fecha_actualizacion_adqui"/>
+                            <field name="fn_unidad_de_compra"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Adquisiciones">
+                            <button class="oe_stat_button oe_edit_only"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa fa-tasks"
+                                    name="generar_plan_adquisiciones"
+                                    type="object"
+                                    help="Borra el plan actual y vuelve a cargar las lineas del plan de adquisiciones a partir de los conceptos del plan de ejecución."
+                                    string="Generar Plan Adquisiciones"
+                                    states="aprobado,en_ejecucion"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_adquisiciones"/>
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-file-excel-o"
+                                    name="exportar_excel_adquisiciones"
+                                    type="object"
+                                    help="Exporta a una planilla Excel los contenidos del plan de adquisiciones."
+                                    string="Exportar a Excel"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_adquisiciones"/>
+                            <button class="oe_stat_button"
+                                    style="white-space: normal;padding-right: 5px;"
+                                    icon="fa-cloud-upload"
+                                    name="publicar_plan_adquisiciones"
+                                    type="object"
+                                    help="Publicar plan en ACCE"
+                                    string="Publicar"
+                                    states="aprobado,en_ejecucion"
+                                    groups="grp_plan_ejecucion_presupuestal.pep_adquisiciones"/>
+
+                            <field name="lineas_adquisicion" nolabel="1" context="{'default_plan_anual_id': active_id}">
+                                <tree editable="top"
+                                      create="false">
+                                    <field name="plan_anual_id" invisible="1"/>
+                                    <field name="id_planificacion" readonly="1"/>
+                                    <field name="tipo_de_objeto" readonly="1"/>
+                                    <field name="identificacion_objeto" readonly="1"/>
+                                    <field name="codigo_odg" readonly="1"/>
+                                    <field name="descripcion_odg" readonly="1"/>
+                                    <field name="ff_id" readonly="1"
+                                           options="{'no_open': True}"
+                                           string="Código FF"/>
+                                    <field name="product_uom" readonly="1"/>
+                                    <field name="cantidad_estimada" readonly="1"/>
+                                    <field name="importe_estimado" readonly="1"/>
+                                    <button name="abrir_detalle"
+                                            type="object"
+                                            help="Ver detalle"
+                                            string="Detalle"
+                                            class="oe_edit_only"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</data>
+</openerp>

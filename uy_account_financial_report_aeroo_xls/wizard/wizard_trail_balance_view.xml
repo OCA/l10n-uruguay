@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_report_balance_sheet_view_inherit" model="ir.ui.view">
+          <field name="name">Balance Sheet</field>
+          <field name="model">accounting.report</field>
+          <field name="type">form</field>
+          <field name="inherit_id" ref="account_financial_report_aeroo_xls.account_report_balance_sheet_view_inherit" />
+          <field name="arch" type="xml">
+                <button string="Print Excel"  position="replace">
+                    <button  name="check_report_excel" string="Imprimir Excel" type="object" colspan="1" class="oe_highlight"/>
+                </button>
+          </field>
+        </record>
+
+    </data>
+</openerp>

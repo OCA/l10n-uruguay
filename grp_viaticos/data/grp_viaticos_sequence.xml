@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Secuencia para Solicitud de Viáticos -->
+        <record id="seq_type_sv_number" model="ir.sequence.type">
+            <field name="name">Solicitud de Viáticos</field>
+            <field name="code">sv.number</field>
+        </record>
+        <record id="seq_sv_number" model="ir.sequence">
+            <field name="name">Solicitud de Viáticos</field>
+            <field name="code">sv.number</field>
+            <field name="prefix">%(year)s-%(month)s-Sol.Viático-</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_type_rv_number" model="ir.sequence.type">
+            <field name="name">Rendición de Viáticos</field>
+            <field name="code">rv.number</field>
+        </record>
+        <record id="seq_rv_number" model="ir.sequence">
+            <field name="name">Rendición de Viáticos</field>
+            <field name="code">rv.number</field>
+            <field name="prefix">%(year)s-%(month)s-Rend.Viático-</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</openerp>

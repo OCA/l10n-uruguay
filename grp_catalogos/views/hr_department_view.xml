@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista herencia: Departamento -->
+        <record id="view_partner_tree_inherited_department" model="ir.ui.view">
+            <field name="name">Inherited Tree View for Department</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr ="/tree/field[@name='manager_id']" position="replace"></xpath>
+                <xpath expr ="/tree/field[@name='complete_name']" position="after">
+                    <field name="region"/>
+                    <field name="state_id"/>
+                    <field name="localidad"/>
+                    <field name="jurisdiccion_judicial"/>
+                    <field name="manager_id"/>
+                </xpath>
+                <xpath expr ="/tree/field[@name='company_id']" position="after">
+                    <field name="active" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_partner_form_inherited_department" model="ir.ui.view">
+            <field name="name">Inherited Form View for Department</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="active" />
+                </xpath>
+
+                <xpath expr="//group[1]" position="after">
+                    <group string="Ubicación geográfica">
+                        <field name="region" style="width: 40%%"/>
+                        <field name="state_id" options="{'no_create_edit':true, 'no_quick_create':true, 'no_open':true}"  style="width: 40%%"/>
+                        <field name="localidad" attrs="{'readonly': [('state_id', '=', False)]}" options="{'no_create_edit':true, 'no_quick_create':true,'no_open':true}"  style="width: 40%%"/>
+                        <field name="jurisdiccion_judicial" style="width: 20%%"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+         <!--Acción: Departamentos
+        Vistas tree, form
+        (N): Capital humano/Configuracion/Departamentos -->
+        <record id="hr_department_action" model="ir.actions.act_window">
+            <field name="name">nameDelAction</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+    </data>
+</openerp>
+

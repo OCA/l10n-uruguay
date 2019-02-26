@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista: Region -->
+        <record id="region_view_tree" model="ir.ui.view">
+            <field name="name">view.region.tree</field>
+            <field name="model">grp.region</field>
+            <field name="arch" type="xml">
+                <tree string="Region" create="true">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form: Region -->
+        <record id="region_view_form" model="ir.ui.view">
+            <field name="name">view.region.form</field>
+            <field name="model">grp.region</field>
+            <field name="arch" type="xml">
+                <form string="Region">
+                    <sheet>
+                        <group string="Región">
+                        <field name="name" style="width: 30%%"/>
+                        <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Acción: Regiones
+        Vistas tree, form
+        (N): Capital humano/Configuracion/Empleado/Regiones -->
+        <record id="region_action" model="ir.actions.act_window">
+            <field name="name">Regiones</field>
+            <field name="res_model">grp.region</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click para crear una nueva Región</p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú: Regiones
+        (N): Capital humano/Configuracion/Empleado/Regiones -->
+        <menuitem id="menu_hr_configuracion_empleado_reg" name="Regiones" action="region_action" parent="menu_hr_configuracion_empleado" sequence="10"/>
+
+    </data>
+</openerp>
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 12 GAP 70, 71, 73, 74-->
+        <record id="grp_crear_prorroga_wizard_view" model="ir.ui.view">
+            <field name="name">grp.crear.prorroga.wizard.form</field>
+            <field name="model">grp.crear.prorroga.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Prorrogar contratos">
+                    <group>
+                        <group colspan="2">
+                            <field name="fecha_fin" required="True"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="contrato_id" invisible="True"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="crear_prorroga" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_crear_prorroga_wizard_act">
+            <field name="name">Prorrogar contrato</field>
+            <field name="res_model">grp.crear.prorroga.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_crear_prorroga_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

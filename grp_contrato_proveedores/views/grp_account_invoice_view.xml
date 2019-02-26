@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: L SPRING 12 GAP 499 -->
+<openerp>
+    <data>
+        <!--Supplier-->
+        <record model="ir.ui.view" id="grp_account_invoice_view_form">
+            <field name="name">grp.account.invoice.view.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_compras_estatales.invoice_grp_view_form_supplier"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="contrato_id"/>
+                    <field name="fecha_devengamiento_contrato" attrs="{'invisible':[('contrato_id','=',False)]}"/>
+                    <field name="id" invisible="1"/>
+                </field>
+                <!-- TODO: M SPRING 12 GAP 77 -->
+                <field name="cesion_ids" position="before">
+                    <button class="oe_left oe_stat_button" name="%(act_invoice_contract_cessions_wizard)d" string="Cargar cesiones desde el contrato"
+                            type="action"  icon="fa-pencil-square-o" attrs="{'invisible':[('contrato_id','=',False)]}"
+                            context="{'default_contract_id':contrato_id,'default_invoice_id':id}"
+                            groups="account.group_account_invoice,grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"
+                            style="white-space: normal;height: 50px;"/>
+                </field>
+
+            </field>
+        </record>
+
+        <!--TODO: K SPRING 12 GAP 205-->
+        <record id="view_account_form_obligacion_contrato" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.obligacion.contrato</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_account_form_obligacion"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <div name="show_error" states="draft,open" attrs="{'invisible':['|',('show_msg_parametrica','=',False)]}" class="alert alert-danger" style="height: 60px;">
+                        <div class="oe_inline" style="float: left;">
+                            <span class="fa fa-warning" style="color: #DD0000;"/>
+                            <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 610px;">
+                                <p><strong>Existen ajustes por paramétrica realizados para este contrato. <newline/>
+                                    ¿Chequeó qué el precio incluido en este documento incluye esos ajustes?</strong></p>
+                            </span>
+                        </div>
+                        <field name="show_msg_parametrica" invisible="1"/>
+                    </div>
+                </sheet>
+                <div name="buttons" position="inside">
+                    <button type="object" name="abrir_contratos_form_view" class="oe_inline oe_stat_button"
+                            icon="fa-users" style="white-space: normal;" string="Contrato"
+                            attrs="{'invisible': ['|',('contrato_id','=',False),('doc_type','!=','obligacion_invoice')]}"
+                            groups="grp_contrato_proveedores.group_grp_convenios"/>
+                </div>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="contrato_id"/>
+                    <field name="fecha_devengamiento_contrato" attrs="{'invisible':[('contrato_id','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="grp_contrato_poveedor_account_invoice_form">
+            <field name="name">grp.contrato.proveedor.account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_factura_siif.invoice_siif_ce_supplier_form_inherit"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="cesion_ids" position="before">
+                    <button class="oe_left oe_stat_button" name="action_prueba" string="Cargar cesiones desde el contrato" type="object"
+                             icon="fa-pencil-square-o" attrs="{'invisible':[('contrato_id','=',False)]}"/>
+                </field>
+
+            </field>
+        </record>-->
+
+        <!-- TODO: L SPRING 12 GAP 87-->
+        <record id="grp_account_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">grp.account.invoice.supplier.form.contract</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet" position="before">
+                    <div name="show_error_retencion" attrs="{'invisible':['|','|',('show_msg_retencion','=',False),('not_show_msg_retencion','=',True),('state', '!=','sice')]}" class="alert alert-danger" style="height: 60px;">
+                        <div class="oe_inline" style="float: left;">
+                            <span class="fa fa-warning" style="color: #DD0000;"/>
+                            <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 610px;">
+                                <p><strong>Recuerde que el contrato asociado a esta factura tiene retenciones configuradas <br/>
+                    y las mismas fueron cargadas automáticamente en la factura.</strong></p>
+                            </span>
+                            <field name="show_msg_retencion" invisible="1"/>
+                            <field name="not_show_msg_retencion" invisible="1"/>
+                        </div>
+                        <div class="oe_right">
+                            <button name="do_not_show_msg_retencion" string="[No volver a mostrar]" type="object" class="oe_link"/>
+                            <div class="fa fa-close" style="font-weight: bold !important; cursor: pointer; color: #DD0000;"
+                            onclick="$('div[name|=\'show_error_retencion\']').slideUp();"/><br/>
+                        </div>
+                    </div>
+                    <div name="show_error_cesion" attrs="{'invisible':['|','|',('show_msg_cesion','=',False),('not_show_msg_cesion','=',True),('state', '!=','sice')]}" class="alert alert-danger" style="height: 60px;">
+                        <div class="oe_inline" style="float: left;">
+                            <span class="fa fa-warning" style="color: #DD0000;"/>
+                            <span style="font-weight: bold !important; float: right; margin-left: 10px; width: 1200px;">
+                                <p><strong>El contrato asociado a esta factura tiene cesiones configuradas. Para aplicarlas a esta factura, debe presionar el botón "Cargar cesiones desde el contrato" que se encuentra en la pestaña Cesiones.
+                                    Recuerde que las cesiones configuradas en el contrato se deben cargar siempre mediante este botón, de lo contrario el sistema no podrá calcular el saldo de la cesión.</strong></p>
+                            </span>
+                            <field name="show_msg_cesion" invisible="1"/>
+                            <field name="not_show_msg_cesion" invisible="1"/>
+                        </div>
+                        <div class="oe_right">
+                            <button name="do_not_show_msg_cesion" string="[No volver a mostrar]" type="object" class="oe_link"/>
+                            <div class="fa fa-close" style="font-weight: bold !important; cursor: pointer; color: #DD0000;"
+                            onclick="$('div[name|=\'show_error_cesion\']').slideUp();"/><br/>
+                        </div>
+                    </div>
+                </xpath>
+                <!--<field name="contrato_id" position="after">-->
+                    <!--<field name="fecha_devengamiento_contrato" attrs="{'invisible':[('contrato_id','=',False)]}"/>-->
+                <!--</field>-->
+            </field>
+        </record>
+    </data>
+</openerp>

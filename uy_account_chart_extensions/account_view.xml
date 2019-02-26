@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_tree" model="ir.ui.view">
+            <field name="name">account.account.tree</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_tree" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="debit" position="attributes">
+                        <attribute name="invisible">context.get('include_initial_bal', False)</attribute>
+                    </field>
+                    <field name="credit" position="attributes">
+                        <attribute name="invisible">context.get('include_initial_bal', False)</attribute>
+                    </field>
+                    <field name="balance" position="attributes">
+                        <attribute name="invisible">context.get('include_initial_bal', False)</attribute>
+                    </field>
+                    <field name="balance" position="after">
+                        <field name="debit_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="credit_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="balance_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="curr_debit" invisible="context.get('include_initial_bal', False)"/>
+                        <field name="curr_credit" invisible="context.get('include_initial_bal', False)"/>
+                        <field name="curr_balance" invisible="context.get('include_initial_bal', False)"/>
+                        <field name="curr_debit_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="curr_credit_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="curr_balance_incl" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="curr_bal_end_period"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="account.action_account_items" model="ir.actions.act_window">
+            <field name="context">{'search_default_account_id': [active_id], 'fiscalyear': context.get('fiscalyear'), 'search_default_gb_currency': True, 'from_account_chart': context.get('from_account_chart', False), 'search_default_posted': context.get('search_default_posted', False), 'domain_periods': context.get('domain_periods'), 'domain_date_from': context.get('domain_date_from'), 'domain_date_to': context.get('domain_date_to'), 'state': context.get('state'), 'range_dates': context.get('range_dates', False), 'include_initial_bal': context.get('include_initial_bal') }</field>
+            <field name="domain">[('period_id','in',context.get('domain_periods')),('date','&gt;=',context.get('domain_date_from')),('date','&lt;=',context.get('domain_date_to'))]</field>
+        </record>
+
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree" />
+            <field name="arch" type="xml">
+                <data>
+                    <field name="journal_id" position="before">
+                        <button name="open_account_move" type="object" string="Open account move" icon="terp-stock_effects-object-colorize" invisible="not context.get('from_account_chart', False)" />
+                    </field>
+                    <field name="credit" position="after">
+                        <field name="curr_debit" sum="Total debit in secundary currency"/>
+                        <field name="curr_credit" sum="Total credit in secundary currency"/>
+                        <field name="initial_bal" sum="Total initial balance in company currency" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="curr_initial_bal" sum="Total initial balance in secundary currency" invisible="not context.get('include_initial_bal', False)"/>
+                        <field name="transaction_curr_id" invisible="1" />
+                    </field>
+                    <field name="reconcile_ref" position="attributes">
+                        <attribute name="invisible">context.get('from_account_chart', False)</attribute>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_account_move_line_filter" model="ir.ui.view">
+            <field name="name">Journal Items</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//group[@string='Group By']" position="inside">
+                        <filter string="Currency" name="gb_currency" domain="[]" context="{'group_by':'transaction_curr_id'}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="account.action_account_moves_all_a" model="ir.actions.act_window">
+            <field name="context">{'journal_type':'general', 'show_curr_debit_credit': True}</field>
+        </record>
+
+    </data>
+</openerp>

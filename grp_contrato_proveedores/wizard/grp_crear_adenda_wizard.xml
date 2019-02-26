@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="grp_crear_adenda_wizard_view" model="ir.ui.view">
+            <field name="name">grp.crear.adenda.wizard.form</field>
+            <field name="model">grp.crear.adenda.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Crear adenda">
+                    <group >
+                        <group colspan="4" col="4">
+                            <field name="fecha" />
+                            <field name="descripcion" colspan="2"/>
+                            <field name="afectaciones_ids" colspan="2" widget="many2many_tags"
+                                attrs="{'invisible':[('convenio','=',False)]}"/>
+                            <field name="convenio"/>
+                            <field name="contrato_id" invisible="1"/>
+                            <field name="contrato_particular_dom" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="lineas_ids" context="{'domain':contrato_particular_dom[0][2]}" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="contrato_particular_id" domain="[('id','in', context.get('domain',[]))]"/>
+                                <field name="codigo_articulo" readonly="1"/>
+                                <field name="cantidad_actual" readonly="1"/>
+                                <field name="precio_actual" readonly="1"/>
+                                <field name="cantidad"/>
+                                <field name="precio"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="crear_contratos" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_crear_adenda_wizard_act">
+            <field name="name">Crear contrato</field>
+            <field name="res_model">grp.crear.adenda.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_crear_adenda_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

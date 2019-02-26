@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO SPRING 5 GAP 50-->
+        <!--DEPARTAMENTO-->
+        <record id="view_department_form" model="ir.ui.view">
+            <field name="name">hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="travelrequest_destinyrequired" />
+                </xpath>
+            </field>
+        </record>
+
+        <!--SOLICITUD DE VIAJE-->
+        <record id="view_grp_flota_solicitud_viaje_form" model="ir.ui.view">
+            <field name="name">grp.flota.solicitud.viaje.form</field>
+            <field name="model">grp.flota.solicitud.viaje</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de viaje">
+                    <header>
+                        <button name="action_to_approve" string="Enviar a aprobar" type="object" states="draft" class="oe_highlight" groups="grp_flota.group_fleet_sv_solicitante_viaje"/>
+                        <button name="action_approved" string="Aprobar" states="to_approve" type="object" class="oe_highlight" groups="grp_flota.group_fleet_sv_aprobador_viaje"/>
+                        <button name="action_validate" string="Validar" states="approved" type="object" class="oe_highlight" groups="fleet.group_fleet_manager"/>
+                        <button name="action_refuse" string="Rechazar" states="to_approve" type="object" groups="grp_flota.group_fleet_sv_aprobador_viaje"/>
+                        <button name="action_draft" string="Volver a Borrador" states="to_approve,approved" type="object" groups="grp_flota.group_fleet_sv_solicitante_viaje,fleet.group_fleet_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                        </div>
+                        <div class="oe_right" name="buttons"/>
+                        <group name="main_group">
+                            <group>
+                                <field name="employee_ids" widget="many2many_tags" />
+                                <field name="target" attrs="{'readonly': [('state','!=','draft')],'required': [('destinyrequired','=',True),('state','=','draft')]}"/>
+                                <field name="vehicle_type"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="estimated_duration"/>
+                                <field name="driver_id" attrs="{'readonly': [('edit_fields_onapproved','=',False)]}"/>
+                                <field name="vehicle_id" attrs="{'readonly': [('edit_fields_onapproved','=',False)]}"
+                                    options="{'no_create_edit':true, 'no_quick_create':true, 'no_open':true}"/>
+                                <field name="edit_fields_onapproved" invisible="1"/>
+                                <field name="destinyrequired" invisible="1"/>
+                                <field name="department_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_flota_solicitud_viaje_tree" model="ir.ui.view">
+            <field name="name">grp.flota.solicitud.viaje.tree</field>
+            <field name="model">grp.flota.solicitud.viaje</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitudes de viaje">
+                    <field name="name" />
+                    <field name="employee_ids"  widget="many2many_tags"/>
+                    <field name="target"/>
+                    <field name="vehicle_type"/>
+                    <field name="driver_id"/>
+                    <field name="vehicle_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_flota_solicitud_viaje_search" model="ir.ui.view">
+            <field name="name">grp.flota.solicitud.viaje.search</field>
+            <field name="model">grp.flota.solicitud.viaje</field>
+            <field name="arch" type="xml">
+                <search string="Solicitudes de viaje">
+                    <field name="employee_ids" widget="many2many_tags"/>
+                    <field name="target"/>
+                    <field name="vehicle_type"/>
+                    <field name="driver_id"/>
+                    <field name="vehicle_id"/>
+                    <field name="date"/>
+                    <field name="state" invisible="1"/>
+                    <group expand="1" string="Agrupar por">
+                        <filter string="Día" domain="[]" context="{'group_by':'date:day'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='grp_flota_solicitud_viaje_act'>
+            <field name="name">Solicitudes de viaje</field>
+            <field name="res_model">grp.flota.solicitud.viaje</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="grp_flota_solicitud_viaje_act" parent="fleet.fleet_vehicles" id="fleet_vehicle_menu"/>
+    </data>
+</openerp>

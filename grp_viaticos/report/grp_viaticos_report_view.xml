@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: L SPRING 12 GAP 479 -->
+<openerp>
+    <data>
+        <record id="view_grp_viaticos_report_search" model="ir.ui.view">
+            <field name="name">grp.viaticos.report.search</field>
+            <field name="model">grp.viaticos.report</field>
+            <field name="arch" type="xml">
+                <search string="Trazabilidad viáticos">
+                    <field name="operating_unit_id"/>
+                    <field name="sv_name"/>
+                    <field name="sv_solicitante_id"/>
+                    <field name="sv_fecha_desde"/>
+                    <field name="sv_fecha_hasta"/>
+                    <field name="rv_sequence"/>
+                    <field name="dv_number"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_grp_viaticos_report_tree" model="ir.ui.view">
+            <field name="name">grp.viaticos.report.tree</field>
+            <field name="model">grp.viaticos.report</field>
+            <field name="arch" type="xml">
+                <tree string="Trazabilidad viáticos">
+                    <field name="operating_unit_id"/>
+
+                    <field name="sv_name"/>
+                    <field name="sv_solicitante_id"/>
+                    <field name="sv_fecha_desde"/>
+                    <field name="sv_fecha_hasta"/>
+                    <field name="sv_lleva_adelanto"/>
+                    <field name="sv_paid_date"/>
+                    <field name="sv_state"/>
+                    <field name="sv_total"/>
+
+                    <field name="rv_sequence"/>
+                    <field name="rv_adelanto"/>
+                    <field name="rv_fecha_desde"/>
+                    <field name="rv_fecha_desde"/>
+                    <field name="rv_state"/>
+                    <field name="rv_entry_date"/>
+                    <field name="rv_amount"/>
+                    <field name="rv_diferencia"/>
+                    <field name="rv_currency_id"/>
+
+                    <field name="adelanto_solicitud_number"/>
+                    <field name="adelanto_solicitud_fecha"/>
+                    <field name="adelanto_solicitud_amount"/>
+                    <field name="adelanto_solicitud_state"/>
+
+                    <field name="adelanto_rendicion_number"/>
+                    <field name="adelanto_rendicion_fecha"/>
+                    <field name="adelanto_rendicion_amount"/>
+                    <field name="adelanto_rendicion_state"/>
+
+                    <field name="dv_number"/>
+                    <field name="dv_fecha"/>
+                    <field name="dv_amount"/>
+                    <field name="dv_state"/>
+
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_grp_viaticos_report_all" model="ir.actions.act_window">
+            <field name="name">Trazabilidad de viáticos</field>
+            <field name="res_model">grp.viaticos.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem action="action_grp_viaticos_report_all"
+                  name="Trazabilidad de viáticos"
+                  groups="grp_viaticos.grp_aprobar_rendicion_f"
+                  id="menu_grp_viaticos_report" parent="grp_compras_estatales.menu_sr_main" sequence="5"/>
+
+    </data>
+</openerp>

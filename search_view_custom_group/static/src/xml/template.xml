@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim:fdl=1:
+-->
+<templates id="template" xml:space="preserve">
+
+    <div t-name="SearchView.custom_group_by" class="oe_searchview_custom_group_by">
+        <h4>Custom Group By</h4>
+        <form>
+            <ul>
+                <li>
+                    <select class="searchview_custom_group_by_field">
+                        <t t-foreach="widget.group_fields" t-as="field">
+                            <option t-att-value="field.name">
+                                <t t-esc="field.string"/>
+                            </option>
+                        </t>
+                    </select>
+                    <button class="oe_add_custom_group_by button" type="button">Add Group by</button><br/>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+</templates>
+

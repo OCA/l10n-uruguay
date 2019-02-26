@@ -1,0 +1,213 @@
+
+<div style="text-align: right;">${data['empresa']}
+<br>
+Estados Contables al 31 de diciembre de ${data['anio_fiscal']}
+</div>
+<div style="text-align: center;">
+Cuadro de Bienes de Uso, Intangibles y Amortizaciones por el ejercicio
+anual terminado al 31 de diciembre de ${data['anio_fiscal']}
+</div>
+<table style="text-align: left; width: 99%;vertical-align: top; position: absolute; top:26mm; " border="1" cellpadding="1" cellspacing="1">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      </td>
+      <td colspan="4" rowspan="1" style="vertical-align: top; text-align: center;">Valores originales
+reexpresados<br>
+      </td>
+      <td colspan="4" rowspan="1" style="vertical-align: top; text-align: center;">Amortizacion y
+perdidas por deterioro<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Saldos <br>
+iniciales<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Altas<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Bajas<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Saldos<br>
+finales<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Saldos<br>
+iniciales<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Bajas<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Amortizacion<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Saldos<br>
+finales<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Valor neto<br>
+Dic-${data['anio_yy_t']}<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">Valor neto<br>
+Dic-${data['anio_yy_t_1']}<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center; font-weight: bold;"><small>Bienes
+de uso </small></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+%for o in data['data']:
+%if o['tipo']=='BU':
+<br>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><small>${o['nombre']}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_saldo_inicial'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_alta'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_baja'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_saldo_final'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_saldo_inicial'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_baja'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_amortizacion'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_saldo_final'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['valor_neto_t'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['valor_neto_t_1'], digits=0)}</small><br>
+      </td>
+    </tr>
+%endif
+%endfor
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><small style="text-decoration: underline;">TOTAL</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_inicial_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_alta_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_baja_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_final_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_inicial_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_baja_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_amortizacion_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_final_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_neto_T_BU'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_neto_T_1_BU'], digits=0)}</small><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;"><small><span style="font-weight: bold;">Intangibles</span></small><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+%for o in data['data']:
+%if o['tipo']=='INT':
+<br>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><small>${o['nombre']}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_saldo_inicial'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_alta'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_baja'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['val_saldo_final'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_saldo_inicial'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_baja'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_amortizacion'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['amort_saldo_final'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['valor_neto_t'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(o['valor_neto_t_1'], digits=0)}</small><br>
+      </td>
+    </tr>
+%endif
+%endfor
+<tr>
+      <td style="vertical-align: top; text-align: center;"><small style="text-decoration: underline;">TOTAL</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_inicial_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_alta_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_baja_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_final_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_inicial_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_baja_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_amortizacion_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_amort_final_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_neto_T_INT'], digits=0)}</small><br>
+      </td>
+      <td style="vertical-align: top;text-align: right;"><small>${formatLang(data['sum_saldo_neto_T_1_INT'], digits=0)}</small><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>

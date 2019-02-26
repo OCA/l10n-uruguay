@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_chart" model="ir.ui.view">
+            <field name="name">account.chart.form</field>
+            <field name="model">account.chart</field>
+            <field name="inherit_id" ref="account.view_account_chart"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/group" position="inside">
+                        <label for="range_dates" />
+                        <div>
+                            <field name="range_dates" class="oe_inline"/>
+                            <field name="date_from" attrs="{'invisible': [('range_dates','=',False)], 'required': [('range_dates','=',True)]}" class="oe_inline" style="margin-left: 20px;"/>
+                            <label for="date_to" string=" - " attrs="{'invisible': [('range_dates','=',False)]}" style="margin-left: 10px;"/>
+                            <field name="date_to" attrs="{'invisible': [('range_dates','=',False)], 'required': [('range_dates','=',True)]}" class="oe_inline" />
+                        </div>
+                        <field name="include_initial_bal" />
+                    </xpath>
+                    <xpath expr="/form/group/label[@string='Periods']" position="attributes">
+                        <attribute name="attrs">{'invisible': [('range_dates','=',True)]}</attribute>
+                    </xpath>
+                    <xpath expr="/form/group/div[2]" position="attributes">
+                        <attribute name="attrs">{'invisible': [('range_dates','=',True)]}</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

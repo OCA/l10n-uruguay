@@ -1,0 +1,9 @@
+# -*- encoding: utf-8 -*-
+import grp_pep_reporte_gasto
+import grp_pep_reporte_necesidades
+import grp_pep_reporte_plan_adquisiciones
+import grp_pep_reporte_plan_ejecucion_presupuestal
+import grp_pep_reporte_planificado_afectado_concepto
+import grp_pep_reporte_planificado_afectado_odg
+import grp_pep_reporte_wizard
+

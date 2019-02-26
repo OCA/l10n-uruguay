@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record model="ir.ui.view" id="view_grp_devolucion_anticipos_fondos_form">
+            <field name="name">grp.devolucion.anticipos.fondos.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Devoluciones de anticipos de fondos" create="false" delete="false">
+                <header>
+                    <button name="proforma_voucher" string="Validate" states="draft" class="oe_highlight"/>
+                    <button name="cancel_voucher" string="Cancel Receipt" states="draft,proforma" />
+                    <button name="cancel_voucher" string="Cancel Receipt" type="object" states="posted" confirm="Are you sure you want to cancel this receipt?"/>
+                    <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,pagado" statusbar_colors='{"proforma":"blue"}'/>
+                </header>
+                <sheet string="Devoluciones de anticipos de fondos">
+                    <group id="Cabezal">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="number" attrs="{'invisible':[('se_contabilizo','!=',True)]}"
+                                       readonly="1"/>
+                                <label string="Anticipo de fondos borrador"
+                                       attrs="{'invisible':[('se_contabilizo','!=',False)]}"/>
+                            </h1>
+                        </div>
+                        <field name="se_contabilizo" invisible="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="partner_id" domain="[('funcionario','=',True)]" required="1"
+                                   string="Funcionario"
+                                   on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
+                                   context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
+                            <field name="account_id" domain="[('type', 'in', ['liquidity', 'payable'])]"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            <field name="operating_unit_id" string="Unidad ejecutora"
+                            attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="type" invisible="1"/>
+                            <field name="line_dr_ids" invisible="1"/>
+                            <field name="line_cr_ids" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date" string="Fecha"
+                                   on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
+                            <field name="entry_date"/>
+                            <!--<field name="date_due"/>-->
+                            <field name="paid" invisible="1"/>
+                            <field name="journal_id"
+                                   domain="[('type','in',['sale','sale_refund'])]"
+                                   widget="selection"
+                                   on_change="onchange_journal(journal_id, line_dr_ids, tax_id, partner_id, date, amount, type, company_id, context)"
+                                   groups="account.group_account_user"/>
+                            <field name="solicitud_anticipos_id"/>
+                            <field name="rendicion_anticipos_id"/>
+                            <field name="currency_id" string="Moneda"/>
+                            <field name="paid_amount_in_company_currency" invisible="1"/>
+                            <field name="currency_help_label" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Información">
+                            <field name="line_cr_ids" on_change="onchange_price(line_cr_ids, tax_id, partner_id)" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}">
+                                <tree string="Sales Lines" editable="bottom">
+                                    <field name="concept_id" readonly="1"/>
+                                    <field name="product_id" domain="[('devolucion_anticipo','=',True)]" required="True" options="{'no_create': True}"/>
+                                    <field name="name"/>
+                                    <field name="amount" readonly="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="tax_id" invisible="1"
+                                           on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
+                                           widget="selection" nolabel="1" placeholder="Tax"
+                                           domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"
+                                    />
+                                    <div class="oe_subtotal_footer_separator">
+                                        <label for="amount"/>
+                                    </div>
+                                    <field name="amount" class="oe_subtotal_footer_separator" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Asiento contable">
+                            <group col="4">
+                                <field name="period_id" readonly="1"/>
+                                <field name="audit" readonly="1"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                                <tree string="Asiento contable">
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="date"/>
+                                    <field name="statement_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="account_id"/>
+                                    <field name="name"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="state"/>
+                                    <field name="reconcile_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record model="ir.ui.view" id="view_grp_devolucion_anticipos_fondos_tree">
+            <field name="name">grp.devolucion.anticipos.fondos.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Devoluciones de viáticos" create="false" delete="false">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="solicitud_anticipos_id"/>
+                    <field name="rendicion_anticipos_id"/>
+                    <field name="partner_id"/>
+                    <field name="operating_unit_id"/>
+                    <field name="audit" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record id="action_grp_devolucion_anticipos_fondos" model="ir.actions.act_window">
+            <field name="name">Devoluciones de anticipos de fondos</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('journal_id.type','in',['sale','sale_refund']), ('type','=','sale'), ('rendicion_anticipos_id','!=',False)]</field>
+            <field name="context">{'default_type': 'sale', 'type': 'sale'}</field>
+            <field name="view_id" eval="view_grp_devolucion_anticipos_fondos_tree"/>
+            <!--<field name="search_view_id" ref="view_voucher_filter_sale"/>-->
+            <field name="target">current</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clic para crear una devolución de anticipos de fondos.
+              </p>
+            </field>
+        </record>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record id="action_grp_devolucion_anticipos_fondos_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_devolucion_anticipos_fondos_tree"/>
+            <field name="act_window_id" ref="action_grp_devolucion_anticipos_fondos"/>
+        </record>
+        <record id="action_grp_devolucion_anticipos_fondos_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_grp_devolucion_anticipos_fondos_form"/>
+            <field name="act_window_id" ref="action_grp_devolucion_anticipos_fondos"/>
+        </record>
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <menuitem id="menu_action_grp_devolucion_anticipos_fondos" icon="STOCK_JUSTIFY_FILL"
+            action="action_grp_devolucion_anticipos_fondos"
+            parent="menu_anticipos_fondos"
+            sequence="4" groups="grp_tesoreria.group_grp_devolucion_anticipos"/>
+
+        <record id="account_voucher.action_sale_receipt" model="ir.actions.act_window">
+            <field name="domain">[('journal_id.type','in',['sale','sale_refund']), ('type','=','sale'),('rendicion_anticipos_id','=',False)]</field>
+        </record>
+
+    </data>
+</openerp>

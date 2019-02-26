@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+	<record model="ir.ui.view" id="view_anexo1_wizard_form" >
+            <field name="name">Anexo 1 - Wizard</field>
+            <field name="model">anexo1.wizard</field>
+            <field name="priority" eval="1"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		<form string="Wizard">
+		<group>
+                <field name="ejercicio_fiscal" />
+		<field name="target_move" />
+		<footer>
+		<button
+                    type="object"
+                    name="print_report"
+                    string="Imprimir"
+		    class="oe_highlight"
+                    />
+		or
+		<button
+                        name=""
+                        type="object"
+                        string="Cancelar"
+                        special="cancel"
+                        class="oe_link"
+                    />
+		</footer>
+		</group>
+		</form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_anexo1_wizard_view">
+                        <field name="name">Anexo 1</field>
+                        <field name="type">ir.actions.act_window</field>
+                        <field name="res_model">anexo1.wizard</field>
+                        <field name="view_type">form</field>
+                        <field name="view_id" ref="view_anexo1_wizard_form" />
+                        <field name="target">new</field>
+                </record>
+
+       <menuitem id="menu_anexo1_wizard"  action="action_anexo1_wizard_view" name="Anexo 1" parent="account.final_accounting_reports"
+                 groups="account.group_account_manager" sequence="2"/>
+
+
+</data>
+</openerp>
+
+

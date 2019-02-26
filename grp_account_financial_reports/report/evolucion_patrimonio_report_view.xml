@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="evolucion_patrimonio_conf_form" model="ir.ui.view">
+            <field name="name">evolucion.patrimonio.conf.form</field>
+            <field name="model">evolucion.patrimonio.conf</field>
+            <field name="arch" type="xml">
+                <form string="Anexo 2 – EEP">
+                    <sheet>
+                        <group col="2">
+                            <group>
+                                <field name="name"/>
+                                <field name="type"/>
+                                <field name="parent_id"/>
+                                <field name="sequence"/>
+                                <field name="sign" attrs="{'required':[('type','=','accounts')], 'invisible':[('type','=','sum')]}"/>
+                            </group>
+                            <group>
+                                <field name="section"/>
+                                <!--<group colspan="2" col="1" attrs="{'invisible':[('type','=','sum')]}">-->
+                                    <!--<div style="border: 1px solid #7C7BAD; border-radius: 5px; padding-left: 10px; padding-top: 5px; padding-bottom: 5px; background: #D2D2FF;">-->
+                                        <!--<field name="headers" nolabel="1" widget="radio" attrs="{'required':[('type','=','accounts')]}"/>-->
+                                    <!--</div>-->
+                                <!--</group>-->
+                            </group>
+                        </group>
+                        <!--<group colspan="4" string="Cuentas" attrs="{'invisible': [('type','=','sum')]}">-->
+                            <!--<field nolabel="1" name="account_ids" options="{'no_create':true}"/>-->
+                        <!--</group>-->
+
+                        <group colspan="4" string="Cuentas" attrs="{'invisible': [('type','=','sum')]}">
+                            <field nolabel="1" name="line_ids">
+                                <tree editable="top">
+                                    <field name="account_id" options="{'no_create':true, 'no_open':True}"/>
+                                    <field name="headers"/>
+                                    <field name="amount_option"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="evolucion_patrimonio_conf_tree" model="ir.ui.view">
+            <field name="name">evolucion.patrimonio.conf.tree</field>
+            <field name="model">evolucion.patrimonio.conf</field>
+            <field name="arch" type="xml">
+                <tree string="Anexo 2 – EEP">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="section"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_evolucion_patrimonio_conf" model="ir.actions.act_window">
+             <field name="name">Anexo 2 – EEP</field>
+             <field name="res_model">evolucion.patrimonio.conf</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem icon="STOCK_PRINT" name="Anexo 2 – EEP" action="action_evolucion_patrimonio_conf" id="menu_evolucion_patrimonio_conf" parent="account.menu_account_reports" sequence="500"/>
+
+        <!-- Paper Format-->
+
+        <report
+            id="action_report_evolucion_patrimonio"
+            model="evolucion.patrimonio.wzd"
+            string="Evolucion Patrimonio"
+            report_type="qweb-pdf"
+            name="report_evolucion_patrimonio"
+            file="report_evolucion_patrimonio"
+            attachment_use="False"
+            menu="False"
+        />
+
+        <report
+            id="action_report_evolucion_patrimonio_xls"
+            model="evolucion.patrimonio.wzd"
+            string="Evolucion Patrimonio"
+            report_type="xls"
+            name="report_evolucion_patrimonio_xls"
+            attachment_use="False"
+            menu="False"
+        />
+
+        <record id="report_evolucion_patrimonio_paper" model="report.paperformat">
+            <field name="name">Evolucion Patrimonio</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="grp_account_financial_reports.action_report_evolucion_patrimonio" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="grp_account_financial_reports.report_evolucion_patrimonio_paper"/>
+            <field name="attachment_use" eval="False"/>
+        </record>
+
+    </data>
+</openerp>

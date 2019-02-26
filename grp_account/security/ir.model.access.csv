@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cat_dimension_mult_rrhh,Dimension multiproposito | Usuario GRP | Leer,grp_account.model_grp_dimension_multiproposito,grp_seguridad.grp_usuario,1,0,0,0
+access_cat_dimension_mult_config_cont,Dimension multiproposito | Configuración de estructura | Leer/Modificar/Crear/Eliminar,grp_account.model_grp_dimension_multiproposito,grp_seguridad.grp_configuracion_contabilidad,1,1,1,1
+access_comb_cuenta_cont_rrhh,Combinacion contable valida | Usuario GRP | Leer,grp_account.model_grp_combinaciones_contables,grp_seguridad.grp_usuario,1,0,0,0
+access_comb_cuenta_cont_config_cont,Combinacion contable valida | Configuración de estructura | Leer/Modificar/Crear/Eliminar,grp_account.model_grp_combinaciones_contables,grp_seguridad.grp_configuracion_contabilidad,1,1,1,1
+access_aprobacion_pagos_consulta , Aprobacion de Pagos | Consulta aprobación de pagos | Leer,account.model_account_invoice,grp_seguridad.grp_consulta_aprobacion_pagos,1,0,0,0
+access_aprobacion_pagos_aprobador, Aprobacion de Pagos | Aprobación de pagos| Leer/Modificar/Crear,account.model_account_invoice,grp_seguridad.grp_aprobacion_pagos,1,1,1,0
+access_aprobar_pagos_consulta , Aprobar Pago | Consulta aprobación de pagos | Leer,grp_account.model_aprobar_pago_guardar,grp_seguridad.grp_consulta_aprobacion_pagos,1,0,0,0
+access_aprobar_pagos_aprobador, Aprobar Pago  | Aprobación de pagos| Leer/Modificar/Crear,grp_account.model_aprobar_pago_guardar,grp_seguridad.grp_aprobacion_pagos,1,1,1,0
+access_cancelar_pagos_consulta , Cancelar Pago | Consulta aprobación de pagos | Leer,grp_account.model_aprobar_pago_cancel,grp_seguridad.grp_consulta_aprobacion_pagos,1,0,0,0
+access_cancelar_pagos_aprobador, Cancelar Pago  | Aprobación de pagos| Leer/Modificar/Crear,grp_account.model_aprobar_pago_cancel,grp_seguridad.grp_aprobacion_pagos,1,1,1,0
+
+access_account_voucher_aprobacion_pagos_consulta,name_account_voucher_aprobacion_pagos_consulta,account_voucher.model_account_voucher,grp_seguridad.grp_aprobacion_pagos,1,0,0,0
+access_account_voucher_gestor_pagos_consulta,name_account_voucher_gestor_pagos_consulta,account_voucher.model_account_voucher,grp_seguridad.grp_gestor_pagos,1,1,1,1
+access_account_voucher_gestor_pagos_lines,name_account_voucher_gestor_pagos_consulta_lines,account_voucher.model_account_voucher_line,grp_seguridad.grp_gestor_pagos,1,1,1,1

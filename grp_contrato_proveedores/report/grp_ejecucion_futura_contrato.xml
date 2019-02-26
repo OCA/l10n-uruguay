@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!--TODO: K SPRING 13 GAP 452-->
+	<template id="report_ejecucion_futura_contrato">
+	    <t t-call="report.html_container">
+            <div class="page">
+                <style>
+                    table#t00 {
+                        width: 100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                    }
+                    table#t01 {
+                        width: 100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                        cellpadding: 10px;
+                    }
+                    table#t01 th{
+                        border: 1.5px solid black;text-align: left;font-weight: bold;
+                    }
+                    table#t01 td{
+                        border: 1.5px solid black;text-align: left;
+                    }
+                </style>
+                <div style="text-align: center; width: 100%;">
+                    <h3 style="display: inline-block;"><U>Ejecución futura de contratos</U></h3>
+                </div>
+                <div style="text-align: right; width: 100%;">
+                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="fecha_reporte"/>
+                </div>
+                <div style="text-align: right; width: 100%;">
+                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="get_code(data['form'])"/>
+                </div>
+                <t t-foreach="get_lines(data['form'])" t-as="contrato">
+                    <table id="t00">
+                        <tbody>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="contrato['nro_interno']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['proveedor']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['nro_pedido_c']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['fecha_inicio']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: rigth">
+                                        <span>
+                                            <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['fecha_fin']"></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: rigth">
+                                        <span>
+                                            <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['cantidad_renovaciones']"></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: rigth">
+                                        <span>
+                                            <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['contador_renovaciones']"></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table id="t01">
+                        <tbody>
+                            <tr>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; ">Moneda</span>
+                                </th>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto contrato ajustado</span>
+                                </th>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Saldo pendiente</span>
+                                </th>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto a ejecutar ej. actual</span>
+                                </th>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto a ejecutar ej futuros</span>
+                                </th>
+                                <th width="10%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Tipo de cambio</span>
+                                </th>
+                                <th width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto a ejecutar ej. futuros (pesos)</span>
+                                </th>
+                            </tr>
+                            <t t-set="total" t-value="0"/>
+                            <t t-foreach="contrato['monedas']" t-as="moneda">
+                                <tr>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="moneda['moneda']"></span>
+                                    </td>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['monto_ajustado']"></span>
+                                    </td>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['saldo_pendiente']"></span>
+                                    </td>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="moneda['monto_ejecutar_actual']"></span>
+                                    </td>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['monto_ejecutar_futuro']"></span>
+                                    </td>
+                                    <td width="10%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['tipo_cambio']"></span>
+                                    </td>
+                                    <td width="15%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['total_ejecutar']"></span>
+                                    </td>
+                                </tr>
+                                <t t-set="total" t-value="total + moneda['total_ejecutar']"/>
+                            </t>
+                            <tr>
+                                <td width="85%" colspan="6">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;"></span>
+                                </td>
+                                <td width="15%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="total"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table id="t01">
+                        <tbody>
+                            <tr>
+                                <td width="100%" colspan="5">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;"><U>APG futuras</U></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="25%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; ">Nro APG</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Año fiscal</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Moneda</span>
+                                </th>
+                                <th width="25%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto original</span>
+                                </th>
+                            </tr>
+                            <t t-foreach="contrato['apg']" t-as="apg">
+                                <tr>
+                                    <td width="25%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="apg['nro_apg']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="apg['fiscalyear_siif_id']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="apg['currency_id']"></span>
+                                    </td>
+                                    <td width="25%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="apg['monto_divisa']"></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <br/>
+
+                </t>
+            </div>
+	    </t>
+	</template>	
+</data>
+</openerp>

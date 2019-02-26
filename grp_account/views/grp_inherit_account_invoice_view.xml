@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_aprobacion_pagos_inherit_invoice_grp">
+            <field name="name">aprobacion.pagos.inherit.invoice.grp</field>
+            <field name="model">account.invoice</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet/group/group/field[@name='supplier_invoice_number']" position="after">
+                    <field name="fecha_aprobacion" readonly="1"/>
+
+                </xpath>
+
+
+                <xpath expr="//sheet/notebook/page[@string='Payments']/field[@name='payment_ids']"
+                       position="before">
+                            <group>
+                                <field name="cuenta_bancaria_id" readonly="1"/>
+
+                             </group>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

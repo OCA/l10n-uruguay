@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Vista form: Baja de oficio -->
+        <record model="ir.ui.view" id="view_grp_baja_oficio_form">
+            <field name="name">grp.view_grp_baja_oficio_form</field>
+            <field name="model">grp.fecha_entrega_garantia</field>
+            <field name="arch" type="xml">
+                <form string="Fecha de entrega" >
+                    <group>
+                        <field name="name" string="Fecha de baja"  />
+                        <field name="garantia_id" invisible="1"/>
+                        <field name="fecha_asiento"/>
+                        <field name="diario_id"/>
+
+                    </group>
+
+                    <footer>
+                        <button name="button_baja" string="Baja" class="oe_highlight" type="object"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

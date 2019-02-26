@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_analyticjournal_inherited" inherit_id="account.report_analyticjournal">
+            <xpath expr="//div[@class='page']/table" position="replace">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Code</th>
+                            <th>Move Name</th>
+                            <th>Account n°</th>
+                            <th>General</th>
+                            <th>Analytic</th>
+                            <th>UO</th>
+                            <th>Multiproposito</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4"><t t-if="o.code"><span t-esc="o.code"/></t> - <span t-esc="o.name"/></th>
+                            <th><span t-esc="formatLang(sum_general(o.id, data['form']['date1'], data['form']['date2']))"/></th>
+                            <th><span t-esc="formatLang(sum_analytic(o.id, data['form']['date1'], data['form']['date2']))"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="lines(o.id, data['form']['date1'], data['form']['date2'])" t-as="move">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span t-esc="move.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="move.account_id.code"/>
+                                    <span t-esc="move.account_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="formatLang(move.debit-move.credit)"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr t-foreach="lines_a(move.id, o.id, data['form']['date1'], data['form']['date2'])" t-as="move_a">
+                                <td>
+                                    <span t-esc="formatLang(move_a.date,date = True)"/>
+                                </td>
+                                <td>
+                                    <p t-if="move_a.code"><span t-esc="move_a.code"/></p>
+                                </td>
+                                <td>
+                                    <span t-esc="move_a.name"/>
+                                </td>
+                                <td><span t-esc="move_a.account_id.code"/> - <span t-esc="move_a.account_id.name"/></td>
+                                <td></td>
+                                <td><span t-esc="formatLang(move_a.amount)"/></td>
+                                <td><span t-field="move_a.hr_department_id"/></td>
+                                <td><span t-field="move_a.dim_multi_id"/></td>
+                            </tr>
+                        </t>
+                        <tr t-foreach="lines_a(False, o.id, data['form']['date1'], data['form']['date2'])" t-as="move_a">
+                            <td><span t-esc="formatLang(move_a.date,date = True)"/></td>
+                            <td><p t-if="move_a.code"><span t-esc="move_a.code"/></p></td>
+                            <td><span t-esc="move_a.name"/></td>
+                            <td><span t-esc="move_a.account_id.code"/> - <span t-esc="move_a.account_id.name"/></td>
+                            <td></td>
+                            <td><span t-esc="formatLang(move_a.amount)"/></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </xpath>
+        </template>
+    </data>
+</openerp>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- By default set USD as alternative currency for reports. -->
+        <function name="init_set_alternative_currency" model="res.currency"/>
+    </data>
+</openerp>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Menú: Empleado
+        (N): Capital humano/Configuracion/Empleado -->
+        <menuitem id="menu_hr_configuracion_empleado" name="Empleado" parent="hr.menu_hr_configuration"/>
+    </data>
+</openerp>

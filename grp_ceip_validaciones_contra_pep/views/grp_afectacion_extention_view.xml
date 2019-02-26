@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_grp_afectacion_extention_form" model="ir.ui.view">
+            <field name="name">grp.afectacion.extention.form</field>
+            <field name="model">grp.afectacion</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_grp_afectacion_form"/>
+            <field name="arch" type="xml">
+                <button name="button_afectar" position="replace">
+                    <button name="validar_contra_pep" states="draft,anulada_siif" type="object" class="oe_highlight" string="Afectar"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF" />
+                </button>
+
+                <button name="button_anular_afectacion" position="replace">
+                    <button name="cancelar_ejecucion_pep" states="afectado" type="object" string="Anular Afectacion SIIF"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+                </button>
+
+                <field name="ue_siif_id" position="after">
+                    <field name="concepto_id" style="width:20%;" required="1" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_modificacion_wizard_extention_form" model="ir.ui.view">
+            <field name="name">account.invoice.modificacion.wizard.extention.form</field>
+            <field name="model">wiz.modif.afectacion.siif</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_wizard_modif_afectacion_siif"/>
+            <field name="arch" type="xml">
+                <button name="send_modif" position="replace">
+                    <button name="validar_contra_pep" string="Enviar a SIIF" type="object" default_focus="1" class="oe_highlight"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

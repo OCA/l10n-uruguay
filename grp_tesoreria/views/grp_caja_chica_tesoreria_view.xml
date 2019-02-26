@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 10 GAP 474 C-->
+
+        <record id="view_grp_caja_chica_tesoreria_filter" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.search</field>
+            <field name="model">grp.caja.chica.tesoreria</field>
+            <field name="arch" type="xml">
+                <search string="Caja efectivo"><!--TODO: M INCIDENCIA-->
+                    <field name="name" string="Caja chica"/>
+                    <field name="date"/>
+                    <filter string="Nuevo" name="state_draft" domain="[('state','=','draft')]" icon="terp-document-new"/>
+                    <filter string="Abierto" name="state_open" domain="[('state','=','open')]" icon="terp-check"/>
+                    <filter string="Cerrado" name="state_confirmed" domain="[('state','=','end')]" icon="terp-camera_test"/>
+                    <field name="journal_id" string="Diario" domain="[('type', '=', 'cash')]" />
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Diario" context="{'group_by': 'journal_id'}" icon="terp-folder-orange"/>
+                        <filter string="Estado" context="{'group_by': 'state'}" icon="terp-stock_effects-object-colorize"/>
+                        <filter string="Periodo" context="{'group_by': 'period_id'}" icon="terp-go-month"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_chica_tesoreria_tree2" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria2.tree</field>
+            <field name="model">grp.caja.chica.tesoreria</field>
+            <field name="arch" type="xml">
+                <tree string="Caja efectivo">
+                    <field name="name" string="Referencia"/>
+                    <field name="date"/>
+                    <field name="period_id" string="Periodo"/>
+                    <field name="journal_id" string="Diario"/>
+                    <field name="balance_start" string="Saldo inicial"/>
+                    <field name="balance_end_real" string="Saldo de cierre real"/>
+                    <field name="balance_end" invisible="1" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_chica_tesoreria_form2" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.form</field>
+            <field name="model">grp.caja.chica.tesoreria</field>
+            <field name="arch" type="xml">
+                <form string="Caja efectivo"><!--TODO: M INCIDENCIA-->
+                <header>
+                    <button name="button_open" states="draft,end" string="Abrir" type="object" class="oe_highlight" groups="grp_tesoreria.group_grp_caja_chica"/>
+                    <button name="button_close" states="open" string="Cerrar" type="object" class="oe_highlight"
+                    confirm="¿Está seguro que desea cerrar con diferencia?"
+                    attrs="{'invisible':['|',('show_adv','=',False)]}" groups="grp_tesoreria.group_grp_caja_chica"/>
+                     <button name="button_close" states="open" string="Cerrar" type="object" class="oe_highlight"
+                    attrs="{'invisible':['|',('show_adv','=',True)]}" groups="grp_tesoreria.group_grp_caja_chica"/>
+                    <button name="button_cancel" states="check,open" string="Cancelar caja" type="object" groups="grp_tesoreria.group_grp_caja_chica"/>
+                    <!--<button name="button_remove_trans" states="end" string="Quitar transacción" type="object" groups="grp_tesoreria.group_grp_cajero_verificador"/>-->
+                    <button name="button_check" states="end" string="Revisado" type="object" groups="grp_tesoreria.group_grp_cajero_verificador"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,open,end,check"/>
+                </header>
+                <sheet string="Caja chica Tesorería">
+                    <h1><field name="name" class="oe_inline" required="1" readonly="1"/></h1>
+                    <group>
+                        <group>
+                            <field name="box_id" required="1"/>
+                            <field name="user_id" readonly="1" />
+                            <field name="journal_id" string="Diario" readonly="1"/>
+                            <field name="operating_unit_id" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date" readonly="1" />
+                            <field name="closing_date" readonly="1" string="Cerrado en"/>
+                            <field name="currency" invisible="1"/>
+                            <field name="cash_control" invisible="1"/>
+                            <field name="id" invisible="1"/>
+                            <field name="show_adv" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Transacciones en efectivo" attrs="{'invisible': [('state','=','draft')]}">
+                            <div class="oe_left oe_button_box" name="buttons" >
+                                <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_caja_chica_account_voucher_wizard)d" type="action"
+                                    icon="fa-pencil-square-o" string="Importar comprobantes en efectivo" context="{'default_caja_chica_id':id}"
+                                attrs="{'invisible':[('state','!=','open')]}" widget="statinfo" style="white-space: normal;height: 50px;" >
+                                </button>
+                                <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_caja_chica_mov_efectivo_wizard)d" type="action"
+                                    icon="fa-pencil-square-o" string="Movimientos en efectivo" context="{'default_caja_chica_id':id}"
+                                        attrs="{'invisible':[('state','!=','open')]}" style="white-space: normal;height: 50px;">
+                                                                    </button>
+                                <button class="oe_left oe_stat_button" name="%(grp_tesoreria.act_grp_caja_chica_valores_custodia_wizard)d" type="action"
+                                        icon="fa-pencil-square-o" string="Entregar VC en efectivo" context="{'default_caja_chica_id':id}"
+                                    attrs="{'invisible':[('state','!=','open')]}" style="white-space: normal;height: 50px;">
+                                    </button>
+                            </div>
+                            <field name="transaction_ids" context="{'date':date}" attrs="{'readonly':[('state','!=', 'open')]}" options="{'reload_on_button':true}">
+                                <tree editable="bottom" create="false"
+                                colors="red:is_custody==True and journal_id==False and state_caja=='open'">
+                                    <field name="line_served" invisible="1"/>
+                                    <field name="ref" readonly="1"/>
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="amount" readonly="1"/>
+                                    <field name="rounded_amount" readonly="1"/>
+                                    <field name="date" readonly="1"/>
+                                    <field name="entry_date" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                    <button name="edit_transaction" string="Editar" type="object"
+                                            attrs="{'invisible':['|','|','&amp;',('is_custody','=',False),('is_catch_mov','=',False),('state_caja','!=','open'),('line_served','=',True)]}"
+                                            help="Permite editar el movimiento en efectivo" icon="gtk-edit"/>
+                                    <!--<button name="btn_cancel" string="Cancelar" type="object"-->
+                                    <!--attrs="{'invisible':[('show_cancel','=', False)]}" icon="gtk-undo"/>-->
+
+                                    <field name="account_move_id" invisible="1"/>
+                                    <field name="journal_id" invisible="1"/>
+                                    <field name="state_caja" invisible="1"/>
+                                    <field name="is_voucher" invisible="1"/>
+                                    <field name="is_catch_mov" invisible="1"/>
+                                    <field name="is_custody" invisible="1"/>
+                                    <field name="show_cancel" invisible="1"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                        <page string="Llave presupuestal" attrs="{'invisible': ['|',('state','not in',('check',)),('linea_llp_ids','=',False)]}">
+                            <group>
+                                <field name="linea_llp_ids" nolabel="1" readonly="1">
+                                    <tree>
+                                        <field name="caja_chica_id" invisible="1"/>
+                                        <field name="concepto_id"/>
+                                        <field name="programa_id"/>
+                                        <field name="proyecto_id"/>
+                                        <field name="odg_id"/>
+                                        <field name="auxiliar_id"/>
+                                        <field name="mon_id"/>
+                                        <field name="tc_id"/>
+                                        <field name="importe"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Control de efectivo" ><!--attrs="{'invisible' : [('cash_control', '=', False)]}"-->
+                            <group col="2" expand="1">
+                                <group string="Control de apertura de efectivo" attrs="{'invisible' : [('state', '!=', 'draft')]}">
+                                    <field name="opening_details_ids" colspan="2" nolabel="1">
+                                        <tree string="Opening Cashbox Lines" editable="bottom">
+                                            <field name="pieces"/>
+                                            <field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)" />
+                                            <field name="subtotal_opening" string="Subtotal de apertura" sum="Total"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <group string="Control de apertura de caja" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <field name="details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', '!=', 'draft')]}">
+                                            <tree string="Opening Cashbox Lines" editable="bottom">
+                                                <field name="pieces"/>
+                                                <field name="number_opening" on_change="on_change_sub_opening(pieces, number_opening)"/>
+                                                <field name="subtotal_opening" string="Subtotal de apertura" sum="Total"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group string="Cierre del control de caja" attrs="{'invisible' : [('state', '=', 'draft')]}">
+                                        <field name="closing_details_ids" colspan="2" nolabel="1" attrs="{'readonly' : [('state', '!=', 'open')]}">
+                                            <tree string="Closing Cashbox Lines" editable="bottom">
+                                                <field name="pieces"/>
+                                                <field name="number_closing" on_change="on_change_sub_closing(pieces, number_closing)"/>
+                                                <field name="subtotal_closing" string="Subtotal de cierre" sum="Total"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Asientos contables" attrs="{'invisible': [('state','!=','check')]}">
+                            <field name="move_line_ids" string="Asientos contables">
+                                <tree edit="false" create="false">
+                                    <field name="journal_id" />
+                                    <field name="period_id" />
+                                    <field name="date" />
+                                    <field name="name" />
+                                    <field name="ref" />
+                                    <field name="partner_id" />
+                                    <field name="account_id" />
+                                    <field name="move_id" />
+                                    <field name="debit" />
+                                    <field name="credit" />
+                                    <field name="reconcile_ref" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group class="oe_subtotal_footer oe_right" >
+                            <separator string="Saldo de efectivo" colspan="2"/>
+                            <label for="balance_start" class="oe_subtotal_footer_separator oe_open_balance" string="Saldo inicial" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                            <field name="balance_start" nolabel="1" readonly="1" widget="monetary" class="oe_subtotal_footer_separator oe_open_balance" options="{'currency_field': 'currency'}" help="Total of opening cash control lines"/>
+                            <button name="action_update_balance_start" type="object" class="oe_link oe_inline" string="(Actualizar Saldo inicial)" colspan="2" states="draft"/>
+                            <label for="total_entry_encoding" string="+ Transacciones" class="oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                            <field name="total_entry_encoding" nolabel="1" class="oe_bold oe_account_total oe_inline" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"/>
+                            <label for="in_amount" string="Ingresos" class="oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                            <field name="in_amount" nolabel="1" class="oe_bold oe_account_total oe_inline" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"/>
+                            <label for="out_amount" string="Egresos" class="oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;"/>
+                            <field name="out_amount" nolabel="1" class="oe_bold oe_account_total oe_inline" widget="monetary" options="{'currency_field': 'currency','reload_on_button':true}"/>
+                            <label for="balance_end" string="= Saldo téorico de cierre" class="oe_force_bold oe_mini_subtotal_footer_separator" style="padding-right: 20px !important;" help="Sum of opening balance and transactions."/>
+                            <field name="balance_end" nolabel="1" class="oe_bold oe_account_total" widget="monetary" options="{'currency_field': 'currency'}"/>
+                        </group>
+                        <div>
+                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('state', '=', 'draft')]}">
+                                <label for="balance_end_real" class="oe_subtotal_footer_separator oe_real_closing_balance" string="Saldo de cierre real" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                <field name="balance_end_real" readonly="1" nolabel="1" class="oe_subtotal_footer_separator oe_real_closing_balance" widget="monetary" options="{'currency_field': 'currency'}" help="Total of closing cash control lines."/>
+                            </group>
+                            <group/>
+                            <group/>
+                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('state', '=', 'draft')]}">
+                                <label for="difference" string="Diferencia" class="oe_subtotal_footer_separator oe_difference" style="padding-right: 20px !important;"/>
+                                <field name="difference" nolabel="1" class="oe_subtotal_footer_separator oe_difference" widget="monetary" options="{'currency_field': 'currency'}"/>
+                            </group>
+                        </div>
+                    </group>
+                </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_grp_caja_chica_line_form" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.line.form</field>
+            <field name="model">grp.caja.chica.tesoreria.line</field>
+            <field name="arch" type="xml">
+                <form string="Transacción en efectivo">
+                        <group col="4">
+                            <group>
+                                <field name="ref" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="is_voucher" invisible="1"/>
+                                <field name="is_catch_mov" invisible="1"/>
+                                <field name="is_custody" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'required':[('is_custody','=',True)],'readonly':[('is_voucher','=',True)]}"/>
+                                <field name="journal_id" attrs="{'required':[('is_custody','=',True)],'invisible':[('is_custody','=',False)]}"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button string="Guardar" name="edit_line" type="object" class="oe_highlight"/>
+                            or
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+        <record id="view_grp_caja_chica_line_form2" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.line.form</field>
+            <field name="model">grp.caja.chica.tesoreria.line</field>
+            <field name="arch" type="xml">
+                <form string="Transacción en efectivo">
+                    <group>
+                        <field name="ref" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="amount" readonly="1"/>
+                        <field name="date" readonly="1"/>
+                        <field name="state" readonly="1"/>
+                        <field name="journal_id" readonly="1"/>
+                        <field name="account_move_id" readonly="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_grp_caja_chica_tesoreria" model="ir.actions.act_window">
+            <field name="name">Caja efectivo</field><!--TODO: M INCIDENCIA-->
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.caja.chica.tesoreria</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_grp_caja_chica_tesoreria_filter"/>
+        </record>
+    <!--TODO: M INCIDENCIA-->
+        <!--<record id="ir_rule_caja_chica_allowed_user" model="ir.rule">-->
+            <!--<field name="model_id" ref="model_grp_caja_chica_tesoreria"/>-->
+            <!--&lt;!&ndash;<field name="domain_force">['|', ('operating_unit_id','=', False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>&ndash;&gt;-->
+            <!--<field name="domain_force">[('box_id.users','=',user.id)]</field>-->
+            <!--<field name="name">Visualizar Caja efectivo por usuario configurado en caja</field>-->
+            <!--<field name="global" eval="True"/>-->
+            <!--<field eval="0" name="perm_unlink"/>-->
+            <!--<field eval="0" name="perm_write"/>-->
+            <!--<field eval="1" name="perm_read"/>-->
+            <!--<field eval="0" name="perm_create"/>-->
+        <!--</record>-->
+
+
+    </data>
+</openerp>

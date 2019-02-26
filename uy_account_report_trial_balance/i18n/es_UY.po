@@ -1,0 +1,422 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * uy_account_report_trial_balance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-10 16:48+0000\n"
+"PO-Revision-Date: 2015-12-10 16:48+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account
+#: field:accounting.report,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: uy_account_report_trial_balance
+#: code:addons\uy_account_report_trial_balance\report\financial_report_xls.py:108
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:108
+#: code:addons\uy_account_report_trial_balance\report\trial_balance_xls.py:127
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:127
+#, python-format
+msgid "\n"
+"To"
+msgstr "\n"
+"Hasta"
+
+#. module: uy_account_report_trial_balance
+#: code:addons\uy_account_report_trial_balance\report\trial_balance_xls.py:261
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:261
+#, python-format
+msgid "% Difference"
+msgstr "% Diferencia"
+
+#. module: uy_account_report_trial_balance
+#: view:trial.balance.webkit:uy_account_report_trial_balance.trial_balance_webkit_xls_wizard_view
+msgid "(This option is only available for excel report)"
+msgstr "(Solo disponible para el informe excel)"
+
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:207
+#, python-format
+msgid "Account"
+msgstr "Cuenta"
+
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,account_report_id:0
+msgid "Account Reports"
+msgstr "Informe de cuentas"
+
+#. module: uy_account_report_trial_balance
+#: code:addons\uy_account_report_trial_balance\report\trial_balance_xls.py:92
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:92
+#, python-format
+msgid "Accounts Filter"
+msgstr "Filtro de cuentas"
+
+#. module: uy_account_report_trial_balance
+#: code:addons\uy_account_report_trial_balance\report\trial_balance_xls.py:120
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:120
+#, python-format
+msgid "All"
+msgstr "Todos"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:93
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:103
+#, python-format
+msgid "Alt. Curr. Rate Option"
+msgstr "Tipo de Cambio Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:92
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:102
+#, python-format
+msgid "Alt. Currency"
+msgstr "Moneda Secundaria"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:183
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:218
+#, python-format
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:198
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:231
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:249
+#, python-format
+msgid "Balance %s"
+msgstr "Saldo %s"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:203
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:254
+#, python-format
+msgid "Balance C%s"
+msgstr "Saldo C%s"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:88
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:98
+#, python-format
+msgid "Chart of Account"
+msgstr "Plan contable"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:175
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:203
+#, python-format
+msgid "Code"
+msgstr "Código"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:146
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:167
+#, python-format
+msgid "Comparison"
+msgstr "Comparación"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:139
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:160
+#, python-format
+msgid "Comparisons"
+msgstr "Comparaciones"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:48
+#, python-format
+msgid "Computed"
+msgstr "Calculado"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:181
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:212
+#, python-format
+msgid "Credit"
+msgstr "Haber"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:277
+#, python-format
+msgid "Curr. % Difference"
+msgstr "% Diferencia Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:191
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:228
+#, python-format
+msgid "Curr. Balance"
+msgstr "Saldo Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:209
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:242
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:267
+#, python-format
+msgid "Curr. Balance %s"
+msgstr "Saldo Mon. Sec. %s"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:212
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:270
+#, python-format
+msgid "Curr. Balance C%s"
+msgstr "Saldo Mon. Sec. C%s"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:189
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:226
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:240
+#, python-format
+msgid "Curr. Credit"
+msgstr "Haber Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:188
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:225
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:239
+#, python-format
+msgid "Curr. Debit"
+msgstr "Debe Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:274
+#, python-format
+msgid "Curr. Difference"
+msgstr "Diferencia Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:223
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:237
+#, python-format
+msgid "Curr. Initial Balance"
+msgstr "Saldo Inicial Mon. Sec."
+
+#. module: uy_account_report_trial_balance
+#: model:ir.model,name:uy_account_report_trial_balance.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:126
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:147
+#, python-format
+msgid "Currency Rate: "
+msgstr "Cambio dado: "
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:124
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:145
+#, python-format
+msgid "Custom Date: "
+msgstr "Fecha dada: "
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:86
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:149
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:94
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:170
+#, python-format
+msgid "Dates Filter"
+msgstr "Filtro de fechas"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:180
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:211
+#, python-format
+msgid "Debit"
+msgstr "Debe"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:258
+#, python-format
+msgid "Difference"
+msgstr "Diferencia"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,display_accounts:0
+msgid "Display Accounts"
+msgstr "Mostrar cuentas"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,display_curr_columns:0
+msgid "Display columns secundary currency"
+msgstr "Mostrar columnas Moneda secundaria"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,curr_rate_date:0
+msgid "Fecha"
+msgstr "Fecha"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/wizard/trial_balance_wizard.py:71
+#, python-format
+msgid "Filtering or comparing by 'Only opening' is not available for financial reports."
+msgstr "Filtrar o comparar por 'Solo apertura' no está disponible para informes financieros."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:34
+#, python-format
+msgid "Financial report"
+msgstr "Informe financiero"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,financial_report:0
+msgid "Financial report (Excel)"
+msgstr "Informe financiero (Excel)"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/wizard/trial_balance_wizard.py:76
+#, python-format
+msgid "Financial report is only available in excel format. For obtain it in pdf format you should go to the menu 'Financial report'."
+msgstr "Informe financiero solo está disponible en formato excel. Para obtener el informe en formato pdf debe ir al menú 'Informe financiero'."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:84
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:158
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:91
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:179
+#, python-format
+msgid "Fiscal Year"
+msgstr "Ejercicio Fiscal"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:103
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:122
+#, python-format
+msgid "From"
+msgstr "Desde"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:96
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:181
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:209
+#, python-format
+msgid "Initial Balance"
+msgstr "Saldo Inicial"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:176
+#, python-format
+msgid "Name"
+msgstr "Nombre"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:50
+#, python-format
+msgid "No"
+msgstr "No"
+
+#. module: uy_account_report_trial_balance
+#: view:trial.balance.webkit:uy_account_report_trial_balance.trial_balance_webkit_xls_wizard_view
+msgid "Opciones de conversión a la moneda secundaria"
+msgstr "Opciones de conversión a la moneda secundaria"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,curr_rate_option:0
+msgid "Opciones de tipo de cambio"
+msgstr "Opciones de tipo de cambio"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:49
+#, python-format
+msgid "Opening Entries"
+msgstr "Asientos de apertura"
+
+#. module: uy_account_report_trial_balance
+#: view:trial.balance.webkit:uy_account_report_trial_balance.trial_balance_webkit_xls_wizard_view
+msgid "Other options"
+msgstr "Otras opciones"
+
+#. module: uy_account_report_trial_balance
+#: selection:trial.balance.webkit,curr_rate_option:0
+msgid "Otro tipo de cambio"
+msgstr "Otro tipo de cambio"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:86
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:154
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:94
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:175
+#, python-format
+msgid "Periods Filter"
+msgstr "Filtro de períodos"
+
+#. module: uy_account_report_trial_balance
+#: view:trial.balance.webkit:uy_account_report_trial_balance.trial_balance_webkit_xls_wizard_view
+msgid "Select 'Financial report (Excel)' in order to show the necessary fields and obtain a financial report exporting to Excel."
+msgstr "Seleccione 'Informe financiero (Excel)' para mostrar los campos necesarios y obtener un informe financiero en formato excel."
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:87
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:95
+#, python-format
+msgid "Target Moves"
+msgstr "Movimientos destino"
+
+#. module: uy_account_report_trial_balance
+#: field:trial.balance.webkit,curr_rate:0
+msgid "Tipo de cambio"
+msgstr "Tipo de cambio"
+
+#. module: uy_account_report_trial_balance
+#: selection:trial.balance.webkit,curr_rate_option:0
+msgid "Tipo de cambio según fecha de la transacción"
+msgstr "Tipo de cambio según fecha de la transacción"
+
+#. module: uy_account_report_trial_balance
+#: selection:trial.balance.webkit,curr_rate_option:0
+msgid "Tipo de cambio según una fecha dada"
+msgstr "Tipo de cambio según una fecha dada"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/financial_report_xls.py:122
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:143
+#, python-format
+msgid "Transaction Date"
+msgstr "Fecha Transacción"
+
+#. module: uy_account_report_trial_balance
+#: model:ir.model,name:uy_account_report_trial_balance.model_trial_balance_webkit
+msgid "Trial Balance Report"
+msgstr "Informe de sumas y saldos"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:280
+#, python-format
+msgid "Type"
+msgstr "Tipo"
+
+#. module: uy_account_report_trial_balance
+#: selection:trial.balance.webkit,display_accounts:0
+msgid "With balance not equal to 0"
+msgstr "Con saldo distinto a cero"
+
+#. module: uy_account_report_trial_balance
+#: selection:trial.balance.webkit,display_accounts:0
+msgid "With movements"
+msgstr "Con movimientos"
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:116
+#, python-format
+msgid "[With balance not equal to 0] "
+msgstr "[Con saldo distinto a 0] "
+
+#. module: uy_account_report_trial_balance
+#: code:addons/uy_account_report_trial_balance/report/trial_balance_xls.py:114
+#, python-format
+msgid "[With movements] "
+msgstr "[Con movimientos] "

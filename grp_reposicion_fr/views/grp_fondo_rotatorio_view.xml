@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="view_grp_fondo_rotatorio_form" model="ir.ui.view">
+            <field name="name">grp.fondo.rotatorio.form</field>
+            <field name="model">grp.fondo.rotatorio</field>
+            <field name="arch" type="xml">
+                <form string="Supplier Invoice">
+                <header>
+                    <button name="act_fr_confirmado" type="object"
+                                class="oe_highlight" string="Confirmar" states="draft"/>
+                    <button name="act_fr_obligado" type="object"
+                                class="oe_highlight" string="Obligar" states="confirmado,anulado_siif"/>
+                    <button name="act_fr_borrar_siif" type="object"
+                                class="oe_highlight" string="Borrar obligación SIIF" states="obligado"/>
+                    <button name="act_fr_nueva_modificacion" type="object"
+                                class="oe_highlight" string="Nueva modificación" states="obligado"/>
+                    <button name="act_fr_anulado_siif" type="object"
+                                class="oe_highlight" string="Anular obligación SIIF" states="intervenido"/>
+                    <button name="act_fr_cancelado" type="object"
+                                class="oe_highlight" string="Cancelar" states="draft,confirmado,anulado_siif"/>
+
+                    <button name="btn_observ_tribunal"
+                            type="object"
+                            string="Consulta Observaciones Tribunal"
+                            states="intervenido,pagado,priorizado"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+
+                    <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmado,obligado,intervenido,priorizado,anulado_siif,cancelado,pagado"/>
+                </header>
+                <sheet string="Supplier Invoice">
+                    <div class="oe_title">
+                        <label for="name" class="oe_inline" attrs="{'invisible':[('state','=','draft')]}"/>
+                        <h1>
+                            <label string="3en1-FR borrador" attrs="{'invisible': [('state','&lt;&gt;','draft')]}"/>
+                            <div class="oe_form_field oe_form_field_char oe_inline">
+                                <field name="name" attrs="{'invisible':[('state','=','draft')]}" readonly="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="operating_unit_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="beneficiario_siif_id" required="1" readonly="1" />
+                            <field name="res_partner_bank_id" domain="[('partner_id','=',beneficiario_siif_id)]"
+                                   options="{'create': false, 'create_edit': false}"
+                                   attrs="{'readonly':[('nro_obligacion','>',0)], 'required': [('state','!=','draft')]}"/>
+                            <!--<field name="rendido_siif" readonly="1" attrs="{'invisible':[('tipo_ejecucion_codigo_rel','!=','P')]}"/>-->
+                            <field name="benef_es_inciso_default" invisible="1"/>
+                            <field name="unidad_ejecutora_id"
+                                   attrs="{'readonly':[('nro_obligacion','>',0)],
+                                           'required':[('nro_obligacion','=',0),('beneficiario_siif_id','!=',False),('benef_es_inciso_default','!=',False),('state','!=','draft')],
+                                           'invisible':['|',('benef_es_inciso_default','=',False),('beneficiario_siif_id','=',False)]}"
+                                   options="{'create': false, 'create_edit': false}"/>
+                            <field name="recuperacion_move_id" readonly="1" attrs="{'invisible': [('recuperacion_move_id','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="date_invoice" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="fecha_vencimiento" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="fiscal_year_id" required="1" options="{'create': false, 'create_edit': false}" attrs="{'readonly':[('state','not in',['draft','confirmado'])]}"/>
+                            <field name="moneda_extranjera" invisible="1"/>
+                            <field name="company_currency_id" readonly="1" attrs="{'invisible':[('moneda_extranjera','=',False)]}"/>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="currency_rate_date" attrs="{'invisible':[('moneda_extranjera','=',False)]}"/>
+                            <field name="currency_rate" attrs="{'invisible':[('moneda_extranjera','=',False)]}"/>
+                            <field name="currency_rate_presupuesto" attrs="{'invisible':[('moneda_extranjera','=',False)]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <group string="Datos SIIF" colspan="2">
+                                <field name="nro_afectacion" readonly="1"/>
+                                <field name="monto_afectado" readonly="1"/>
+                                <field name="nro_compromiso" readonly="1"/>
+                                <field name="monto_comprometido" readonly="1"/>
+                                <field name="nro_obligacion" readonly="1"/>
+                                <field name="obligacion_paga_tgn" readonly="1"/>
+                                <field name="intervenido_con_observ" readonly="1"/>
+                             </group>
+                        </group>
+                        <group>
+                            <field name="siif_tipo_ejecucion" required="1" readonly="1" domain="[('codigo','=','P')]"/>
+                            <field name="siif_concepto_gasto" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="siif_financiamiento" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="filtro_sir" invisible="1"/>
+                            <field name="siif_codigo_sir" domain="[('codigo','like',filtro_sir)]" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="siif_nro_fondo_rot" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="siif_tipo_documento" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="siif_descripcion" attrs="{'readonly':[('state','not in',['draft','confirmado'])], 'required': [('state','!=','draft')]}"/>
+                            <field name="tipo_ejecucion_codigo_rel" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Comprobantes">
+                            <group colspan="4">
+                                <label string='Facturas de fondo rotatorio' colspan="4" style="font-weight: bold;"/>
+                                <field name='line_invoice_fr_ids' attrs="{'readonly':[('state','not in',['draft','confirmado'])]}" nolabel="1" domain="[('tipo_documento', '=', 'account_invoice_fr')]" options="{'no_create': True}">
+                                    <tree delete="true" create="false" editable="bottom">
+                                        <field name="proveedor" string="Proveedor" readonly="True"/>
+                                        <field name="fecha_factura" string="Fecha" readonly="True"/>
+                                        <field name="importe_nominal_factura" string="Importe Nominal" readonly="True"/>
+                                        <field name="importe_pago_factura" readonly="True"/>
+
+                                        <field name="amount_currency"/>
+                                        <field name="amount_retentions_currency"/>
+                                        <field name="liquido_pagable_currency"/>
+                                        <field name="liquido_pagable_ajustado_currency"/>
+                                        <field name="liquido_pagable"/>
+
+                                        <field name="amount"/>
+                                        <field name="total_retenciones_factura" string="Total retenciones" readonly="True"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <newline/>
+                            <group colspan="4">
+                                <label string='Rendición de viático - anticipo' readonly="True" colspan="4" style="font-weight: bold;"/>
+                                <field name='line_expense_ids' attrs="{'readonly':[('state','not in',['draft','confirmado'])]}" nolabel="1" domain="[('tipo_documento', '=', 'hr_expense')]">
+                                    <tree delete="true" create="false" editable="bottom">
+                                        <field name="hr_expense_id" string="Referencia" readonly="True"/>
+                                        <field name="empleado" string="Empleado" readonly="True"/>
+                                        <field name="fecha_gasto" string="Fecha" readonly="True"/>
+                                        <field name="descripcion_gasto" string="Descripción" readonly="True"/>
+                                        <field name="importe_pago_gasto" readonly="True"/>
+
+                                        <field name="amount_currency"/>
+                                        <field name="amount_retentions_currency"/>
+                                        <field name="liquido_pagable_currency"/>
+                                        <field name="liquido_pagable_ajustado_currency"/>
+                                        <field name="liquido_pagable"/>
+
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <newline/>
+                            <group colspan="4">
+                                <label string='Vales' readonly="True" colspan="4" style="font-weight: bold;"/>
+                                <field name='line_expense_vales_ids' attrs="{'readonly':[('state','not in',['draft','confirmado'])]}" nolabel="1" domain="[('tipo_documento', '=', 'hr_expense')]">
+                                    <tree delete="true" create="false" editable="bottom">
+                                        <field name="hr_expense_id" string="Referencia" readonly="True"/>
+                                        <field name="empleado" string="Empleado" readonly="True"/>
+                                        <field name="fecha_gasto" string="Fecha" readonly="True"/>
+                                        <field name="descripcion_gasto" string="Descripción" readonly="True"/>
+                                        <field name="importe_pago_gasto" readonly="True"/>
+
+                                        <field name="amount_currency"/>
+                                        <field name="amount_retentions_currency"/>
+                                        <field name="liquido_pagable_currency"/>
+                                        <field name="liquido_pagable_ajustado_currency"/>
+                                        <field name="liquido_pagable"/>
+
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <newline/>
+                            <group colspan="4">
+                                <label string='Registro de caja' colspan="4" style="font-weight: bold;"/>
+                                <field name='line_statement_ids' attrs="{'readonly':[('state','not in',['draft','confirmado'])]}" nolabel="1" domain="[('tipo_documento', '=', 'bank_statement')]">
+                                    <tree delete="true" create="false" editable="bottom">
+                                        <field name="referencia" string="Referencia" readonly="True"/>
+                                        <field name="fecha_registro" string="Fecha" readonly="True"/>
+                                        <field name="concepto_gasto" string="Concepto" readonly="True"/>
+                                        <field name="importe_pago_registro" readonly="True"/>
+
+                                        <field name="amount_currency"/>
+                                        <field name="amount_retentions_currency"/>
+                                        <field name="liquido_pagable_currency"/>
+                                        <field name="liquido_pagable_ajustado_currency"/>
+                                        <field name="liquido_pagable"/>
+
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <newline/>
+                            <group colspan="4" name="group_comprobantes_abonos">
+                                <label string='Abonos' readonly="True" colspan="4" style="font-weight: bold;"/>
+                                <field name='line_expense_abonos_ids' attrs="{'readonly':[('state','not in',['draft','confirmado'])]}" nolabel="1" domain="[('tipo_documento', '=', 'hr_expense')]">
+                                    <tree delete="true" create="false" editable="bottom">
+                                        <field name="hr_expense_id" string="Referencia" readonly="True"/>
+                                        <field name="empleado" string="Empleado" readonly="True"/>
+                                        <field name="fecha_gasto" string="Fecha" readonly="True"/>
+                                        <field name="descripcion_gasto" string="Descripción" readonly="True"/>
+                                        <field name="importe_pago_gasto" readonly="True"/>
+
+                                        <field name="amount_currency"/>
+                                        <field name="amount_retentions_currency"/>
+                                        <field name="liquido_pagable_currency"/>
+                                        <field name="liquido_pagable_ajustado_currency"/>
+                                        <field name="liquido_pagable"/>
+
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <div>
+                                    <!-- -->
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" attrs="{'invisible':[('moneda_extranjera','=',False)]}">
+                                        <separator string="Importes en M/E" colspan="2" style="text-align:center"/>
+                                        <field name="total_nominal_comprobantes" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="total_retenciones_me" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="total_liquido_pagable" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2">
+                                        <separator string="Importes SIIF" colspan="2" style="text-align:center"/>
+                                        <field name="total_importe_pago" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        <field name="total_impuestos" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        <field name="total_retenciones" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        <field name="total_reponer" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                        <field name="liquido_pagable" class="oe_subtotal_footer_separator"
+                                               widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
+                                    </group>
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Retenciones">
+                            <field name="retention_ids" readonly="1">
+                                <tree string="Retenciones" editable="top">
+                                    <field name="tipo_retencion"/>
+                                    <field name="iva"/>
+                                    <field name="base_linea"/>
+                                    <field name="base_linea_pesos"/>
+                                    <field name="base_impuesto"/>
+                                    <field name="base_impuesto_pesos"/>
+                                    <field name="monto_retencion"/>
+                                    <field name="monto_retencion_unround"/>
+                                    <field name="monto_retencion_pesos"/>
+                                    <field name="ret_amount_round"/>
+                                    <field name="ret_amount_pesos_round"/>
+                                    <field name="creditor_id"/>
+                                    <field name="group_id"/>
+                                    <field name="retention_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Detalle llaves presupuestales">
+                            <group>
+                               <group colspan="4">
+                                    <label string='Facturas de fondo rotatorio' colspan="4" style="font-weight: bold;"/>
+                                    <field name='dlineas_llavep_invoice_fr_ids'  nolabel="1" >
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="comprobante" string="Comprobante" readonly="1"/>
+                                            <field name="proveedor_id" string="Proveedor" readonly="1"/>
+                                            <field name="odg_id" string="ODG"/>
+                                            <field name="auxiliar_id" string="Auxiliar"/>
+                                            <field name="importe" string="Importe"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <newline/>
+                                <group colspan="4">
+                                    <label string='Rendición de viático' colspan="4" style="font-weight: bold;"/>
+                                    <field name='dlineas_llavep_hr_expense_ids'  nolabel="1" >
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="comprobante" string="Comprobante" readonly="1"/>
+                                            <field name="descripcion_gasto" string="Descripción" readonly="1"/>
+                                            <field name="odg_id" string="ODG"/>
+                                            <field name="auxiliar_id" string="Auxiliar"/>
+                                            <field name="importe" string="Importe"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <newline/>
+                                <group colspan="4">
+                                    <label string='Vales' colspan="4" style="font-weight: bold;"/>
+                                    <field name='dlineas_llavep_hr_expense_vales_ids'  nolabel="1" >
+                                        <tree editable="bottom" create="false" delete="false" >
+                                            <field name="comprobante" string="Comprobante" readonly="1"/>
+                                            <field name="descripcion_gasto" string="Descripción" readonly="1"/>
+                                            <field name="odg_id" string="ODG"/>
+                                            <field name="auxiliar_id" string="Auxiliar"/>
+                                            <field name="importe" string="Importe"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <newline/>
+                                <group colspan="4">
+                                    <label string='Registro de caja' colspan="4" style="font-weight: bold;"/>
+                                    <field name='dlineas_llavep_bank_statement_ids'  nolabel="1" >
+                                        <tree editable="bottom" create="false" delete="false" >
+                                            <field name="comprobante" string="Comprobante" readonly="1"/>
+                                            <field name="referencia" string="Referencia" readonly="1"/>
+                                            <field name="concepto_gasto" string="Concepto" readonly="1"/>
+                                            <field name="odg_id" string="ODG"/>
+                                            <field name="auxiliar_id" string="Auxiliar"/>
+                                            <field name="importe" string="Importe"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <newline/>
+                                <group colspan="4">
+                                    <label string='Abonos' colspan="4" style="font-weight: bold;"/>
+                                    <field name='dlineas_llavep_hr_expense_abonos_ids'  nolabel="1" >
+                                        <tree editable="bottom" create="false" delete="false" >
+                                            <field name="comprobante" string="Comprobante" readonly="1"/>
+                                            <field name="descripcion_gasto" string="Descripción" readonly="1"/>
+                                            <field name="odg_id" string="ODG"/>
+                                            <field name="auxiliar_id" string="Auxiliar"/>
+                                            <field name="importe" string="Importe"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Llave Presupuestal">
+                            <group>
+                                <group>
+                                    <field name="inciso_siif_llp_id" required="1" domain="[('fiscal_year_id','=', fiscal_year_id)]" style="width:20%%" attrs="{'readonly':[('state','not in',['draft','confirmado'])]}"/>
+                                    <field name="ue_siif_llp_id" required="1" style="width:20%%" domain="[('inciso_id','=', inciso_siif_llp_id)]" attrs="{'readonly':[('state','not in',['draft','confirmado'])]}"/>
+                                </group>
+                                <newline/>
+                                <button name="action_llpapg_reload" string="Actualizar" type="object"
+                                icon="terp-stock_effects-object-colorize"
+                                states="draft,confirmado"
+                                confirm="Esta seguro desea actualizar las líneas de la Llave presupuestal?"/>
+                                <field name="llpapg_ids" nolabel="1" widget="one2many_list" colspan="4"
+                                       attrs="{'readonly':[('state','not in',['draft','confirmado'])]}">
+                                    <tree string="Llave Presupuestal" editable="bottom">
+                                        <field name="odg_id" domain="[('ue_id','=',parent.ue_siif_llp_id)]"/>
+                                        <field name="auxiliar_id" domain="[('odg_id','=',odg_id)]"/>
+                                        <field name="fin_id" attrs="{'required': [('parent_state','not in',['draft',False])]}" domain="[('aux_id','=',auxiliar_id)]" on_change="onchange_fuente_de_financiamiento(fin_id)"/>
+                                        <field name="programa_id" attrs="{'required': [('parent_state','not in',['draft',False])]}" domain="[('ff_id','=',fin_id)]" on_change="onchange_programa(programa_id)"/>
+                                        <field name="proyecto_id" attrs="{'required': [('parent_state','not in',['draft',False])]}" domain="[('programa_id','=',programa_id)]" on_change="onchange_proyecto(proyecto_id)"/>
+                                        <field name="mon_id" attrs="{'required': [('parent_state','not in',['draft',False])]}" domain="[('proyecto_id','=',proyecto_id)]" on_change="onchange_moneda(mon_id)"/>
+                                        <field name="tc_id" attrs="{'required': [('parent_state','not in',['draft',False])]}" domain="[('moneda_id','=',mon_id)]"/>
+                                        <field name="disponible"/>
+                                        <field name="importe"/>
+                                        <field name="parent_state" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <field name="modif_obligacion_log_fr_ids" nolabel="1" readonly="1" colspan="4">
+                                    <tree string="Modificaciones">
+                                        <field name="tipo"/>
+                                        <field name="fecha"/>
+                                        <field name="objeto_gasto"/>
+                                        <field name="auxiliar"/>
+                                        <field name="financiamiento"/>
+                                        <field name="programa"/>
+                                        <field name="proyecto"/>
+                                        <field name="tipo_credito"/>
+                                        <field name="importe"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <!-- Priorizaciones -->
+                        <page string="Priorizaciones">
+                            <field name="fondo_prioritized_line" readonly="1">
+                                <tree>
+                                    <field name="fecha_confirmado"/>
+                                    <field name="monto_priorizado" sum="1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Observaciones de Intervenciones del Tribunal de Cuentas -->
+                        <page string="Observaciones">
+                            <field name="observacion_ids" readonly="1">
+                                <tree>
+                                    <field name="descripcion"/>
+                                    <field name="observacion"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Historial de anulaciones" attrs="{'invisible': [('anulacion_siif_log_ids', '=', [] )]}">
+                            <field name="anulacion_siif_log_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Historial anulaciones" delete="false" edit="false" create="false">
+                                     <field name="fondo_rotatorio_id" invisible="1"/>
+                                     <field name="nro_obl_sist_aux" invisible="1"/>
+                                     <field name="fecha"/>
+                                     <field name="nro_afectacion" widget="char"/>
+                                     <field name="nro_compromiso" widget="char"/>
+                                    <field name="nro_obligacion" widget="char"/>
+                                </tree>
+                              </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                 </div>
+                </form>
+            </field>
+        </record>
+
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="view_grp_fondo_rotatorio_tree" model="ir.ui.view">
+            <field name="name">grp.fondo.rotatorio.tree</field>
+            <field name="model">grp.fondo.rotatorio</field>
+            <field name="priority" eval="1"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="3 en1-Fondo rotatorio">
+                    <field name="name" string="Número"/>
+                    <field name="operating_unit_id"/>
+                    <field name='nro_afectacion'/>
+                    <field name='total_reponer'/>
+                    <field name='state'/>
+                </tree>
+            </field>
+        </record>
+
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="action_3en1_grp_fondo_rotatorio" model="ir.actions.act_window">
+			<field name="name">3 en 1-Fondo rotatorio</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">grp.fondo.rotatorio</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_fondo_rotatorio_tree"/>
+		</record>
+
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <menuitem id="menu_grp_reposicion_fondo_rotatorio" name="Reposición de fondo rotatorio" sequence="50"
+                  parent="account.menu_finance_payables"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras,grp_tesoreria.group_grp_restringir_ctas_pagar_ue,grp_tesoreria.group_grp_consultar_ctas_pagar_ue"/>
+
+        <menuitem id="menu_3en1_grp_fondo_rotatorio" action="action_3en1_grp_fondo_rotatorio"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"
+                  parent="menu_grp_reposicion_fondo_rotatorio" name="3 en 1-Fondo rotatorio" sequence="2"/>
+
+    </data>
+</openerp>

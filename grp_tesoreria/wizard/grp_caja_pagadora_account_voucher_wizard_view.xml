@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 M-->
+        <record model="ir.ui.view" id="view_caja_pagadora_voucher_wizard_tree">
+            <field name="name">caja.pagadora.voucher.tesoreria.wizard.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree string="Pago a proveedores">
+                    <field name="check_id" />
+                     <field name="partner_id" />
+                     <field name="journal_id" />
+                     <field name="amount" />
+                     <field name="date" />
+                     <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_pagadora_accunt_voucher_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja.pagadora.account.voucher.wizard.form</field>
+            <field name="model">grp.caja.pagadora.account.voucher.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Pago a proveedores">
+                    <field height="300" width="700"
+                        name="account_voucher_ids" context="{'tree_view_ref':'grp_tesoreria.view_caja_pagadora_voucher_wizard_tree'}"><!--domain="[('state','=','issue'), ('payment_method','=','check')]" -->
+                        <tree string="Pago a proveedores" create="false">
+                             <field name="check_id" />
+                             <field name="partner_id" />
+                             <field name="journal_id" />
+                             <field name="amount" />
+                             <field name="date" />
+                             <field name="state"/>
+                        </tree>
+                    </field>
+                    <field name="caja_pagadora_id" invisible="1"/>
+                    <footer>
+                        <button string="Cargar" name="transfer_account_voucher" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_pagadora_account_voucher_wizard" model="ir.actions.act_window">
+            <field name="name">Registro de pago a proveedoress</field>
+            <field name="res_model">grp.caja.pagadora.account.voucher.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_pagadora_accunt_voucher_wizard_form"/>
+        </record>
+    </data>
+</openerp>

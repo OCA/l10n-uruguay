@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!-- VISTA FORM PARA LA GRILLA DE COMPARAR CRÉDITO SIIF -->
+    <record model="ir.ui.view" id="view_grp_pep_anual_comparar_form">
+        <field name="name">grp.pep.grilla.comparar.siif.form</field>
+        <field name="model">grp.pep.anual</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Comparación con Crédito SIIF">
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="Comparación con Crédito SIIF">
+                    <h2>Plan Anual de Ejecución Presupuestal</h2>
+                    <h2>
+                        <label string="Período " attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                        <field name="periodo_activo" readonly="1" class="oe_inline"  attrs="{'invisible': [('state','!=','en_ejecucion')]}"/>
+                    </h2>
+                     <h3>Comparación con Crédito SIIF</h3>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-dollar"
+                                name="abrir_conceptos_y_distribucion"
+                                type="object"
+                                help=""
+                                string="Plan Presupuestal"/>
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa fa-check-square-o"
+                                name="abrir_informacion_general"
+                                type="object"
+                                help="Ver información general el plan"
+                                string="Información General"/>
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="name" attrs="{'readonly':['|',('state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                            <field name="plan_base_id" readonly="1"/>
+                            <field name="periodicidad" readonly="1"/>
+                            <field name="presupuesto_anual" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="anio_fiscal" readonly="1"/>
+                            <field name="tipo_control_conceptos" readonly="1"/>
+                            <field name="estructura_de_servicios_id" readonly="1"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                            <field name="plan_activo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page>
+                            <field name="lineas_comparar_credito" nolabel="1" context="{'default_plan_id': active_id}">
+                                <tree colors="red:es_mayor_al_credito == True" fonts="bold:es_mayor_al_credito == True"
+                                      create="false" delete="false">
+                                    <field name="es_mayor_al_credito" invisible="1"/>
+                                    <field name="plan_id" invisible="1"/>
+                                    <field name="llave_nombre"/>
+                                    <field name="monto_anual"/>
+                                    <field name="credito_disponible"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM PARA grp_pep_comparar_credito_siif -->
+    <record model="ir.ui.view" id="view_grp_pep_comparar_conceptos_form">
+        <field name="name">grp.pep.comparar.comparar.conceptos.form</field>
+        <field name="model">grp.pep.comparar.credito.siif</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Comparación con Crédito SIIF">
+                <sheet string="Comparación con Crédito SIIF">
+                    <group colspan="4">
+                        <group>
+                            <field name="plan_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                            <field name="llave_nombre" readonly="1"/>
+                            <field name="plan_state" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="monto_anual" readonly="1"/>
+                            <field name="credito_disponible" readonly="1"/>
+                        </group>
+                        <group colspan="4">
+                            <field name="observaciones"
+                                   attrs="{'readonly':['|',('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                        </group>
+                    </group>
+                    <h3>Conceptos involucrados</h3>
+                    <notebook>
+                        <page>
+                            <field name="concepto_ids" widget="one2many_list" options="{'no_open': True, 'no_create_edit': True}" readonly="1">
+                                <tree create="false" delete="1" editable="bottom">
+                                    <field name="concepto_id" options="{'no_open': True, 'no_create_edit': True}" readonly="1"/>
+                                    <field name="importe_concepto" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</data>
+</openerp>

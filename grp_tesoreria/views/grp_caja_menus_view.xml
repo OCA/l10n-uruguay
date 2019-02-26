@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 10 GAP 474 M-->
+        <menuitem id="menu_grp_account_tesoreria" name="Tesorería"
+                  parent="account.menu_finance" sequence="4"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_cajero_pagador,grp_tesoreria.group_grp_cajero_verificador,grp_tesoreria.group_grp_cajero_recaudador,grp_seguridad.grp_configuracion_contabilidad,grp_tesoreria.group_grp_recaudacion_interior,grp_tesoreria.group_grp_cashbox_register,grp_tesoreria.group_grp_cashbox_register_responsible,grp_tesoreria.group_grp_cashbox_register_manager"
+                /><!--108-->
+                  <!--groups="grp_tesoreria.group_grp_contabilidad_tesoreria,grp_tesoreria.group_grp_tesoreria_interior"-->
+
+        <menuitem id="menu_grp_caja_pagadora" name="Caja cheques"
+                  parent="menu_grp_account_tesoreria" sequence="1" action="action_view_grp_caja_pagadora_tesoreria"
+                groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_cajero_pagador,grp_tesoreria.group_grp_cajero_verificador"/><!--TODO: M INCIDENCIA-->
+
+        <menuitem id="menu_grp_caja_chica_t" name="Caja efectivo"
+                  parent="menu_grp_account_tesoreria" sequence="2" action="action_view_grp_caja_chica_tesoreria"
+                  groups="grp_tesoreria.group_grp_caja_chica,grp_tesoreria.group_grp_consulta_cajas"/><!--TODO: M INCIDENCIA-->
+
+        <menuitem id="menu_grp_caja_recaudadora" name="Caja recaudadora Tesorería"
+                  parent="menu_grp_account_tesoreria" sequence="3" action="action_view_grp_caja_recaudadora_tesoreria"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_cajero_recaudador,grp_tesoreria.group_grp_cajero_verificador"/>
+
+        <menuitem id="menu_grp_orden_pago_interna" name="Orden de pago interna"
+                  parent="menu_grp_account_tesoreria" sequence="4" action="action_internal_pay_order"
+                groups="grp_tesoreria.group_grp_gestor_OPI"/>
+
+        <menuitem id="menu_grp_caja_recaudadora_boleto_siif" name="Boleto SIIF"
+                  parent="menu_grp_account_tesoreria" action="action_view_grp_caja_recaudadora_boleto_siif"
+                  groups="grp_tesoreria.group_grp_recaudacion_interior"/>
+
+        <!-- TODO: K SPRING 15-->
+        <menuitem id="menu_grp_remesa" name="Preparar remesa" sequence="5"
+                  parent="menu_grp_account_tesoreria" action="action_view_grp_remesa"
+                  groups="grp_tesoreria.group_grp_remesa"/>
+
+    </data>
+</openerp>

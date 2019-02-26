@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Stock moves -->
+        <record id="inherited_view_move_picking_tree" model="ir.ui.view">
+            <field name="name">stock.move.tree.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="grp_compras_estatales.inherited_view_move_picking_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="after">
+                        <field name='account_id' options="{'no_create': True}"/>
+                        <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('state','in', ['done'])]}"
+                            context="{
+                                'form_currency_id': False,
+                                'form_amount': product_uom_qty,
+                                'account_id': account_id,
+                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                'analytic_account_id_not_apply': False,
+                                'dim_multi_id_not_apply': False,
+                                'amount_invisible': True,
+                                'analytics_id': analytics_id,
+                            }"/>
+                        <button name="open_analytics" type="object" string="Abrir Distribución"
+                            attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <record id="inherited_view_move_picking_form" model="ir.ui.view">
+            <field name="name">stock.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="grp_compras_estatales.inherited_view_move_picking_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="after">
+                        <field name='account_id' options="{'no_create': True}"/>
+                        <field name='analytics_id' domain="[('plan_id','&lt;&gt;',False)]" attrs="{'readonly': [('state','in', ['done'])]}"
+                            context="{
+                                'form_currency_id': False,
+                                'form_amount': product_uom_qty,
+                                'account_id': account_id,
+                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                'analytic_account_id_not_apply': False,
+                                'dim_multi_id_not_apply': False,
+                                'amount_invisible': True,
+                                'analytics_id': analytics_id,
+                            }"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>

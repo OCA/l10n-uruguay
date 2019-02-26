@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- VISTA FORM PARA grp_pep_concepto -->
+    <record model="ir.ui.view" id="view_grp_pep_concepto_form">
+        <field name="name">grp.pep.concepto.form</field>
+        <field name="model">grp.pep.concepto</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="grp.pep.concepto" version="7.0">
+                <header>
+                    <button
+                            name="btn_borrador_elaboracion"
+                            type="object"
+                            string="Elaboración"
+                            class="oe_highlight"
+                            states="borrador"
+                    />
+                    <button
+                            name="btn_elaboracion_revision"
+                            type="object"
+                            string="Revisión"
+                            class="oe_highlight"
+                            states="elaboracion"
+                    />
+                    <button
+                            name="btn_revision_completo"
+                            type="object"
+                            string="Completo"
+                            class="oe_highlight"
+                            states="revision"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_colors='{"1":"blue"}'
+                    />
+                </header>
+                <sheet string="grp.pep.concepto">
+                    <h1 style="color: #7C7BAD;">
+                        <field name="display_name" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <div class="oe_right oe_button_box" name="smart_buttons">
+                        <button
+                            class="oe_inline oe_stat_button"
+                            icon="fa-refresh"
+                            name="compute_importe"
+                            type="object"
+                            string="Importe"
+                            help="Recargar Importe"
+                        />
+                        <button
+                            class="oe_inline oe_stat_button"
+                            icon="fa-indent"
+                            name="consolidar_productos"
+                            type="object"
+                            string="Consolidar"
+                            help="Consolida los productos de todas las recetas."
+                            attrs="{'invisible': [('metodo_calculo','!=','receta')]}"
+                        />
+                        <button
+                            class="oe_inline oe_stat_button"
+                            icon="fa-retweet"
+                            name="ajustar_valores"
+                            type="object"
+                            string="Ajustar"
+                            help="Ajusta los valores como los originales por el coeficiente."
+                            attrs="{'invisible': ['|',('metodo_calculo','!=','importe'),('concepto_origen_id','=',False)]}"
+                        />
+                    </div>
+                    <group colspan="4">
+                        <group>
+                            <field name="codigo" readonly="1"/>
+                            <field name="name" attrs="{'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="plan_id" options="{'no_open': True, 'no_create_edit': True}" attrs="{'required': [('state','not in',('borrador'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}" domain="[('state','in',('borrador','confeccion'))]"/>
+                            <field name="anio_fiscal_plan" readonly="1" invisible="1"/>
+                            <field name="metodo_calculo" attrs="{'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="importe" attrs="{'invisible':[('metodo_calculo','=','importe'),('compuesto_por_productos','=',False)]}" readonly="1"/>
+                            <field name="importe_ingresado" attrs="{'invisible':['|',('metodo_calculo','!=','importe'),('compuesto_por_productos','=',True)],'required':[('metodo_calculo','=','importe'),('compuesto_por_productos','=',False),('state','not in',('borrador','elaboracion'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="posicion_en_plan" attrs="{'required': [('state','in',('revision'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="tipo_control" attrs="{'required': [('state','in',('revision'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                        </group>
+                        <group>
+                            <field name="active" attrs="{'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="concepto_origen_id" readonly="1" attrs="{'invisible': [('concepto_origen_id','=',False)]}"/>
+                            <field name="coeficiente_de_ajuste" attrs="{'invisible': ['|',('metodo_calculo','!=','importe'),('concepto_origen_id','=',False)], 'required':[('concepto_origen_id','!=',False),('metodo_calculo','=','importe'),('state','not in',('borrador','elaboracion'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="en_plan_adquisiciones" attrs="{'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="es_compra_innovadora" attrs="{'invisible': [('en_plan_adquisiciones','=',False)], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="compuesto_por_productos_visible" invisible="1"/>
+                            <field name="compuesto_por_productos"  attrs="{'invisible': [('compuesto_por_productos_visible','=',False)], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                            <field name="create_date" string="Fecha de Creación" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Distribución del gasto" attrs="{'invisible': [('plan_id','=',False)]}">
+                            <field name="lineas_gasto" mode="tree" attrs="{'required': [('state','not in',('borrador','elaboracion'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion','en_ejecucion'))]}">
+                                <tree editable="top">
+                                    <field name="grp_pep_concepto_id" invisible="1"/>
+                                    <field name="inciso_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('fiscal_year_id','=', parent.anio_fiscal_plan)]"/>
+                                    <field name="ue_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('inciso_id', '=', inciso_id)]"/>
+                                    <field name="odg_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('ue_id','=',ue_id)]"/>
+                                    <field name="aux_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('odg_id','=',odg_id)]"/>
+                                    <field name="ff_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('aux_id', '=', aux_id)]"/>
+                                    <field name="programa_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('ff_id', '=', ff_id)]"/>
+                                    <field name="proyecto_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('programa_id', '=', programa_id)]"/>
+                                    <field name="moneda_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('proyecto_id','=',proyecto_id)]"/>
+                                    <field name="tc_id" options="{'no_open': True, 'no_create_edit': True}" domain="[('moneda_id','=',moneda_id)]"/>
+                               </tree>
+                            </field>
+                        </page>
+                        <page string="Llaves por período" attrs="{'invisible': [('plan_state','not in',('en_ejecucion','cierre','finalizado'))]}">
+                            <field name="plan_state" invisible="1"/>
+                            <field name="historia_llaves" mode="tree">
+                                <tree create="false" delete="false" editable="false" colors="gray:periodo_par == False" >
+                                    <field name="periodo_par" invisible="1"/>
+                                    <field name="plan_periodo" readonly="1"/>
+                                    <field name="llave_str" readonly="1"/>
+                                    <field name="importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Productos" attrs="{'invisible': [('compuesto_por_productos','=',False)]}">
+                            <field name="lineas_producto" attrs="{'required': [('compuesto_por_productos','=',True),('state','not in',('borrador','elaboracion'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                        </page>
+                        <page string="Fórmula" attrs="{'invisible': [('metodo_calculo','!=','formula')]}">
+                            <field name="lineas_formula" attrs="{'required': [('metodo_calculo','=','formula'),('state','not in',('borrador','elaboracion'))], 'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}"/>
+                        </page>
+                        <page string="Recetas" attrs="{'invisible': [('metodo_calculo','!=','receta')]}">
+                            <field name="lineas_receta" mode="tree" options="{'no_create': True}" readonly="1">
+                                <tree>
+                                    <field name="name" readonly="1"/>
+                                    <field name="es_poblacion_atendida" readonly="1"/>
+                                    <field name="atributo_id" readonly="1"/>
+                                    <field name="active" readonly="1"/>
+                                    <field name="create_date" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Productos Recetas" attrs="{'invisible': [('metodo_calculo','!=','receta')]}">
+                            <field name="productos_receta" mode="tree" attrs="{'readonly': [('plan_id','!=',False), ('plan_state','not in',('borrador','confeccion'))]}">
+                                <tree create="false" delete="false" editable="top">
+                                    <field name="grp_pep_concepto_id" invisible="1"/>
+                                    <field name="product_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                                    <field name="grp_sice_cod" readonly="1"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="pres_id" readonly="1"/>
+                                    <field name="med_cod_pres_id" readonly="1"/>
+                                    <field name="precio_de_referencia" required="1"/>
+                                    <field name="necesidad" readonly="1"/>
+                                    <field name="importe"/>
+                                    <field name="necesidad_ajustada"/>
+                                    <field name="importe_ajustado"/>
+                                    <field name="actualizacion" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                     </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA TREE PARA grp_pep_concepto -->
+    <record model="ir.ui.view" id="view_grp_pep_concepto_tree">
+        <field name="name">grp.pep.concepto.tree</field>
+        <field name="model">grp.pep.concepto</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="grp.pep.concepto">
+                <field name="plan_id"/>
+                <field name="codigo"/>
+                <field name="name"/>
+                <field name="metodo_calculo"/>
+                <field name="posicion_en_plan"/>
+                <field name="tipo_control"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA SEARCH PARA grp_pep_concepto -->
+    <record model="ir.ui.view" id="grp_pep_concepto_search">
+        <field name="name">grp.pep.concepto.search</field>
+        <field name="model">grp.pep.concepto</field>
+        <field name="arch" type="xml">
+            <search string="Conceptos">
+                <!-- Buscar -->
+                <field name="name" string="Nombre"/>
+                <field name="codigo" string="Código"/>
+                <!-- Agrupar -->
+                <group expand="0" string="Agrupar por ...">
+                    <filter string="Plan" context="{'group_by': 'plan_id'}" name="group_plan"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACCION PARA grp_pep_concepto -->
+    <record model="ir.actions.act_window" id="action_grp_pep_concepto">
+        <field name="name">Conceptos</field>
+        <field name="res_model">grp.pep.concepto</field>
+        <field name="context">{'search_default_group_plan': 1}</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- VISTA TREE PARA grp_pep_concepto_linea_producto -->
+    <record model="ir.ui.view" id="view_grp_pep_concepto_linea_producto_tree">
+        <field name="name">grp.pep.concepto.linea.producto.tree</field>
+        <field name="model">grp.pep.concepto.linea.producto</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="grp_pep_concepto_id" invisible="1"/>
+                <field name="product_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                <field name="grp_sice_cod" readonly="1"/>
+                <field name="uom_id" readonly="1"/>
+                <field name="pres_id" readonly="1"/>
+                <field name="med_cod_pres_id" readonly="1"/>
+                <field name="precio_de_referencia"/>
+                <field name="cantidad_estimada" attrs="{'required': [('calculo_por_cantidad','=',True)]}"/>
+                <field name="importe_total" attrs="{'required': [('calculo_por_cantidad','=',False)], 'invisible': [('calculo_por_cantidad','=',True)]}"/>
+                <field name="importe_calculado" readonly="1"/>
+                <field name="calculo_por_cantidad" string="Ingresar cantidad"/>
+                <field name="actualizacion" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACCION PARA grp_pep_concepto_linea_gasto -->
+    <record model="ir.actions.act_window" id="action_grp_pep_concepto_linea_gasto">
+        <field name="name">Conceptos/Llaves</field>
+        <field name="res_model">grp.pep.concepto.linea.gasto</field>
+        <field name="domain">[('plan_id.state','not in',('borrador','confeccion'))]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- VISTA SEARCH PARA grp_pep_movimiento_ejecucion -->
+    <record model="ir.ui.view" id="grp_pep_concepto_linea_gasto_search">
+        <field name="name">grp.pep.concepto.linea.gasto.search</field>
+        <field name="model">grp.pep.concepto.linea.gasto</field>
+        <field name="arch" type="xml">
+            <search string="Saldos Concepto/Llave">
+                <!-- Buscar -->
+                <field name="grp_pep_concepto_id" string="Concepto"/>
+                <!-- Agrupar -->
+                <group expand="0" string="Agrupar por ...">
+                    <filter string="Plan" context="{'group_by': 'plan_id'}"/>
+                    <filter string="Concepto" context="{'group_by': 'grp_pep_concepto_id'}"/>
+                </group>
+                <!-- Filtrar -->
+                <group expand="0" string="Filtrar por ...">
+                    <filter string="Plan activo" domain="[('plan_id.plan_activo','=',True)]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- VISTA TREE PARA grp_pep_concepto_linea_gasto -->
+    <record model="ir.ui.view" id="view_grp_pep_concepto_linea_gasto_tree">
+        <field name="name">grp.pep.concepto.linea.gasto.tree</field>
+        <field name="model">grp.pep.concepto.linea.gasto</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree default_order="plan_id,grp_pep_concepto_id" create="false" edit="false" delete="false" >
+                <field name="plan_id"/>
+                <field name="grp_pep_concepto_id"/>
+                <field name="display_name" string="Llave"/>
+                <field name="importe_anual"/>
+                <field name="saldo"/>
+           </tree>
+        </field>
+    </record>
+
+</data>
+</openerp>

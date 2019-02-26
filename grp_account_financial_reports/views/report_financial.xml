@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="report_financial" inherit_id='account.report_financial'>
+        <xpath expr="//table[@class='table table-condensed'][1]" position="replace">
+            <!-- Include new dimensions logic -->
+            <table class="table table-condensed" t-if="data['form']['debit_credit'] == 1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <t t-if="data['form']['display_org_unit_column']==1">
+                            <th class="text-right">Unidad Organizativa</th>
+                        </t>
+                        <t t-if="data['form']['display_analytic_acc_column']==1">
+                            <th class="text-right">Cuenta Analítica</th>
+                        </t>
+                        <t t-if="data['form']['display_multiprop_column']==1">
+                            <th class="text-right">Multipropósito</th>
+                        </t>
+                        <th class="text-right">Debit</th>
+                        <th class="text-right">Credit</th>
+                        <th class="text-right">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="get_lines(data)" t-as="a">
+                        <tr>
+                            <t t-if="a['level'] != 0">
+                                <t t-if="a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+                                <t t-if="not a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+
+                                <td>
+                                    <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                    <span t-att-style="style" t-esc="a.get('name')"/>
+                                </td>
+                                <t t-if="data['form']['display_org_unit_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <t t-if="data['form']['display_analytic_acc_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <t t-if="data['form']['display_multiprop_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="formatLang(a.get('debit'), currency_obj=res_company.currency_id)"/>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="formatLang(a.get('credit'), currency_obj=res_company.currency_id)"/>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-att-style="style" t-esc="formatLang(a.get('balance'), currency_obj=res_company.currency_id)"/>
+                                </td>
+                            </t>
+                        </tr>
+                        <t t-if="a.get('type') == 'account' and (data['form']['display_org_unit_column']==1 or data['form']['display_analytic_acc_column']==1 or data['form']['display_multiprop_column']==1)">
+                            <t t-foreach="get_dimensions_data(data, a, res_company)" t-as="dim">
+                                <tr>
+                                    <td class="text-right" style="white-space: nowrap;"></td>
+                                    <t t-if="data['form']['display_org_unit_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('org_unit')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="data['form']['display_analytic_acc_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('analytic_acc')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="data['form']['display_multiprop_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('multiprop')"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-right" style="white-space: nowrap;">
+                                        <span style="font-weight: normal;" t-esc="formatLang(dim.get('debit'), currency_obj=res_company.currency_id)"/>
+                                    </td>
+                                    <td class="text-right" style="white-space: nowrap;">
+                                        <span style="font-weight: normal;" t-esc="formatLang(dim.get('credit'), currency_obj=res_company.currency_id)"/>
+                                    </td>
+                                    <td class="text-right" style="white-space: nowrap;">
+                                        <span style="font-weight: normal;" t-esc="formatLang(dim.get('balance'), currency_obj=res_company.currency_id)"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//table[@class='table table-condensed'][2]" position="replace">
+            <table class="table table-condensed" t-if="not data['form']['enable_filter'] and not data['form']['debit_credit']">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <t t-if="data['form']['display_org_unit_column']==1">
+                            <th class="text-right">Unidad Organizativa</th>
+                        </t>
+                        <t t-if="data['form']['display_analytic_acc_column']==1">
+                            <th class="text-right">Cuenta Analítica</th>
+                        </t>
+                        <t t-if="data['form']['display_multiprop_column']==1">
+                            <th class="text-right">Multipropósito</th>
+                        </t>
+                        <th class="text-right">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="get_lines(data)" t-as="a">
+                        <tr>
+                            <t t-if="a['level'] != 0">
+                                <t t-if="a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+                                <t t-if="not a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+
+                                <td>
+                                    <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                    <span t-att-style="style" t-esc="a.get('name')"/>
+                                </td>
+                                <t t-if="data['form']['display_org_unit_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <t t-if="data['form']['display_analytic_acc_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <t t-if="data['form']['display_multiprop_column']==1">
+                                    <td class="text-right" style="white-space: nowrap;">
+                                    </td>
+                                </t>
+                                <td class="text-right"><span t-att-style="style" t-esc="formatLang(a.get('balance'), currency_obj=res_company.currency_id)"/></td>
+                            </t>
+                        </tr>
+                        <t t-if="a.get('type') == 'account' and (data['form']['display_org_unit_column']==1 or data['form']['display_analytic_acc_column']==1 or data['form']['display_multiprop_column']==1)">
+                            <t t-foreach="get_dimensions_data(data, a, res_company)" t-as="dim">
+                                <tr>
+                                    <td class="text-right" style="white-space: nowrap;"></td>
+                                    <t t-if="data['form']['display_org_unit_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('org_unit')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="data['form']['display_analytic_acc_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('analytic_acc')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="data['form']['display_multiprop_column']==1">
+                                        <td class="text-right" style="white-space: nowrap;">
+                                            <span style="font-weight: normal;" t-esc="dim.get('multiprop')"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-right" style="white-space: nowrap;">
+                                        <span style="font-weight: normal;" t-esc="formatLang(dim.get('balance'), currency_obj=res_company.currency_id)"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+    </template>
+
+</data>
+</openerp>

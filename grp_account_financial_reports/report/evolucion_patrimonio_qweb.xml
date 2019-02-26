@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="report_evolucion_patrimonio">
+        <t t-call="report.html_container">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div style="font-size: 26px; font-weight: bold; margin-bottom:30px">ESTADO DE EVOLUCION DEL PATRIMONIO</div>
+                    <div style="margin-bottom:30px">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width: 320px; font-size: 18px;">
+                                    DENOMINACIÓN DE LA EMPRESA:
+                                </td>
+                                <td style="width: 480px; font-size: 18px">
+                                    <t t-esc="o.company_id.name"/>
+                                </td>
+                                <td style="width: 80px; font-size: 18px;">
+                                    Ejercicio:
+                                </td>
+                                <td style="width: 20px; font-size: 18px">
+                                    <t t-esc="o.fiscalyear_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr style="vertical-align: middle; text-align: center;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    CONCEPTO
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    CAPITAL
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    APORTES Y COMPROM. A CAPITALIZ.
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    AJUSTES AL PATRIMON.
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    RESERVAS
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    RESULT. ACUMUL.
+                                </td>
+                                <td style="width: 88px; font-size: 14px; border-top: 1px solid; border-right: 1px solid;">
+                                    PATRIMONIO TOTAL
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    1-SALDOS INICIALES
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                            </tr>
+                            <t t-foreach="lines[0]" t-as="line">
+                                <tr style="vertical-align: middle;">
+                                    <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                        <span t-attf-style="margin-left:{{line['margin']}}px">
+                                            <t t-esc="line['name']"/>
+                                        </span>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['capital']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['comp']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['adjust']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['reserve']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['result']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['int']"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    SUBTOTAL
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[1]['int']"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    2-MODIF. AL SALDO INICIAL
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[2]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[2]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[2]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[2]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[2]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['int']"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    3-SALDOS INIC. MODIFICADOS
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[3]['int']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="height:3px; font-size: 3px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;"/>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    4-AUMENTO DEL APORTE DE PROPIETARIO
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                            </tr>
+                            <t t-foreach="lines[4]" t-as="line">
+                                <tr style="vertical-align: middle;">
+                                    <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                        <span t-attf-style="margin-left:{{line['margin']}}px">
+                                            <t t-esc="line['name']"/>
+                                        </span>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['capital']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['comp']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['adjust']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['reserve']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['result']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['int']"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    5-DISTRIBUCION DE UTILIDADES
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                            </tr>
+                            <t t-foreach="lines[5]" t-as="line">
+                                <tr style="vertical-align: middle;">
+                                    <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                        <span t-attf-style="margin-left:{{line['margin']}}px">
+                                            <t t-esc="line['name']"/>
+                                        </span>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['capital']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['comp']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['adjust']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['reserve']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['result']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['int']"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    6-DISTRIB. DE UTIL. ANTICIPADAS
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[6]['int']"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    7-REEXPRESIONES CONTABLES
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[7]['int']"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    8-RESULTADOS DEL EJERCICIO
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[8]['int']"/>
+                                </td>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    9-..............................
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    SUBTOTAL (4 a 9)
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[9]['int']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="height:3px; font-size: 3px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;"/>
+                            </tr>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; font-weight: bold; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    10-SALDOS FINALES
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;"/>
+                            </tr>
+                            <t t-foreach="lines[10]" t-as="line">
+                                <tr style="vertical-align: middle;">
+                                    <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                        <span t-attf-style="margin-left:{{line['margin']}}px">
+                                            <t t-esc="line['name']"/>
+                                        </span>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['capital']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['comp']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['adjust']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['reserve']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['result']"/>
+                                    </td>
+                                    <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                        <t t-esc="line['int']"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr style="vertical-align: middle;">
+                                <td style="width: 390px; font-size: 16px; border-top: 1px solid; border-right: 1px solid; border-left: 1px solid;">
+                                    TOTAL SALDOS FINALES
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['capital']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['comp']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['adjust']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['reserve']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['result']"/>
+                                </td>
+                                <td style="width: 88px; font-size: 14px; text-align: center; border-top: 1px solid; border-right: 1px solid;">
+                                    <t t-esc="lines[11]['int']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="height:4px; font-size: 4px; border: 1px solid;"/>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</data>
+</openerp>

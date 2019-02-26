@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="accounting_report_wzd_form" model="ir.ui.view">
+            <field name="name">accounting.report.wzd.form</field>
+            <field name="model">evolucion.patrimonio.wzd</field>
+            <field name="inherit_id" ref="account.account_common_report_view"/>
+            <field name="arch" type="xml">
+                <notebook position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </notebook>
+                <field name="fiscalyear_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <button name="check_report" position="after">
+                    <button name="check_report" string="Imprimir Excel" type="object" class="oe_highlight" context="{'type_xls': True, 'xls_export': True}"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="action_accounting_report_wzd" model="ir.actions.act_window">
+             <field name="name">Evolución Patrimonio</field>
+             <field name="res_model">evolucion.patrimonio.wzd</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="accounting_report_wzd_form"/>
+             <field name="target">new</field>
+        </record>
+        <menuitem icon="STOCK_PRINT" name="Evolución Patrimonio" action="action_accounting_report_wzd" id="menu_accounting_report_wzd" parent="account.final_accounting_reports" sequence="500"/>
+
+    </data>
+</openerp>

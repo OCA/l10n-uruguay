@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="grp_view_bank_statement_fr_form2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.cash.fr.grp</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="facturas_uy.grp_view_bank_statement_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[@string='Cash Transactions']/field[@name='line_ids']/tree[@string='Statement lines']/field[@name='amount']" position="after">
+                    <field name="fondo_rotarios" readonly="1"/>
+                    <field name="fondo_rotatorio_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_chica_tesoreria_form2" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.form.inherited</field>
+            <field name="model">grp.caja.chica.tesoreria</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_caja_chica_tesoreria_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]/field[@name='transaction_ids']/tree/field[@name='state']" position="after">
+                    <field name="fondo_rotario" readonly="1"/>
+                    <field name="fondo_rotatorio_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

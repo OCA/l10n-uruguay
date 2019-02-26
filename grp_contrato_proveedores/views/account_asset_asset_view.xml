@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_contrato_prov_account_asset_asset_form_inherited">
+            <field name="name">view.contrato_prov_account_asset_asset.form.inherited</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="grp_activo_fijo.view_grp_account_asset_asset_form_inherited"/>
+            <field name="arch" type="xml">
+                <field name="state_inciso" position="after">
+                    <field name="contract_number"
+                           attrs="{'required':[('state_inciso','in',['arrendamiento','comodato']),('tipo_categoria','=','inm')], 'readonly': [('state', 'in', ['baja'])]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

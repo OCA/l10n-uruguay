@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="base.menu_mro_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('fleet.group_fleet_user')),(4, ref('fleet.group_fleet_manager'))]"/>
+        </record>
+
+        <record id="mro.menu_mro_maintenance" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('fleet.group_fleet_user')),(4, ref('fleet.group_fleet_manager'))]"/>
+        </record>
+
+        <record id="mro.menu_mro_request" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('fleet.group_fleet_user')),(4, ref('fleet.group_fleet_manager'))]"/>
+        </record>
+    </data>
+</openerp>

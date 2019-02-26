@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record model="ir.ui.menu" id="account.menu_action_invoice_tree2">
+            <field name="sequence">5</field>
+        </record>
+        <!--<menuitem action="account.action_invoice_tree2" id="account.menu_action_invoice_tree2" sequence="5" parent="account.menu_finance_payables"/>-->
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_invoice_fr_item">
+            <field name="sequence">10</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_invoice_fr_item" action="grp_factura_siif.action_invoice_fr"-->
+			  <!--parent="account.menu_finance_payables" sequence="10" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_apg_Jefe_de_compras"/>-->
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_cancilleria_3en1_request">
+            <field name="sequence">15</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_cancilleria_3en1_request" action="grp_factura_siif.action_invoice_3en1_request"-->
+			  <!--parent="account.menu_finance_payables" name="3 en 1" sequence="15" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>-->
+
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_cancilleria_obligacion_request">
+            <field name="sequence">20</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_cancilleria_obligacion_request" action="grp_factura_siif.action_invoice_obligacion_request"-->
+			  <!--parent="account.menu_finance_payables" name="Obligación" sequence="20" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>-->
+
+        <record model="ir.ui.menu" id="account_voucher.menu_action_purchase_receipt">
+            <field name="sequence">25</field>
+        </record>
+        <!--<menuitem id="account_voucher.menu_action_purchase_receipt" icon="STOCK_JUSTIFY_FILL"-->
+            <!--action="account_voucher.action_purchase_receipt" parent="account.menu_finance_payables" sequence="25"/>-->
+
+        <record model="ir.ui.menu" id="account.menu_action_invoice_tree4">
+            <field name="sequence">30</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <menuitem action="grp_factura_siif.action_grp_credit_note_tree" id="grp_factura_siif.menu_action_grp_credit_note" parent="account.menu_finance_payables"
+                  sequence="31"
+                  groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_tesoreria.group_grp_consultar_ctas_pagar_ue"/>
+
+        <record model="ir.ui.menu" id="grp_account.aprobacion_pagos">
+            <field name="sequence">35</field>
+        </record>
+
+        <record model="ir.ui.menu" id="account_voucher.menu_action_vendor_payment">
+            <field name="sequence">40</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_consulta_cajas'))]"/>
+        </record>
+
+        <!--<record model="ir.ui.menu" id="menu_grp_action_vendor_payment">-->
+            <!--<field name="sequence">41</field>-->
+        <!--</record>-->
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_grp_consulta_pago">
+            <field name="sequence">45</field>
+            <!--<field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')),-->
+             <!--(4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')),(4, ref('grp_seguridad.grp_consulta_aprobacion_pagos'))]"/>-->
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_grp_consulta_pago" name="Consulta de Pagos" sequence="45"-->
+                  <!--parent="account.menu_finance_payables"-->
+                  <!--action="grp_factura_siif.action_grp_consulta_pago" groups="grp_seguridad.grp_informes"/>-->
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_suministros">
+            <field name="sequence">55</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_regularizacion_clearing">
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_suministros" name="Suministros" sequence="55"-->
+                  <!--parent="account.menu_finance_payables"-->
+                  <!--groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>-->
+
+        <record model="ir.ui.menu" id="grp_factura_siif.menu_grp_fact_prov_consolidada">
+            <field name="sequence">60</field>
+            <field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>
+        </record>
+        <!--<menuitem id="grp_factura_siif.menu_grp_fact_prov_consolidada" name="Listado Doc. a Pagar" sequence="60"-->
+                  <!--parent="account.menu_finance_payables"-->
+                  <!--action="grp_factura_siif.action_account_invoice_form_grp_consolidada"-->
+                  <!--groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>-->
+
+        <record model="ir.ui.menu" id="grp_compras_estatales.menu_daily_invoices_rprt">
+            <field name="sequence">65</field>
+            <!--<field name="groups_id" eval="[(4, ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue')), (4, ref('grp_tesoreria.group_grp_consultar_ctas_pagar_ue')), ]"/>-->
+        </record>
+        <!--<menuitem-->
+            <!--icon="STOCK_PRINT"-->
+            <!--name="Listado de facturas por día"-->
+            <!--parent="account.menu_finance_payables"-->
+            <!--action="grp_compras_estatales.action_account_daily_invoices_menu"-->
+            <!--groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.grp_compras_pc_Responsable"-->
+            <!--id="grp_compras_estatales.menu_daily_invoices_rprt"-->
+            <!--sequence="65"-->
+           <!--/>-->
+
+        <record model="ir.ui.menu" id="account.menu_account_supplier">
+            <field name="sequence">70</field>
+        </record>
+        <!--<menuitem id="account.menu_account_supplier" name="Suppliers"-->
+            <!--parent="account.menu_finance_payables"-->
+            <!--action="base.action_partner_supplier_form" sequence="70"/>-->
+
+        <!--Menus que no me piden organizar-->
+
+        <record model="ir.ui.menu" id="grp_compras_estatales.grp_paid_consult_menu">
+            <field name="sequence">75</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_grp_transferencia_cabezal">
+            <field name="sequence">80</field>
+        </record>
+
+        <delete model="ir.ui.menu"
+			search="[('name','=','Rendición Fondo Rotatorio'),('parent_id','=','Suppliers')]" />
+
+    </data>
+</openerp>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- TODO: SPRING 10 GAP 474 M-->
+        <record id="view_grp_caja_pagadora_accunt_voucher_payment_form" model="ir.ui.view">
+            <field name="name">grp.caja.pagadora.account.voucher.payment.form</field>
+            <field name="model">grp.caja.pagadora.account.voucher.payment</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar Pago" ><!--style="width: 20%%"-->
+                    <group col="2" expand="1" >
+                        <group>
+                            <field name="payment_date" required="1" string="Fecha de pago"/>
+                            <field name="entry_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="box_line_id" invisible="1"/>
+                        </group>
+                        <footer>
+                            <button name="btn_confirm" string="Confirmar" type="object" default_focus="1" class="oe_highlight"/>
+                                or
+                            <button string="Cancelar" class="oe_link" special="cancel" />
+                        </footer>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_caja_pagadora_account_voucher_payment" model="ir.actions.act_window">
+            <field name="name">Confirmar Pago</field>
+            <field name="res_model">grp.caja.pagadora.account.voucher.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_caja_pagadora_accunt_voucher_payment_form"/>
+        </record>
+    </data>
+</openerp>

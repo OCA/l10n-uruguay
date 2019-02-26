@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- TODO: L SPRING 12 GAP 85 -->
+        <!--Alerta vencimiento de contrato de compra directa-->
+        <record forcecreate="True" id="ir_cron_grp_contrato_compra_directa_generator" model="ir.cron">
+            <field name="name">Alerta vencimiento de contrato de compra directa</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'grp.contrato.proveedores'" name="model"/>
+            <field eval="'alert_vencimiento_compra_directa'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+        <!-- TODO: L SPRING 12 GAP 85 -->
+        <!--Alerta vencimiento de contrato asociados a procedimiento del tipo licitaciones-->
+        <record forcecreate="True" id="ir_cron_grp_contrato_tipo_licitaciones_generator" model="ir.cron">
+            <field name="name">Alerta vencimiento de contrato asociados a procedimiento del tipo licitaciones</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'grp.contrato.proveedores'" name="model"/>
+            <field eval="'alert_vencimiento_tipo_licitaciones'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+        <!-- TODO: K SPRING 12 GAP 70, 71, 73, 74 -->
+        <!--Alerta renovaciones automatizadas de Contrato-->
+        <record forcecreate="True" id="ir_cron_grp_contrato_renovaciones_automatizadas_generator" model="ir.cron">
+            <field name="name">Alerta renovaciones automatizadas de Contrato</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'grp.contrato.proveedores'" name="model"/>
+            <field eval="'alert_renovacion_contrato'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+        <!--VENCIMIENTO AUTOMATICO DE CONTRATOS-->
+        <record forcecreate="True" id="ir_cron_grp_contrato_finalizacion_automatica" model="ir.cron">
+            <field name="name">Finalización automática de contratos generales</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'grp.contrato.proveedores'" name="model"/>
+            <field eval="'contract_finalization'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+    </data>
+</openerp>

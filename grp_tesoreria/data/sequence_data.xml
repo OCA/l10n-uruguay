@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+
+        <!-- SECUENCIA VALORES EN CUSTODIA -->
+        <record id="sequence_valores_en_custodia" model="ir.sequence.type">
+            <field name="name">Secuencia Valores en Custodia</field>
+            <field name="code">sec.valores.custodia</field>
+        </record>
+        <record id="sequence_valores_en_custodia_seq" model="ir.sequence">
+            <field name="name">Secuencia Valores en Custodia</field>
+            <field name="code">sec.valores.custodia</field>
+            <!--<field name="prefix"></field>-->
+            <field name="padding">5</field>
+            <field name="active">TRUE</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <!-- PCAR 12 06 2017 Inicio Retenciones de habilitaciones -->
+        <record id="sequence_grp_retenciones_manuales" model="ir.sequence.type">
+            <field name="name">Secuencia retenciones manuales</field>
+            <field name="code">sec.grp.retenciones.manuales</field>
+        </record>
+
+        <record id="sequence_grp_retenciones_manuales_seq" model="ir.sequence">
+            <field name="name">Secuencia retenciones manuales</field>
+            <field name="code">sec.grp.retenciones.manuales</field>
+            <field name="padding">4</field>
+            <field name="active">TRUE</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+        <!-- PCAR 12 06 2017 Fin -->
+
+        <!--Template para notificación procedimiento de compra (pedido compra) que requiere presentación de garantía-->
+        <record id="grp_pedido_compra_alert_mail" model="email.template">
+            <field name="name">Procedimiento de compra que requiere presentacion de garantia</field>
+            <field name="model_id" ref="grp_tesoreria.model_grp_pedido_compra"/>
+            <field name="email_from">${(user.partner_id.email)|safe}</field>
+            <field name="email_to">${ctx['partner'].email|safe}</field>
+            <field name="subject">Procedimiento de compra que requiere presentacion de garantia</field>
+            <field name="body_html"><![CDATA[
+            <p>Se inició un procedimiento de compra que requiere presentación de garantía.</p>
+            <br>
+            <p>Número de pedido de compra (${object.name}).</p>]]></field>
+        </record>
+
+        <!--Template para notificación procedimiento de compra (cotizaciones) que requiere presentación de garantía-->
+        <record id="grp_cotizaciones_alert_mail" model="email.template">
+            <field name="name">Procedimiento de compra que requiere presentacion de garantia</field>
+            <field name="model_id" ref="grp_tesoreria.model_grp_cotizaciones"/>
+            <field name="email_from">${(user.partner_id.email)|safe}</field>
+            <field name="email_to">${ctx['partner'].email|safe}</field>
+            <field name="subject">Procedimiento de compra que requiere presentacion de garantia</field>
+            <field name="body_html"><![CDATA[
+            <p>Se inició un procedimiento de compra que requiere presentación de garantía.</p>
+            <br>
+            <p>Número de adjudicación (${object.name}).</p>]]></field>
+        </record>
+    </data>
+</openerp>

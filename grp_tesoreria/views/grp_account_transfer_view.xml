@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--
+        #############################################################################################
+        #    Proyecto:   grp
+        #    Fecha:      30/05/2017
+        #    Autor:      Quanam
+        #    CompaÃ±ia:  Quanam - www.quanam.com
+        #    Adecuacion: Tesoreria Transferencias entre cuentas
+        #############################################################################################
+        #Ref  Id Tarea      Desa       Fecha        Descripcion
+        #001  GAPF0020_127   PCAR    30/05/2017     Generar unico asiento transferencias internas
+        #############################################################################################
+        -->
+
+        <!--002-Inicio-->
+        <record id="account_transfer_inherited_form" model="ir.ui.view">
+            <field name="name">account.transfer.inherited.form</field>
+            <field name="model">account.transfer</field>
+            <field name="inherit_id" ref="account_transfer.account_transfer_form"/>
+            <field name="arch" type="xml">
+                <field name="source_move_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('misma_ue','=',True)]}</attribute>
+                </field>
+                <field name="target_move_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('misma_ue','=',True)]}</attribute>
+                </field>
+                <field name="target_move_id" position="after">
+                    <field name="move_id"
+                           readonly="1"
+                           attrs="{'invisible': [('misma_ue','!=',True)]}" />
+                    <field name="misma_ue" invisible="1"/>
+                </field>
+                <!--TODO: SPRING 4 GAP 247-->
+                <field name="period_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <!--TODO: SPRING 4 GAP 247-->
+                <field name="date" position="attributes">
+                    <attribute name="string">Fecha asiento</attribute>
+                </field>
+                <!--TODO: SPRING 4 GAP 247-->
+                <field name="date" position="after">
+                    <field name="entry_date"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

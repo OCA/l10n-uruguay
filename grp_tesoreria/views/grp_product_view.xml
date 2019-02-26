@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+        <!-- Product Viático-->
+        <record id="view_product_viaticos_inherit_tesoreria" model="ir.ui.view">
+            <field name="name">product.template.viaticos.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="grp_viaticos.view_product_viaticos_inherit"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <div>
+                        <field name="devolucion_anticipo"/>
+                        <label for="devolucion_anticipo"/>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+  </data>
+</openerp>

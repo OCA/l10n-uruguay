@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Clase SICE -->
+        <record id="view_grp_sice_clase_tree" model="ir.ui.view">
+            <field name="name">grp.sice_clase_tree</field>
+            <field name="model">grp.sice_clase</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_clase" create="false" delete="false">
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <field name="name"/>
+                    <field name="fecha_baja"/>
+                    <field name="motivo_baja"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Search: Clase SICE -->
+        <record id="view_grp_sice_clase_search" model="ir.ui.view">
+            <field name="name">grp.sice_clase_search</field>
+            <field name="model">grp.sice_clase</field>
+            <field name="arch" type="xml">
+                <search string="Clases de artículos SICE">
+                    <field name="descripcion"/>
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Familia" domain="[]" context="{'group_by':'fami_id'}"/>
+                        <filter string="Subfamilia" domain="[]" context="{'group_by':'subf_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Clase SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Clases -->
+        <record id="grp_sice_clase_action" model="ir.actions.act_window">
+            <field name="name">Clases de artículos SICE</field>
+            <field name="res_model">grp.sice_clase</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Clases
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Clases -->
+        <menuitem name="Clases" id="grp_sice_clase_menu"
+                  parent="grp_catalogo_articulos_sice_menu" action="grp_sice_clase_action" sequence="30"/>
+    </data>
+</openerp>

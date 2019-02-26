@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!--TODO: SPRING 11 GAP 495 K-->
+        <record id="rule_grp_restringir_ctas_pagar_ue_fr" model="ir.rule">
+            <field name="model_id" ref="model_grp_fondo_rotatorio"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','=',user.default_operating_unit_id.id)]</field>
+            <field name="name">Restringir acceso a Facturas a la UE por defecto (y no las permitidas)</field>
+            <field name="groups" eval="[(4,ref('grp_tesoreria.group_grp_restringir_ctas_pagar_ue'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+    </data>
+
+    <data>
+
+        <!-- Regla para seguridad por Operating Unit en los agrupadores -->
+        <record id="rule_OU_agrupador" model="ir.rule">
+            <field name="model_id" ref="model_grp_agrupar_fondo_rotarios"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Agrupadores FR de Unidades Operativas permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <!-- Regla para seguridad por Operating Unit en los FR -->
+        <record id="rule_OU_reposicion_fr" model="ir.rule">
+            <field name="model_id" ref="model_grp_fondo_rotatorio"/>
+            <field name="domain_force">['|',('operating_unit_id','=',False),('operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+            <field name="name">Reposicion FR de Unidades Operativas permitidas</field>
+            <field name="global" eval="True"/>
+        </record>
+
+    </data>
+</openerp>

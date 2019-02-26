@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 10 GAP 474 M-->
+        <record id="view_grp_caja_form" model="ir.ui.view">
+            <field name="name">grp.caja.form</field>
+            <field name="model">grp.caja</field>
+            <field name="arch" type="xml">
+                <form string="Caja">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="caja" required="1"/>
+                                <field name="operating_unit_id" invisible="1"/>
+                                <field name="operating_unit_ids" required="1" widget="many2many_tags"/>
+                                <field name="journal_id" required="1"/>
+                                <field name="currency_id" readonly="1"/>
+                                <field name="caja_pagadora"/>
+                                <field name="caja_recaudadora"/>
+                                <field name="control_efectivo"/>
+                                <field name="fondo_terceros"/>
+                                <field name="otras_cajas"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                                <field name="caja_principal"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Monedas disponibles" attrs="{'invisible' : [('control_efectivo', '!=', True)]}">
+                                <group col="2">
+                                    <group string="Monedas" colspan="2" style="width: 45%%">
+                                        <field name="cashbox_line_ids" nolabel="1" widget='many2many' colspan="2">
+                                            <tree>
+                                                <field  name="pieces" string="Valores"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Usuarios autorizados" attrs="{'invisible': ['&amp;',('caja_pagadora','=',False),('caja_recaudadora','=',False)]}">
+                                <group>
+                                    <group>
+                                        <field name="cuenta_analitica_id" invisible="1"/>
+                                        <field name="users" string="Usuarios"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_caja_tree" model="ir.ui.view">
+            <field name="name">grp.caja.tree</field>
+            <field name="model">grp.caja</field>
+            <field name="arch" type="xml">
+                <tree string="Caja">
+                    <field name="caja"/>
+                    <field name="active"/>
+                    <field name="caja_pagadora"/>
+                    <field name="caja_recaudadora"/>
+                    <field name="journal_id"/>
+                    <field name="currency_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_caja" model="ir.actions.act_window">
+            <field name="name">Caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.caja</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_caja_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_config_tesoreria" name="Tesorería"
+                  parent="account.menu_finance_configuration" sequence="436"
+                  groups="grp_tesoreria.group_grp_contabilidad_tesoreria,grp_tesoreria.group_grp_tesoreria_interior,grp_tesoreria.group_grp_cashbox_register"/>
+
+        <menuitem id="menu_grp_caja" name="Caja"
+                  parent="menu_grp_config_tesoreria" action="action_view_grp_caja" sequence="1"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_contabilidad_tesoreria,grp_tesoreria.group_grp_tesoreria_interior"/>
+
+        <record id="view_grp_caja_moneda_tree" model="ir.ui.view">
+            <field name="name">grp.caja.tree</field>
+            <field name="model">account.cashbox.line</field>
+            <field name="arch" type="xml">
+                <tree string="Moneda" editable="top">
+                    <field name="pieces"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_grp_moneda_caja" model="ir.actions.act_window">
+            <field name="name">Monedas de caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.cashbox.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_caja_moneda_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_moneda_caja" name="Moneda de caja"
+                  parent="menu_grp_config_tesoreria" action="action_view_grp_moneda_caja" sequence="2"
+                  groups="grp_tesoreria.group_grp_consulta_cajas,grp_tesoreria.group_grp_contabilidad_tesoreria,grp_tesoreria.group_grp_tesoreria_interior"/>
+
+
+
+
+
+    </data>
+</openerp>

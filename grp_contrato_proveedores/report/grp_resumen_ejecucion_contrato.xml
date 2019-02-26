@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <!--TODO: K SPRING 13 GAP 452-->
+	<template id="report_resumen_ejecucion_contrato">
+	    <t t-call="report.html_container">
+            <div class="page">
+                <style>
+                    table#t00 {
+                        width: 100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                    }
+                    table#t01 {
+                        width: 100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                        cellpadding: 10px;
+                    }
+                    table#t01 th{
+                        border: 1.5px solid black;text-align: left;font-weight: bold;
+                    }
+                    table#t01 td{
+                        border: 1.5px solid black;text-align: left;
+                    }
+                </style>
+                <div style="text-align: center; width: 100%;">
+                    <h3 style="display: inline-block;"><U>Resumen de ejecución de contratos</U></h3>
+                </div>
+                <div style="text-align: right; width: 100%;">
+                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="fecha_reporte"/>
+                </div>
+                <t t-foreach="get_lines(data['form'])" t-as="contrato">
+                    <table id="t00">
+                        <tbody>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;">Nro. Contrato:</span>
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['nro_interno']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;">Proveedor:</span>
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['proveedor']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: left">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;">Fecha inicio:</span>
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['fecha_inicio']"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div style="text-align: rigth">
+                                        <span>
+                                            <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;">Fecha fin:</span>
+                                            <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="contrato['fecha_fin']"></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table id="t01">
+                        <tbody>
+                            <tr>
+                                <th width="40%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; ">Moneda</span>
+                                </th>
+                                <th width="30%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Monto contrato ajustado</span>
+                                </th>
+                                <th width="30%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Saldo pendiente</span>
+                                </th>
+                            </tr>
+                            <t t-foreach="contrato['monedas']" t-as="moneda">
+                                <tr>
+                                    <td width="40%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="moneda['moneda']"></span>
+                                    </td>
+                                    <td width="30%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['monto_ajustado']"></span>
+                                    </td>
+                                    <td width="30%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="moneda['saldo_pendiente']"></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table id="t01">
+                        <tbody>
+                            <tr>
+                                <td width="100%" colspan="5">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; "><U>Detalles del contrato</U></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; ">Producto</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Cantidad</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Precio ajustado</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Total ajustado</span>
+                                </th>
+                                <th width="20%">
+                                    <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;">Último ajuste</span>
+                                </th>
+                            </tr>
+                            <t t-foreach="contrato['contratos_particulares']" t-as="particulares">
+                                <tr>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif; font-weight: bold;" t-esc="particulares['codigo_articulo']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="particulares['cantidad']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="particulares['precio_ajustado']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="particulares['total_ajustado']"></span>
+                                    </td>
+                                    <td width="20%">
+                                        <span style="font-size: 16px; font-family:Arial, Helvetica, Sans-serif;" t-esc="particulares['ultima_actualizacion']"></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <br/>
+
+                </t>
+            </div>
+	    </t>
+	</template>	
+</data>
+</openerp>

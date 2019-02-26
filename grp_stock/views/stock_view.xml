@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Vista form: Ajustes de inventario. Herencia -->
+        <record id="view_inventory_form_inherit" model="ir.ui.view">
+            <field name="name">stock.inventory.form.inherit</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='filter']" position="after">
+                    <field name="observaciones"/>
+                </xpath>
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="diferencia" />
+                </xpath>
+                <!-- 003 Inicio -->
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="solo_lectura" invisible="1" />
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="attrs">{'required': True, 'readonly': [('solo_lectura', '=', True)]}</attribute>
+                </xpath>
+                <!-- 003 Fin -->
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='prod_lot_id']" position="attributes">
+                    <attribute name="context">{'default_product_id': product_id, 'mostrar_fecha_vencimiento': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='prod_lot_id']" position="after">
+                    <field name="fecha_vencimiento_lote" groups="stock.group_production_lot"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Vista form: view_warehouse_orderpoint_form". Herencia -->
+        <record id="view_stock_warehouse_orderpoint_form_inherit" model="ir.ui.view">
+            <field name="name">stock.warehouse.orderpoint.form.inherit</field>
+            <field name="model">stock.warehouse.orderpoint</field>
+            <field name="inherit_id" ref="stock.view_warehouse_orderpoint_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+                <!-- PCAR 28 04 2017 Inicio GAPF0020_420 -->
+                <button name="action_view_proc_to_process" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <!-- PCAR 28 04 2017 Fin GAPF0020_420 -->
+            </field>
+        </record>
+
+        <!-- Incidente ID 312 se sobreescriben menues para cambiar seguridad -->
+        <record id="stock.menu_stock_sched" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <record id="stock.menu_procurement_compute" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <record id="stock.menu_action_move_form2" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3, ref('stock.group_locations'))]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_quants">
+            <field name="groups_id" eval="[(4, ref('stock.group_stock_user'))]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_traceability">
+            <field name="groups_id" eval="[(4, ref('stock.group_stock_user'))]"/>
+        </record>
+
+    </data>
+</openerp>

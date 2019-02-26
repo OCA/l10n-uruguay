@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--TODO C SPRING 12 GAP_315-->
+        <record model="ir.ui.view" id="view_grp_valores_custodia_form">
+            <field name="name">grp.valores_custodia.view.form.inherit</field>
+            <field name="model">grp.valores_custodia</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_valores_custodia_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="fecha_recepcion" position="after">
+                    <field name="contrato_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

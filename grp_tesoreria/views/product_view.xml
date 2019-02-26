@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 11 GAP 292-->
+        <record id="grp_tesoreria_product_form" model="ir.ui.view">
+            <field name="name">grp.product.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="grp_compras_estatales.grp_product_form"/>
+
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr='//field[@name="sale_ok"]' position='replace'>
+                        <field name="sale_ok"/>
+                        <label for="sale_ok"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!--TODO: M SPRING 11 GAP 292-->
+        <record id="grp_tsoreria_product_template_form" model="ir.ui.view">
+            <field name="name">grp.product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="grp_compras_estatales.grp_product_template_form"/>
+            <field name="arch" type="xml">
+                <data>
+
+                    <label for="sale_ok" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </label>
+                    <xpath expr='//field[@name="sale_ok"]' position='attributes'>
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

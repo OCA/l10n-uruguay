@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record forcecreate="True" id="ir_cron_cambiar_estados_vencido" model="ir.cron">
+            <field name="name">Cambiar estado vencido las garantias</field>
+            <!--<field eval="True" name="active"/>-->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'grp.valores_custodia'" name="model"/>
+            <field eval="'cambiar_estado_cron'" name="function"/>
+            <field eval="'()'" name="args"/>
+        </record>
+
+              <!-- Cron para notificar vencimiento -->
+        <record forcecreate="True" id="ir_cron_grp_valor_custodia_cron" model="ir.cron">
+            <field name="name">Notificación de valores vencidos en tesorería</field>
+            <!--<field eval="True" name="active" />-->
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field eval="'grp.valores_custodia'" name="model" />
+            <field eval="'alert_vencimiento'" name="function" />
+            <field eval="'()'" name="args" />
+        </record>
+
+        <record id="ir_rule_caja_efectivo_users" model="ir.rule">
+            <field name="model_id" ref="model_grp_caja_chica_tesoreria"/>
+            <field name="domain_force">[('box_id.users','in',user.id)]</field>
+            <field name="name">Visualizar Caja de efectivo por usuario</field>
+            <field name="global" eval="True"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ir_rule_caja_recaudadora_users" model="ir.rule">
+            <field name="model_id" ref="model_grp_caja_recaudadora_tesoreria"/>
+            <field name="domain_force">[('box_id.users','in',user.id)]</field>
+            <field name="name">Visualizar Caja recaudadora por usuario</field>
+            <field name="global" eval="True"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ir_rule_caja_pagadora_users" model="ir.rule">
+            <field name="model_id" ref="model_grp_caja_pagadora_tesoreria"/>
+            <field name="domain_force">[('box_id.users','in',user.id)]</field>
+            <field name="name">Visualizar Caja pagadora por usuario</field>
+            <field name="global" eval="True"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ir_rule_account_bank_statement_users" model="ir.rule">
+            <field name="model_id" ref="account.model_account_bank_statement"/>
+            <field name="domain_force">[('journal_id.users','in',user.id)]</field>
+            <field name="name">Registros de caja autorizados al usuario</field>
+            <field name="global" eval="True"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="checkboox_UE_permitidas" model="ir.rule">
+            <field ref="grp_tesoreria.model_grp_checkbook" name="model_id"/>
+            <field name="name">Chequeras de Unidades Ejecutoras permitidas</field>
+            <field name="domain_force">['|',('invoice_id','=',False),'|',('invoice_id.operating_unit_id','=',False),('invoice_id.operating_unit_id','in',[g.id for g in user.operating_unit_ids])]</field>
+        </record>
+    </data>
+</openerp>

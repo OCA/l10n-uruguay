@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="fondo_rotatorio_report_def"
+            string="3 en 1 Fondo Rotatorio"
+            model="grp.fondo.rotatorio"
+            report_type="qweb-pdf"
+            file="grp_fondo_rotatorio_report_pdf"
+            name="grp_reposicion_fr.grp_fondo_rotatorio_report_tmpl"
+        />
+
+        <template id="grp_fondo_rotatorio_report_tmpl">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.internal_layout">
+                        <div class="page">
+                            <table id="t00">
+                                <tr>
+                                    <td style="width: 10%;">
+                                        <img t-att-src="'data:image/png;base64,%s' % res_company.logo"
+                                             style="max-height: 100px;"/>
+                                    </td>
+                                    <td style="font-size:150%;width: 50%;text-align:center;">
+                                        <strong>Reporte 3 en 1 Fondo Rotatorio</strong>
+                                        <br></br>
+                                    </td>
+                                    <td style="font-size:75%;text-align:center;width: 20%">
+                                        <strong t-usertime="%d/%m/%Y %H:%M:%S"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <br></br>
+
+                            <table width="800px">
+                                <tr>
+                                    <td width="200px"><p><b>Nro. de fondo rotatorio: </b></p></td>
+                                    <td width="200px"><span t-field="o.name"/></td>
+                                    <td width="200px"></td>
+                                    <td width="200px"></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Unidad Ejecutora: </b></p></td>
+                                    <td width="200px"><span t-field="o.operating_unit_id"/></td>
+                                    <td width="200px"></td>
+                                    <td width="200px"></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Fecha Factura: </b></p></td>
+                                    <td width="200px"><span t-field="o.date_invoice"/></td>
+                                    <td width="200px"></td>
+                                    <td width="200px"></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Año Fiscal: </b></p></td>
+                                    <td width="200px"><span t-field="o.fiscal_year_id"/></td>
+                                    <td width="200px"></td>
+                                    <td width="200px"></td>
+                                </tr>
+                                <tr height="50px">
+                                    <td width="200px" style="font-size:20px;"><strong>Datos SIIF</strong></td>
+                                    <td width="200px"></td>
+                                    <td width="200px" style="font-size:20px;"><strong>Importes SIIF</strong></td>
+                                    <td width="200px"></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Nro. Afectación:</b></p></td>
+                                    <td width="200px"><span t-field="o.nro_afectacion"/></td>
+                                    <td width="200px"><p><b>Total Reponer FR:</b></p></td>
+                                    <td width="200px"><span t-field="o.total_reponer"/></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Nro. Compromiso:</b></p></td>
+                                    <td width="200px"><span t-field="o.nro_compromiso"/></td>
+                                    <td width="200px"><p><b>Total Retenciones FR:</b></p></td>
+                                    <td width="200px"><span t-field="o.total_retenciones"/></td>
+                                </tr>
+                                <tr>
+                                    <td width="200px"><p><b>Nro. Obligación:</b></p></td>
+                                    <td width="200px"><span t-field="o.nro_obligacion"/></td>
+                                    <td width="200px"><p><b>Líquido Pagable FR:</b></p></td>
+                                    <td width="200px"><span t-field="o.liquido_pagable"/></td>
+                                </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <p>
+                            </p>
+                            <table width="800px">
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p style="font-size:20px;"><strong>Detalle llaves presupuestales </strong></p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p><b>Facturas de fondo rotatorio </b></p>
+                                </td>
+                              </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px" height="18px" style="border: 1px solid #cccccc;border-collapse: collapse;">
+                              <tr style="border: 1px solid #cccccc;">
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Comprobante</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Proveedor</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>ODG</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Auxiliar</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Importe</b></p>
+                                </td>
+                              </tr>
+
+                            <t t-foreach="o.dlineas_llavep_invoice_fr_ids" t-as="llavep_inv_fr">
+                                <tr style="border: 1px solid #cccccc;">
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_inv_fr.comprobante"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_inv_fr.proveedor_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_inv_fr.odg_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_inv_fr.auxiliar_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_inv_fr.importe"/></p>
+                                    </td>
+                                </tr>
+                            </t>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px">
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p><strong>Rendición de viáticos </strong></p>
+                                </td>
+                              </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px" height="18px" style="border: 1px solid #cccccc;border-collapse: collapse;">
+                              <tr style="border: 1px solid #cccccc;">
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Comprobante</b></p>
+                                </td>
+                                  <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Descripción</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>ODG</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Auxiliar</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Importe</b></p>
+                                </td>
+                              </tr>
+
+                            <t t-foreach="o.dlineas_llavep_hr_expense_ids" t-as="llavep_hr_exp_fr">
+                                <tr style="border: 1px solid #cccccc;">
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_fr.comprobante"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_fr.descripcion_gasto"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_fr.odg_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_fr.auxiliar_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_fr.importe"/></p>
+                                    </td>
+                                </tr>
+                            </t>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px">
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p><strong>Vales </strong></p>
+                                </td>
+                              </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px" height="18px" style="border: 1px solid #cccccc;border-collapse: collapse;">
+                              <tr style="border: 1px solid #cccccc;">
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Comprobante</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Producto</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>ODG</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Auxiliar</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Importe</b></p>
+                                </td>
+                              </tr>
+
+                            <t t-foreach="o.dlineas_llavep_hr_expense_vales_ids" t-as="llavep_hr_exp_vales_fr">
+                                <tr style="border: 1px solid #cccccc;">
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_vales_fr.comprobante"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_vales_fr.concepto_gasto"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_vales_fr.odg_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_vales_fr.auxiliar_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_hr_exp_vales_fr.importe"/></p>
+                                    </td>
+                                </tr>
+                            </t>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px">
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p><strong>Registros de caja </strong></p>
+                                </td>
+                              </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px" height="18px" style="border: 1px solid #cccccc;border-collapse: collapse;">
+                              <tr style="border: 1px solid #cccccc;">
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Comprobante</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Concepto</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>ODG</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Auxiliar</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="160px">
+                                  <p><b>Importe</b></p>
+                                </td>
+                              </tr>
+
+                            <t t-foreach="o.dlineas_llavep_bank_statement_ids" t-as="llavep_bank_stat_ids">
+                                <tr style="border: 1px solid #cccccc;">
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_bank_stat_ids.comprobante"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_bank_stat_ids.concepto_gasto"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_bank_stat_ids.odg_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_bank_stat_ids.auxiliar_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="160px">
+                                      <p><span t-field="llavep_bank_stat_ids.importe"/></p>
+                                    </td>
+                                </tr>
+                            </t>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px">
+                              <tr>
+                                <td width="20px"></td>
+                                <td width="780px" style="text-align: left;">
+                                  <p><strong>Llave presupuestal </strong></p>
+                                </td>
+                              </tr>
+                            </table>
+                            <p>
+                            </p>
+                            <table width="800px" height="18px" style="border: 1px solid #cccccc;border-collapse: collapse;">
+                              <tr style="border: 1px solid #cccccc;">
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>ODG</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Auxiliar</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Fin</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Programa</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Proyecto</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Mon</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>TC</b></p>
+                                </td>
+                                <td style="border: 1px solid #cccccc;" width="100px">
+                                  <p><b>Importe</b></p>
+                                </td>
+                              </tr>
+
+                            <t t-foreach="o.llpapg_ids" t-as="llpapg">
+                                <tr style="border: 1px solid #cccccc;">
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.odg_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.auxiliar_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.fin_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.programa_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.proyecto_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.mon_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.tc_id"/></p>
+                                    </td>
+                                    <td style="border: 1px solid #cccccc;" width="100px">
+                                      <p><span t-field="llpapg.importe"/></p>
+                                    </td>
+                                </tr>
+                            </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

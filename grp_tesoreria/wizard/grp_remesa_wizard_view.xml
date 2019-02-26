@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 15-->
+        <record id="view_grp_remesa_wizard_form" model="ir.ui.view">
+            <field name="name">grp.remesa.wizard.form</field>
+            <field name="model">grp.remesa.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Seleccionar cajas">
+                    <separator string="Seleccionar cajas"/>
+                    <field name="caja_ids" context="{'remesa': True}">
+                        <tree string="Cajas" editable="False">
+                            <field name="user_uid" readonly="1"/>
+                            <field name="name" readonly="1"/>
+                            <field name="box_id" readonly="1"/>
+                            <field name="open_date" readonly="1"/>
+                            <field name="journal_id" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Cargar" name="cargar_lineas" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_remesa_wizard" model="ir.actions.act_window">
+            <field name="name">Importar cajas</field>
+            <field name="res_model">grp.remesa.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_remesa_wizard_form"/>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Vista form herencia: agrega grupo 'Dependiente de' en page Información pública del empleado-->
+        <record id="view_employee_form_inherited" model="ir.ui.view">
+            <field name="name">Inherited Form View for employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/group/group[3]" position="after">
+                    <group string="Dependiente de">
+                        <field name="is_patronato"/>
+                        <field name="is_comision_apoyo"/>
+                        <field name="is_otros"/>
+                        <field name="detalle_otros" attrs="{'invisible': [('is_otros', '=', False)]}" style="width:70%%"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
+

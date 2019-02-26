@@ -1,0 +1,274 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * uy_account_report_open_invoices
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-16 15:29+0000\n"
+"PO-Revision-Date: 2016-04-16 15:29+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_financial_report_webkit_xls
+#: view:open.invoices.webkit:account_financial_report_webkit_xls.open_invoices_webkit_xls_wizard_view
+msgid "This report allows you to generate a pdf or xls of your open invoices per partner with details of all your payable/receivable account. Exclude full reconciled journal items."
+msgstr "Este informe le permite generar un PDF o XLS de sus Facturas abiertas por empresa con detalles de sus cuentas a cobrar y a pagar. Se excluyen los apuntes contables totalmente reconciliados."
+
+#. module: account_financial_report_webkit
+#: field:account.aged.trial.balance.webkit,group_by_currency:0
+#: field:open.invoices.webkit,group_by_currency:0
+msgid "Group Partner by currency"
+msgstr "Agrupar cliente por moneda"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:74
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:74
+#, python-format
+msgid "Accounts Filter"
+msgstr "Filtro de cuentas"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:83
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:83
+#, python-format
+msgid "Alt. Currency"
+msgstr "Moneda Secundaria"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:65
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:65
+#, python-format
+msgid "Chart of Account"
+msgstr "Plan contable"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:73
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:73
+#, python-format
+msgid "Clearance Date"
+msgstr "Fecha de liquidación"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:154
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:154
+#, python-format
+msgid "Credit"
+msgstr "Haber"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:156
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:156
+#, python-format
+msgid "Cumul. Bal."
+msgstr "Saldo Acumulado"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:627
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:729
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:627
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:729
+#, python-format
+msgid "Cumulated Balance on Account"
+msgstr "Saldo Acumulado en Cuenta"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:438
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:526
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:605
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:707
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:438
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:526
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:605
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:707
+#, python-format
+msgid "Cumulated Balance on Partner"
+msgstr "Saldo Acumulado Cliente"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:163
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:163
+#, python-format
+msgid "Curr Credit"
+msgstr "Haber Mon. Sec."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:165
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:165
+#, python-format
+msgid "Curr Cumul. Bal."
+msgstr "Saldo Acumulado Mon. Sec."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:161
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:161
+#, python-format
+msgid "Curr Debit"
+msgstr "Debe Mon. Sec."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:173
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:181
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:173
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:181
+#, python-format
+msgid "Curr."
+msgstr "Mon."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:171
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:179
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:171
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:179
+#, python-format
+msgid "Curr. Balance"
+msgstr "Saldo Mon. Sec."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:80
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:80
+#, python-format
+msgid "Currency Filter"
+msgstr "Filtro de moneda"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:115
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:115
+#, python-format
+msgid "Custom Filter"
+msgstr "Filtro personalizado"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:137
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:137
+#, python-format
+msgid "Date"
+msgstr "Fecha"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:69
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:69
+#, python-format
+msgid "Dates Filter"
+msgstr "Filtro de fechas"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:152
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:152
+#, python-format
+msgid "Debit"
+msgstr "Debe"
+
+#. module: uy_account_report_open_invoices
+#: field:open.invoices.webkit,display_curr_columns:0
+msgid "Display columns secundary currency"
+msgstr "Mostrar columnas Moneda secundaria"
+
+#. module: uy_account_report_open_invoices
+#: field:open.invoices.webkit,only_residual_amount:0
+msgid "Display only residual amount"
+msgstr "Mostrar solo importe impago"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:150
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:150
+#, python-format
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:140
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:140
+#, python-format
+msgid "Entry"
+msgstr "Asiento"
+
+#. module: uy_account_report_open_invoices
+#: field:open.invoices.webkit,filter_currency_id:0
+msgid "Filter by currency"
+msgstr "Filtrar por moneda"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:67
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:67
+#, python-format
+msgid "Fiscal Year"
+msgstr "Ejercicio Fiscal"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:101
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:101
+#, python-format
+msgid "From"
+msgstr "Desde"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:141
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:141
+#, python-format
+msgid "Journal"
+msgstr "Diario"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:148
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:148
+#, python-format
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: uy_account_report_open_invoices
+#: model:ir.model,name:uy_account_report_open_invoices.model_open_invoices_webkit
+msgid "Open Invoices Report"
+msgstr "Informe de facturas abiertas"
+
+#. module: uy_account_report_open_invoices
+#: view:open.invoices.webkit:uy_account_report_open_invoices.open_invoices_webkit_xls_wizard_view
+msgid "Other Filters"
+msgstr "Otros filtros"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:145
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:145
+#, python-format
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:138
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:138
+#, python-format
+msgid "Period"
+msgstr "Período"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:70
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:70
+#, python-format
+msgid "Periods Filter"
+msgstr "Filtro de períodos"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:149
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:149
+#, python-format
+msgid "Rec."
+msgstr "Rec."
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:77
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:77
+#, python-format
+msgid "Target Moves"
+msgstr "Movimientos destino"
+
+#. module: uy_account_report_open_invoices
+#: code:addons/uy_account_report_open_invoices/report/open_invoices_xls.py:106
+#: code:addons\uy_account_report_open_invoices\report\open_invoices_xls.py:106
+#, python-format
+msgid "To"
+msgstr "Hasta"

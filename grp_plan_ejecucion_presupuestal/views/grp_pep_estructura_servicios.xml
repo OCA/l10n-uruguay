@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <!-- VISTA FORM ESTRUCTURAS -->
+    <record id="estructura_de_servicios_form_view" model="ir.ui.view">
+        <field name="name">estructura.de.servicio.form.view</field>
+        <field name="model">grp.pep.estructura</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Estructuras de Servicio">
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_colors='{"1":"blue"}'/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="display_name" readonly="1" class="oe_inline"/>
+                    </h1>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-clipboard"
+                                name="exportar_estructura"
+                                type="object"
+                                string="Exportar a Excel"
+                                help="Exporta la estructura actual a un excel donde se le pueden hacer modificaciones y luego importarla para impactar dichos cambios en la estructura."/>
+
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-file-excel-o"
+                                name="importar_estructura"
+                                type="object"
+                                help="Importa hacia la estructura actual desde una planilla excel, el formato es el dado al exportar la estructura."
+                                string="Importar desde Excel"
+                                context="{'desde_excel': True}"
+                                states="borrador"/>
+
+                        <button class="oe_stat_button"
+                                style="white-space: normal;padding-right: 5px;"
+                                icon="fa-sort-amount-asc"
+                                name="recalcular_estructura"
+                                type="object"
+                                help="Recalcula toda la estructura de servicios"
+                                string="Re-calcular Estructura"
+                                context="{'default_estructura_id': active_id}"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="name" required="1"/>
+                            <field name="root_node" string="Unidad de Servicio Raíz"/>
+                            <field name="poblacion_atendida"/>
+                        </group>
+                        <group>
+                            <field name="codigo" style="width:50%%" readonly="1"/>
+                            <field name="maxima_profundidad"
+                                   width="25%%"
+                                   required="1"
+                                   string="Cantidad de Niveles"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Niveles">
+                            <group string="Niveles">
+                                <p>
+                                    Deben existir tantos niveles como indique el campo <b>'Cantidad de Niveles'</b>.<br></br>
+                                    La <b>ubicación</b> de cada nivel representa la <b>posición jerárquica</b> del<br></br>
+                                    nivel en la <b>Estructura de Servicios</b>, es un entero secuencial entre 1 y la cantidad de niveles definida..
+                                </p>
+                                <br></br>
+                                <field name="nivel_ids" nolabel="1" context="{'default_estructura_id': active_id}">
+                                    <tree editable="bottom">
+                                        <field name="estructura_id" invisible="1"/>
+                                        <field name="name" required="1"/>
+                                        <field name="numero" required="1" string="Ubicación"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Atributos">
+                            <group string="Atributos">
+                                <p>
+                                    Los atributos definidos aquí <b>existirán en todas las unidades</b> de la estructura.<br></br>
+                                    Su uso más frecuente es para modelar los distintos <b>tipos de población atendida</b>, pero <br></br>
+                                    de forma genérica son <b>valores con nombre</b> que se agregarán de la misma forma que la <br></br>
+                                    población atendida
+                                </p>
+                                <br></br>
+                                <field name="atributo_ids" nolabel="1" context="{'default_estructura_id': active_id}">
+                                    <tree editable="top">
+                                        <field name="estructura_id" invisible="1"/>
+                                        <field name="name" required="1"/>
+                                        <field name="tipo" invisible="1"/>
+                                        <field name="agrega_hijos" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM ATRIBUTOS IMPORT ESTRUCTURA WS -->
+    <record id="grp_pep_es_atributo_desde_ws_view" model="ir.ui.view">
+        <field name="name">grp.pep.es.atributo.desde.ws.view</field>
+        <field name="model">grp.pep.es.atributo.desde.ws</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Atributo">
+                <group>
+                    <field name="name" style="width: 50%%" required="1"/>
+                </group>
+                <group>
+                    <field name="alias" style="width: 50%%" required="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM NIVELES IMPORT ESTRUCTURA WS -->
+    <record id="grp_pep_es_niveles_desde_ws_view" model="ir.ui.view">
+        <field name="name">grp.pep.es.niveles.desde.ws.view</field>
+        <field name="model">grp.pep.es.niveles.desde.ws</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Nivel">
+                <group>
+                    <field name="wiz_desde_ws_id" invisible="1"/>
+                    <field name="name" style="width: 50%%" required="1"/>
+                </group>
+                <group>
+                    <field name="alias" style="width: 50%%" required="1"/>
+                    <field name="numero" string="Ubicación" style="width: 20%%" required="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM IMPORT ESTRUCTURA WS -->
+    <record id="estructura_de_servicios_import_ws_view" model="ir.ui.view">
+        <field name="name">estructura.de.servicio.import.ws.view</field>
+        <field name="model">grp.pep.es.desde.ws</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Importar Estructura desde WS">
+                <header>
+                    <button
+                            name="inicio_a_definicion"
+                            type="object"
+                            string="Pasar a Definición"
+                            help="Pasar a definir de ES a importar"
+                            class="oe_highlight"
+                            states="inicio"
+                    />
+                    <button
+                            name="definicion_a_importacion"
+                            type="object"
+                            string="Importar"
+                            help="Importar los datos desde el WS y crear la ES."
+                            class="oe_highlight"
+                            states="definicion"
+                    />
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_colors='{"1":"blue"}'
+                           clickable="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="name"
+                                   style="width:50%%"
+                                   attrs="{'readonly': [('state', '!=', 'inicio')],
+                                           'required': True}"/>
+                            <field name="poblacion_atendida"
+                                   style="width:50%%"
+                                   attrs="{'readonly': [('state', '!=', 'inicio')],
+                                           'required': True}"/>
+                            <field name="es_creada"
+                                   readonly="1"
+                                   states="importacion"/>
+                        </group>
+                        <p states="inicio">
+                            Establezca el <b>Nombre</b> de la estructura a crear en la importación<br></br>
+                            y el atributo del WS que representa la <b>Población Atendida</b> y pase al estado <b>Definición</b>.
+                        </p>
+                        <p states="definicion">
+                            Seleccióne los <b>niveles y atributos</b> que desea usar entre los provistos<br></br>
+                            por el WS y presione <b>Importar</b> para crear la ES con los datos del WS.
+                        </p>
+                    </group>
+                    <notebook attrs="{'invisible': [('id', '=', False)]}">
+                        <page string="Niveles">
+                            <group string="Niveles">
+                                <p>
+                                    La <b>ubicación</b> de cada nivel representa la <b>posición jerárquica</b> del<br></br>
+                                    nivel en la <b>Estructura de Servicios</b>, es un entero secuencial entre 1 y la cantidad de niveles definida..
+                                </p>
+                                <br></br>
+                                <field name="nivel_ids" nolabel="1" context="{'default_wiz_desde_ws_id': active_id,
+                                                                              'view_id': 'grp_pep_es_niveles_desde_ws_view'}">
+                                    <tree>
+                                        <field name="wiz_desde_ws_id" invisible="1"/>
+                                        <field name="name" required="1"/>
+                                        <field name="alias" required="1"/>
+                                        <field name="numero" required="1" string="Ubicación"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Atributos">
+                            <group string="Atributos">
+                                <p>
+                                    Los atributos definidos aquí <b>existirán en todas las unidades</b> de la estructura.<br></br>
+                                    Su uso más frecuente es para modelar los distintos <b>tipos de población atendida</b>, pero <br></br>
+                                    de forma genérica son <b>valores con nombre</b> que se agregarán de la misma forma que la <br></br>
+                                    población atendida
+                                </p>
+                                <br></br>
+                                <field name="atributo_ids"
+                                       nolabel="1"
+                                       context="{'default_wiz_desde_ws_id': active_id,
+                                                 'view_id': 'grp_pep_es_atributo_desde_ws_view'}">
+                                    <tree>
+                                        <field name="wiz_desde_ws_id" invisible="1"/>
+                                        <field name="name" required="1"/>
+                                        <field name="alias" required="1"/>
+                                        <field name="tipo" invisible="1"/>
+                                        <field name="agrega_hijos" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM EXPORT ESTRUCTURA -->
+    <record id="grp_pep_export_estructura_form" model="ir.ui.view">
+        <field name="name">Descargar Exportación de Estructura</field>
+        <field name="model">grp.pep.export.estructura</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Descargar Exportación">
+                <group>
+                    <field name="archivo_nombre" readonly="1"/>
+                    export_estructura.xls
+                    <field name="archivo_contenido" filename="archivo_nombre" readonly="1"/>
+                </group>
+                <footer>
+                    <button string="Cerrar Ventana" class="oe_highlight" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM IMPORT ESTRUCTURA -->
+    <record id="grp_pep_import_estructura_form" model="ir.ui.view">
+        <field name="name">Importar Estructura de Servicios</field>
+        <field name="model">grp.pep.import.estructura</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Importar Estructura">
+                <sheet>
+                    <h3 invisible="context.get('desde_ws',False)">
+                        Importar desde Excel
+                    </h3>
+                    <h3 invisible="context.get('desde_excel',False)">
+                        Importar desde WS
+                    </h3>
+                    <p invisible="context.get('desde_ws',False)">
+                       <b>Atención!!:</b> al importar una estructura desde excel perderá toda la información<br></br>
+                       correspondiente a las unidades de servicio de la estructura original.
+                    </p>
+                    <p invisible="context.get('desde_excel',False)">
+                       <b>Atención!!:</b> al importar una estructura desde WS se creará una nueva estructura<br></br>
+                       a partir de los datos seleccionados en la importación.
+                    </p>
+                    <group>
+                        <field name="estructura_id" readonly="1" options="{'no_open': 1}"/>
+                        <field name="archivo_nombre"
+                               invisible="1"/>
+                        <field name="archivo_contenido"
+                               filename="archivo_nombre"
+                               required="context.get('desde_excel',False)"
+                               invisible="context.get('desde_ws',False)"/>
+                        <field name="hay_errores" invisible="1"/>
+                        <field name="hay_warnings" invisible="1"/>
+                        <field name="import_realizado" invisible="1"/>
+                    </group>
+                    <p style="color: red;" attrs="{'invisible': ['|', ('import_realizado', '=', False), ('hay_errores', '=', False)]}">
+                        Hubo errores en la importación, esta no se ha podido realizar.
+                    </p>
+                    <p style="color: orange;" attrs="{'invisible': ['|', ('import_realizado', '=', False), '|',('hay_warnings', '=', False), ('hay_errores', '=', True)]}">
+                        La importación se ha realizado pero existen advertencias.</p>
+                    <p style="color: green;" attrs="{'invisible': ['|', ('import_realizado', '=', False), '|', ('hay_errores', '=', True), ('hay_warnings', '=', True)]}">
+                        La importación se ha realizado con exito!</p>
+                    <notebook>
+                        <page string="Mensajes">
+                            <field name="mensajes"
+                                   nolabel="1"
+                                   readonly="1">
+                                   <tree colors="red:tipo=='error';orange:tipo=='warning'">
+                                       <field name="tipo" invisible="1"/>
+                                       <field name="mensaje"/>
+                                   </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="importar_estructura_excel"
+                                string="Importar Estructura"
+                                type="object"
+                                default_focus="1"
+                                class="oe_highlight"
+                                invisible="context.get('desde_ws',False)"/>
+                        <button name="importar_estructura_json"
+                                string="Importar Estructura"
+                                type="object"
+                                default_focus="1"
+                                class="oe_highlight"
+                                invisible="context.get('desde_excel',False)"/>
+                        <button string="Cerrar"
+                                class="oe_link"
+                                special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA FORM UNIDADES -->
+    <record id="unidad_de_servicios_form_view" model="ir.ui.view">
+        <field name="name">unidad.de.servicio.form.view</field>
+        <field name="model">grp.pep.unidad.de.servicio</field>
+        <field name="type">form</field>
+        <field name="target">new</field>
+        <field name="arch" type="xml">
+            <form string="Unidad de Servicio" create="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'required': 1,
+                                                       'readonly': [('is_root', '=', True)]}"/>
+                            <field name="nivel_id" readonly="1"/>
+                            <field name="active"  attrs="{'readonly': [('is_root', '=', True)]}"/>
+                            <field name="path" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="estructura_id"
+                                   readonly="1"
+                                   options="{'create': false, 'create_edit': false}"/>
+                            <field name="parent_id"
+                                   attrs="{'readonly': 1,
+                                           'invisible': [('is_root', '=', True)]}"
+                                   options="{'limit': 50, 'create': false, 'create_edit': false}"/>
+                            <field name="poblacion_atendida"
+                                   attrs="{'readonly': [('in_bottom_level', '=', False)]}"/>
+                            <field name="is_root" readonly="1"/>
+                            <field name="in_bottom_level" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Hijos" attrs="{'invisible': [('in_bottom_level', '=', True)]}">
+                            <group string="Hijos">
+                                <field name="child_ids"
+                                       nolabel="1"
+                                       context="{'default_parent_id': active_id,
+                                                 'default_estructura_id': estructura_id}">
+                                    <tree editable="bottom">
+                                        <field name="estructura_id" invisible="1"/>
+                                        <field name="in_bottom_level" invisible="1"/>
+                                        <field name="parent_id" invisible="1"/>
+                                        <field name="name" required="1"/>
+                                        <field name="path" readonly="1"/>
+                                        <field name="poblacion_atendida"
+                                               attrs="{'readonly': [('in_bottom_level' ,'=', False)]}"/>
+                                        <field name="atributos_valor_str"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Valores de Atributos">
+                            <group string="Valores de Atributos">
+                                <field name="atributos_valor_ids"
+                                       nolabel="1"
+                                       context="{'default_unidad_id': active_id,
+                                                 'estructura_id': estructura_id}"
+                                       attrs="{'readonly': [('in_bottom_level', '=', False)]}">
+                                    <tree editable="bottom">
+                                        <field name="unidad_id" invisible="1"/>
+                                        <field name="atributo_id"
+                                               options="{'no_create_edit': 1, 'quick_create': 0}"
+                                               required="1"
+                                               domain="[('estructura_id', '=', estructura_id)]"/>
+                                        <field name="valor_integer"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- VISTA TREE ESTRUCTURAS -->
+    <record id="estructura_de_servicios_tree_view" model="ir.ui.view">
+        <field name="name">estructura.de.servicio.tree.view</field>
+        <field name="model">grp.pep.estructura</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Estructuras de Servicio">
+                <field name="name"/>
+                <field name="codigo"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA TREE ANIDADA UNIDADES -->
+    <record id="unidad_de_servicio_tree_view" model="ir.ui.view">
+        <field name="name">unidad.de.servicio.tree.view</field>
+        <field name="model">grp.pep.unidad.de.servicio</field>
+        <field name="type">tree</field>
+        <field name="field_parent">child_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Unidades de Servicio" create="false">
+                <field name="parent_id" invisible="1"/>
+                <field name="name"/>
+                <field name="path"/>
+                <field name="poblacion_atendida"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA TREE ES DESDE WS -->
+    <record id="es_desde_ws_tree_view" model="ir.ui.view">
+        <field name="name">es.desde.ws.tree.view</field>
+        <field name="model">grp.pep.es.desde.ws</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Importaciones de Estructura de Servicios desde WS">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="poblacion_atendida"/>
+                <field name="es_creada"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACCION PARA TREE ESTRUCTURAS -->
+    <record model="ir.actions.act_window" id="estructura_de_servicios_tree_action">
+        <field name="name">Estructuras de Servicio</field>
+        <field name="res_model">grp.pep.estructura</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="estructura_de_servicios_tree_view"/>
+    </record>
+
+    <!-- ACCION PARA TREE IMPORTAR ESTRUCTURA DESDE WS -->
+    <record model="ir.actions.act_window" id="estructura_de_servicios_import_ws_action">
+        <field name="name">Imports de Estructura de Servicios desde WS</field>
+        <field name="res_model">grp.pep.es.desde.ws</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="es_desde_ws_tree_view"/>
+    </record>
+
+    <!-- ACCION PARA TREE UNIDADES -->
+    <record model="ir.actions.act_window" id="unidad_de_servicio_tree_action">
+        <field name="name">Unidades de Servicio</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">grp.pep.unidad.de.servicio</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="view_id" ref="unidad_de_servicio_tree_view"/>
+    </record>
+
+</data>
+</openerp>

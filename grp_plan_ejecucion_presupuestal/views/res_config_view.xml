@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_general_settings_pep_form">
+            <field name="name">base.config.settings.pep</field>
+            <field name="model">base.config.settings</field>
+            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@string='Authentication']/.." position="after">
+                    <group>
+                        <label for="id" string="Plan de Ejecución Presupuestal"/>
+                        <div name="grp_plan_ejecucion_presupuestal">
+                            <group>
+                                <div name="grp_plan_ejecucion_presupuestal">
+                                    <div>
+                                        <label for="grp_pep_url_import_ws_es_1"
+                                               class="oe_inline"
+                                               help="Es el WS encargado de devolver las listas de strings que representan niveles y atributos."/>
+                                        <field name="grp_pep_url_import_ws_es_1"
+                                               class="oe_inline"/>
+                                    </div>
+                                    <div>
+                                        <label for="grp_pep_url_import_ws_es_2"
+                                               class="oe_inline"
+                                               help="Es el WS encargado de devolver la lista de elementos a partir de los cuales se crearan las unidades de servicio de la estructura importada."/>
+                                        <field name="grp_pep_url_import_ws_es_2"
+                                               class="oe_inline"/>
+                                    </div>
+                                    <div>
+                                        <label for="grp_pep_url_import_ws_es_auth_user"
+                                               class="oe_inline"
+                                               help="Usuario para autenticarse con los WS de obtención de datos"/>
+                                        <field name="grp_pep_url_import_ws_es_auth_user"
+                                               class="oe_inline"
+                                               style="width: 50%%"/>
+                                    </div>
+                                    <div>
+                                        <label for="grp_pep_url_import_ws_es_auth_pass"
+                                               class="oe_inline"
+                                               help="Password para autenticarse con los WS de obtención de datos"/>
+                                        <field name="grp_pep_url_import_ws_es_auth_pass"
+                                               class="oe_inline"
+                                               style="width: 50%%"/>
+                                    </div>
+                                </div>
+                            </group>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

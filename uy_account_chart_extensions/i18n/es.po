@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * uy_account_chart_extensions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-31 21:38+0000\n"
+"PO-Revision-Date: 2016-03-31 21:38+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: uy_account_chart_extensions
+#: model:ir.model,name:uy_account_chart_extensions.model_account_account
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: uy_account_chart_extensions
+#: model:ir.model,name:uy_account_chart_extensions.model_account_chart
+msgid "Account chart"
+msgstr "Plan contable"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,curr_balance:0
+#: field:account.account,curr_balance_incl:0
+msgid "Balance %s"
+msgstr "Saldo %s"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,curr_bal_end_period:0
+msgid "Balance %s End of Period"
+msgstr "Saldo %s Fin de Período"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,balance_incl:0
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,debit_incl:0
+msgid "Debit"
+msgstr "Debe"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,credit_incl:0
+msgid "Credit"
+msgstr "Haber"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,curr_credit:0
+#: field:account.account,curr_credit_incl:0
+#: field:account.move.line,curr_credit:0
+msgid "Credit %s"
+msgstr "Haber %s"
+
+#. module: uy_account_chart_extensions
+#: help:account.move.line,curr_credit:0
+msgid "Credit in Secundary Currency"
+msgstr "Haber expresado en la moneda secundaria"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_account_move_line_filter
+#: model:ir.model,name:uy_account_chart_extensions.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: uy_account_chart_extensions
+#: help:account.move.line,transaction_curr_id:0
+msgid "Currency of this transaction."
+msgstr "Moneda de la transacción."
+
+#. module: uy_account_chart_extensions
+#: field:account.account,curr_debit:0
+#: field:account.account,curr_debit_incl:0
+#: field:account.move.line,curr_debit:0
+msgid "Debit %s"
+msgstr "Debe %s"
+
+#. module: uy_account_chart_extensions
+#: help:account.move.line,curr_debit:0
+msgid "Debit in Secundary Currency"
+msgstr "Debe expresado en la moneda secundaria"
+
+#. module: uy_account_chart_extensions
+#: field:account.chart,date_to:0
+msgid "End Date"
+msgstr "Fecha fin"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,initial_balance:0
+#: field:account.move.line,initial_bal:0
+#, python-format
+msgid "Initial balance"
+msgstr "Saldo inicial"
+
+#. module: uy_account_chart_extensions
+#: field:account.account,curr_initial_balance:0
+#: field:account.move.line,curr_initial_bal:0
+msgid "Initial balance %s"
+msgstr "Saldo inicial %s"
+
+#. module: uy_account_chart_extensions
+#: code:addons\uy_account_chart_extensions\account_move_line.py:95
+#: code:addons/uy_account_chart_extensions/account_move_line.py:95
+#, python-format
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: uy_account_chart_extensions
+#: model:ir.model,name:uy_account_chart_extensions.model_account_move_line
+msgid "Journal Items"
+msgstr "Apuntes contables"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_move_line_tree
+msgid "Open account move"
+msgstr "Abrir asiento contable"
+
+#. module: uy_account_chart_extensions
+#: field:account.chart,range_dates:0
+msgid "Range of dates"
+msgstr "Escoger rango de fechas"
+
+#. module: uy_account_chart_extensions
+#: field:account.chart,date_from:0
+msgid "Start Date"
+msgstr "Fecha inicio"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_move_line_tree
+msgid "Total initial balance in company currency"
+msgstr "Total saldo inicial en la moneda de la compañía"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_move_line_tree
+msgid "Total initial balance in secundary currency"
+msgstr "Total saldo inicial en la moneda secundaria"
+
+#. module: uy_account_chart_extensions
+#: field:account.move.line,transaction_curr_id:0
+msgid "Transaction currency"
+msgstr "Moneda de la transacción"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_move_line_tree
+msgid "Total credit in secundary currency"
+msgstr "Total Haber en la moneda secundaria"
+
+#. module: uy_account_chart_extensions
+#: view:account.move.line:uy_account_chart_extensions.view_move_line_tree
+msgid "Total debit in secundary currency"
+msgstr "Total Debe en la moneda secundaria"
+
+#. module: uy_account_chart_extensions
+#: field:account.chart,include_initial_bal:0
+msgid "Include initial balance"
+msgstr "Incluir saldo inicial"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,debit_incl:0
+msgid "Debit with initial balance included"
+msgstr "Debe con saldo inicial incluido"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,credit_incl:0
+msgid "Credit with initial balance included"
+msgstr "Haber con saldo inicial incluido"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,balance_incl:0
+msgid "Balance with initial balance included"
+msgstr "Saldo con saldo inicial incluido"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,curr_debit_incl:0
+msgid "Debit secundary currency with initial balance included"
+msgstr "Debe moneda secundaria con saldo inicial incluido"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,curr_credit_incl:0
+msgid "Credit secundary currency with initial balance included"
+msgstr "Haber moneda secundaria con saldo inicial incluido"
+
+#. module: uy_account_chart_extensions
+#: help:account.account,curr_balance_incl:0
+msgid "Balance secundary currency with initial balance included"
+msgstr "Saldo moneda secundaria con saldo inicial incluido"

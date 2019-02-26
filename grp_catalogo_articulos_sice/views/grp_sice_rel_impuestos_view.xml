@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Lista: Relacion de impuestos SICE - GRP -->
+        <record model="ir.ui.view" id="view_grp_art_impuestos_tree">
+            <field name="name">grp.art.impuestos.tree</field>
+            <field name="model">grp.art.impuestos</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="grp.art.impuestos" editable="top">
+                    <field name="imp_sice"/>
+                    <field name="imp_grp"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!--Acción: Unidades de Medida SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Relación de impuestos -->
+        <record model="ir.actions.act_window" id="action_grp_art_impuestos">
+            <field name="name">Relación de Impuestos</field>
+            <field name="res_model">grp.art.impuestos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menú: Relación de Impuestos
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Relación de impuestos -->
+        <menuitem name="Relación de Impuestos"
+                  id="menu_grp_art_impuestos"
+                  action="action_grp_art_impuestos"
+                  parent="grp_catalogo_articulos_sice_menu"
+                  sequence="140" />
+    </data>
+</openerp>

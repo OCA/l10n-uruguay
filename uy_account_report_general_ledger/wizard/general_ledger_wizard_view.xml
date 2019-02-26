@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="general_ledger_webkit_xls_wizard_view" model="ir.ui.view">
+      <field name="name">general.ledger.webkit.xls</field>
+      <field name="model">general.ledger.webkit</field>
+      <field name="type">form</field>
+      <field name="inherit_id" ref="account_financial_report_webkit_xls.general_ledger_webkit_xls_wizard_view"/>
+      <field name="arch" type="xml">
+        <data>
+            <page name="accounts" position="after">
+                <page string="Other Filters" name="other_filters">
+                    <group>
+                        <field name="filter_partner_ids" widget="many2many_tags" options="{'no_create': true}" />
+                        <separator string="Filtrar por Unidades Ejecutoras" colspan="4" style="font-size: 16px;"/>
+                        <field name="filter_operating_unit_ids" nolabel="1" colspan="4" options="{'no_create': true}" />
+                    </group>
+                </page>
+            </page>
+            <field name="centralize" position="after">
+                <label for="display_curr_columns" style="white-space: normal; width: 265px;" string="Mostrar columnas Moneda secundaria (Solo disponible para el informe excel)" />
+                <field name="display_curr_columns" nolabel="1" />
+            </field>
+            <page name="layout_options" position="inside">
+                <group attrs="{'invisible': [('display_curr_columns','=',False)]}">
+                    <separator string="Opciones de conversión a la moneda secundaria" colspan="4" style="margin: 0;" />
+                    <field name="curr_rate_option" widget="radio" attrs="{'required': [('display_curr_columns','=',True)]}"/>
+                    <field name="curr_rate_date" attrs="{'invisible': [('curr_rate_option','!=','set_date')],'required': [('curr_rate_option','=','set_date')]}"/>
+                    <field name="curr_rate" attrs="{'invisible': [('curr_rate_option','!=','set_curr_rate')],'required': [('curr_rate_option','=','set_curr_rate')]}"/>
+                </group>
+            </page>
+            <button name="xls_export"  position="replace">
+                <button name="xls_export" string="Imprimir Excel" type="object" context="{'xls_export':1}" colspan="2" class="oe_highlight"/>
+            </button>
+            <field name="period_from" position="attributes">
+                <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+            </field>
+            <field name="period_to" position="attributes">
+                <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+            </field>
+        </data>
+      </field>
+    </record>
+
+  </data>
+</openerp>

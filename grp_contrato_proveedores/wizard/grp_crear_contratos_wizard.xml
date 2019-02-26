@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: K SPRING 12 GAP 67-->
+        <record id="grp_crear_contratos_wizard_view" model="ir.ui.view">
+            <field name="name">grp.crear.contratos.wizard.form</field>
+            <field name="model">grp.crear.contratos.wizard</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet string="Crear contratos">
+                    <group>
+                        <group colspan="2">
+                            <field name="proveedor_id" required="True" options="{'no_create': True}"/>
+                        </group>
+                        <group colspan="2"></group>
+                    </group>
+                    <group>
+                        <field name="lineas_ids">
+                            <tree create="false" edit="false" delete="false">
+                                <field name="nro_line_adj_id" invisible="1"/>
+                                <field name="product_id"/>
+                                <field name="cantidad"/>
+                                <field name="precio"/>
+                                <field name="currency"/>
+                                <field name="subtotal"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" name="crear_contratos" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grp_crear_contratos_wizard_act">
+            <field name="name">Crear contrato</field>
+            <field name="res_model">grp.crear.contratos.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_crear_contratos_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

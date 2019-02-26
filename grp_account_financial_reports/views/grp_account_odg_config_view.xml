@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="grp_account_odg_config_view_tree" model="ir.ui.view">
+            <field name="name">grp.account.odg.config.tree</field>
+            <field name="model">grp.account.odg.config</field>
+            <field name="arch" type="xml">
+                <tree string="Combinaciones Cuenta - ODGs">
+                    <field name="account_id"/>
+                    <field name="odg_ids" widget="many2many_tags"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="grp_account_odg_config_view_for" model="ir.ui.view">
+            <field name="name">grp.account.odg.config.form</field>
+            <field name="model">grp.account.odg.config</field>
+            <field name="arch" type="xml">
+                <form string="Combinación Cuenta - ODGs">
+                    <sheet>
+                        <group string="Combinación Cuenta - ODGs">
+                            <field name="account_id" style="width: 40%%"/>
+                            <field name="company_id" style="width: 40%%" groups="base.group_multi_company" />
+                            <separator colspan="4" string="Objetos de Gasto" />
+                            <field name="odg_ids" nolabel="1" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="grp_account_odg_config_action" model="ir.actions.act_window">
+            <field name="name">Combinaciones Cuenta - ODGs</field>
+            <field name="res_model">grp.account.odg.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Clic para crear una nueva combinación Cuenta - ODGs
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_grp_account_odg_config" action="grp_account_odg_config_action" parent="grp_factura_siif.menu_presup_estruct_combinaciones" sequence="110"/>
+
+    </data>
+</openerp>
+

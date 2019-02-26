@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 13 GAP 281-->
+
+        <record id="view_grp_rendicion_cuentas_bancarias_tree" model="ir.ui.view">
+            <field name="name">grp.rendicion.cuentas.bancarias.tree</field>
+            <field name="model">grp.rendicion.cuentas.bancarias</field>
+            <field name="arch" type="xml">
+                <tree string="Rendición de cuentas bancarias">
+                    <field name="period_id"/>
+                    <field name="journal_id"/>
+                    <field name="balance_inicial"/>
+                    <field name="user_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_grp_rendicion_cuentas_bancarias_form" model="ir.ui.view">
+            <field name="name">grp.rendicion.cuentas.bancarias.form</field>
+            <field name="model">grp.rendicion.cuentas.bancarias</field>
+            <field name="arch" type="xml">
+                <form string="Rendición de cuentas bancarias">
+                    <header>
+                        <button name="btn_review" type="object" states="draft" string="Listo para revisar"
+                                icon="gtk-go-forward"/>
+                        <button name='btn_refresh' string='Refrescar' type='object' states="draft"/>
+                        <button name="btn_cancel" type="object" states="to_be_reviewed,done" string="Cancelar"
+                                icon="gtk-cancel"/>
+                        <button name="btn_done" type="object" states="to_be_reviewed" string="Revisado"
+                                icon="gtk-apply"/>
+					    <field name="state" widget="statusbar" statusbar_visible="draft,to_be_reviewed,done" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="period_id" required="1"/>
+                                <field name="journal_id" required="1"/>
+                            </group>
+                            <group>
+                                <field name="user_uid" />
+                                <field name="balance_inicial" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detalles">
+                                <group colspan="4" col="1">
+                                    <field name="detalles_ids" colspan="4" col="1" nolabel="1" attrs="{'readonly': [('state','!=','draft')]}">
+                                         <tree create="false" delete="false" editable="top">
+                                             <field name="rendicion_c_bancaria_id" invisible="1"/>
+                                             <field name="date" readonly="1"/>
+                                             <field name="code" />
+                                             <field name="doc" />
+                                             <field name="operating_unit_id" readonly="1"/>
+                                             <field name="no_afectacion" readonly="1"/>
+                                             <field name="move_id" readonly="1"/>
+                                             <field name="cargos" readonly="1"/>
+                                             <field name="descargos" readonly="1"/>
+                                             <field name="tipo" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Ajustes" >
+                                <group colspan="4" col="1">
+                                    <field name="ajustes_ids" colspan="4" col="1" nolabel="1">
+                                         <tree edit="false" delete="false" editable="bottom">
+                                             <field name="rendicion_c_bancaria_id" invisible="1"/>
+                                             <field name="date" />
+                                             <field name="code" />
+                                             <field name="doc" />
+                                             <field name="operating_unit_id" />
+                                             <field name="no_afectacion" />
+                                             <field name="move_id" />
+                                             <field name="cargos" />
+                                             <field name="descargos" />
+                                             <field name="tipo" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Saldos" >
+                                <group >
+                                    <group>
+                                        <field name="balance_final_cargos" required="1"/>
+                                        <field name="balance_final" required="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="balance_final_descargos" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_grp_rendicion_cuentas_bancarias" model="ir.actions.act_window">
+            <field name="name">Rendición de cuentas de cuentas bancarias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.rendicion.cuentas.bancarias</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_rendicion_cuentas_bancarias_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_rendicion_cuentas_bancarias" name="Rendición de cuentas de cuentas bancarias"
+                  parent="account.menu_finance_bank_and_cash" action="action_view_grp_rendicion_cuentas_bancarias" sequence="530"/>
+
+        <!--TODO: M SPRING 13 GAP 281-->
+        <!--TODO: Consulta rendicion de cuenta de cuentas bancarias-->
+
+        <record id="view_grp_rendicion_cuentas_bancarias_line_tree" model="ir.ui.view">
+            <field name="name">grp.rendicion.cuentas.bancarias.line.tree</field>
+            <field name="model">grp.rendicion.cuentas.bancarias.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Consulta rendición de cuentas de banco" create="false" edit="false" delete="false">
+                    <field name="rendicion_c_bancaria_id" invisible="1"/>
+                    <field name="period_id"/>
+                    <field name="journal_id"/>
+                    <field name="balance_inicial"/>
+                    <field name="user_uid"/>
+                    <field name="tipo"/>
+                    <field name="code"/>
+                    <field name="doc"/>
+                    <field name="operating_unit_id"/>
+                    <field name="no_afectacion"/>
+                    <field name="move_id"/>
+                    <field name="cargos"/>
+                    <field name="descargos"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_grp_rendicion_cuentas_bancarias_line" model="ir.actions.act_window">
+            <field name="name">Consulta rendicion de cuentas de banco</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.rendicion.cuentas.bancarias.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_rendicion_cuentas_bancarias_line_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_rendicion_cuentas_bancarias_line" name="Consulta rendicion de cuentas de banco"
+                  parent="account.menu_finance_bank_and_cash" action="action_view_grp_rendicion_cuentas_bancarias_line" sequence="540"/>
+
+
+
+    </data>
+</openerp>

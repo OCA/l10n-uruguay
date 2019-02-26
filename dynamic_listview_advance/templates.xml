@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <template id="show_sequence_columns_easy_ma_mi_la_templates" name="dynamic_listview_advance templates" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/css" href="/dynamic_listview_advance/static/src/css/style.css" />
+                <script type="text/javascript" src="/dynamic_listview_advance/static/src/js/view_list_inherit.js"></script>
+            </xpath>
+        </template>
+    </data>
+</openerp>

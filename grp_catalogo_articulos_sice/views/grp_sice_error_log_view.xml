@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	    <!-- LOG DE ERRORES Y WARNINGS DEL PROCESO DE NOVEDADES -->
+     	<!-- Vista tree -->
+        <record model="ir.ui.view" id="view_sice_error_log_tree" >
+            <field name="name">sice.novedades.error.log.tree</field>
+            <field name="model">grp.sice_novedades_error_log</field>
+            <field name="priority" eval="1"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="SICE Log de errores y warnings del proceso de novedades de artículos" create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="tipo_novedad"/>
+                    <field name="fecha_novedad"/>
+                    <field name="operacion"/>
+                    <field name="tipo_error"/>
+					<field name="mensaje"/>
+					<field name="detalle"/>
+				</tree>
+            </field>
+        </record>
+
+		<!-- Vista search -->
+        <record model="ir.ui.view" id="view_sice_error_log_search">
+	        <field name="name">sice.novedades.error.log.search</field>
+            <field name="model">grp.sice_novedades_error_log</field>
+	        <field name="priority" eval="8" />
+	        <field name="arch" type="xml">
+	            <search string="SICE Log del proceso de novedades">
+		            <field name="name" />
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Tipo de novedad" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'tipo_novedad'}"/>
+                        <filter string="Operación" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'operacion'}"/>
+					</group>
+		        </search>
+	        </field>
+	    </record>
+
+		<!-- Action -->
+        <record model="ir.actions.act_window" id="action_sice_error_log">
+		    <field name="name">SICE Log del proceso de Novedades</field>
+		    <field name="res_model">grp.sice_novedades_error_log</field>
+		    <field name="view_type">form</field>
+		    <field name="view_mode">tree</field>
+		    <!--<field name="search_view_id" ref="view_sice_historico_novedades_search" />-->
+	    </record>
+
+		<!-- Menu -->
+	    <menuitem
+            name="Log de errores"
+            id="menu_sice_novedades_error_log"
+            action="action_sice_error_log"
+            parent="menu_actualizacion_novedades_sice"
+            sequence="30"/>
+	</data>
+</openerp>

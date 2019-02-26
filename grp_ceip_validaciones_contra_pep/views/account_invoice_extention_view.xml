@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_account_invoice_extention_form" model="ir.ui.view">
+            <field name="name">account.invoice.extention.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_account_form_obligacion"/>
+            <field name="arch" type="xml">
+                <button name="btn_obligar" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('ver_campos_pep','=',True),'|',('tipo_ejecucion_codigo_rel','=',False),'&amp;',('tipo_ejecucion_codigo_rel','=','R')]}
+                    </attribute>
+                </button>
+                <button name="btn_obligar" position="after">
+                    <button name="validar_contra_pep" states="draft" string="Obligar" type="object"
+                            attrs="{'invisible':['|',('ver_campos_pep','=',False),'|',('tipo_ejecucion_codigo_rel','=',False),'&amp;',('tipo_ejecucion_codigo_rel','=','R')]}"
+                            class="oe_highlight" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+                </button>
+
+                <button name="btn_borrar_obligacion" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('ver_campos_pep','=',True),'|',('tipo_ejecucion_codigo_rel','=',False),'&amp;',('tipo_ejecucion_codigo_rel','=','R')]}
+                    </attribute>
+                </button>
+                <button name="btn_borrar_obligacion" position="after">
+                    <button name="cancelar_ejecucion_pep" string="Borrar obligación SIIF" states="open" type="object"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"
+                            attrs="{'invisible':['|',('ver_campos_pep','=',False),'|',('tipo_ejecucion_codigo_rel','=',False),'&amp;',('tipo_ejecucion_codigo_rel','=','R')]}" />
+                </button>
+
+                <field name="ue_siif_id" position="after">
+                    <field name="concepto_id" style="width:20%;" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            attrs="{'invisible':[('ver_campos_pep','=',False)],'required': [('ver_campos_pep','=',True)],'readonly': [('ver_campos_pep','=',False)]}"/>
+
+                    <field name="ver_campos_pep" style="width:20%;" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_modificacion_extention_form" model="ir.ui.view">
+            <field name="name">account.invoice.modificacion.extention.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_account_form_credit_note"/>
+            <field name="arch" type="xml">
+                <button name="btn_enviar_modif_siif" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('ver_campos_pep','=',False)]}
+                    </attribute>
+                </button>
+                <button name="btn_enviar_modif_siif" position="after">
+                    <button name="validar_contra_pep" string="Obligar" states="draft" type="object" class="oe_highlight"
+                            attrs="{'invisible':['|',('ver_campos_pep','=',True)]}"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+                </button>
+
+                <button name="btn_borrar_modif_obligacion" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('ver_campos_pep','=',False)]}
+                    </attribute>
+                </button>
+                <button name="btn_borrar_modif_obligacion" position="after">
+                    <button name="cancelar_ejecucion_pep" states="open" string="Borrar obligación SIIF" type="object"
+                            attrs="{'invisible':['|',('ver_campos_pep','=',True)]}"
+                            confirm="¿Está seguro que desea borrar la obligación?" groups="grp_seguridad.grp_compras_apg_Responsable_SIIF"/>
+                </button>
+
+                <field name="ue_siif_id" position="after">
+                    <field name="concepto_de_modificacion_id" style="width:20%;" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            required="1" readonly="1"/>
+
+                    <field name="ver_campos_pep" style="width:20%;" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_fondo_rotatorio_extention_form" model="ir.ui.view">
+            <field name="name">account.invoice.fondo.rotatorio.modificacion.extention.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority" >80</field>
+            <field name="arch" type="xml">
+                <button name="invoice_open" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('ver_campos_pep','=',True),'|','|',('tipo_ejecucion_codigo_rel','=',False),'|','|','&amp;',('state','in',('proforma2')),('tipo_ejecucion_codigo_rel','!=','P'),'&amp;',('state','=','forced'),('tipo_ejecucion_codigo_rel','=','P'),'&amp;',('state','=','sice'),('tipo_ejecucion_codigo_rel','not in',['P','R'])]}
+                    </attribute>
+
+                    <attribute name="modifiers">
+                        {'invisible': ['|', ['ver_campos_pep','=',True], '|', '|',['tipo_ejecucion_codigo_rel', '=', false], '|', '|', '&amp;', ['state', 'in', 'proforma2'], ['tipo_ejecucion_codigo_rel', '!=', 'P'], '&amp;', ['state', '=', 'forced'], ['tipo_ejecucion_codigo_rel', '=', 'P'], '&amp;', ['state', '=', 'sice'], ['tipo_ejecucion_codigo_rel', 'not in', ['P', 'R']], ['state', 'not in', ['proforma2', 'sice', 'forced']]]}
+                    </attribute>
+                </button>
+                <!--cesar   -->
+                <button name="invoice_open" position="after">
+                    <button name="validar_contra_pep" states="proforma2,sice,forced" string="Validar" class="oe_highlight" type="object"
+                            groups="grp_seguridad.grp_compras_apg_Responsable_SIIF,grp_seguridad.group_grp_operador_cuentas_a_pagar"
+                            attrs="{'invisible':['|',('ver_campos_pep','=',False),'|','|',('tipo_ejecucion_codigo_rel','=',False),'|','|','&amp;',('state','in',('proforma2')),('tipo_ejecucion_codigo_rel','!=','P'),'&amp;',('state','=','forced'),('tipo_ejecucion_codigo_rel','=','P'),'&amp;',('state','=','sice'),('tipo_ejecucion_codigo_rel','not in',['P','R'])]}"
+                            modifiers="{'invisible': ['|', ['ver_campos_pep','=',False], '|', '|', ['tipo_ejecucion_codigo_rel', '=', false], '|', '|', '&amp;', ['state', 'in', 'proforma2'], ['tipo_ejecucion_codigo_rel', '!=', 'P'], '&amp;', ['state', '=', 'forced'], ['tipo_ejecucion_codigo_rel', '=', 'P'], '&amp;', ['state', '=', 'sice'], ['tipo_ejecucion_codigo_rel', 'not in', ['P', 'R']], ['state', 'not in', ['proforma2', 'sice', 'forced']]]}"/>
+                </button>
+
+                <button name="invoice_cancel" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible':['|',('state','=', 'open'),'&amp;',('tipo_ejecucion_codigo_rel','not in',['P','R'])]}
+                    </attribute>
+                </button>
+                <button name="invoice_cancel" position="after">
+                    <button name="cancelar_ejecucion_pep" states="open" string="Cancelar factura" type="object"
+                            attrs="{'invisible':[('state', '!=', 'open')]}"
+
+                            modifiers="{'invisible': ['|','&amp;', ['state', '=', 'open'], ['tipo_ejecucion_codigo_rel', 'not in', ['P', 'R']], ['state', 'not in', ['draft', 'proforma2', 'sale', 'open']]]}"/>
+                </button>
+
+                <field name="ue_siif_id" position="after">
+                    <field name="concepto_id" style="width:20%;" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"
+                            attrs="{'invisible':[('ver_campos_pep','=',False)],'required': [('ver_campos_pep','=',True)],'readonly': [('ver_campos_pep','=',False)]}"/>
+
+                    <field name="ver_campos_pep" style="width:20%;" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

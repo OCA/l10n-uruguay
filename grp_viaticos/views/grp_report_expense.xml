@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="grp_report_expense_inherit" inherit_id="grp_hr_expense.report_expense_2">
+            <xpath expr="//div[@class='page']" position="replace">
+                <div class="page">
+                    <style>
+                        table#t00 {
+                        width: 100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                        }
+                        table#t01 {
+                        width: 100%;
+                        font-size:100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                        cellpadding: 10px;
+                        }
+                        table#t01 th{
+                        border-right: 1px solid #DDD;text-align: left;
+                        }
+                        table#t01 td{
+                        padding: 2px 0px 2px 8px;
+                        }
+                        table#t02 {
+                        width:100%;border-collapse:collapse;
+                        }
+                        table#t02 th{
+                        border-left: 1px solid #dfdfdf;padding: 3px 6px;
+                        }
+                        table#t02 thead{
+                        border-bottom: 1px solid #cacaca;background: #eee;vertical-align: top;text-align: left;
+                        }
+                        table#t03 {
+                        width: 100%;
+                        font-size:100%;
+                        background-color: white;
+                        border-collapse: collapse;
+                        cellpadding: 10px;
+                        }
+                        table#t03 th{
+                        border-right: 1px solid #DDD;text-align: left;
+                        }
+                        table#t03 td{
+                        padding: 2px 0px 2px 8px;
+                        }
+                        .tableFecha{
+                             border-collapse: collapse;
+                        }
+                        .tableFecha > thead > tr > th,
+                        .tableFecha > tbody > tr > th,
+                        .tableFecha > tfoot > tr > th,
+                        .tableFecha > thead > tr > td,
+                        .tableFecha > tbody > tr > td,
+                        .tableFecha > tfoot > tr > td {
+                            border: 1px solid black;
+                        }
+                    </style>
+                    <table id="t00">
+                        <tr>
+                            <td style="width: 15%;">
+
+                            </td>
+                            <td style="font-size:150%;width: 70%;text-align:center;">
+                                <strong>Rendición por persona</strong>
+                                <br></br>
+                            </td>
+                            <td style="font-size:75%;text-align:center;width: 15%">
+                                  <table class="tableFecha" style=" border: 1px solid black;width: 100%;">
+                                      <tr align="center" valign="middle" style="text-align: center;">
+                                         <th colspan="3" style="text-align: center;">Fecha</th>
+                                      </tr>
+                                      <tr  align="center" valign="middle" style="text-align: center;">
+                                          <td style="width=5%;"><t t-esc="time.strftime('%d')"/></td>
+                                          <td style="width=5%;"><t t-esc="time.strftime('%m')"/></td>
+                                          <td style="width=5%;"><t t-esc="time.strftime('%Y')"/></td>
+
+                                      </tr>
+                                  </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <h4 style="font-weight: bold;">Nº Rendición: <span t-field="o.x_sequence"/></h4>
+                    <h3 style="font-weight: bold;">DATOS DEL FUNCIONARIO</h3>
+                    <table id="t01" style="font-size:100%;">
+                         <tr>
+                            <th colspan="2">
+                                <strong>U.E -Nº:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.operating_unit_id.code"/>
+                            </td>
+                            <th>
+                                <strong>Oficina:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.employee_id.department_id"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Nombre:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.employee_id"/>
+                            </td>
+                            <th>
+                                <strong>CI:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.employee_id.identification_id"/>
+                            </td>
+                         </tr>
+                     </table>
+                    <t t-if="o.doc_type in ['rendicion_viatico']">
+                        <h3 style="font-weight: bold;">DESTINO DE VIAJE</h3>
+                        <table id="t01" style="font-size:100%;">
+                         <tr>
+                            <th colspan="2">
+                                <strong>Tipo:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.tipo"/>
+                            </td>
+                            <th>
+                                <strong>Fecha Desde:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.fecha_desde"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Motivo del viaje:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.motivo_viaje"/>
+                            </td>
+                            <th>
+                                <strong>Fecha Hasta:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.fecha_hasta"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Localidad o zona:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.destino"/>
+                            </td>
+                            <th>
+                                <strong>Lugar de partida:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.lugar_partida"/>
+                            </td>
+                         </tr>
+
+                         <tr>
+                            <th colspan="2">
+                                <strong>Categoría:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.categoria"/>
+                            </td>
+                            <th>
+                                <strong>Tipo de locomoción:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.tipo_locomocion"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2" style="border-right: 0px;">
+
+                            </th>
+                            <td colspan="4">
+
+                            </td>
+                            <th>
+                               <strong>Voucher:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.voucher"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2" style="border-right: 0px;">
+
+                            </th>
+                            <td class="text-left" colspan="4">
+
+                            </td>
+                            <th>
+                                <strong>Distancia recorrida (sólo ida):</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.km_recorrer"/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th colspan="2" style="border-right: 0px;">
+                                <strong>Observaciones: </strong>
+                            </th>
+                            <td class="text-left" colspan="6">
+                                <span t-field="o.note"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="2">
+                                <strong>Solicitud de Viáticos:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.solicitud_viatico_id"/>
+                            </td>
+                            <th>
+                                <strong>Descripción:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.name"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Moneda:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.currency_id"/>
+                            </td>
+                            <th>
+                                <t t-if="o.tipo_locomocion=='locomocion_propia'">
+                                    <strong>KM a recorrer:</strong>
+                                </t>
+                            </th>
+                            <td>
+                                <t t-if="o.tipo_locomocion=='locomocion_propia'">
+                                    <span t-field="o.km_recorrer_cmp"/>
+                                </t>
+                            </td>
+                         </tr>
+
+
+                        </table>
+                    </t>
+                    <!-- Incidente ID  -->
+                    <t t-if="o.doc_type in ['rendicion_anticipo']">
+                        <h3 style="font-weight: bold;">Rendición Anticipo</h3>
+                        <table id="t01" style="font-size:100%;">
+                         <tr>
+                            <th colspan="2">
+                                <strong>Fecha:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.entry_date"/>
+                            </td>
+                            <th>
+                                <strong>Descripción:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.name"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Aprobado por:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.user_valid"/>
+                            </td>
+                            <th>
+                                <strong>Moneda:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.currency_id"/>
+                            </td>
+                         </tr>
+                         <tr>
+                            <th colspan="2">
+                                <strong>Solicitud Anticipo:</strong>
+                            </th>
+                            <td colspan="4">
+                                <span t-field="o.solicitud_anticipos_id"/>
+                            </td>
+                            <th>
+                                <strong>Adelanto Anticipo:</strong>
+                            </th>
+                            <td>
+                                <span t-field="o.adelanto_anticipo"/>
+                            </td>
+                         </tr>
+                        </table>
+                    </t>
+
+                    <h3 style="font-weight: bold;">LIQUIDACIÓN DEPARTAMENTO DE CONTABILIDAD Y PRESUPUESTO</h3>
+
+                    <table id="t02">
+                         <tr>
+                            <td style="width: 25%;">
+
+                            </td>
+                            <td style="width: 70%">
+                                <table id="t02">
+                                    <thead>
+                                        <tr>
+                                            <t t-if="o.doc_type in ['rendicion_viatico']">
+                                                <th>Producto</th>
+                                                <th>Horas</th>
+                                                <th class="text-right">Total</th>
+                                            </t>
+                                            <t t-if="o.doc_type in ['rendicion_anticipo']">
+                                                <th>Fecha comprobante</th>
+                                                <th>Concepto</th>
+                                                <th>Referencia</th>
+                                                <th>Empresa</th>
+                                                <th class="text-right">Monto ingresado</th>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.line_ids" t-as="line">
+                                            <t t-if="o.doc_type in ['rendicion_viatico']">
+                                                <td><span t-field="line.name"/></td>
+                                                <!--<td><span t-field="line.description"/><br/></td>-->
+                                                <td><span t-field="line.horas"/><br/></td>
+                                                <!--<td><span t-field="line.analytic_account.complete_name"/></td>-->
+                                                <td class="text-center"><span t-field="line.total"/></td>
+                                            </t>
+                                            <t t-if="o.doc_type in ['rendicion_anticipo']">
+                                                <td><span t-field="line.receipt_date"/></td>
+                                                <td><span t-field="line.concept_id"/></td>
+                                                <td><span t-field="line.ref"/></td>
+                                                <td><span t-field="line.company"/></td>
+                                                <td class="text-center"><span t-field="line.total"/></td>
+                                            </t>
+                                            <!--<td>-->
+                                                <!--<t t-if="o.doc_type in ['rendicion_viatico']">-->
+                                                    <!--<span t-field="line.name"/>-->
+                                                    <!--<span t-field="line.description"/><br/>-->
+                                                    <!--<span t-field="line.analytic_account.complete_name"/>-->
+                                                <!--</t>-->
+                                                <!--<t t-if="o.doc_type in ['rendicion_anticipo']">-->
+                                                    <!--<span t-field="line.receipt_date"/>-->
+                                                    <!--<span t-field="line.concept_id"/>-->
+                                                    <!--<span t-field="line.ref"/>-->
+                                                    <!--<span t-field="line.company"/>-->
+                                                    <!--<span t-field="line.total"/>-->
+                                                <!--</t>-->
+                                            <!--</td>-->
+                                            <!--<td> <t t-esc="'%.2f' % (line.horas)"/></td>-->
+                                            <!--<td class="text-right">-->
+                                                <!--<span t-field="line.total_amount"-->
+                                                    <!--t-field-options='{"widget": "monetary", "display_currency":"o.currency_id"}'/>-->
+                                            <!--</td>-->
+                                        </tr>
+                                    </tbody>
+                                     <tfoot style="border-top: 2px solid #cacaca;border-bottom: 1px solid #cacaca;background: #eee;">
+                                        <tr>
+                                            <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                            <td style="padding: 3px 6px;line-height: 18px;"></td>
+                                            <td style="padding: 3px 6px;line-height: 18px;"></td>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <table style="float: right;clear: both;border-collapse:collapse;margin: 2px 0 2px 0;text-align: right;">
+                                    <tr >
+                                        <td style="min-width: 184px !important;">
+                                            <h4>Total:</h4>
+                                        </td>
+                                        <td style="min-width: 184px !important;">
+                                            <h4>
+                                                <span t-field="o.amount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </h4>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <t t-if="o.doc_type in ['rendicion_viatico']">
+                                                <strong>Adelanto de Viáticos :</strong>
+                                            </t>
+                                            <t t-if="o.doc_type in ['rendicion_anticipo']">
+                                                <strong>Adelanto de Anticipo :</strong>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="o.doc_type in ['rendicion_viatico']">
+                                                <span t-field="o.adelanto" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </t>
+                                            <t t-if="o.doc_type in ['rendicion_anticipo']">
+                                                <span t-field="o.adelanto_anticipo" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>A devolver :</strong>
+                                        </td>
+                                        <td>
+                                            <!--<t t-if="o.doc_type in ['rendicion_viatico']">-->
+                                                <!--<t t-if="o.diferencia &lt; 0" >-->
+                                                    <!--<span t-esc="abs(o.diferencia)" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                                <!--</t>-->
+                                            <!--</t>-->
+                                            <!--<t t-if="o.doc_type in ['rendicion_anticipo']">-->
+                                                <!--<span t-field="o.amount" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>-->
+                                            <!--</t>-->
+                                            <t t-if="o.diferencia &lt; 0" >
+                                                <span t-esc="abs(o.diferencia)" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </t>
+                                        </td>
+                                     </tr>
+                                     <tr>
+                                        <td>
+                                            <strong>A pagar :</strong>
+                                        </td>
+                                        <td>
+                                            <t t-if="o.diferencia &gt; 0" >
+                                                <span t-esc="o.diferencia" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </t>
+                                        </td>
+                                 </tr>
+                             </table>
+                            </td>
+                            <td style="width: 5%">
+
+                            </td>
+                        </tr>
+                     </table>
+
+                    <table id="t00">
+                        <tr height="30px">
+                             <td style="width: 30%;text-align:left;">
+                                <span>Firma funcionario: </span>
+                                <span t-field="o.employee_id"/>
+                            </td>
+
+                        </tr>
+                    </table>
+
+                     <table id="t00">
+                        <tr height="30px">
+                             <td style="width: 30%;text-align:left;">
+                                <span>Firma Jefe de Servicio: </span>
+                                <span t-field="o.usuario_validacion_rendicion"/>
+                            </td>
+
+                        </tr>
+                     </table>
+
+                     <table id="t00">
+                        <tr height="30px">
+                             <td style="width: 30%;text-align:left;">
+                                <span>Firma Director UE: </span>
+                                <span t-field="o.usuario_aprobador_rendicion"/>
+                            </td>
+
+                        </tr>
+                    </table>
+
+
+                </div>
+            </xpath>
+
+        </template>
+
+
+
+    </data>
+</openerp>

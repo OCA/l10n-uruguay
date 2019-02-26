@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Herencia Vista form: Registro de los servicios  de los vehiculos -->
+        <record id="fleet_vehicle_log_services_form_inherited" model="ir.ui.view">
+            <field name="name">Inherited Form View for Maintenance Orders</field>
+            <field name="model">mro.order</field>
+            <field name="inherit_id" ref="mro.mro_order_form_view"/>
+            <field name="arch" type="xml">
+                <field name="date_planned" position="attributes">
+                    <attribute name="string">Fecha prevista</attribute>
+                </field>
+                 <field name="date_scheduled" position="attributes">
+                    <attribute name="string">Fecha requerida</attribute>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista Form: Articulos SICE -->
+        <record id="view_grp_sice_art_serv_obra_form" model="ir.ui.view">
+            <field name="name">grp.sice_art_serv_obra_form</field>
+            <field name="model">grp.sice_art_serv_obra</field>
+            <field name="arch" type="xml">
+                <form string="Artículo SICE" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <field name="cod"/>
+                            <field name="descripcion"/>
+                            <field name="active"/>
+                            <field name="ind_art_serv"/>
+                            <field name="comprable"/>
+                            <field name="fami_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="subf_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="clas_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="subc_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="odg"/>
+                            <field name="odg_desc"/>
+                            <!--<field name="odg_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>-->
+                            <field name="unme_cod"/>
+                            <field name="unme_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="var_unme_cod"/>
+                            <field name="var_unme_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                            <field name="stockeable"/>
+                            <field name="ind_fraccion"/>
+                            <field name="ind_gestionable"/>
+                            <field name="ind_agrupable"/>
+                            <field name="stock_contable"/>
+                            <field name="ind_tipo_detalle"/>
+                            <field name="esp_tecnicas"/>
+                            <field name="fecha_baja"/>
+                            <field name="motivo_baja"/>
+                            <field name="art_color_ids" widget="many2many_tags"/>
+                            <field name="unidades_med_ids" widget="many2many_tags"/>
+                            <field name="var_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Impuestos">
+                                <group string="Impuesto por defecto" colspan="4">
+                                    <field name="imp_cod"/>
+                                    <field name="imp_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                </group>
+
+                                <group string="Todos los impuestos" colspan="4">
+                                    <field name="art_impuesto_ids" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                            <page string="Atributos">
+                                <group colspan="4">
+                                    <field name="atributo_ids" nolabel="1">
+                                        <tree string="Atributos">
+                                            <field name="prop_id"/>
+                                            <field name="prop_unme_id"/>
+                                            <field name="patron"/>
+                                            <field name="fecha_baja"/>
+                                            <field name="motivo_baja"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                            <page string="Medidas de variante">
+                                <group colspan="4">
+                                    <field name="variante_ids" nolabel="1">
+                                        <tree string="Variantes">
+                                            <field name="med_cod_id"/>
+                                            <field name="pres_id"/>
+                                            <field name="med_cod_pres_id"/>
+                                            <field name="fecha_baja"/>
+                                            <field name="motivo_baja"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                            <page string="Detalles de variante">
+                                <group colspan="4">
+                                    <field name="det_variante_ids" nolabel="1">
+                                        <tree string="Detalle de variantes">
+                                            <field name="cod"/>
+                                            <field name="descripcion"/>
+                                            <field name="marc_id"/>
+                                            <field name="med_cod_id"/>
+                                            <field name="pres_id"/>
+                                            <field name="med_cod_pres_id"/>
+                                            <field name="fecha_baja"/>
+                                            <field name="motivo_baja"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                            <page string="Sinónimos">
+                                <group colspan="4">
+                                    <field name="sinonimo_ids" nolabel="1">
+                                        <tree string="Sinónimos">
+                                            <field name="descripcion"/>
+                                            <field name="fecha_baja"/>
+                                            <field name="motivo_baja"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Lista: Articulos SICE -->
+        <record id="view_grp_sice_art_serv_obra_tree" model="ir.ui.view">
+            <field name="name">grp.sice_art_serv_obra_tree</field>
+            <field name="model">grp.sice_art_serv_obra</field>
+            <field name="arch" type="xml">
+                <tree string="grp.sice_art_serv_obra" create="false" delete="false">
+                    <field name="cod"/>
+                    <field name="descripcion"/>
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <field name="clas_id"/>
+                    <field name="subc_id"/>
+                    <field name="ind_art_serv"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Search: Articulos SICE -->
+        <record id="view_grp_sice_art_serv_obra_search" model="ir.ui.view">
+            <field name="name">grp.sice_art_serv_obra_search</field>
+            <field name="model">grp.sice_art_serv_obra</field>
+            <field name="arch" type="xml">
+                <search string="Artículos SICE">
+                    <field name="descripcion"/>
+                    <field name="cod"/>
+                    <field name="fami_id"/>
+                    <field name="subf_id"/>
+                    <field name="clas_id"/>
+                    <field name="subc_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Familia" domain="[]" context="{'group_by':'fami_id'}"/>
+                        <filter string="Subfamilia" domain="[]" context="{'group_by':'subf_id'}"/>
+                        <filter string="Clase" domain="[]" context="{'group_by':'clas_id'}"/>
+                        <filter string="Subclase" domain="[]" context="{'group_by':'subc_id'}"/>
+                        <filter string="Tipo" domain="[]" context="{'group_by':'ind_art_serv'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Articulos SICE
+        Vistas tree
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Artículos SICE -->
+        <record id="grp_sice_art_serv_obra_action" model="ir.actions.act_window">
+            <field name="name">Artículos SICE</field>
+            <field name="res_model">grp.sice_art_serv_obra</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú: Articulos SICE
+        (N): Almacén/Configuracion/Catálogo de artículos SICE/Artículos SICE -->
+        <menuitem name="Artículos" id="grp_sice_art_serv_obra_menu"
+                  parent="grp_catalogo_articulos_sice_menu" action="grp_sice_art_serv_obra_action" sequence="5"/>
+    </data>
+</openerp>

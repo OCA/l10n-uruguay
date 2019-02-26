@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 10 GAP 474 M-->
+
+        <record id="view_internal_pay_order_tree" model="ir.ui.view">
+            <field name="name">internal.pay.order.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree string="Orden de pago interna">
+                    <field name="number"/>
+                    <field name="date"/>
+                    <field name="reference"/>
+                    <field name="company_id"/>
+                    <field name="journal_id"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_internal_pay_order_form">
+            <field name="name">account.voucher.internal.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Orden de pago interna">
+                <header>
+                    <button name="proforma_voucher" string="Validate" states="draft" class="oe_highlight" context="{'opi':True}" groups="grp_tesoreria.group_grp_aprobar_opi"/>
+                    <button name="%(account_voucher.act_pay_bills)d" context="{'narration':narration, 'title':'Bill Payment', 'type':'payment', 'partner_id': partner_id, 'reference':reference}" type="action" string="Pay Bill" attrs="{'invisible':['|',('pay_now','=','pay_now'),'|',('state','=','draft'), ('paid','=',True)]}" class="oe_highlight"/>
+                    <button name="cancel_voucher" string="Cancel Voucher" states="draft,proforma" />
+                    <button name="cancel_voucher" string="Cancel Voucher" type="object" states="posted" confirm="Are you sure you want to cancel this receipt?"/>
+                    <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                </header>
+                <sheet string="Supplier Voucher">
+                    <h1><label for="number" string="Orden de pago interno"/> <field name="number" class="oe_inline" readonly="1"/></h1>
+
+                    <field name="pay_now" invisible="1"/>
+                    <field name="type" invisible="True"/>
+                    <field name="payment_rate_currency_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="partner_id" domain="[('supplier','=',True)]" string="Beneficiario"
+                                   on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
+                                   context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}" /><!--,('es_inciso_default', '=', True)-->
+                            <field name="account_id" readonly="1" options="{'save_readonly':True}" domain="[('type', 'in', ['liquidity', 'payable'])]"/>
+                            <field name="name" colspan="2"/>
+                            <field name="reference"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="date" string="Fecha OPI" on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
+                            <field name="date_due" invisible="1"/>
+                            <field name="entry_date" />
+                            <field name="paid" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="operating_unit_id" required="1"
+                                attrs="{'readonly':[('state','not in',('draft',))]}" options="{'no_create': True}" groups="operating_unit.group_multi_operating_unit"/>
+                            <field name="journal_id"
+                                domain="[('type','in',['purchase','purchase_refund'])]"
+                                widget="selection"
+                                on_change="onchange_journal(journal_id, line_dr_ids, tax_id, partner_id, date, amount, type, company_id, context)"
+                                groups="account.group_account_user"/>
+                            <field name="caja_chica_id"/>
+                            <field name="bank_statement_id"/>
+                            <field name="paid_amount_in_company_currency" invisible="1"/>
+                            <field name="currency_help_label" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bill Information">
+                            <field name="line_dr_ids" on_change="onchange_price(line_dr_ids, tax_id, partner_id)" context="{'journal_id':journal_id,'partner_id':partner_id,'default_operating_unit_id':operating_unit_id}">
+                                <tree string="Expense Lines" editable="bottom">
+                                    <field name="concepto_id" domain="[('opi','=',True)]"/>
+                                    <field name="account_id" domain="[('user_type.report_type','=','expense'), ('type','!=','view')]"
+                                           readonly="1" options="{'save_readonly':True}"/>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="operating_unit_id" invisible="1"/>
+                                    <field name="account_analytic_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="narration" placeholder="Internal Notes" nolabel="1"/>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="tax_id"
+                                        on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
+                                        widget="selection" nolabel="1"
+                                            placeholder="Tax"
+                                        domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"
+                                        />
+                                    <field name="tax_amount" nolabel="1"/>
+                                    <div class="oe_subtotal_footer_separator">
+                                        <label for="amount"/>
+                                        <button type="object" class="oe_link"
+                                            name="action_compute_opi_total" string="(update)"
+                                            attrs="{'invisible': [('state','!=','draft')]}"/>
+                        </div>
+                                    <field name="amount" class="oe_subtotal_footer_separator" nolabel="1" readonly="1"
+                                        options="{'save_readonly':True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Journal Items" attrs="{'invisible': [('state','=','draft')]}">
+                            <group col="4">
+                                <field name="period_id"/>
+                                <field name="audit"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                               </tree>
+                            </field>
+                        </page>
+                        <page string="Pagos">
+                            <field name="payment_ids">
+                                <tree string="Pagos">
+                                    <field name="date" string="Fecha de pago"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_internal_pay_order" model="ir.actions.act_window">
+            <field name="name">Orden de pago interna</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']), ('type','=','purchase'),('opi','=',True)]</field>
+            <field name="context">{'default_type': 'purchase', 'type': 'purchase','default_opi':True,'opi':True}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_internal_pay_order_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_internal_pay_order"/>
+        </record>
+        <record id="action_internal_pay_order_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_internal_pay_order_form"/>
+            <field name="act_window_id" ref="action_internal_pay_order"/>
+        </record>
+
+        <record id="account_voucher.action_purchase_receipt" model="ir.actions.act_window">
+            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']), ('type','=','purchase'),('opi','=',False)]</field>
+        </record>
+
+    </data>
+</openerp>

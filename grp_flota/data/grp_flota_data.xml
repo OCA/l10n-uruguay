@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="sequence_grp_flota_sv_type" model="ir.sequence.type">
+            <field name="name">Solicitud de viaje</field>
+            <field name="code">grp_flota_solicitud_viaje</field>
+        </record>
+
+        <record id="sequence_grp_flota_sv" model="ir.sequence">
+            <field name="name">Solicitud de viaje</field>
+            <field name="code">grp_flota_solicitud_viaje</field>
+            <field name="prefix">%(fy)s--SV-</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <function name="_update_prefix" model="grp.flota.solicitud.viaje"/>
+
+
+	    <!--TODO SPRING 5 GAP 51-->
+        <record model="calendar.event.type" id="VIAJES">
+            <field name="name">Viajes</field>
+		</record>
+
+        <!--TODO SPRING 5 GAP 49-->
+        <!--Alerta vencimiento de libreta-->
+        <record forcecreate="True" id="ir_cron_grp_fleet_chofer_generator" model="ir.cron">
+            <field name="name">Alerta vencimiento de libreta</field>
+            <!--<field eval="True" name="active" />-->
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="datetime.now().replace(hour=16, minute=0).strftime('%Y-%m-%d %H:%M:%S')" />
+            <field eval="False" name="doall" />
+            <field eval="'grp.fleet.chofer'" name="model" />
+            <field eval="'alert_driver'" name="function" />
+            <field eval="'()'" name="args" />
+        </record>
+
+        <!--TODO SPRING 5 GAP 49-->
+        <!--Alerta mantenimiento de vehiculo-->
+        <record forcecreate="True" id="ir_cron_grp_fleet_vehicle_generator" model="ir.cron">
+            <field name="name">Servicios preventivos pendientes</field>
+            <!--<field eval="True" name="active" />-->
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="datetime.now().replace(hour=16, minute=0).strftime('%Y-%m-%d %H:%M:%S')" />
+            <field eval="False" name="doall" />
+            <field eval="'fleet.vehicle'" name="model" />
+            <field eval="'alert_service_pending'" name="function" />
+            <field eval="'()'" name="args" />
+        </record>
+
+        <!-- TODO SPRING GAP 49-->
+        <!--Template para chofer-->
+        <record id="grp_fleet_chofer_alert_mail" model="email.template">
+            <field name="name">Libreta por vencer</field>
+            <field name="model_id" ref="grp_flota.model_grp_fleet_chofer"/>
+            <field name="email_from" >${(user.partner_id.email)|safe}</field>
+            <field name="email_to" >${ctx['partner'].email|safe}</field>
+            <field name="subject">Libreta por vencer</field>
+            <field name="body_html"><![CDATA[
+            <p>Al funcionario: ${object.name}, se le está por vencer la libreta</p>
+            <p>Su libreta vence el: ${object.notebook_duedate}</p>]]></field>
+        </record>
+
+        <!-- TODO SPRING 5 GAP 49-->
+        <!--Template para vehiculo-->
+        <record id="grp_fleet_vehicle_alert_mail" model="email.template">
+            <field name="name">Libreta por vencer</field>
+            <field name="model_id" ref="fleet.model_fleet_vehicle"/>
+            <field name="email_from" >${(user.partner_id.email)|safe}</field>
+            <field name="email_to" >${ctx['partner'].email|safe}</field>
+            <field name="subject">Servicios preventivos pendientes</field>
+            <field name="body_html"><![CDATA[
+            <p>El vehículo: ${object.license_plate},</p>
+            <p>deberá realizar el siguiente servicio: ${ctx['service']}</p>]]></field>
+        </record>
+
+        <delete id="fleet.fleet_user_vehicle_visibility" model="ir.rule"/>
+        <delete id="fleet.fleet_user_fuel_log_visibility" model="ir.rule"/>
+        <delete id="fleet.fleet_user_odometer_visibility" model="ir.rule"/>
+        <delete id="fleet.fleet_user_service_visibility" model="ir.rule"/>
+        <delete id="fleet.fleet_user_cost_visibility" model="ir.rule"/>
+        <delete id="fleet.fleet_user_contract_visibility" model="ir.rule"/>
+
+        <!-- TODO C INCIDENCIA-->
+         <delete id="calendar.calendar_event_rule_employee" model="ir.rule"/>
+
+        <record id="new_calendar_event_rule_employee" model="ir.rule">
+            <field ref="model_calendar_event" name="model_id"/>
+            <field name="name">All Calendar Event for employees except fleet event</field>
+            <field name="domain_force">[(1,'=',1),('is_travel','!=', True)]</field>
+            <field eval="[(4,ref('base.group_user'))]" name="groups"/>
+        </record>
+        <record id="fleet_manager_travel_calendar_event1" model="ir.rule">
+            <field name="name">Solo responsable de flota ven los eventos de viaje</field>
+            <field name="model_id" ref="model_calendar_event"/>
+            <field name="groups" eval="[(4,ref('fleet.group_fleet_manager'))]"/>
+            <field name="domain_force">[('is_travel','=', True)]</field>
+        </record>
+
+    </data>
+</openerp>

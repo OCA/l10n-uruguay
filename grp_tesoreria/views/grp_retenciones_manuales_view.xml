@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+
+<openerp>
+    <data>
+    <record id="view_form_grp_retenciones_manuales" model="ir.ui.view">
+        <field name="name">grp_retenciones_manuales.form</field>
+        <field name="model">grp.retenciones.manuales</field>
+        <field name="arch" type="xml">
+            <form string="Retenciones de Sueldos de Habilitaciones" version="7.0" >
+                <header>
+                    <button name="action_validado" string="Validar" class="oe_highlight" type="object"
+                            groups="grp_tesoreria.group_grp_retenciones_manuales"
+                            attrs="{'invisible': ['|',('resumen_cargado','!=',True),('state','not in',['draft'])]}"/>
+                    <button name="action_aprobar_pago" string="Aprobar Pago" states="validado" class="oe_highlight" type="object" groups="grp_mtss_tesoreria.group_grp_aprobacion_habilitaciones"/>
+                    <!--TODO: SPRING 10 GAP 274.275 K-->
+                    <button name="action_aprobar_pago" string="Aprobar Pago" states="validado" class="oe_highlight"
+                            type="object" groups="grp_tesoreria.group_grp_aprobacion_habilitaciones"/>
+
+                    <button name="action_modificar" states='validado' string="Modificar" class="oe_highlight"
+                            type="object" groups="grp_tesoreria.group_grp_retenciones_manuales"/>
+                    <button name="action_change2validado" states='aprobacion_pago' string="Modificar" class="oe_highlight"
+                            type="object" groups="grp_tesoreria.group_grp_aprobacion_habilitaciones"/>
+                    <button name="cargar_resumen" states='draft' string="Cargar resumen" class="oe_highlight"
+                            type="object" groups="grp_tesoreria.group_grp_retenciones_manuales"/>
+                    <button name="action_cerrar" states='validado,aprobacion_pago' string="Cerrar" class="oe_highlight"
+                            type="object" groups="grp_tesoreria.group_grp_retenciones_manuales"/>
+                    <button name="action_cancelar" states='aprobacion_pago' string="Cancelar" class="oe_highlight" type="object" groups="grp_tesoreria.group_grp_retenciones_manuales"/>
+                    <!--TODO: SPRING 10 GAP 274.275 K-->
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,validado,aprobacion_pago,cerrado,cancelado"/>
+                </header>
+                <div name="show_error" class="alert alert-danger"
+                    attrs="{'invisible' :[('show_error_message','=',False)]}">
+                    <p style="font-weight: bold !important;">
+                        No fue posible realizar la conciliación entre la obligación de remuneraciones y las habilitaciones.
+                    </p>
+                </div>
+                <sheet string="Habilitaciones">
+                    <group id="Cabezal">
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" readonly="1" class="oe_inline"/></h1>
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="journal_id" class="oe_inline" widget="selection"
+                                   attrs="{'readonly':[('state','=','aprobacion_pago')]}"/>
+                            <field name="operating_unit_id" class="oe_inline"
+                                   attrs="{'readonly':[('state','=','aprobacion_pago')]}"/>
+                            <label for="id" string="Nro. Afectación"/>
+                            <div>
+                                <field name="afectation_nro" class="oe_inline"
+                                       attrs="{'readonly':[('state','=','aprobacion_pago')]}"/>-
+                                <field name="afectation_id" class="oe_inline" required="1"
+                                       options="{'no_create': True, 'save_readonly': True}"
+                                       attrs="{'readonly':[('state','=','aprobacion_pago')]}"/>
+                            </div>
+                            <field name="fecha_asiento" required="1"
+                                   attrs="{'readonly' : ['|', ('state','in',['validado','aprobacion_pago','cerrado'])]}"/>
+                            <field name="period_id" attrs="{'readonly':[('state','=','aprobacion_pago')]}"/>
+                            <field name="residual"/>
+                            <field name="show_error_message"/>
+                        </group>
+                        <group>
+                            <field name="create_uid" invisible="1"/>
+                            <field name="moneda_base" invisible="1"/>
+                            <field name="secuencial" invisible="1"/>
+                            <field name="boton_modificar" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="move_id" invisible="1"/>
+                            <field name="resumen_cargado" invisible="1"/>
+                            <field name="fecha" invisible="1"/>
+                            <field name="default_debit_account_id" invisible="1"/>
+                            <field name="afectation_account_id" invisible="1"/>
+                            <field name="divisa" invisible="1"/>
+                            <field name="fecha_tc" invisible="1"/>
+                            <field name="valor_tc" invisible="1"/>
+                            <field name="descripcion" required="0" invisible="1"/>
+                            <field name="obligacion"
+                                   domain="[('doc_type','=','obligacion_invoice'),('state','=','open')]"
+                                   invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detalle">
+                            <!--TODO: SPRING 10 GAP 274.275 K modificando campos-->
+                            <field name="lineas_retenciones_manuales_ids" nolabel="1"
+                                   context="{'default_divisa_name': context.get('divisa_name'), 'default_afectation_id':afectation_id}" attrs="{'readonly': [('state','!=','draft')]}">
+                                <tree string="Lineas" editable="bottom">
+                                    <field name="empresa" required="1"/>
+                                    <field name="product_id" required="1"/>
+                                    <field name="account_control_ids" required="1"/>
+                                    <field name="beneficiario"
+                                           attrs="{'readonly' : ['|',('estado_editable','=','True')]}"/>
+                                    <field name="operating_unit_id"/>
+                                    <field name="afectation_id" invisible="1"/>
+                                    <field name="afectation_nro"/>
+                                    <field name="importe"/>
+                                    <field name="retencion_state" invisible="1"/>
+                                    <button name="eliminar_linea" class="oe_highlight" type="object"
+                                            icon="gtk-close" style="margin-top:5px"
+                                            groups="grp_tesoreria.group_grp_retenciones_manuales"
+                                            attrs="{'invisible':[('retencion_state','=','aprobacion_pago')]}"/>
+                                    <field name="divisa_name" invisible="1"/>
+                                    <field name="pagado" invisible="1"/>
+                                    <field name="grupo_funcionario" invisible="1"/>
+                                    <field name="retencion_manual_id" invisible="1"/>
+                                    <!--<field name="domain_cuentas_contables" invisible="1"/>-->
+                                    <field name="estado_editable" invisible="1"/>
+                                    <field name="boton_modificar" invisible="1"/>
+                                    <field name="importe_moneda_base" invisible="1"/>
+                                    <field name="cheque_emitido" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Resumen">
+                            <field name="lineas_retenciones_resumen_ids" nolabel="1" >
+                                <tree string="Lineas" editable="false" create="false" delete="false" >
+                                    <field name="empresa" readonly="True"/>
+                                    <field name="beneficiario" readonly="True"/>
+                                    <field name="operating_unit_id" readonly="1"/>
+                                    <field name="account_control_ids" readonly="True"/>
+                                    <field name="no_recibo" attrs="{'readonly' : ['|',('estado_editable','=',True),('boton_modificar','=',True)]}"/>
+                                    <field name="importe" readonly="True"/>
+                                    <field name="cheque_emitido" string="En Proceso" readonly="1" />
+                                    <!--<field name="cheque_emitido" string="En Proceso" readonly="1" />-->
+                                    <field name="pagado" readonly="1" />
+                                    <field name="cancelado" readonly="1"/>
+                                    <field name="retencion_manual_id" readonly="True" invisible="1"/>
+
+                                    <field name="referencia" invisible="1"/>
+                                    <field name="cheque_emitido_copy" invisible="1"/>
+                                    <field name="boton_modificar" invisible="1" />
+                                    <field name="estado_editable" invisible="1"/>
+                                    <field name="state" invisible="1"/>
+                                    <button name="cancelar_linea" title="Cancelar" states='aprobacion_pago'
+                                            class="oe_highlight" type="object" icon="gtk-cancel" style="margin-top:5px"
+                                            groups="grp_tesoreria.group_grp_retenciones_manuales"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Asientos">
+                            <field name="move_ids" nolabel="1">
+                                <tree string="Asientos" editable="false" create="false" delete="false" >
+                                    <field name="date" readonly="True"/>
+                                    <field name="name" readonly="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div style="height:60px;">
+                    <group class="oe_subtotal_footer oe_right">
+
+
+                        <field name="total_estimado" widget="monetary" class="oe_subtotal_footer_separator" options="{'currency_field': 'moneda_base'}" style="width:150px;"/>
+                        </group>
+                    </div>
+                    </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tree_retenciones_manuales" model="ir.ui.view">
+        <field name="name">grp_retenciones_manuales.tree</field>
+        <field name="model">grp.retenciones.manuales</field>
+        <field name="arch" type="xml">
+            <tree string="Retenciones de Sueldos de Habilitaciones">
+                <field name="name"/>
+                <field name="descripcion"/>
+                <field name="fecha"/>
+                <field name="period_id"/>
+                <field name="total_estimado"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_grp_retenciones_manuales_filter" model="ir.ui.view">
+        <field name="name">grp.retenciones.manuales.filter</field>
+        <field name="model">grp.retenciones.manuales</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Retenciones Manuales">
+                <filter name="tipo_mvdeo" string="Tipo Montevideo" icon="terp-stock_effects-object-colorize" domain="[('tipo','in',['mvd'])]" />
+                <filter name="tipo_ext" string="Tipo Exterior" icon="terp-stock_effects-object-colorize" domain="[('tipo','in',['ext'])]" />
+                <field name="name"/>
+                <field name="descripcion"/>
+                <group expand="0" string="Agrupar por...">
+                    <filter name="tipo" string="Tipo" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'tipo'}"/>
+                    <filter name="state" string="Estado" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'state'}"/>
+                    <filter name="period_id" string="Período" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'period_id'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+
+    <record id="action_retenciones_manuales_form" model="ir.actions.act_window">
+        <field name="name">Retenciones de Sueldos de Habilitaciones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">grp.retenciones.manuales</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_form_grp_retenciones_manuales"/>
+        <field name="search_view_id" ref="view_grp_retenciones_manuales_filter"/>
+    </record>
+
+
+    <record id="action_grp_form_retenciones_manuales1" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_form_grp_retenciones_manuales"/>
+        <field name="act_window_id" ref="action_retenciones_manuales_form"/>
+    </record>
+
+    <record id="action_grp_tree_retenciones_manuales1" model="ir.actions.act_window.view">
+        <field eval="0" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="action_retenciones_manuales_form"/>
+        <field name="view_id" ref="view_tree_retenciones_manuales"/>
+    </record>
+
+    <menuitem id="menu_retenciones_manuales" string="Retenciones de Sueldos de Habilitaciones" action="action_retenciones_manuales_form" parent="account.menu_finance_bank_and_cash" sequence="4"
+              groups="grp_tesoreria.group_grp_retenciones_manuales,grp_tesoreria.group_grp_aprobacion_habilitaciones,grp_tesoreria.group_grp_tesoreria"/>
+
+    <record forcecreate="True" id="ir_cron_cambiar_estados_cerrado" model="ir.cron">
+        <field name="name">Cambiar estado cerrado habilitaciones</field>
+        <!--<field eval="True" name="active" />-->
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall" />
+        <field eval="'grp_retenciones_manuales'" name="model" />
+        <field eval="'cambiar_estado_cron_habilitaciones'" name="function" />
+        <field eval="'()'" name="args" />
+    </record>
+
+    </data>
+</openerp>

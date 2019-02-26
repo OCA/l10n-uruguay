@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="hr_expense.t16" model="workflow.transition">
+            <field name="act_from" ref="grp_viaticos.act_en_financiero"/>
+            <field name="act_to" ref="hr_expense.act_refused"/>
+            <field name="signal">refuse_ra</field>
+            <field name="group_id"></field>
+        </record><!--TODO: SPRING 11 GAP 318 K cambiar transicion y grupo-->
+
+        <!--TODO: M SPRING 14 GAP 29_31-->
+        <record id="view_grp_rendicion_anticipo_form1" model="ir.ui.view">
+            <field name="name">grp.rendicion.anticipo.fondo.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="arch" type="xml">
+                <form string="Rendición de anticipos de fondos">
+                    <header>
+                        <button name="confirm" states="draft" string="Enviar a aprobar" type="workflow"
+                                class="oe_highlight" groups="grp_tesoreria.group_grp_solicitante_anticipos"/>
+
+                        <button name="validate" states="confirm" string="Aprobar" type="workflow"
+                                groups="grp_tesoreria.group_grp_aprobador_anticipos" class="oe_highlight"/>
+                        <button name="refuse" states="confirm" string="Refuse" type="workflow"
+                                groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+
+
+                        <button name="autorizar" states="en_autorizacion" string="Autorizar" type="workflow"
+                                groups="grp_tesoreria.group_grp_autoriza_rendicion_anticipo" class="oe_highlight"/>
+                        <button name="refuse" states="en_autorizacion" string="Refuse" type="workflow"
+                                groups="grp_tesoreria.group_grp_autoriza_rendicion_anticipo"/>
+
+
+                        <button name="confirmar" states="en_financiero" string="Confirmar" type="workflow"
+                                groups="grp_viaticos.grp_aprobar_rendicion_f" class="oe_highlight"/>
+
+                        <button name="refuse_ra" states="en_financiero" string="Rechazar" type="workflow" groups="grp_viaticos.grp_aprobar_rendicion_f"/>
+
+                        <button name="cancelar" states="autorizado,paid" string="Cancelar" type="workflow"
+                                groups="grp_tesoreria.group_grp_solicitante_anticipos"/>
+
+                        <button name="action_move_create" states="autorizado" string="Generate Accounting Entries"
+                            attrs="{'invisible':['|',('show_move_line_button','=',False)]}"
+                            type="object" groups="grp_viaticos.grp_aprobar_rendicion_f" class="oe_highlight"/>
+
+                        <button name="draft" states="cancelled" string="Cambiar a borrador" type="workflow"
+                                groups="grp_tesoreria.group_grp_aprobador_anticipos"/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirm,en_autorizacion,en_financiero,autorizado,paid,cancelled,cancelado"
+                               statusbar_colors='{"confirm":"blue","cancelled":"red"}'/>
+                    </header>
+                    <sheet string="Rendición de anticipos de fondos">
+                        <group id="Cabezal">
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="x_sequence" readonly="1"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="entry_date" readonly="1"/>
+                                <field name="date" attrs="{'readonly':[('state','not in', ['accepted', 'draft', 'confirm'])]}" required="1"
+                                string="Fecha del asiento"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="operating_unit_id" readonly="1"/>
+                                <field name="show_move_line_button" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="name" attrs="{'readonly':[('state','not in', ['draft', 'confirm'])]}"/>
+                                <field name="user_valid" readonly="1" options="{'save_readonly':True}" string="Aprobado por"
+                                       context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'base.group_hr_user']}"/>
+                                <field name="currency_id" readonly="1" options="{'save_readonly':True}"
+                                       on_change="onchange_currency_id(currency_id, company_id)"/>
+                                <field name="solicitud_anticipos_id" required="1"
+                                domain="[('id','in',solicitud_anticipos_domain_ids[0][2])]" options="{'no_create': True}"/>
+                                <field name="solicitud_anticipos_domain_ids" invisible="1"/>
+                                <field name="adelanto_anticipo" attrs="{'invisible':[('solicitud_anticipos_id','=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Descripción">
+                                <field name="line_ids" context="{'currency_id': currency_id, 'default_analytic_account': context.get('analytic_account', '')}">
+                                    <tree string="Expense Lines" editable="bottom">
+                                        <field name="receipt_date"/>
+                                        <field name="concept_id"/>
+                                        <field name="ref"/>
+                                        <field name="company"/>
+                                        <field name="account_concept_id" readonly="1" options="{'save_readonly':True}"/>
+                                        <field name="total"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <div>
+                                        <separator string="Notes"/>
+                                        <field name="note" placeholder="Free Notes"/>
+                                    </div>
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                                        <field name="diferencia" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_footer_separator"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Contabilidad " groups="account.group_account_user">
+                                <group>
+                                    <group string="Datos contabilidad">
+                                        <field name="journal_id" widget="selection" domain="[('type', '=', 'purchase')]"/>
+                                        <field name="account_move_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_rendicion_anticipo_tree" model="ir.ui.view">
+            <field name="name">>grp.rendicion.anticipo.fondo.tree</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';black:state in ('confirm','aprobado','paid');gray:state == 'cancelled'"  string="Expenses">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="currency_id"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                    <field name="solicitud_anticipos_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="action_grp_rendicion_anticipo_new" model="ir.actions.act_window">
+            <field name="name">Rendición anticipos de fondos</field>
+            <field name="res_model">hr.expense.expense</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('doc_type','=','rendicion_anticipo')]</field>
+            <field name="context">{'default_doc_type': 'rendicion_anticipo'}</field>
+            <field name="view_id" eval="view_grp_rendicion_anticipo_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses.
+              </p><p>
+                Odoo will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_grp_rendicion_anticipo_new_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_rendicion_anticipo_tree"/>
+            <field name="act_window_id" ref="action_grp_rendicion_anticipo_new"/>
+        </record>
+
+        <record id="action_grp_rendicion_anticipo_new_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_grp_rendicion_anticipo_form1"/>
+            <field name="act_window_id" ref="action_grp_rendicion_anticipo_new"/>
+        </record>
+
+
+        <menuitem action="action_grp_rendicion_anticipo_new" id="menu_action_grp_rendicion_anticipo_new" name="Rendición anticipos de fondos"
+                parent="menu_anticipos_fondos"  sequence="3"
+                groups="grp_tesoreria.group_grp_solicitante_anticipos,grp_tesoreria.group_grp_aprobador_anticipos,grp_tesoreria.group_grp_autoriza_rendicion_anticipo"/>
+
+        <!--TODO: M SPRING 14 GAP 29_31 state aprobado-->
+        <record id="act_aprobado" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="name">aprobado</field>
+            <field name="kind">function</field>
+            <field name="action">expense_aprobado()</field>
+        </record>
+
+        <record id="hr_expense.t17" model="workflow.transition">
+            <field name="act_from" ref="hr_expense.act_confirm"/>
+            <field name="act_to" ref="act_aprobado"/>
+            <field name="signal">aprobar</field>
+            <field name="group_id"></field>
+        </record> <!--TODO: M SPRING 14 GAP 29_31 cambiar transicion y grupo-->
+
+        <record id="hr_expense.t18" model="workflow.transition">
+            <field name="act_from" ref="act_aprobado"/>
+            <field name="act_to" ref="grp_viaticos.act_cancelado"/>
+            <field name="signal">cancelar</field>
+            <field name="group_id"></field>
+        </record>
+
+    </data>
+</openerp>

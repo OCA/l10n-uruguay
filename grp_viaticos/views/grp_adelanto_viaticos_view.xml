@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: SPRING 11 GAP 28 L-->
+        <record model="ir.ui.view" id="grp_view_vendor_payment_form">
+            <field name="name">utec.account.voucher.payment.form</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Voucher" create="false" delete="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,pagado" statusbar_colors='{"proforma":"blue"}'/>
+                </header>
+                <sheet string="Supplier Voucher">
+                    <h1><label for="number" string="Adelanto de viáticos y reintegros"/> <field name="number" class="oe_inline" readonly="1"/></h1>
+
+                    <field name="pay_now" invisible="1"/>
+                    <field name="type" invisible="True"/>
+                    <field name="payment_rate_currency_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="partner_id" domain="[('funcionario','=',True)]" required="1" string="Funcionario" on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}" />
+                            <field name="account_id" domain="[('type', 'in', ['liquidity', 'payable'])]"/>
+                            <field name="name" colspan="2"/>
+                            <field name="reference"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            <field name="operating_unit_id"
+                                   string="Unidad ejecutora"
+                                   attrs="{'readonly': [('state', 'in', ['posted', 'pagado'])]}"/>
+                            <field name="fecha_aprobacion_pago" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date" string="Fecha" on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
+                            <field name="entry_date"/>
+                            <field name="date_due"/>
+                            <field name="paid" invisible="1"/>
+                            <field name="journal_id"
+                                domain="[('type','in',['purchase','purchase_refund'])]"
+                                widget="selection"
+                                on_change="onchange_journal(journal_id, line_dr_ids, tax_id, partner_id, date, amount, type, company_id, context)"
+                                groups="account.group_account_user"/>
+                            <field name="solicitud_viatico_id"/>
+                            <field name="currency_id" string="Moneda"/>
+                            <!-- <field name="tipo_cambio"/> -->
+                            <field name="paid_amount_in_company_currency" invisible="1"/>
+                            <field name="currency_help_label" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Información">
+                            <field name="line_dr_ids" on_change="onchange_price(line_dr_ids, tax_id, partner_id)" context="{'journal_id':journal_id,'partner_id':partner_id}">
+                                <tree string="Expense Lines" editable="bottom">
+                                    <field name="account_id" domain="[('user_type.report_type','=','expense'), ('type','!=','view')]"/>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="narration" placeholder="Internal Notes" nolabel="1"/>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="tax_id"
+                                        on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
+                                        widget="selection" nolabel="1" placeholder="Tax"
+
+                                        domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"
+                                        />
+                                    <field name="tax_amount" nolabel="1"/>
+                                    <div class="oe_subtotal_footer_separator">
+                                        <label for="amount"/>
+                                        <button type="object" class="oe_link oe_edit_only"
+                                            name="compute_tax" string="(update)"
+                                            attrs="{'invisible': [('state','!=','draft')]}"/>
+                                    </div>
+                                    <field name="amount" class="oe_subtotal_footer_separator" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Apuntes contables" attrs="{'invisible': [('state','in',['draft','cancel'])]}">
+                            <group col="4">
+                                <field name="period_id"/>
+                                <field name="audit"/>
+                            </group>
+                            <field name="move_ids" readonly="1">
+                               <tree string="Journal Items">
+                                   <field name="move_id"/>
+                                   <field name="ref"/>
+                                   <field name="date"/>
+                                   <field name="statement_id"/>
+                                   <field name="partner_id"/>
+                                   <field name="account_id"/>
+                                   <field name="name"/>
+                                   <field name="debit"/>
+                                   <field name="credit"/>
+                                   <field name="state"/>
+                                   <field name="reconcile_id"/>
+                               </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="grp_view_voucher_filter_vendor_pay" model="ir.ui.view">
+            <field name="name">grp.account.voucher.purchase.pay.select</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Adelantos de Viáticos">
+                    <field name="number" string="Voucher"/>
+                    <field name="date"/>
+                    <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]"
+                            help="Draft Vouchers"/>
+                    <filter icon="terp-camera_test" string="Posted" domain="[('state','=','posted')]"
+                            help="Posted Vouchers"/>
+                    <field name="partner_id" string="Funcionario" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="journal_id" widget="selection" context="{'journal_id': self, 'set_visible':False}"
+                           domain="[('type','in',('bank','cash'))]"/>
+                    <!-- Keep widget=selection on this field to pass numeric `self` value, which is not the case for regular m2o widgets! -->
+                    <field name="period_id"/>
+                    <field name="currency_id" string="Moneda"/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Funcionario" icon="terp-personal" domain="[]"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Journal" icon="terp-folder-orange" domain="[]"
+                                context="{'group_by':'journal_id'}"/>
+                        <filter string="Period" icon="terp-go-month" domain="[]"
+                                context="{'group_by':'period_id','visible':True}"/>
+                        <filter string="Status" icon="terp-stock_effects-object-colorize"
+                                domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Moneda" icon="terp-partner"
+                                domain="[]" context="{'group_by':'currency_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="grp_view_voucher_tree">
+            <field name="name">grp.viaticos.account.voucher.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Voucher Entries" create="false" delete="false">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="solicitud_viatico_id"/>
+                    <field name="reference"/>
+                    <field name="partner_id"/>
+                    <field name="journal_id" groups="account.group_account_user"/>
+                    <field name="period_id" invisible="context.get('visible', True)"/>
+                    <field name="type" invisible="context.get('visible', True)"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="audit" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="grp_action_vendor_payment" model="ir.actions.act_window">
+            <field name="name">Adelantos y reintegros de Viáticos</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('journal_id.type', 'in', ['purchase']), ('type','=','payment'),'|',('solicitud_viatico_id','!=',False),('rendicion_viaticos_id','!=',False)]
+            </field>
+            <field name="context">{'type':'payment'}</field>
+            <field name="view_id" eval="grp_view_voucher_tree"/>
+            <field name="search_view_id" ref="grp_view_voucher_filter_vendor_pay"/>
+            <field name="target">current</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new supplier payment.
+              </p><p>
+                Odoo helps you easily track payments you make and the remaining balances you need to pay your suppliers.
+              </p>
+            </field>
+        </record>
+
+        <record id="grp_action_vendor_payment_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="grp_view_voucher_tree"/>
+            <field name="act_window_id" ref="grp_action_vendor_payment"/>
+        </record>
+        <record id="grp_action_vendor_payment_form" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="grp_view_vendor_payment_form"/>
+            <field name="act_window_id" ref="grp_action_vendor_payment"/>
+        </record>
+
+        <menuitem id="grp_menu_action_vendor_payment" parent="account.menu_finance_payables"
+                  action="grp_action_vendor_payment" icon="STOCK_JUSTIFY_FILL"
+                  sequence="250" groups="grp_tesoreria.group_grp_tesoreria"/><!--TODO: SPRING 11 GAP 28 L-->
+
+    </data>
+</openerp>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- TODO: SPRING 10 GAP 283 L -->
+        <record id="checkbook_view_tree" model="ir.ui.view">
+            <field name="name">view.checkbook.tree</field>
+            <field name="model">grp.checkbook</field>
+            <field name="arch" type="xml">
+                <tree string="Gestión de chequeras">
+                    <field name="invoice_id"/>
+                    <field name="name"/>
+                    <field name="number_from"/>
+                    <field name="number_to"/>
+                    <field name="serial"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 283 L -->
+        <record id="checkbook_view_form" model="ir.ui.view">
+            <field name="name">view.checkbook.form</field>
+            <field name="model">grp.checkbook</field>
+            <field name="context">{'form_no_edit':[('state','=','cancel')]}</field>
+            <field name="arch" type="xml">
+                <form string="Gestión de chequeras" >
+                    <header>
+                        <button name="button_available" string="Disponible" states="draft" type="object" class="oe_highlight"/>
+                        <button name="button_cancel" string="Cancelar" states="available" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="invoice_id" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                                <field name="name" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                                <field name="number_from" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                            </group>
+                            <group>
+                                <field name="number_to" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                                <field name="serial" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                                <field name="active" attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cheques">
+                                <field name="check_ids" nolabel="1" attrs="{'readonly': [('state','in',['cancel'])]}">
+                                    <tree string="Cheques" editable="bottom" create="false" delete="false">
+                                          <field name="check_number"/>
+                                          <field name="partner_id"/>
+                                          <field name="amount"/>
+                                          <field name="check_date"/>
+                                          <field name="paid_date"/>
+                                          <field name="in_cashbox"/>
+                                          <field name="cancel_use" attrs="{'readonly': [('state','not in',['available']),('paid_date','!=',None)]}"/>
+                                          <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 283 L -->
+        <record model="ir.ui.view" id="view_checkbook_search">
+            <field name="name">view.checkbook_search</field>
+            <field name="model">grp.checkbook</field>
+            <field name="arch" type="xml">
+                <search string="Gestión de chequeras">
+                    <field name="name"/>
+                    <group expand="1" string="Agrupado por">
+                        <filter name="group_invoice_id" string="Cuenta bancaria" domain="[]"
+                                context="{'group_by':'invoice_id'}"/>
+                        <filter name="group_checkbook_name" string="Nombre de chequera" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- TODO: SPRING 10 GAP 283 L -->
+        <record id="action_checkbook_form" model="ir.actions.act_window">
+            <field name="name">Gestión de chequeras</field>
+            <field name="res_model">grp.checkbook</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Gestión de chequeras" id="account_checkbook"
+                  parent="account.menu_finance_bank_and_cash" action="action_checkbook_form"
+                  sequence="15" groups="group_grp_gestor_chequera"/>
+    </data>
+</openerp>

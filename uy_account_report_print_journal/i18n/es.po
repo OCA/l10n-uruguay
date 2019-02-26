@@ -1,0 +1,196 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * uy_account_report_print_journal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-08 16:17+0000\n"
+"PO-Revision-Date: 2016-04-08 16:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: uy_account_report_print_journal
+#: selection:print.journal.webkit,order_period:0
+msgid "Ascendent"
+msgstr "Ascendente"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:99
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:99
+#, python-format
+msgid "Customer invoice"
+msgstr "Factura Cliente"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:101
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:101
+#, python-format
+msgid "Customer refund"
+msgstr "Nota de Crédito Cliente"
+
+#. module: uy_account_report_print_journal
+#: selection:print.journal.webkit,order_period:0
+msgid "Descendant"
+msgstr "Descendente"
+
+#. module: uy_account_report_print_journal
+#: field:print.journal.webkit,gb_journal_period:0
+msgid "Group by Journal-Period"
+msgstr "Agrupar por Diario-Período"
+
+#. module: uy_account_report_print_journal
+#: field:print.journal.webkit,gb_period:0
+msgid "Group by Period"
+msgstr "Agrupar por Período"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+#: model:ir.model,name:uy_account_report_print_journal.model_account_move_line
+msgid "Journal Items"
+msgstr "Apuntes contables"
+
+#. module: uy_account_report_print_journal
+#: field:account.move.line,journal_period:0
+msgid "Journal Period"
+msgstr "Diario - Período"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_account_move_line_filter
+msgid "Journal-Period"
+msgstr "Diario-Período"
+
+#. module: uy_account_report_print_journal
+#: model:ir.actions.report.xml,name:uy_account_report_print_journal.account_report_print_journal_webkit_ext
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\wizard\print_journal.py:58
+#: code:addons/uy_account_report_print_journal/wizard/print_journal.py:58
+#: model:ir.model,name:uy_account_report_print_journal.model_print_journal_webkit
+#, python-format
+msgid "Journals Report"
+msgstr "Informe Diarios"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+msgid "Open account move"
+msgstr "Abrir asiento contable"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:131
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:131
+#, python-format
+msgid "POS"
+msgstr "TPV"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:123
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:123
+#, python-format
+msgid "POS Order"
+msgstr "TPV Pedido"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:123
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:123
+#, python-format
+msgid "POS Orders"
+msgstr "TPV Pedidos"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_account_move_line_filter
+msgid "Period"
+msgstr "Período"
+
+#. module: uy_account_report_print_journal
+#: field:print.journal.webkit,order_period:0
+msgid "Period order"
+msgstr "Orden períodos"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:103
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:103
+#, python-format
+msgid "Supplier invoice"
+msgstr "Factura Proveedor"
+
+#. module: uy_account_report_print_journal
+#: code:addons\uy_account_report_print_journal\report\print_journal.py:105
+#: code:addons/uy_account_report_print_journal/report/print_journal.py:105
+#, python-format
+msgid "Supplier refund"
+msgstr "Nota de Crédito Proveedor"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+msgid "Total Credit"
+msgstr "Total Haber"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+msgid "Total Credit in secundary currency"
+msgstr "Total Haber en moneda secundaria"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+msgid "Total Debit"
+msgstr "Total Debe"
+
+#. module: uy_account_report_print_journal
+#: view:account.move.line:uy_account_report_print_journal.view_rpt_print_journal_move_line_tree
+msgid "Total Debit in secundary currency"
+msgstr "Total Debe en moneda secundaria"
+
+#. module: uy_account_report_print_journal
+#: view:print.journal.webkit:uy_account_report_print_journal.account_report_print_journal_view_webkit
+msgid "Visualize"
+msgstr "Visualizar"
+
+#. module: account_financial_report_webkit
+#: code:addons\account_financial_report_webkit\report\print_journal.py:49
+#: code:addons/account_financial_report_webkit/report/print_journal.py:49
+#, python-format
+msgid "JOURNALS"
+msgstr "DIARIOS"
+
+#. module: account_financial_report_webkit
+#: view:print.journal.webkit:account_financial_report_webkit.account_report_print_journal_view_webkit
+msgid "This report allows you to print or generate a pdf of your print journal with details of all your account journals"
+msgstr "Este informe le permite generar un PDF de sus diarios con el detalle de todos sus apuntes contables."
+
+#. module: uy_account_report_print_journal
+#: report:addons/uy_account_report_print_journal/report/account_report_print_journal.mako:33
+msgid "Journal Filter"
+msgstr "Filtro de diarios"
+
+#. module: uy_account_report_print_journal
+#: report:addons/uy_account_report_print_journal/report/account_report_print_journal.mako:113
+msgid "Curr. Balance"
+msgstr "Importe moneda"
+
+#. module: uy_account_report_print_journal
+#: report:addons/uy_account_report_print_journal/report/account_report_print_journal.mako:115
+msgid "Curr."
+msgstr "Moneda"
+
+#. module: uy_account_report_print_journal
+#: report:addons/uy_account_report_print_journal/report/account_report_print_journal.mako:106
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: account_financial_report_webkit
+#: view:print.journal.webkit:account_financial_report_webkit.account_report_print_journal_view_webkit
+msgid "or"
+msgstr "o"
+
+#. module: account
+#: view:account.common.report:account.account_common_report_view
+msgid "or"
+msgstr "o"

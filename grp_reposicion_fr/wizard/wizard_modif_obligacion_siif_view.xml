@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<openerp>
+	<data>     
+
+		<!-- VENTANA WIZARD MODIFICACION obligacion-->
+		<record id="view_wizard_modif_obligacion_fr_siif" model="ir.ui.view">
+			<field name="name">view_wizard_modif_obligacion_fr_siif</field>
+			<field name="model">wiz.modificacion_obligacion_fr_siif</field>
+			<field name="arch" type="xml">
+                <form string="Opciones de modificacion" version="7.0">
+                    <label string=""/>
+                    <group col="4">
+                        <field name="tipo"/>
+                        <field name="fecha"/>
+
+                        <field name="fin_id" domain="[('ue_id','=',ue_id)]"/>
+                        <field name="programa_id" domain="[('ff_id','=',fin_id)]"/>
+                        <field name="proyecto_id" domain="[('programa_id','=',programa_id)]"/>
+                        <field name="odg_id" domain="[('proyecto_id','=',proyecto_id)]"/>
+                        <field name="auxiliar_id" domain="[('odg_id','=',odg_id)]"/>
+                        <field name="mon_id" domain="[('aux_id','=',auxiliar_id)]"/>
+                        <field name="tc_id" domain="[('moneda_id','=',mon_id)]"/>
+                        <field name="importe"/>
+                        <field name="motivo" colspan="4"/>
+                        <field name="ue_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="send_modif" string="Enviar a SIIF" type="object" default_focus="1" class="oe_highlight"/>
+                                    or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+			</field>
+		</record>
+
+	</data>	
+</openerp>

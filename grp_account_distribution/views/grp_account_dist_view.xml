@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Account Analytic Plan Line -->
+        <record id="view_account_analytic_line_form" model="ir.ui.view">
+            <field name="name">account.analytic.line.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="account.view_account_analytic_line_form"/>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </form>
+                <field name='name' position="after">
+                    <field name="hr_department_id"/>
+                </field>
+                <field name="account_id" position="after">
+                    <field name="dim_multi_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_analytic_line_tree" model="ir.ui.view">
+            <field name="name">account.analytic.line.tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="account.view_account_analytic_line_tree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">false</attribute>
+                </tree>
+                <field name="account_id" position="before">
+                    <field name="hr_department_id"/>
+                </field>
+                <field name="account_id" position="after">
+                    <field name="dim_multi_id"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- account.analytic.plan -->
+        <record model="ir.ui.view" id="account_analytic_plan_form">
+            <field name="name">account.analytic.plan.form</field>
+            <field name="model">account.analytic.plan</field>
+            <field name="inherit_id" ref="account_analytic_plans.account_analytic_plan_form"/>
+            <field name="arch" type="xml">
+                <field name="default_instance_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="plan_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="plan_ids" position="after">
+                    <field name="plan_instance_ids" context="{
+                            'tree_view_ref':'account_analytic_plans.account_analytic_plan_instance_tree',
+                            'form_view_ref':'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'account_required': False,
+                            'account_invisible': True
+                        }"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- account.analytic.plan.instance -->
+        <record model="ir.ui.view" id="account_analytic_plan_instance_form">
+            <field name="name">account.analytic.plan.instance.form</field>
+            <field name="model">account.analytic.plan.instance</field>
+            <field name="inherit_id" ref="account_analytic_plans.account_analytic_plan_instance_form"/>
+            <field name="arch" type="xml">
+                <field name="account_ids" position="replace">
+                    <field name="account_ids">
+                        <tree string="Analytic Distribution" editable="bottom">
+                            <field name="rate"/>
+                            <field name="account_id" readonly="1"/>
+                            <field name="hr_department_id" required="1"/>
+                            <field name="analytic_account_id" required="1"/>
+                            <field name="dim_multi_id" required="1"/>
+                        </tree>
+                        <form string="Analytic Distribution">
+                            <field name="rate"/>
+                            <field name="account_id" readonly="1"/>
+                            <field name="hr_department_id" required="1"/>
+                            <field name="analytic_account_id" required="1"/>
+                            <field name="dim_multi_id" required="1"/>
+                        </form>
+                    </field>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_analytic_plan_instance_form2">
+            <field name="name">account.analytic.plan.instance.form2</field>
+            <field name="model">account.analytic.plan.instance</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Distribution">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="code" invisible="1"/>
+                        <field name="plan_id" required="context.get('plan_id_required', False)" invisible="context.get('plan_id_invisible', True)"/>
+                    </group>
+                    <field name="account_ids" context="{
+                                            'form_currency_id': context.get('form_currency_id',False),
+                                            'form_amount': context.get('form_amount', False),
+                                            'default_account_id': context.get('account_id', False),
+                                            'default_hr_department_id': context.get('department_id', False),
+                                            'default_hr_department_id_not_apply': context.get('hr_department_id_not_apply', False),
+                                            'default_analytic_account_id_not_apply': context.get('analytic_account_id_not_apply', False),
+                                            'default_dim_multi_id_not_apply': context.get('dim_multi_id_not_apply', False),
+                                            'amount_invisible': context.get('amount_invisible', False),
+                                            'account_required': context.get('account_required', True),
+                                            'account_invisible': context.get('account_invisible', False),
+                                            'analytics_id': context.get('analytics_id', False)
+                                        }">
+                        <tree string="Analytic Distribution" editable="bottom">
+                            <field name="account_id" invisible="1"/>
+                            <field name="account_id_cmp" required="context.get('account_required', True)" invisible="context.get('account_invisible', False)"/>
+                            <field name="hr_department_id" attrs="{'required': [('hr_department_id_not_apply','=',False)], 'readonly': [('hr_department_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <!--<field name="hr_department_id_not_apply" string=""/>-->
+                            <field name="hr_department_id_not_apply" />
+                            <field name="analytic_account_id" attrs="{'required': [('analytic_account_id_not_apply','=',False)], 'readonly': [('analytic_account_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <!--<field name="analytic_account_id_not_apply" string=""/>-->
+                            <field name="analytic_account_id_not_apply" />
+                            <field name="dim_multi_id" attrs="{'required': [('dim_multi_id_not_apply','=',False)], 'readonly': [('dim_multi_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <!--<field name="dim_multi_id_not_apply" string=""/>-->
+                            <field name="dim_multi_id_not_apply" />
+                            <field name="amount" invisible="context.get('amount_invisible', False)"/>
+                            <field name="amount_cmp" invisible="context.get('amount_invisible', False)"/>
+                            <field name="rate"/>
+                        </tree>
+                        <form string="Analytic Distribution">
+                            <field name="account_id" invisible="1"/>
+                            <field name="account_id_cmp" required="context.get('account_required', True)" invisible="context.get('account_invisible', False)"/>
+                            <field name="hr_department_id_not_apply"/>
+                            <field name="hr_department_id" attrs="{'required': [('hr_department_id_not_apply','=',False)], 'readonly': [('hr_department_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="analytic_account_id_not_apply"/>
+                            <field name="analytic_account_id" attrs="{'required': [('analytic_account_id_not_apply','=',False)], 'readonly': [('analytic_account_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="dim_multi_id_not_apply"/>
+                            <field name="dim_multi_id" attrs="{'required': [('dim_multi_id_not_apply','=',False)], 'readonly': [('dim_multi_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="amount" invisible="context.get('amount_invisible', False)"/>
+                            <field name="amount_cmp" invisible="context.get('amount_invisible', False)"/>
+                            <field name="rate"/>
+                        </form>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_analytic_plan_instance_form2_readonly">
+            <field name="name">account.analytic.plan.instance.form2</field>
+            <field name="model">account.analytic.plan.instance</field>
+            <field name="arch" type="xml">
+                <form string="Analytic Distribution">
+                    <group col="4">
+                        <field name="name" readonly="1"/>
+                        <field name="code" invisible="1" readonly="1"/>
+                        <field name="plan_id" invisible="1"/>
+                    </group>
+                    <field name="account_ids" readonly="1" context="{
+                                            'form_currency_id': context.get('form_currency_id',False),
+                                            'form_amount': context.get('form_amount', False),
+                                            'default_account_id': context.get('account_id', False),
+                                            'default_hr_department_id': context.get('department_id', False),
+                                            'default_hr_department_id_not_apply': context.get('hr_department_id_not_apply', False),
+                                            'default_analytic_account_id_not_apply': context.get('analytic_account_id_not_apply', False),
+                                            'default_dim_multi_id_not_apply': context.get('dim_multi_id_not_apply', False),
+                                            'amount_invisible': context.get('amount_invisible', False),
+                                            'account_required': context.get('account_required', True),
+                                            'analytics_id': context.get('analytics_id', False)
+                                        }">
+                        <tree string="Analytic Distribution" editable="bottom">
+                            <field name="account_id" invisible="1"/>
+                            <field name="account_id_cmp" required="context.get('account_required', True)"/>
+                            <field name="hr_department_id" attrs="{'required': [('hr_department_id_not_apply','=',False)], 'readonly': [('hr_department_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="hr_department_id_not_apply" />
+                            <field name="analytic_account_id" attrs="{'required': [('analytic_account_id_not_apply','=',False)], 'readonly': [('analytic_account_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="analytic_account_id_not_apply" />
+                            <field name="dim_multi_id" attrs="{'required': [('dim_multi_id_not_apply','=',False)], 'readonly': [('dim_multi_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="dim_multi_id_not_apply" />
+                            <field name="amount" invisible="context.get('amount_invisible', False)"/>
+                            <field name="amount_cmp" invisible="context.get('amount_invisible', False)"/>
+                            <field name="rate"/>
+                        </tree>
+                        <form string="Analytic Distribution">
+                            <field name="account_id" invisible="1"/>
+                            <field name="account_id_cmp" required="context.get('account_required', True)"/>
+                            <field name="hr_department_id_not_apply"/>
+                            <field name="hr_department_id" attrs="{'required': [('hr_department_id_not_apply','=',False)], 'readonly': [('hr_department_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="analytic_account_id_not_apply"/>
+                            <field name="analytic_account_id" attrs="{'required': [('analytic_account_id_not_apply','=',False)], 'readonly': [('analytic_account_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="dim_multi_id_not_apply"/>
+                            <field name="dim_multi_id" attrs="{'required': [('dim_multi_id_not_apply','=',False)], 'readonly': [('dim_multi_id_not_apply','=',True)]}" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="amount" invisible="context.get('amount_invisible', False)"/>
+                            <field name="amount_cmp" invisible="context.get('amount_invisible', False)"/>
+                            <field name="rate"/>
+                        </form>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record id="grp_account_analytic_plan_instance_search" model="ir.ui.view">
+            <field name="name">account.analytic.plan.instance.search</field>
+            <field name="model">account.analytic.plan.instance</field>
+            <field name="arch" type="xml">
+                <search string="Distribución analítica">
+                    <field name="name" string="Analytic Plan"/>
+                    <field name="plan_id" string="Analytic Plan"/>
+                    <separator/>
+                    <filter string="Con plan" name="filter_with_plan_id" domain="[('plan_id','!=',False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_analytic_plan_instance_tree">
+            <field name="name">account.analytic.plan.instance.tree</field>
+            <field name="model">account.analytic.plan.instance</field>
+            <field name="inherit_id" ref="account_analytic_plans.account_analytic_plan_instance_tree"/>
+            <field name="arch" type="xml">
+                <field name="code" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="journal_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="grp_account_analytic_plan_instance_action" model="ir.actions.act_window">
+            <field name="name">Distribución analítica</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.analytic.plan.instance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="grp_account_analytic_plan_instance_search"/>
+            <field name="context">{
+                'tree_view_ref':'account_analytic_plans.account_analytic_plan_instance_tree',
+                'form_view_ref':'grp_account_distribution.account_analytic_plan_instance_form2',
+                'search_default_filter_with_plan_id': 1,
+                'account_required': False,
+                'account_invisible': True,
+                'plan_id_invisible': False,
+                'plan_id_required': True
+            }
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_account_analytic_plan_instance"
+            parent="account.menu_analytic_accounting"
+            name="Distribución analitica"
+            action="grp_account_analytic_plan_instance_action"
+            groups="analytic.group_analytic_accounting"/>
+
+        <!-- purchase_analytic_plans -->
+        <record id="invoice_supplier_form_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="purchase_analytic_plans.invoice_supplier_form_inherit"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="analytics_id" position="attributes">
+                        <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                        <attribute name="string">Dimensiones</attribute>
+                        <attribute name="context">
+                            {
+                                'journal_id': parent.journal_id,
+                                'form_currency_id': parent.currency_id,
+                                'form_amount': price_subtotal,
+                                'account_id': account_id,
+                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                'analytics_id': analytics_id
+                            }
+                        </attribute>
+                    </field>
+                    <field name="analytics_id" position="after">
+                        <button name="open_analytics" type="object" string="Abrir Distribución"
+                            attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="view_invoice_line_form_inherit">
+            <field name="name">account.invoice.line.form.inherit</field>
+            <field name="model">account.invoice.line</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form"/>
+            <field name="arch" type="xml">
+                <field name="account_analytic_id" position="replace">
+                    <field name="analytics_id" context="{'journal_id':parent.journal_id}" domain="[('plan_id','&lt;&gt;',False)]"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_invoice_form_analytic_inherit">
+            <field name="name">account.invoice.form.analytic.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="account_analytic_id" position="replace">
+                    <field name="analytics_id" context="{'journal_id':parent.journal_id}" domain="[('plan_id','&lt;&gt;',False)]"/>
+                </field>
+            </field>
+        </record>-->
+
+        <!-- purchase > purchase.order.line -->
+        <record model="ir.ui.view" id="purchase_order_line_form_inherit">
+            <field name="name">purchase.order.line.form.inherit</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase_analytic_plans.purchase_order_line_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="analytics_id" position="attributes">
+                    <attribute name='string'>Dimensiones</attribute>
+                    <attribute name='groups'></attribute>
+                    <attribute name='context'>
+                        {
+                            'journal_id':parent.journal_id,
+                            'model': 'purchase_order',
+                            'form_currency_id': parent.currency_id,
+                            'form_amount': price_subtotal,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </field>
+                <field name="analytics_id" position="before">
+                    <field name="account_id" options="{'no_create': True}"/>
+                    <field name="price_subtotal" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_order_form_analytic_inherit">
+            <field name="name">purchase.order.form.analytic.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_analytic_plans.purchase_order_form_analytic_inherit"/>
+            <field name="arch" type="xml">
+                <field name="analytics_id" position="attributes">
+                    <attribute name='string'>Dimensiones</attribute>
+                    <attribute name='groups'></attribute>
+                    <attribute name='context'>
+                        {
+                            'journal_id':parent.journal_id,
+                            'model': 'purchase_order',
+                            'form_currency_id': parent.currency_id,
+                            'form_amount': price_subtotal,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </field>
+                <field name="analytics_id" position="before">
+                    <field name="account_id" options="{'no_create': True}"/>
+                </field>
+                <field name="analytics_id" position="after">
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                            attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- grp_factura_siif > Obligación, 3 en 1 -->
+        <record id="view_account_form_obligacion" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.obligacion</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="grp_factura_siif.view_account_form_obligacion"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='analytics_id']" position="replace">
+                    <field name="analytics_id" string="Dimensiones"
+                                            domain="[('plan_id','&lt;&gt;',False)]" context="{
+                                                'journal_id':parent.journal_id,
+                                                'form_currency_id': parent.currency_id,
+                                                'form_amount': price_subtotal,
+                                                'account_id': account_id,
+                                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                'analytics_id': analytics_id
+                                            }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- account.move.line -->
+        <record id="view_move_line_tree" model="ir.ui.view">
+            <field name="name">account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </tree>
+                <field name="analytics_id" position="attributes">
+                    <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                    <attribute name="string">Dimensiones</attribute>
+                    <attribute name="context">
+                        {
+                            'form_currency_id': currency_id,
+                            'form_amount': debit or credit,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </field>
+                <field name="analytics_id" position="after">
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_move_line_form" model="ir.ui.view">
+            <field name="name">account.move.line.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </form>
+            </field>
+        </record>
+        <record id="view_move_line_form2" model="ir.ui.view">
+            <field name="name">account.move.line.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form2"/>
+            <field name="arch" type="xml">
+                <form position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_move_line_form_inherit">
+            <field name="name">account.move.line.form.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account_analytic_plans.view_move_line_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="analytics_id" position="attributes">
+                    <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                    <attribute name="string">Dimensiones</attribute>
+                    <attribute name="context">
+                        {
+                            'form_currency_id': currency_id,
+                            'form_amount': debit or credit,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_move_line_form_1_inherit">
+            <field name="name">account.move.line.form.inherit1</field>
+            <field name="model">account.move.line</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="account_analytic_plans.view_move_line_form_1_inherit"/>
+            <field name="arch" type="xml">
+                <field name="analytics_id" position="attributes">
+                    <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                    <attribute name="string">Dimensiones</attribute>
+                    <attribute name="context">
+                        {
+                            'form_currency_id': currency_id,
+                            'form_amount': debit or credit,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </field>
+            </field>
+        </record>
+
+        <!-- account.move -->
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_analytic_plans.view_move_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='line_id']/tree/field[@name='analytics_id']" position="attributes">
+                    <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                    <attribute name="string">Dimensiones</attribute>
+                    <attribute name="context">
+                        {
+                            'journal_id':parent.journal_id,
+                            'form_currency_id': currency_id,
+                            'form_amount': debit or credit,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </xpath>
+                <xpath expr="/form/notebook/page/field[@name='line_id']/tree/field[@name='analytics_id']" position="after">
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+                <xpath expr="/form/notebook/page/field[@name='line_id']/form/notebook/page/group/group/field[@name='analytics_id']" position="attributes">
+                    <attribute name="domain">[('plan_id','&lt;&gt;',False)]</attribute>
+                    <attribute name="string">Dimensiones</attribute>
+                    <attribute name="context">
+                        {
+                            'journal_id':parent.journal_id,
+                            'form_currency_id': currency_id,
+                            'form_amount': debit or credit,
+                            'account_id': account_id,
+                            'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                            'analytic_account_id_not_apply': False,
+                            'dim_multi_id_not_apply': False,
+                            'amount_invisible': False,
+                            'analytics_id': analytics_id
+                        }
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- account.bank.statement -->
+        <record id="view_bank_statement_form" model="ir.ui.view">
+            <field name="name">account.bank.statement.form</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
+                    <field name="journal_id" invisible="1" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }"/>
+                    <field name="account_id" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }"
+                           options="{'no_create': True}" domain="[('type','not in',['view','consolidation'])]"/>
+                    <field name="analytics_id" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }" string="Dimensiones"
+                                            domain="[('plan_id','&lt;&gt;',False)]" context="{
+                                                'journal_id':parent.journal_id,
+                                                'form_currency_id': currency_id,
+                                                'form_amount': amount,
+                                                'account_id': account_id,
+                                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                'analytics_id': analytics_id
+                                            }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_bank_statement_form2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form2"/>
+            <field name="arch" type="xml">
+                <!--<field name="journal_id" position="attributes">-->
+                    <!--<attribute name="domain">[('type', '=', 'cash'),('caja_viaticos','=',True),('users','in',user.id)]</attribute>-->
+                <!--</field>-->
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="after">
+                    <field name="journal_id" invisible="1" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="account_id" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }" invisible="1"
+                                            options="{'no_create': True}" domain="[('type','not in',['view','consolidation'])]"/>
+                    <field name="analytics_id" attrs="{'readonly' : [('journal_entry_id', '!=', False)] }" string="Dimensiones"
+                                            domain="[('plan_id','&lt;&gt;',False)]" context="{
+                                                'journal_id':parent.journal_id,
+                                                'form_currency_id': currency_id,
+                                                'form_amount': amount,
+                                                'account_id': account_id,
+                                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                'analytics_id': analytics_id
+                                            }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/form/group/field[@name='partner_id']" position="after">
+                    <field name="journal_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="account_id" options="{'no_create': True}" domain="[('type','not in',['view','consolidation'])]" invisible="1"/>
+                    <field name="analytics_id" string="Dimensiones"
+                                            domain="[('plan_id','&lt;&gt;',False)]" context="{
+                                                'journal_id':parent.journal_id,
+                                                'form_currency_id': currency_id,
+                                                'form_amount': amount,
+                                                'account_id': account_id,
+                                                'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                'analytics_id': analytics_id
+                                            }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_model_line_tree" model="ir.ui.view">
+            <field name="name">account.model.line.tree</field>
+            <field name="model">account.model.line</field>
+            <field name="inherit_id" ref="account.view_model_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="replace">
+                    <field name="analytics_id" domain="[('plan_id','&lt;&gt;',False)]" context="{   'journal_id': parent.journal_id,
+                                                                                                    'form_currency_id': currency_id,
+                                                                                                    'form_amount': amount_currency,
+                                                                                                    'account_id': account_id,
+                                                                                                    'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                                                                    'analytics_id': analytics_id
+                                                                                                }"/>
+                    <button name="open_analytics" type="object" string="Abrir Distribución"
+                        attrs="{'invisible': [('analytics_id','=',False)]}" icon="gtk-fullscreen" style="display: inline;"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount_currency" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_model_line_form" model="ir.ui.view">
+            <field name="name">account.model.line.form</field>
+            <field name="model">account.model.line</field>
+            <field name="inherit_id" ref="account.view_model_line_form"/>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="replace">
+                    <field name="analytics_id" domain="[('plan_id','&lt;&gt;',False)]" context="{   'journal_id': parent.journal_id,
+                                                                                                    'form_currency_id': currency_id,
+                                                                                                    'form_amount': amount_currency,
+                                                                                                    'account_id': account_id,
+                                                                                                    'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                                                                                                    'analytics_id': analytics_id
+                                                                                                }"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount_currency" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- grp.caja.chica.tesoreria -->
+        <record id="view_grp_caja_chica_tesoreria_form2" model="ir.ui.view">
+            <field name="name">grp.caja.chica.tesoreria.form</field>
+            <field name="model">grp.caja.chica.tesoreria</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_caja_chica_tesoreria_form2"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="currency_id" invisible="1"/>
+                    <field name="account_id" invisible="1"/>
+                </field>
+                <button name="%(grp_tesoreria.act_grp_caja_chica_mov_efectivo_wizard)d" position="attributes">
+                    <attribute name="context">{
+                        'default_caja_chica_id':id,
+                        'journal_id': journal_id, 'currency_id': currency_id}</attribute>
+                </button>
+                <xpath expr="//field[@name='transaction_ids']" position="attributes">
+                    <attribute name="context">{
+                        'date':date,
+                        'journal_id': context.get('journal_id', False),
+                        'currency_id': context.get('currency_id', False)}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='transaction_ids']/tree/button[@name='edit_transaction']" position="attributes">
+                    <attribute name="context">{
+                        'journal_id': journal_id,
+                        'currency_id': currency_id
+                    }</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- grp.caja_chica.mov_efectivo.wizard -->
+        <record id="view_grp_caja_chica_mov_efectivo_wizard_form" model="ir.ui.view">
+            <field name="name">grp.caja_chica.mov_efectivo.wizard.form</field>
+            <field name="model">grp.caja_chica.mov_efectivo.wizard</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_caja_chica_mov_efectivo_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='catch_mov_ids']/tree/field[@name='dimension_id']" position="after">
+                    <field name="account_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='catch_mov_ids']" position="attributes">
+                    <attribute name="context">{
+                        'journal_id': context.get('journal_id', False),
+                        'currency_id': context.get('currency_id', False)
+                    }
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='catch_mov_ids']/tree/field[@name='dimension_id']" position="attributes">
+                    <attribute name="context">{
+                        'journal_id': context.get('journal_id', False),
+                        'form_currency_id': context.get('currency_id', False),
+                        'form_amount': amount,
+                        'account_id': account_id,
+                        'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                        'analytics_id': dimension_id
+                    }
+                    </attribute>
+                    <attribute name="required">0</attribute>
+                    <attribute name="domain">[('plan_id','!=',False)]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_grp_caja_chica_mov_efectivo_form" model="ir.ui.view">
+            <field name="name">grp.caja.chica.movimiento.efectivo.form</field>
+            <field name="model">grp.caja.chica.movimiento.efectivo</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_caja_chica_mov_efectivo_form"/>
+            <field name="arch" type="xml">
+                <field name="dimension_id" position="before">
+                    <field name="account_id" invisible="1"/>
+                </field>
+                <field name="dimension_id" position="attributes">
+                    <attribute name="context">{
+                        'journal_id': context.get('journal_id', False),
+                        'form_currency_id': context.get('currency_id', False),
+                        'form_amount': amount,
+                        'account_id': account_id,
+                        'form_view_ref': 'grp_account_distribution.account_analytic_plan_instance_form2',
+                        'analytics_id': dimension_id
+                    }
+                    </attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

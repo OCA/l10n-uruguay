@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="mail_wizard_invite_form_inherited">
+            <field name="name">mail.wizard.invite.inherited</field>
+            <field name="model">mail.wizard.invite</field>
+            <field name="inherit_id" ref="mail.mail_wizard_invite_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_ids" position="attributes">
+                    <attribute name="options">{'create': False, 'create_edit': False}</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

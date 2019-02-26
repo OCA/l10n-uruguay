@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: SPRING 8 GAP 111.228.339 K-->
+        <record id="view_concepto_gasto_caja_chica_viatico_fr_form" model="ir.ui.view">
+            <field name="name">grp_concepto_gasto_cc_viaticos_fr</field>
+            <field name="model">grp_concepto_gasto_cc_viaticos</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_concepto_gasto_caja_chica_viatico_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" attrs="{'required': [('viaticos','!=',False)]}"/>
+                </field>
+                <!--<field name="odg_id" position="attributes">-->
+                    <!--<attribute name="attrs">{'required': [('a_rendir','!=',False),('otros','!=',True),'|',('viaticos','!=',False)],'invisible': [('otros','=',True)]}</attribute>-->
+                <!--</field>-->
+                <!--<field name="auxiliar_id" position="attributes">-->
+                    <!--<attribute name="attrs">{'required': [('a_rendir','!=',False),('otros','!=',True),'|',('viaticos','!=',False)],'invisible': [('otros','=',True)]}</attribute>-->
+                <!--</field>-->
+                <field name="cuenta_id" position="attributes">
+                    <attribute name="attrs">{'required': [('a_rendir','!=',False),('otros','!=',True),'|',('viaticos','!=',False)],'invisible': [('otros','=',True)]}</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

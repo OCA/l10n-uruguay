@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--
+        #############################################################################################
+        #    Proyecto:   grp
+        #    Fecha:      10/08/2015
+        #    Autor:      Carolina Fernández & Enrique Chaviano
+        #    CompaÃ±ia:  Quanam - www.quanam.com
+        #    Adecuacion: Tesoreria
+        #############################################################################################
+        #Ref  Id Tarea                        Desa       Fecha        Descripcion
+        #002  TR_02     CFERNANDEZ  14/08/2015     Creacion de una nueva ventana para establecer la relacion de la llave presupuestal SIIF con las cuentas contables
+        #003  TR_04     CFERNANDEZ  20/08/2015     Modificaciones a la ventana estandar registro de caja
+        #004  TR_05     CFERNANDEZ    20/08/2015   Modificaciones a la ventana estandar extractos bancarios
+        #############################################################################################
+        -->
+
+        <!--002-Inicio-->
+        <record id="view_grp_relacion_llave_contable_form" model="ir.ui.view">
+            <field name="name">grp_relacion_llave_contable</field>
+            <field name="model">grp_relacion_llave_contable</field>
+            <field name="arch" type="xml">
+                <form string="Relación llave/Cuenta contable" version="7.0">
+                    <sheet>
+                        <group string="Relación llave/Cuenta contable">
+                            <group>
+                                <field name="name" on_change="onchange_presupuesto(name)" style="width:80%%"/>
+                                <field name="active"/>
+                                <field name="start_date"/>
+                                <field name="create_date"/>
+                            </group>
+                            <group>
+                                <field name="fiscalyear_siif_id" readonly="1"/>
+                                <!--<field name="fiscal_year"/>-->
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Relación">
+                                <group string="Llave presupuestal" name="llavepresupuestal">
+                                    <group>
+                                        <field name="inciso_siif_id" string="Inciso" style="width: 80%%"
+                                               domain="[('fiscal_year_id','=', fiscalyear_siif_id)]"
+                                               on_change="onchange_inciso(inciso_siif_id)"/>
+                                        <field name="ue_siif_id" string="UE" style="width:80%%"
+                                               domain="[('inciso_id','=', inciso_siif_id)]"
+                                               on_change="onchange_unidad_ejecutora(ue_siif_id)"/>
+                                        <field name="fin_id" string="FF" style="width:80%%"
+                                               domain="[('ue_id','=',ue_siif_id)]"
+                                               on_change="onchange_fuente_de_financiamiento(fin_id)"/>
+                                        <field name="programa_id" style="width:80%%" domain="[('ff_id','=',fin_id)]"
+                                               on_change="onchange_programa(programa_id)"/>
+                                        <field name="proyecto_id" style="width:80%%"
+                                               domain="[('programa_id','=',programa_id)]"
+                                               on_change="onchange_proyecto(proyecto_id)"/>
+                                    </group>
+                                    <!-- cambios 23/12 agregados on_change-->
+                                    <group>
+                                        <field name="odg_id" style="width:80%%"
+                                               domain="[('proyecto_id','=',proyecto_id)]"
+                                               on_change="onchange_objeto_del_gasto(odg_id)"/>
+                                        <field name="auxiliar_id" style="width:80%%" domain="[('odg_id','=',odg_id)]"
+                                               on_change="onchange_auxiliar(auxiliar_id)"/>
+                                        <field name="mon_id" style="width:80%%" domain="[('aux_id','=',auxiliar_id)]"
+                                               on_change="onchange_moneda(mon_id)"/>
+                                        <field name="tc_id" style="width:80%%" domain="[('moneda_id','=',mon_id)]"/>
+                                        <field name="descripcion"/>
+                                    </group>
+                                </group>
+
+                                <!--<field name="llavep_ids" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state','in',('comprometido','cancel'))]}">-->
+                                <group string="Cuentas Contables">
+                                    <field name="account_ids" nolabel="1" widget='many2many'
+                                           domain="[('type','!=','view')]">
+                                        <tree string="Cuentas Contables" editable="bottom">
+                                            <field name="code" string="Código"/>
+                                            <field name="name" string="Nombre"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_relacion_llave_contable_tree" model="ir.ui.view">
+            <field name="name">grp_relacion_llave_contable.tree</field>
+            <field name="model">grp_relacion_llave_contable</field>
+            <field name="arch" type="xml">
+                <tree string="Relación llave/Cuenta contable">
+                    <field name="name"/>
+                    <field name="fiscalyear_siif_id"/>
+                    <field name="descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_relacion_llave_contable_search" model="ir.ui.view">
+            <field name="name">grp_relacion_llave_contable.search</field>
+            <field name="model">grp_relacion_llave_contable</field>
+            <field name="arch" type="xml">
+                <search string="Relación llave/Cuenta contable">
+                    <field name="name"/>
+                    <field name="fiscalyear_siif_id"/>
+                    <field name="descripcion"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_grp_relacion_llave_contable" model="ir.actions.act_window">
+            <field name="name">Relación llave/Cuenta contable</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp_relacion_llave_contable</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_relacion_llave_contable_form"/>
+        </record>
+
+        <menuitem id="relacion" name="Relación llave presupuestal/Cuenta Contable"
+                  parent="grp_factura_siif.menu_grp_presupuesto" sequence="8" action="action_grp_relacion_llave_contable"
+                  groups="grp_seguridad.grp_group_configuracion_siif"/>
+
+
+        <record model="ir.ui.view" id="view_lista_llp_cc">
+            <field name="name">grp_vista_tree_llavep_cc.list</field>
+            <field name="model">grp_vista_tree_llavep_cc</field>
+            <field name="priority" eval="3"/>
+            <field name="arch" type="xml">
+                <tree string="Lista relación llave presupuestal/Cuenta Contable" create="false" edit="false"
+                      delete="false">
+                    <field name="relacion_id" invisible="1"/>
+                    <field name="presupuesto_id"/>
+                    <field name="fiscal_year"/>
+                    <field name="inciso_siif_id"/>
+                    <field name="ue_siif_id"/>
+                    <field name="financiamiento_id"/>
+                    <field name="programa_id"/>
+                    <field name="proyecto_id"/>
+                    <field name="odg_id"/>
+                    <field name="auxiliar_id"/>
+                    <field name="moneda_id"/>
+                    <field name="tipo_credito"/>
+                    <field name="account_id"/>
+                    <field name="descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="llp_search" model="ir.ui.view">
+            <field name="name">grp_vista_tree_llavep_cc.select</field>
+            <field name="model">grp_vista_tree_llavep_cc</field>
+            <field name="arch" type="xml">
+                <search string="Estructura">
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Presupuesto" domain="[]" context="{'group_by' : 'presupuesto_id'}"/>
+                        <filter string="Año fiscal" domain="[]" context="{'group_by' : 'fiscal_year'}"/>
+                        <filter string="Inciso" domain="[]" context="{'group_by' : 'inciso_siif_id'}"/>
+                        <filter string="Unidad Ejecutora" domain="[]" context="{'group_by' : 'ue_siif_id'}"/>
+                        <filter string="Programa" domain="[]" context="{'group_by' : 'programa_id'}"/>
+                        <filter string="Proyecto" domain="[]" context="{'group_by' : 'proyecto_id'}"/>
+                        <filter string="Moneda" domain="[]" context="{'group_by' : 'moneda_id'}"/>
+                        <filter string="Tipo credito" domain="[]" context="{'group_by' : 'tipo_credito'}"/>
+                        <filter string="Financiamiento" domain="[]" context="{'group_by' : 'financiamiento_id'}"/>
+                        <filter string="ODG / Auxiliar" domain="[]" context="{'group_by' : ['odg_id', 'auxiliar_id']}"/>
+                        <filter string="Cuenta Contable" domain="[]" context="{'group_by' : 'account_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="open_budget_rcc_list">
+            <field name="name">Lista Relación llave/Cuenta contable</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp_vista_tree_llavep_cc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_lista_llp_cc"/>
+            <field name="search_view_id" ref="llp_search"/>
+        </record>
+
+        <menuitem id="relacion_lista" name="Lista relación llave presupuestal/Cuenta Contable"
+                  parent="grp_factura_siif.menu_grp_presupuesto" sequence="9" action="open_budget_rcc_list"/>
+        <!--002-Fin-->
+
+
+        <record id="view_concepto_gasto_caja_chica_viatico_form" model="ir.ui.view">
+            <field name="name">grp_concepto_gasto_cc_viaticos</field>
+            <field name="model">grp_concepto_gasto_cc_viaticos</field>
+            <field name="arch" type="xml">
+                <form string="Conceptos de gasto caja chica y viáticos" version="7.0">
+                    <sheet>
+                        <group string="Conceptos de gasto caja chica y viáticos">
+                            <group>
+                                <!--<field name="domain_beneficiario_ids" invisible="True"/>-->
+                                <field name="domain_beneficiario_ids" invisible="True"/>
+                                <field name="name" required="True"/>
+                                <!-- PCAR GAPF0020_129 Inicio -->
+                                <field name="otros" />
+                                <!-- PCAR GAPF0020_129 Fin -->
+                                <field name="caja_chica"/>
+                                <field name="viaticos"/>
+                                <field name="a_rendir"/>
+                                <field name="caja_recaudadora"/><!-- TODO: SPRING 10 GAP 474 M -->
+                                <field name="caja_chica_t"/><!-- TODO: SPRING 10 GAP 474 M -->
+                                <field name="ajuste_caja"/><!-- TODO: SPRING 11 GAP 292 M -->
+                                <field name="opi"/><!-- TODO: SPRING 10 GAP 474 M -->
+                                <field name="devolucion_vc"/><!-- TODO: M SPRING 11 GAP 474 -->
+                                <!--<field name="ingreso_vc"/> TODO: M SPRING 11 GAP 292 -->
+                                <field name="poner_dinero"/>
+                                <field name="sacar_dinero"/>
+                                <field name="perdida_diferencia"/>
+                                <field name="ganancia_diferencia"/>
+                                <field name="fiscal_year" attrs="{'required': [('a_rendir','!=',False)]}"
+                                       />
+                                <!-- PCAR GAPF0020_129 Inicio -->
+                                <field name="cuenta_id"
+                                       attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]
+                                       ,'invisible': [('otros','=',True)]}"/>
+                                <field name="signo"
+                                       attrs="{'required': [('otros','!=',True)],'invisible': [('otros','=',True)]}"/>
+                                <!-- PCAR GAPF0020_129 Fin -->
+                                <field name="partner_id" domain="[('supplier','=',True)]"
+                                       attrs="{'required': [('a_rendir','!=',False)]}"
+                                       on_change="onchange_partner(partner_id)"/>
+                                <!--<field name="beneficiario_siif" attrs="{'required': [('a_rendir','!=',False)]}"/>-->
+                                <field name="beneficiario_siif" domain="[('id','in',domain_beneficiario_ids[0][2])]"
+                                       attrs="{'required': [('a_rendir','!=',False)]}"/>
+                            </group>
+
+
+                            <group>
+
+                                <!-- PCAR GAPF0020_129 Inicio -->
+                                <!--<field name="inciso_siif_id" domain="[('fiscal_year_id','=', fiscal_year)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_inciso(inciso_siif_id)"/>-->
+                                <!--<field name="ue_siif_id" domain="[('inciso_id','=', inciso_siif_id)]"-->
+                                       <!--attrs="{'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_unidad_ejecutora(ue_siif_id)"/>&lt;!&ndash; TODO: SPRING 10 GAP 296 L &ndash;&gt;-->
+                                <!--<field name="odg_id" domain="[('ue_id','=',ue_siif_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_objeto_del_gasto(odg_id)"/>-->
+                                <!--<field name="auxiliar_id" domain="[('odg_id','=',odg_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_auxiliar(auxiliar_id)"/>-->
+                                <!--<field name="fin_id" domain="[('aux_id','=',auxiliar_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_fuente_de_financiamiento(fin_id)"/>-->
+                                <!--<field name="programa_id" domain="[('ff_id','=',fin_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_programa(programa_id)"/>-->
+                                <!--<field name="proyecto_id" domain="[('programa_id','=',programa_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_proyecto(proyecto_id)"/>-->
+                                <!--<field name="mon_id" domain="[('proyecto_id','=',proyecto_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--on_change="onchange_moneda(mon_id)"/>-->
+                                <!--<field name="tc_id" domain="[('moneda_id','=',mon_id)]"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"/>-->
+                                <!--<field name="odg_id"-->
+                                       <!--attrs="{'required': ['&amp;',('a_rendir','=',True),('otros','=',False)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--/>-->
+                                <!--<field name="auxiliar_id"-->
+                                       <!--attrs="{'required': ['&amp;',('a_rendir','=',True),('otros','=',False)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--/>-->
+                                <field name="odg_id"
+                                       attrs="{'required': [('a_rendir','=',True)]
+                                       ,'invisible': [('otros','=',True)]}"
+                                       />
+                                <field name="auxiliar_id"
+                                       attrs="{'required': [('a_rendir','=',True)]
+                                       ,'invisible': [('otros','=',True)]}"
+                                       />
+                                <!--<field name="fin_id"-->
+                                       <!--attrs="{'required': [('a_rendir','!=',False),('otros','!=',True)]-->
+                                       <!--,'invisible': [('otros','=',True)]}"-->
+                                       <!--/>-->
+                                <field name="programa_id"
+                                       attrs="{'required': [('otros','!=',True)]
+                                       ,'invisible': [('otros','=',True)]}"
+                                       />
+                                <field name="proyecto_id"
+                                       attrs="{'required': [('otros','!=',True)]
+                                       ,'invisible': [('otros','=',True)]}"
+                                       />
+                                <field name="fin"
+                                       attrs="{'invisible': [('otros','=',True)]}"
+                                       />
+                                <field name="mon_id" domain="[('proyecto_id','=',proyecto_id)]"
+                                       attrs="{'required': [('otros','!=',True)]
+                                       ,'invisible': [('otros','=',True)]}"
+                                       />
+                                <field name="tc_id" domain="[('moneda_id','=',mon_id)]"
+                                       attrs="{'required': [('otros','!=',True)]
+                                       ,'invisible': [('otros','=',True)]}"/>
+                                <!-- PCAR GAPF0020_129 Fin -->
+                                <field name="descripcion" />
+                                <field name="siif_tipo_ejecucion" attrs="{'required': [('a_rendir','!=',False)]}"/>
+                                <field name="siif_concepto_gasto" attrs="{'required': [('a_rendir','!=',False)]}"/>
+                                <field name="siif_financiamiento" attrs="{'required': [('a_rendir','!=',False)]}"/>
+                                <field name="siif_codigo_sir" attrs="{'required': [('a_rendir','!=',False)]}"/>
+                                <field name="siif_tipo_documento" attrs="{'required': [('a_rendir','!=',False)]}"/>
+                                <field name="active"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_concepto_gasto_caja_chica_viatico_tree" model="ir.ui.view">
+            <field name="name">grp_concepto_gasto_cc_viaticos.tree</field>
+            <field name="model">grp_concepto_gasto_cc_viaticos</field>
+            <field name="arch" type="xml">
+                <tree string="Conceptos de gasto caja chica y viáticos">
+                    <field name="name"/>
+                    <field name="caja_chica"/>
+                    <field name="viaticos"/>
+                    <field name="a_rendir"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_concepto_gasto_caja_chica_viatico" model="ir.actions.act_window">
+            <field name="name">Conceptos de gasto caja chica y viáticos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp_concepto_gasto_cc_viaticos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_concepto_gasto_caja_chica_viatico_form"/>
+        </record>
+
+
+        <record id="action_grp_form_concepto_gasto1" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_concepto_gasto_caja_chica_viatico_form"/>
+            <field name="act_window_id" ref="action_concepto_gasto_caja_chica_viatico"/>
+        </record>
+
+        <record id="action_grp_tree_concepto_gasto1" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_concepto_gasto_caja_chica_viatico"/>
+            <field name="view_id" ref="view_concepto_gasto_caja_chica_viatico_tree"/>
+        </record>
+
+        <menuitem id="concepto_gasto_caja_chica_viatico" name="Conceptos de gasto caja chica y viáticos"
+                  parent="account.menu_finance_configuration" action="action_concepto_gasto_caja_chica_viatico"
+                  groups="base.group_system,grp_seguridad.grp_configuracion_contabilidad"/>
+
+
+    </data>
+</openerp>

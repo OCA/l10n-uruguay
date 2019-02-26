@@ -1,0 +1,423 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * uy_account_report_general_ledger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20150414\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-26 21:07+0000\n"
+"PO-Revision-Date: 2015-11-26 21:07+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_financial_report_webkit_xls
+#: view:general.ledger.webkit:account_financial_report_webkit_xls.general_ledger_webkit_xls_wizard_view
+msgid "This report allows you to generate a pdf or xls of your general ledger with details of all your account journals"
+msgstr "Este informe le permite generar un PDF o XLS de su Libro mayor con el detalle de todos sus diarios contables."
+
+#. module: account_financial_report_webkit_xls
+#: view:general.ledger.webkit:account_financial_report_webkit_xls.general_ledger_webkit_xls_wizard_view
+#: view:open.invoices.webkit:account_financial_report_webkit_xls.open_invoices_webkit_xls_wizard_view
+#: view:partner.balance.webkit:account_financial_report_webkit_xls.partners_balance_webkit_xls_wizard_view
+#: view:partners.ledger.webkit:account_financial_report_webkit_xls.partner_ledger_webkit_xls_wizard_view
+#: view:trial.balance.webkit:account_financial_report_webkit_xls.trial_balance_webkit_xls_wizard_view
+msgid "Export"
+msgstr "Exportar"
+
+#. module: account_financial_report_webkit_xls
+#: view:general.ledger.webkit:account_financial_report_webkit_xls.general_ledger_webkit_xls_wizard_view
+#: view:open.invoices.webkit:account_financial_report_webkit_xls.open_invoices_webkit_xls_wizard_view
+#: view:partner.balance.webkit:account_financial_report_webkit_xls.partners_balance_webkit_xls_wizard_view
+#: view:partners.ledger.webkit:account_financial_report_webkit_xls.partner_ledger_webkit_xls_wizard_view
+#: view:trial.balance.webkit:account_financial_report_webkit_xls.trial_balance_webkit_xls_wizard_view
+msgid "Print Excel"
+msgstr "Imprimir Excel"
+
+#. module: account_financial_report_webkit_xls
+#: view:general.ledger.webkit:account_financial_report_webkit_xls.general_ledger_webkit_xls_wizard_view
+#: view:open.invoices.webkit:account_financial_report_webkit_xls.open_invoices_webkit_xls_wizard_view
+#: view:partner.balance.webkit:account_financial_report_webkit_xls.partners_balance_webkit_xls_wizard_view
+#: view:partners.ledger.webkit:account_financial_report_webkit_xls.partner_ledger_webkit_xls_wizard_view
+#: view:trial.balance.webkit:account_financial_report_webkit_xls.trial_balance_webkit_xls_wizard_view
+msgid "or"
+msgstr "o"
+
+#. module: account
+#: view:account.common.report:account.account_common_report_view
+msgid "or"
+msgstr "o"
+
+#. module: account_financial_report_webkit
+#: view:general.ledger.webkit:account_financial_report_webkit.account_report_general_ledger_view_webkit
+#: view:trial.balance.webkit:account_financial_report_webkit.account_trial_balance_view_webkit
+msgid "or"
+msgstr "o"
+
+#. module: uy_account_report_general_ledger
+#: view:general.ledger.webkit:uy_account_report_general_ledger.general_ledger_webkit_xls_wizard_view
+msgid "Other Filters"
+msgstr "Otros filtros"
+
+#. module: uy_account_report_general_ledger
+#: field:res.currency,alt_currency:0
+msgid "Alternative currency in reports"
+msgstr "Moneda alternativa en informes"
+
+#. module: uy_account_report_general_ledger
+#: model:ir.model,name:uy_account_report_general_ledger.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:187
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:187
+#, python-format
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:108
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:108
+#, python-format
+msgid "Accounts Filter"
+msgstr "Filtro de Cuentas"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:143
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:143
+#: code:addons\uy_account_report_general_ledger\wizard\general_ledger_wizard.py:69
+#: code:addons/uy_account_report_general_ledger/wizard/general_ledger_wizard.py:69
+#, python-format
+msgid "All"
+msgstr "Todos"
+
+#. module: uy_account_report_general_ledger
+#: field:general.ledger.webkit,filter_all_locations:0
+msgid "All locations"
+msgstr "Todos los locales"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:117
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:117
+#, python-format
+msgid "Alt. Currency"
+msgstr "Moneda Secundaria"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:133
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:133
+#, python-format
+msgid "Alt. Curr. Rate Option"
+msgstr "Tipo de Cambio Mon. Sec."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:104
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:104
+#, python-format
+msgid "Chart of Account"
+msgstr "Plan contable"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:68
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:68
+#, python-format
+msgid "Computed"
+msgstr "Calculado"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:191
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:191
+#, python-format
+msgid "Counterpart"
+msgstr "Contrapartida"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:193
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:193
+#, python-format
+msgid "Credit"
+msgstr "Haber"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:195
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:195
+#, python-format
+msgid "Cumul. Bal."
+msgstr "Saldo Acum."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:372
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:372
+#, python-format
+msgid "Cumulated Balance on Account"
+msgstr "Saldo Acumulado en Cuenta"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:212
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:212
+#, python-format
+msgid "Curr."
+msgstr "Mon."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:210
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:210
+#, python-format
+msgid "Curr. Bal."
+msgstr "Saldo Mon."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:203
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:203
+#, python-format
+msgid "Curr. Credit"
+msgstr "Haber Mon. Sec."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:205
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:205
+#, python-format
+msgid "Curr. Cumul. Bal."
+msgstr "Saldo Acum. Mon. Sec."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:201
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:201
+#, python-format
+msgid "Curr. Debit"
+msgstr "Debe Mon. Sec."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:182
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:182
+#, python-format
+msgid "Date"
+msgstr "Fecha"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:107
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:107
+#, python-format
+msgid "Dates Filter"
+msgstr "Filtro de Fechas"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:192
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:192
+#, python-format
+msgid "Debit"
+msgstr "Debe"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:184
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:184
+#, python-format
+msgid "Entry"
+msgstr "Asiento"
+
+#. module: uy_account_report_general_ledger
+#: field:general.ledger.webkit,filter_location_ids:0
+msgid "Filter by Locations"
+msgstr "Filtrar por ubicaciones"
+
+#. module: uy_account_report_general_ledger
+#: field:general.ledger.webkit,filter_partner_ids:0
+msgid "Filter by Partners"
+msgstr "Filtrar por clientes"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:105
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:105
+#, python-format
+msgid "Fiscal Year"
+msgstr "Ejercicio Fiscal"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:130
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:130
+#, python-format
+msgid "From"
+msgstr "Desde"
+
+#. module: uy_account_report_general_ledger
+#: model:ir.model,name:uy_account_report_general_ledger.model_general_ledger_webkit
+msgid "General Ledger Report"
+msgstr "Informe del libro mayor"
+
+#. module: uy_account_report_general_ledger
+#: model:ir.actions.report.xml,name:uy_account_report_general_ledger.account_report_general_ledger_webkit_ext
+msgid "General Ledger Webkit"
+msgstr "Libro Mayor Webkit"
+
+#. module: uy_account_report_general_ledger
+#: report:addons/uy_account_report_general_ledger/report/account_report_general_ledger.mako:43
+#: report:addons/uy_account_report_general_ledger/report/account_report_general_ledger.mako:152
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:125
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:306
+#, python-format
+msgid "Initial Balance"
+msgstr "Saldo Inicial"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:185
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:185
+#, python-format
+msgid "Journal"
+msgstr "Diario"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:189
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:189
+#, python-format
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:223
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:223
+#, python-format
+msgid "Location"
+msgstr "Local"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:138
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:138
+#, python-format
+msgid "Locations Filter"
+msgstr "Filtro de Locales"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:69
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:69
+#, python-format
+msgid "Opening Entries"
+msgstr "Asientos abiertos"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:188
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:188
+#, python-format
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:113
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:113
+#, python-format
+msgid "Partners Filter"
+msgstr "Filtro de Clientes"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:113
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:113
+#, python-format
+msgid "Operating Units Filter"
+msgstr "Filtro de Unidades Ejecutoras"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:183
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:183
+#, python-format
+msgid "Period"
+msgstr "Período"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:107
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:107
+#, python-format
+msgid "Periods Filter"
+msgstr "Filtro de Períodos"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:226
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:226
+#, python-format
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:109
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:109
+#, python-format
+msgid "Target Moves"
+msgstr "Movimientos destino"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:135
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:135
+#, python-format
+msgid "To"
+msgstr "Hasta"
+
+#. module: uy_account_report_general_ledger
+#: field:general.ledger.webkit,display_curr_columns:0
+msgid "Display columns secundary currency"
+msgstr "Mostrar columnas Moneda secundaria"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\pos_order.py:165
+#: code:addons/uy_account_report_general_ledger/pos_order.py:165
+#, python-format
+msgid "Please define income account for this product: \"%s\" (id:%d)."
+msgstr "Por favor, defina la cuenta de ingresos para este producto:\"%s\"(id: %d)."
+
+#. module: uy_account_report_general_ledger
+#: field:account.move.line,pos_order_ids_char:0
+msgid "PoS Orders origin of this move"
+msgstr "Pedidos TPV que originaron este apunte"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\pos_order.py:42
+#: code:addons/uy_account_report_general_ledger/pos_order.py:42
+#, python-format
+msgid "Selected orders do not have the same session!"
+msgstr "¡Los pedidos seleccionados no tienen la misma sesión!"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\pos_order.py:201
+#: code:addons\uy_account_report_general_ledger\pos_order.py:218
+#: code:addons/uy_account_report_general_ledger/pos_order.py:201
+#: code:addons/uy_account_report_general_ledger/pos_order.py:218
+#, python-format
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\pos_order.py:138
+#: code:addons/uy_account_report_general_ledger/pos_order.py:138
+#, python-format
+msgid "The POS order must have lines when calling this method"
+msgstr "El pedido TPV debe tener líneas cuando llama a este método."
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\pos_order.py:231
+#: code:addons/uy_account_report_general_ledger/pos_order.py:231
+#, python-format
+msgid "Trade Receivables"
+msgstr "Créditos por ventas"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:170
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:170
+#, python-format
+msgid "Transaction Date"
+msgstr "Fecha Transacción"
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:172
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:172
+#, python-format
+msgid "Custom Date: "
+msgstr "Fecha dada: "
+
+#. module: uy_account_report_general_ledger
+#: code:addons\uy_account_report_general_ledger\report\general_ledger_xls.py:174
+#: code:addons/uy_account_report_general_ledger/report/general_ledger_xls.py:174
+#, python-format
+msgid "Currency Rate: "
+msgstr "Cambio dado: "

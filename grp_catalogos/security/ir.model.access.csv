@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_grp_usuario_grp_region,Region | Usuario GRP | Leer,model_grp_region,grp_seguridad.grp_usuario,1,0,0,0
+access_grp_usuario_grp_localidad,Localidad | Usuario GRP | Leer,model_grp_localidad,grp_seguridad.grp_usuario,1,0,0,0
+access_grp_usuario_grp_jurisdiccion_judicial,Jurisdiccion Judicial | Usuario GRP | Leer,model_grp_jurisdiccion_judicial,grp_seguridad.grp_usuario,1,0,0,0
+access_grp_conf_estructura_region,Region | Configuración de estructura | Leer/Modificar/Crear/Eliminar,model_grp_region,grp_catalogos.grp_conf_estructura,1,1,1,1
+access_grp_conf_estructura_localidad,Localidad | Configuración de estructura | Leer/Modificar/Crear/Eliminar,model_grp_localidad,grp_catalogos.grp_conf_estructura,1,1,1,1
+access_grp_conf_estructura_jurisdiccion_judicial,Jurisdiccion Judicial | Configuración de estructura | Leer/Modificar/Crear/Eliminar,model_grp_jurisdiccion_judicial,grp_catalogos.grp_conf_estructura,1,1,1,1
+access_grp_usuario_hr_department,Departamento | Usuario GRP | Leer,model_hr_department,grp_seguridad.grp_usuario,1,0,0,0
+access_grp_conf_estructura_hr_departamento,Departamento | Configuración de estructura | Leer/Modificar/Crear/Eliminar,model_hr_department,grp_catalogos.grp_conf_estructura,1,1,1,1
+access_grp_conf_estructura_res_country_state,Departamentos | Configuración de estructura | Leer/Modificar/Crear/Eliminar,base.model_res_country_state,grp_catalogos.grp_conf_estructura,1,1,1,1

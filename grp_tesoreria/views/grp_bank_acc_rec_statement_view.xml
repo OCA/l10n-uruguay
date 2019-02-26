@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- GAPF0020_277 PCAR 01 06 2017 Listar partidas conciliatorias -->
+        <record id="grp_view_bank_acc_rec_statement_form_inherited" model="ir.ui.view">
+            <field name="name">grp.agregar_campo_conciliacion_view.form.inherited</field>
+            <field name="model">bank.acc.rec.statement</field>
+            <field name="inherit_id" ref="npg_bank_account_reconciliation.view_bank_acc_rec_statement_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='refresh_record']" position="attributes">
+                    <attribute name="states">draft</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+                <field name="account_id" position="attributes">
+                    <attribute name="on_change"></attribute>
+                </field>
+                <field name="ending_date" position="attributes">
+                    <attribute name="on_change"></attribute>
+                </field>
+                <field name="suppress_ending_date_filter" position="attributes">
+                    <attribute name="on_change"></attribute>
+                </field>
+
+                <!-- page string="Journal Items" -->
+                <page string="Journal Items" position="after">
+                    <page string="Líneas eliminadas">
+                        <group string="Líneas eliminadas">
+                            <field colspan="4" mode="tree" name="unlink_debit_move_line_ids"
+                                   widget="one2many_list" height="300" readonly="1">
+                                <tree string="Eliminadas" editable="top">
+                                    <field name="statement_id" invisible="1"/>
+                                    <field name="cleared_bank_account"/>
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="ref"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/>
+                                    <field name="research_required"/>
+                                    <field name="move_line_id"/>
+                                </tree>
+                            </field>
+                            <field colspan="4" mode="tree" name="unlink_credit_move_line_ids"
+                                   widget="one2many_list" height="300" readonly="1">
+                                <tree string="Eliminadas" editable="top">
+                                    <field name="statement_id" invisible="1"/>
+                                    <field name="cleared_bank_account"/>
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="ref"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount"/>
+                                    <field name="currency_id"/>
+                                    <field name="research_required"/>
+                                    <field name="move_line_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </page>
+
+                <!--DEBITS-->
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='date']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='name']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='ref']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='partner_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='amount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='currency_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='debit_move_line_ids']/tree/field[@name='move_line_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <!--CREDITS-->
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='date']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='name']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='ref']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='partner_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='amount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='currency_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_move_line_ids']/tree/field[@name='move_line_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+
+                <!-- PCARBALLO: Incidencia 164 -->
+                <xpath expr="//field[@name='difference']" position="after">
+                    <field name="justificacion_part" attrs="{'invisible': [('difference','=',0.0)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='ending_balance']" position="after">
+                    <field name="part_conciliatorias"/>
+                </xpath>
+                <!-- PCARBALLO -->
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

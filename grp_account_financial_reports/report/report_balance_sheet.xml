@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_financial_report_aeroo_xls.balance_sheet" model="ir.actions.report.xml">
+            <field name="name">Balance Sheet</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">accounting.report</field>
+            <field name="report_name">account_balance_sheet_exel</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <field name="parser_loc">grp_account_financial_reports/report/account_balance_sheet.py</field>
+            <field name="report_rml">grp_account_financial_reports/report/account_balance_sheet.ods</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+
+    </data>
+</openerp>

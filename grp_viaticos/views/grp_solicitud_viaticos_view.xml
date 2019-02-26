@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="grp_solicitud_viaticos_view_form" model="ir.ui.view">
+            <field name="name">grp.solicitud.viaticos.view.form</field>
+            <field name="model">grp.solicitud.viaticos</field>
+            <field name="arch" type="xml">
+                <form string="Solicitud de Viajes" version="7.0">
+                    <header>
+                        <!--TODO: SPRING 11 GAP 24 L-->
+                        <button name="action_enviar_aprobar" type="object" states="borrador" string="Enviar a aprobar"
+                                class="oe_highlight" groups="grp_viaticos.grp_sv_solicitante"/>
+                        <button name="action_aprobar" type="object" states="en_aprobacion" string="Aprobar"
+                                class="oe_highlight" groups="grp_viaticos.grp_sv_aprobar_viaje"/>
+
+                        <button name="action_rechazar" type="object" states="en_aprobacion" string="Rechazar"
+                                groups="grp_viaticos.grp_sv_aprobar_viaje"/>
+                        <button name="action_pasar_borrador" type="object"
+                                string="Pasar a borrador" attrs="{'invisible':[('a_borrador','=',False)]}"/>
+
+                        <button name="action_enviar_autorizar" type="object" states="aprobado" string="Enviar a autorizar"
+                                attrs="{'invisible':['|',('lleva_adelanto','=',False)]}" class="oe_highlight"
+                                groups="grp_viaticos.grp_sv_aprobar_viaje"/>
+
+                        <button name="action_cancelar" type="object" states="aprobado" string="Cancelar"
+                                attrs="{'invisible':['|',('lleva_adelanto','=',False)]}"
+                                groups="grp_viaticos.grp_sv_aprobar_viaje,grp_viaticos.grp_sv_solicitante"/>
+
+                        <button name="action_autorizar" type="object" states="en_autorizacion" string="Autorizar"
+                                attrs="{'invisible':['|',('tipo','=','exterior')]}" class="oe_highlight"
+                                groups="grp_viaticos.grp_sv_autoriza"/>
+                        <button name="action_rechazar" type="object" states="en_autorizacion" string="Rechazar"
+                                groups="grp_viaticos.grp_sv_autoriza"/>
+                        <button name="action_enviar_financiero" type="object" states="en_autorizacion"
+                                string="Enviar a financiero" attrs="{'invisible':['|',('tipo','=','interior')]}"
+                                class="oe_highlight" groups="grp_viaticos.grp_sv_autoriza"/>
+
+                        <button name="action_autorizar" type="object" states="en_financiero" string="Autorizar"
+                                class="oe_highlight" groups="grp_viaticos.grp_sv_autorizar_financiero"/>
+                        <button name="action_rechazar" type="object" states="en_financiero" string="Rechazar"
+                                groups="grp_viaticos.grp_sv_autorizar_financiero"/>
+
+                        <button name="action_cancelar" type="object" states="autorizado,rechazado" string="Cancelar"
+                                attrs="{'invisible':['|',('adelanto_pagado','=',True)]}"
+                                groups="grp_viaticos.grp_sv_solicitante,grp_viaticos.grp_sv_aprobar_viaje"/>
+                        <field name="state" widget="statusbar" statusbar_colors='{"autorizado":"blue"}'/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="a_borrador" invisible="1"/><!--TODO: L SPRING 11 GAP 24-->
+                                <field name="tipo" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="motivo_viaje" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="destino" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="solicitante_id" attrs="{'readonly': ['|',('instance_editable','=',False),('solicitante_editable','=',False)]}" options="{'no_create_edit': true, 'no_quick_create': true }"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="operating_unit_id" attrs="{'readonly': [('instance_editable','=',False)]}"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="department_id" />
+                                <field name="solicitante_editable" invisible="1"/>
+                                <field name="employee_id" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="cedula"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="categoria"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="domicilio_id"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="partner_id" invisible="1"/>
+                                <field name="asociados_ids" widget="many2many_tags" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="requiere_alojamiento" invisible="1"
+                                       attrs="{'readonly': [('state','not in',['borrador','en_autorizacion','en_aprobacion'])]}"/>
+                                <field name="user_operating_unit_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="fecha_ingreso"/>
+                                <field name="fecha_desde" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="fecha_hasta" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="lugar_partida" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="tipo_locomocion" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="km_recorrer" attrs="{'readonly': [('instance_editable','=',False)]}"/>
+                                <field name="km_recorrer_cmp" attrs="{'invisible':[('tipo_locomocion', 'not in',['locomocion_propia'])], 'required':[('tipo_locomocion', 'in',['locomocion_propia'])],'readonly': [('instance_editable','=',False)]}"/>
+
+                                <field name="currency_id"
+                                        options="{'save_readonly': true, 'no_create_edit': true, 'no_quick_create': true}"
+                                        attrs="{'readonly': ['|',('tipo','=','interior'),('instance_editable','=',False)]}"/>
+                                <field name="journal_id" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="lleva_adelanto"
+                                       groups="grp_viaticos.grp_sv_aprobar_viaje"
+                                       attrs="{'readonly': ['|','|',('tipo','in',['exterior']),('state','not in',['en_aprobacion']),('km_recorrer','&lt;',50)]}"/><!--TODO: SPRING 11 GAP 24 L-->
+                                <field name="adelanto_pagado" readonly="1"/>
+                                <field name="paid_date"/>
+                                <field name="tipo_cambio"/>
+                                <field name="edit_lines" invisible="1"/>
+                                <field name="instance_editable" invisible="1"/>
+                                <field name="config_importe_viatico_id" options="{'save_readonly':True}" invisible="1"/>
+                                <field name="config_complemento_viatico_id" options="{'save_readonly':True}" invisible="1"/>
+                                <field name="locomocion_propia_id" options="{'save_readonly':True}" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lineas" name="lineas">
+                                <button name="action_actualizar_lineas" states="borrador,en_aprobacion" type="object" string="Actualizar"/> <!--TODO:R SPRING 11 GAP 24 -->
+                                <group name="lineas" colspan="4">
+                                    <field name="lineas_ids" nolabel="1"
+                                           context="{'default_solicitud_viatico_id': active_id}"
+                                           attrs="{'readonly': [('edit_lines','=',False)]}"><!--TODO: SPRING 11 GAP 24 L-->
+                                        <tree editable="bottom">
+                                            <field name="solicitud_viatico_id" invisible="1"/>
+                                            <field name="beneficiario_id" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                            <field name="product_id"/>
+                                            <field name="descripcion"/>
+                                            <field name="cant_personas" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                            <field name="dias" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                            <field name="horas"/><!--TODO: SPRING 11 GAP 24 L-->
+                                            <field name="valor"
+                                                   attrs="{'readonly':[('editar_monto','!=',True)],'required':[('editar_monto', '=', True)]}"/>
+                                            <field name="valor_init" groups="grp_viaticos.grp_sv_ingresa_monto,grp_viaticos.grp_sv_autoriza,grp_viaticos.grp_sv_aprobar_viaje"/>
+                                            <field name="editar_monto" invisible="1"/>
+                                            <field name="monto" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                            <field name="adelanto" invisible="1"/><!--TODO: SPRING 11 GAP 24 L-->
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="total_adelanto" class="oe_subtotal_footer_separator" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total" class="oe_subtotal_footer_separator" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div style="width: 50%">
+                                    <separator string="Notas"/>
+                                    <field name="notas"/>
+                                </div>
+                            </page>
+                            <page string="Múltiples destinos" name="page_viaticos_multi">
+                                <field name="viaticos_multi" nolabel="1">
+                                    <tree string="Múltiples destinos" editable="bottom">
+                                        <field name="origen"/>
+                                        <field name="destino"/>
+                                        <field name="fecha_desde"/>
+                                        <field name="fecha_hasta"/>
+                                        <field name="solicitud_viatico_id" invisible="1"/>
+                                    </tree>
+                                    <form string="Múltiples destinos">
+                                        <field name="origen"/>
+                                        <field name="destino"/>
+                                        <field name="fecha_desde"/>
+                                        <field name="fecha_hasta"/>
+                                        <field name="solicitud_viatico_id" invisible="1"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="grp_solicitud_viaticos_view_tree" model="ir.ui.view">
+            <field name="name">grp.solicitud.viaticos.view.tree</field>
+            <field name="model">grp.solicitud.viaticos</field>
+            <field name="arch" type="xml">
+                <tree string="Solicitud de Viajes">
+                    <field name="name"/>
+                    <field name="tipo"/>
+                    <!--<field name="fecha_desde"/>--><!--TODO: SPRING 11 GAP 24 L-->
+                    <!--<field name="fecha_hasta"/>--><!--TODO: SPRING 11 GAP 24 L-->
+                    <field name="total_adelanto"/>
+                    <field name="total"/>
+                    <field name="adelanto_pagado"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="grp_solicitud_viaticos_view_search" model="ir.ui.view">
+            <field name="name">grp.solicitud.viaticos.view.search</field>
+            <field name="model">grp.solicitud.viaticos</field>
+            <field name="arch" type="xml">
+                <search string="Busqueda de Solicitud de Viajes">
+                    <field name="name"/>
+                    <field name="solicitante_id"/>
+                    <field name="tipo"/>
+                    <field name="fecha_desde"/>
+                    <field name="fecha_hasta"/>
+                    <field name="total_adelanto"/>
+                    <field name="total"/>
+                    <field name="adelanto_pagado"/>
+                    <field name="state"/>
+                    <group expand="0" string="Agrupar por...">
+                        <filter string="Tipo" icon="terp-personal" domain="[]" context="{'group_by':'tipo'}"/>
+                        <filter string="Estado" icon="terp-go-week" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_grp_solicitud_viajes" model="ir.actions.act_window">
+            <field name="name">Solicitud de Viajes</field>
+            <field name="res_model">grp.solicitud.viaticos</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem id="menu_solicitud_viajes" action="action_grp_solicitud_viajes"
+                  name="Solicitud de Viajes"
+                  parent="grp_compras_estatales.menu_sr_main" sequence="2"
+                  groups="grp_viaticos.grp_sv_solicitante,grp_viaticos.grp_sv_ingresa_monto,grp_viaticos.grp_sv_autoriza,grp_viaticos.grp_sv_aprobar_viaje,grp_viaticos.grp_aprobar_rendicion_f"/>
+
+        <record model='ir.ui.menu' id='grp_compras_estatales.menu_sr_main'>
+            <field name="groups_id" eval="[(4,ref('grp_viaticos.grp_sv_aprobar_viaje')),
+            (4, ref('grp_viaticos.grp_sv_autoriza')),
+            (4, ref('grp_viaticos.grp_aprobar_rendicion')),(4, ref('grp_viaticos.grp_aprobar_rendicion_f'))]"/>
+        </record>
+
+
+        <record id="view_grp_solicitud_compra_tree_inh_viatico" model="ir.ui.view">
+            <field name="name">Solicitud de Compra - Viaticos</field>
+            <field name="model">grp.solicitud.compra</field>
+            <field name="inherit_id" ref="grp_compras_estatales.view_grp_solicitud_compra_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="solicitud_recursos_id" position="after">
+                    <field name="solicitud_viatico_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_grp_solicitud_compra_form_inh_viatico" model="ir.ui.view">
+            <field name="name">Solicitud de Compra - Viaticos</field>
+            <field name="model">grp.solicitud.compra</field>
+            <field name="inherit_id" ref="grp_compras_estatales.view_grp_solicitud_compra_form"/>
+            <field name="arch" type="xml">
+                <field name="solicitud_recursos_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('solicitud_viatico_id','!=',False)]}</attribute>
+                </field>
+                <field name="solicitud_recursos_id" position="after">
+                    <field name="solicitud_viatico_id" style="width: 50%%"
+                           attrs="{'invisible': [('solicitud_viatico_id','=',False)]}"/>
+                </field>
+
+            </field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 24 L-->
+        <record id="grp_motivo_viaje_view_tree" model="ir.ui.view">
+            <field name="name">grp.motivo.viaje.view.tree</field>
+            <field name="model">grp.motivo.viaje</field>
+            <field name="arch" type="xml">
+                <tree string="Motivo del viaje" editable="bottom">
+                    <field name="codigo"/>
+                    <field name="descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="grp_motivo_viaje_view_form" model="ir.ui.view">
+            <field name="name">grp.motivo.viaje.view.form</field>
+            <field name="model">grp.motivo.viaje</field>
+            <field name="arch" type="xml">
+                <form string="Motivo del viaje">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="codigo"/>
+                                <field name="descripcion"/>
+                            </group>
+                            <group></group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 24 L-->
+        <record id="action_grp_motivo_viaje" model="ir.actions.act_window">
+            <field name="name">Motivos de viaje</field>
+            <field name="res_model">grp.motivo.viaje</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!--TODO: SPRING 11 GAP 24 L-->
+        <menuitem id="menu_motivo_viaje" action="action_grp_motivo_viaje"
+                  name="Motivo del viaje"
+                  parent="grp_compras_estatales.menu_conf" sequence="100"
+                  groups="base.group_hr_user"/>
+
+        <!-- Wizard de confirmación -->
+        <record id="grp_solicitud_cmp_viatico_wzd_form" model="ir.ui.view">
+            <field name="name">grp.solicitud.cmp.viatico.wzd.form</field>
+            <field name="model">grp.solicitud.cmp.viatico.wzd</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar solicitud">
+                    <group>
+                        <div style="width: 100%;">
+                            <span class="fa fa-exclamation-triangle" style="width: 60px; height: 100px; float: left; font-size: 50px; color: #f6b806; margin-left: 20px;"/>
+                            <span style="font-size: 16px;">
+                                <p>La solicitud contiene destinos a los que corresponde complemento y otros no.</p>
+                                <p>Por favor verifique que los cálculos sean correctos.</p>
+                                <p>¿Desea continuar?</p>
+                            </span>
+                        </div>
+                    </group>
+                    <footer>
+                        <button name="action_confirm" string="Confirmar" class="oe_highlight" type="object"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

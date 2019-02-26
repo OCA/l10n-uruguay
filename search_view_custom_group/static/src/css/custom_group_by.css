@@ -1,0 +1,34 @@
+
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by{
+  overflow: auto;
+}
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by form {
+  display: none;
+  margin-top: 4px;
+}
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by button.oe_add_custom_group_by:before {
+  content: "Z";
+  font-family: "entypoRegular" !important;
+  font-size: 24px;
+  font-weight: 300 !important;
+  margin-right: 4px;
+}
+
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by ul {
+  list-style: none;
+  padding: 0;
+}
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by li {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  white-space: nowrap;
+}
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by li:first-child .searchview_custom_group_by_field {
+  /*visibility: hidden;*/
+  margin-left: 20px;
+}
+.openerp .oe_searchview_drawer .oe_searchview_custom_group_by .searchview_custom_group_by_field {
+  /*opacity: 0.5;*/
+  margin-left: 20px;
+}

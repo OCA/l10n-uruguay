@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="grp_transferencia_cabezal_account_move_line" model="ir.ui.view">
+            <field name="name">grp_transferencia_cabezal_account_move_line.form</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de Asiento" editable="bottom">
+                    <field name="invoice"/>
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="supplier_invoice_number"/>
+                    <field name="partner_id"/>
+                    <field name="account_id"/>
+                    <field name="date_maturity"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="analytic_account_id"/>
+                    <field name="amount_currency"/>
+                    <field name="currency_id"/>
+                    <field name="tax_code_id"/>
+                    <field name="tax_amount"/>
+                    <field name="state"/>
+                    <field name="reconcile_id"/>
+                    <field name="reconcile_partial_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- TODO: SPRING 11 GAP 285 C-->
+        <record id="view_grp_transferencia_cabezal_comp_wizard_form" model="ir.ui.view">
+            <field name="name">grp.transferencia.cabezal.comp.wizard.form</field>
+            <field name="model">grp.transferencia.cabezal.comp.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Comprobantes">
+                    <separator string="Comprobantes"/>
+                    <field name="line_ids" height="300" width="700"
+                           context="{'tree_view_ref': 'grp_tesoreria.grp_transferencia_cabezal_account_move_line' }"
+                           domain="[('id','in', context.get('domain',[]))]">
+                    </field>
+                    <footer>
+                        <button string="Confirmar" name="confirm_line_ids" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_grp_transferencia_cabezal_comp_wizard" model="ir.actions.act_window">
+            <field name="name">Seleccionar comprobantes</field>
+            <field name="res_model">grp.transferencia.cabezal.comp.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_transferencia_cabezal_comp_wizard_form"/>
+        </record>
+    </data>
+</openerp>

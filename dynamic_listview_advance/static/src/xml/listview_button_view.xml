@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates t-name="show_field">
+   <t t-extend="ListView.buttons">
+     <t t-jquery="div.oe_list_buttons" t-operation="append">
+        <t t-if="widget.data &amp;&amp; widget.data.show_button_col">
+            <div class="input-group margin-bottom-sm choose_field_show" t-att-color="color" style="margin-left: 10px; display: inline;">
+                <button type="button" title="Choose fields to show" class="btn btn-default toggle_select_field" style="color: #2B2B2B !important;">
+                    <i class="fa fa-bars fa-rotate-90" title="Columns" aria-hidden="true"></i>
+                    <i class="fa fa-caret-down" title="Choose fields to show" aria-hidden="true"></i>
+                </button>
+                <div class="text_suggestion" name="container_text_suggestion">
+                    <div class="suggestion_action">
+                        <a class="btn btn-default update_fields_show" style="float: left;" action="reset" title="Reset to the original view">
+                            <i class="fa fa-trash-o" title="Reset to the original view" aria-hidden="true"></i>
+                            <span class="sr-only">Reset to the original view</span>
+                        </a>
+                        <a class="btn btn-default update_fields_show" title="Close" onclick="$('div.text_suggestion').hide();">
+                            <i class="fa fa-close" title="Close" aria-hidden="true"></i>
+                            <span class="sr-only">Close</span>
+                        </a>
+                        <a class="btn btn-default update_fields_show" action="update" title="Apply changes">
+                            <i class="fa fa-check" title="Apply changes" aria-hidden="true"></i>
+                            <span class="sr-only">Apply changes</span>
+                        </a>
+                        <t t-if="widget.data.show_all_user">
+                            <label for="all_user" style="float: right; margin-bottom: 0px; font-size: 11px; font-weight: normal; margin-right: 4px;">All users</label>
+                            <input type="checkbox" t-att-checked="widget.data.all_user_checked || undefined" value="all_user" id="all_user" style="float: right;"/>
+                        </t>
+                    </div>
+                    <div class="suggestion">
+                        <ul>
+                            <t t-foreach="widget.data.suggestion" t-as="suggest">
+                                <li>
+                                    <div class="checkbox check-primary" t-att-color="widget.data.attrs.color" t-att-shape="widget.data.attrs.shape">
+                                        <i class="fa fa-cog i_setting_field" title="Settings (toggle to Show/Hide)" aria-hidden="true" t-att-setting="suggest.value" style="line-height: 100%;vertical-align: middle;margin-right: 5px;opacity: 0.5;"></i>
+                                        <div class="setting_field">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="sequence" title="Sequence" t-att-for="suggest.value" t-att-value="suggest.sequence" style="margin-right: 2px;" />
+                                                            <input class="string_field" title="String Of Field" t-att-for="suggest.value" t-att-value="suggest.string" style="float: left;margin-right: 2px;" />
+                                                            <a action="update" class="btn btn-default update_fields_show" title="Update" style="padding: 1px 5px;">
+                                                                <i aria-hidden="true"  class="fa fa-refresh update_setting_field" title="Update"></i>
+                                                                <span class="sr-only">Update</span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <input type="checkbox" t-att-value="suggest.value" t-att-string_field="suggest.string" t-att-sequence="suggest.sequence"
+                                               t-att-checked="suggest.checked" t-att-id="suggest.value" />
+                                        <label class="item_label_field" >
+                                            <t t-esc="suggest.string" />
+                                        </label>
+                                    </div>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </t>
+</t>
+</templates>

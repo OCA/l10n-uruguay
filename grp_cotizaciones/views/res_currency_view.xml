@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: GAP 209-->
+        <record model="ir.ui.view" id="grp_view_currency_form_inherited">
+            <field name="name">grp.view_currency.form.inherited</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="company_id" position="after">
+                        <field name="codigo_siif"/>
+                        <field name="porcentaje_aumento_tipo_cambio_siif"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

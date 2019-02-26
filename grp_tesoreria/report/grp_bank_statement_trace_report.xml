@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_grp_bank_statement_trace_report_search" model="ir.ui.view">
+            <field name="name">grp.bank.statement.trace.report.search</field>
+            <field name="model">grp.bank.statement.trace.report</field>
+            <field name="arch" type="xml">
+                <search string="Trazabilidad de Caja chica">
+                    <field name="journal_id"/>
+                    <field name="bank_statement_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_grp_bank_statement_trace_report_graph" model="ir.ui.view">
+            <field name="name">grp.bank.statement.trace.report.graph</field>
+            <field name="model">grp.bank.statement.trace.report</field>
+            <field name="arch" type="xml">
+                <graph string="Trazabilidad de Caja chica" type="pivot">
+                    <field name="journal_id"/>
+                    <field name="opi_amount" type="measure"/>
+                    <field name="toreturn_amount" type="measure"/>
+                    <field name="reposition_in_amount" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="view_grp_bank_statement_trace_report_tree" model="ir.ui.view">
+            <field name="name">grp.bank.statement.trace.report.tree</field>
+            <field name="model">grp.bank.statement.trace.report</field>
+            <field name="arch" type="xml">
+                <tree string="Trazabilidad de Caja chica">
+                    <field name="journal_id"/>
+                    <field name="opi_id"/>
+                    <field name="bank_statement_id"/>
+                    <field name="opi_date"/>
+                    <field name="opi_amount"/>
+                    <field name="bank_statement_checked"/>
+                    <field name="opi_paid"/>
+                    <field name="toreturn_amount"/>
+                    <field name="reposition_date"/>
+                    <field name="reposition_concept"/>
+                    <field name="reposition_in_amount"/>
+                    <field name="opi_paid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_grp_bank_statement_trace_report_all" model="ir.actions.act_window">
+            <field name="name">Trazabilidad de Caja chica</field>
+            <field name="res_model">grp.bank.statement.trace.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph,tree</field>
+            <field name="search_view_id" ref="view_grp_bank_statement_trace_report_search"/>
+        </record>
+
+        <menuitem action="action_grp_bank_statement_trace_report_all"
+                  id="menu_grp_bank_statement_trace_report" parent="account.menu_finance_bank_and_cash" sequence="100"
+                  groups="grp_tesoreria.group_grp_tesoreria"/>
+
+    </data>
+</openerp>

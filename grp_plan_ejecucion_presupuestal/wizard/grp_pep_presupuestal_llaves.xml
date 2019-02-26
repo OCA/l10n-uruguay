@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- PERIODICIDAD MENSUAL 12 PERIODOS-->
+        <record id="grp_pep_presupuestal_llaves_12_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.presupuestal.llaves.12.wizard.form</field>
+            <field name="model">grp.pep.presupuestal.llaves.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Llaves presupuestales" version="7.0">
+                    <sheet>
+                        <field name="display_readonly" invisible="1"/>
+                        <group string="Llaves presupuestales">
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="llave_ids" nolabel="1" widget='one2many_list' attrs="{'readonly': [('display_readonly', '=', True)]}">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="nombre"/>
+                                    <field name="porcentaje"
+                                           attrs="{'readonly':[('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                                    <field name="importe"
+                                           readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Períodos">
+                            <button name="button_actualizar_periodos"
+                                    string="Actualizar"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <field name="linea_concepto_id" invisible="1"/>
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="periodo_ids" nolabel="1" widget='one2many_list'>
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="porcentaje_llave" invisible="1"/>
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="nombre_llave"/>
+                                    <field name="periodo1_importe" readonly="1"/>
+                                    <field name="periodo2_importe" readonly="1"/>
+                                    <field name="periodo3_importe" readonly="1"/>
+                                    <field name="periodo4_importe" readonly="1"/>
+                                    <field name="periodo5_importe" readonly="1"/>
+                                    <field name="periodo6_importe" readonly="1"/>
+                                    <field name="periodo7_importe" readonly="1"/>
+                                    <field name="periodo8_importe" readonly="1"/>
+                                    <field name="periodo9_importe" readonly="1"/>
+                                    <field name="periodo10_importe" readonly="1"/>
+                                    <field name="periodo11_importe" readonly="1"/>
+                                    <field name="periodo12_importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="guardar_llaves"
+                                    string="Guardar"
+                                    type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- PERIODICIDAD MENSUAL 6 PERIODOS-->
+        <record id="grp_pep_presupuestal_llaves_6_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.presupuestal.llaves.6.wizard.form</field>
+            <field name="model">grp.pep.presupuestal.llaves.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Llaves presupuestales" version="7.0">
+                    <sheet>
+                        <field name="display_readonly" invisible="1"/>
+                        <group string="Llaves presupuestales">
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="llave_ids" nolabel="1" widget='one2many_list' attrs="{'readonly': [('display_readonly', '=', True)]}">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="nombre"/>
+                                    <field name="porcentaje"
+                                           attrs="{'readonly':[('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                                    <field name="importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Períodos">
+                            <button name="button_actualizar_periodos"
+                                    string="Actualizar"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <field name="linea_concepto_id" invisible="1"/>
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="periodo_ids" nolabel="1" widget='one2many_list'>
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="porcentaje_llave" invisible="1"/>
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="nombre_llave"/>
+                                    <field name="periodo1_importe" readonly="1"/>
+                                    <field name="periodo2_importe" readonly="1"/>
+                                    <field name="periodo3_importe" readonly="1"/>
+                                    <field name="periodo4_importe" readonly="1"/>
+                                    <field name="periodo5_importe" readonly="1"/>
+                                    <field name="periodo6_importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="guardar_llaves"
+                                    string="Guardar"
+                                    type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- PERIODICIDAD MENSUAL 4 PERIODOS-->
+        <record id="grp_pep_presupuestal_llaves_4_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.presupuestal.llaves.4.wizard.form</field>
+            <field name="model">grp.pep.presupuestal.llaves.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Llaves presupuestales" version="7.0">
+                    <sheet>
+                        <field name="display_readonly" invisible="1"/>
+                        <group string="Llaves presupuestales">
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="llave_ids" nolabel="1" widget='one2many_list' attrs="{'readonly': [('display_readonly', '=', True)]}">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="nombre"/>
+                                    <field name="porcentaje"
+                                           attrs="{'readonly':[('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                                    <field name="importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Períodos">
+                            <button name="button_actualizar_periodos"
+                                    string="Actualizar"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <field name="linea_concepto_id" invisible="1"/>
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="periodo_ids" nolabel="1" widget='one2many_list'>
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="porcentaje_llave" invisible="1"/>
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="nombre_llave"/>
+                                    <field name="periodo1_importe" readonly="1"/>
+                                    <field name="periodo2_importe" readonly="1"/>
+                                    <field name="periodo3_importe" readonly="1"/>
+                                    <field name="periodo4_importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="guardar_llaves"
+                                    string="Guardar"
+                                    type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- PERIODICIDAD MENSUAL 3 PERIODOS-->
+        <record id="grp_pep_presupuestal_llaves_3_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.presupuestal.llaves.3.wizard.form</field>
+            <field name="model">grp.pep.presupuestal.llaves.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Llaves presupuestales" version="7.0">
+                    <sheet>
+                        <field name="display_readonly" invisible="1"/>
+                        <group string="Llaves presupuestales">
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="llave_ids" nolabel="1" widget='one2many_list' attrs="{'readonly': [('display_readonly', '=', True)]}">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="nombre"/>
+                                    <field name="porcentaje"
+                                           attrs="{'readonly':[('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                                    <field name="importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Períodos">
+                            <button name="button_actualizar_periodos"
+                                    string="Actualizar"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <field name="linea_concepto_id" invisible="1"/>
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="periodo_ids" nolabel="1" widget='one2many_list'>
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="porcentaje_llave" invisible="1"/>
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="nombre_llave"/>
+                                    <field name="periodo1_importe" readonly="1"/>
+                                    <field name="periodo2_importe" readonly="1"/>
+                                    <field name="periodo3_importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="guardar_llaves"
+                                    string="Guardar"
+                                    type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- PERIODICIDAD MENSUAL 2 PERIODOS-->
+        <record id="grp_pep_presupuestal_llaves_2_wizard" model="ir.ui.view">
+            <field name="name">grp.pep.presupuestal.llaves.2.wizard.form</field>
+            <field name="model">grp.pep.presupuestal.llaves.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Llaves presupuestales" version="7.0">
+                    <sheet>
+                        <field name="display_readonly" invisible="1"/>
+                        <group string="Llaves presupuestales">
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="llave_ids" nolabel="1" widget='one2many_list' attrs="{'readonly': [('display_readonly', '=', True)]}">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="plan_state" invisible="1"/>
+                                    <field name="nombre"/>
+                                    <field name="porcentaje"
+                                           attrs="{'readonly':[('plan_state','in',('aprobado','en_ejecucion','cierre','finalizado'))]}"/>
+                                    <field name="importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Períodos">
+                            <button name="button_actualizar_periodos"
+                                    string="Actualizar"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-refresh"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <field name="linea_concepto_id" invisible="1"/>
+                            <field name="concepto_id" invisible="1"/>
+                            <field name="periodo_ids" nolabel="1" widget='one2many_list'>
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="porcentaje_llave" invisible="1"/>
+                                    <field name="llave_id" invisible="1"/>
+                                    <field name="nombre_llave"/>
+                                    <field name="periodo1_importe" readonly="1"/>
+                                    <field name="periodo2_importe" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="guardar_llaves"
+                                    string="Guardar"
+                                    type="object"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': [('display_readonly', '=', True)]}"/>
+                            <button string="Cancelar" class="oe_link" special="cancel"/>
+                        </footer>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

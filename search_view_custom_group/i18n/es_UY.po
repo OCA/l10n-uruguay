@@ -1,0 +1,38 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* search_view_custom_group
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20170222\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-02 01:26+0000\n"
+"PO-Revision-Date: 2017-03-02 01:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: search_view_custom_group
+#. openerp-web
+#: code:addons/search_view_custom_group/static/src/xml/template.xml:18
+#, python-format
+msgid "Add Group by"
+msgstr "Agrupar"
+
+#. module: search_view_custom_group
+#. openerp-web
+#: code:addons/search_view_custom_group/static/src/xml/template.xml:7
+#, python-format
+msgid "Custom Group By"
+msgstr "Personalizar Agrupación"
+
+#. module: search_view_custom_group
+#. openerp-web
+#: code:addons/search_view_custom_group/static/src/js/custom_group_by.js:58
+#, python-format
+msgid "GroupBy"
+msgstr "GroupBy"
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Menú agrupador de modelos del catálogo SICE -->
+    <!-- (N)> Almacén > Configuración > Catálogo de artículos SICE -->
+    <menuitem name="Catálogo SICE"
+              id="grp_catalogo_articulos_sice_menu"
+              parent="stock.menu_stock_configuration"
+              sequence="0"
+    />
+    </data>
+</openerp>

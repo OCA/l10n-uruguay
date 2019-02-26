@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <!--TODO Spring 5 GAP 51-->
+        <record id="view_calendar_event_form_inherit" model="ir.ui.view">
+            <field name="name">calendar.event.form.inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_attendee']" position="after">
+                    <field name="is_travel" invisible="1"/>
+                    <field name="travel_create" invisible="1"/>
+                    <field name="date_travel_str" invisible="1"/>
+
+                </xpath>
+                <!--TODO Spring 5 GAP 52-->
+                <xpath expr="//div[@class='oe_title']" position="replace">
+                        <div>
+                            <div class="oe_left">
+                                <div class="oe_edit_only">
+                                    <label for="name"/>
+                                </div>
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                                <label for="partner_ids" string="Attendees" class="oe_edit_only"/>
+                                <h2>
+                                    <field name="partner_ids" widget="many2manyattendee"
+                                        context="{'force_email':True}"
+                                        on_change="onchange_partner_ids(partner_ids)"
+                                        class="oe_inline"/>
+                                </h2>
+                            </div>
+                            <div class="oe_right" attrs="{'invisible': [('is_travel','=', False)]}"><!--name="button_box"-->
+                                 <field name="state_travel" style="padding:0px 18px 5px 0" widget="statusbar" statusbar_visible="pending,done,undone" />
+                                <div >
+                                    <div class="oe_left" style="width:40%">
+                                        <label for="travel_done"/>
+                                        <field name="travel_done"  widget='radio' />
+                                    </div>
+                                    <div class="oe_center">
+                                        <button name="action_register_travel" string="Registrar" type="object" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </xpath>
+
+                <notebook position="inside">
+                    <page string="Detalles del viaje" attrs="{'invisible': [('is_travel','=', False)]}">
+                       <group>
+                            <group>
+                                <field name="employee_ids" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                                <field name="target" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                                <field name="vehicle_type" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="date_travel" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                                <field name="estimated_duration" attrs="{'readonly': [('travel_create','=', True)]}"/>
+                                <field name="driver_id" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                                <field name="vehicle_id" attrs="{'readonly': [('travel_create','=', True)], 'required':[('travel_create','!=', True),('is_travel','=', True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <!--TODO Spring 5 GAP 51-->
+        <record id="view_calendar_event_search_inherit" model="ir.ui.view">
+        <field name="name">calendar.event.search.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+            <field name="show_as" position="after">
+                <field name="employee_ids"/>
+                <field name="target"/>
+                <field name="vehicle_type"/>
+                <field name="date_travel"/>
+                <field name="driver_id"/>
+                <field name="vehicle_id"/>
+            </field>
+            <filter string="Unread Messages" name="message_unread" position="after">
+                <filter string="Auto" name="type_car" domain="[('vehicle_type','=','auto')]"/>
+                <filter string="Camioneta" name="type_van" domain="[('vehicle_type','=','van')]"/>
+            </filter>
+            <filter string="Privacy" icon="terp-locked" domain="[]" context="{'group_by':'class'}" position="after">
+                <filter string="Funcionario que viaja" icon="terp-locked"  context="{'group_by':'employee_id'}" />
+                <filter string="Destino" icon="terp-locked" context="{'group_by':'target'}" />
+                <filter string="Fecha y hora" icon="terp-locked" context="{'group_by':'date_travel'}" />
+                <filter string="Chofer" icon="terp-locked" context="{'group_by':'driver_id'}" />
+                <filter string="Vehículo" icon="terp-locked" context="{'group_by':'vehicle_id'}" />
+            </filter>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_calendar_event_tree">
+        <field name="name">GRP CRM - Meetings Tree</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="arch" type="xml">
+        <!-- TODO C INCIDENCIA-->
+            <field name="start_datetime" position="replace"/>
+            <field name="message_unread" position="after">
+                <field name="state"/>
+            </field>
+        </field>
+    </record>
+
+    </data>
+</openerp>

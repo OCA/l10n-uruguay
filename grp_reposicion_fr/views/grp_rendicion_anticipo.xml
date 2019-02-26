@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_grp_rendicion_anticipo_form_fr" model="ir.ui.view">
+            <field name="name">grp.rendicion.anticipo.fondo.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="grp_tesoreria.view_grp_rendicion_anticipo_form1"/>
+            <field name="arch" type="xml">
+                <field name="account_move_id" position="after">
+                    <field name="fondo_rotarios" readonly="1"/>
+                    <field name="fondo_rotatorio_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

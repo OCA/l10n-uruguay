@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!--TODO: M SPRING 13 GAP 281-->
+
+        <record id="view_grp_rendicion_caja_tree" model="ir.ui.view">
+            <field name="name">grp.rendicion.caja.tree</field>
+            <field name="model">grp.rendicion.caja</field>
+            <field name="arch" type="xml">
+                <tree string="Rendición de caja">
+                    <field name="period_id"/>
+                    <field name="caja_recaudadora_ids" widget="many2many_tags"/>
+                    <field name="balance_inicial"/>
+                    <field name="user_uid"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grp_grp_rendicion_caja_form" model="ir.ui.view">
+            <field name="name">grp.rendicion.caja.form</field>
+            <field name="model">grp.rendicion.caja</field>
+            <field name="arch" type="xml">
+                <form string="Rendición de caja">
+                    <header>
+                        <button name="btn_review" type="object" states="draft" string="Listo para revisar"
+                                icon="gtk-go-forward"/>
+                        <button name="btn_refresh" string='Refrescar' type='object' states="draft"/>
+                        <button name="btn_cancel" type="object" states="to_be_reviewed,done" string="Cancelar"
+                                icon="gtk-cancel"/>
+                        <button name="btn_done" type="object" states="to_be_reviewed" string="Revisado"
+                                icon="gtk-apply"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,to_be_reviewed,done" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="period_id" required="1"/>
+                                <field name="period_date_start" invisible="1"/>
+                                <field name="period_date_stop" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="user_uid" />
+                                <field name="balance_inicial" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="caja_recaudadora_ids" required="1" options="{'no_create': '1', 'no_create_edit': '1', 'create': '0', 'create_edit': '0'}">
+                                <tree string="Caja recudadora tesorería">
+                                    <field name="name"/>
+                                    <field name="box_id"/>
+                                    <field name="open_date"/>
+                                    <field name="journal_id"/>
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                            <field name="caja_recaudadora_siif_ids" options="{'no_create': '1', 'no_create_edit': '1', 'create': '0', 'create_edit': '0'}">
+                                <tree string="Caja recudadora tesorería">
+                                    <field name="name"/>
+                                    <field name="box_id"/>
+                                    <field name="open_date"/>
+                                    <field name="journal_id"/>
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                            <field name="remesa_ids" options="{'no_create': '1', 'no_create_edit': '1', 'create': '0', 'create_edit': '0'}">
+                                <tree string="Caja recudadora tesorería">
+                                    <field name="name"/>
+                                    <field name="box_id"/>
+                                    <field name="open_date"/>
+                                    <field name="journal_id"/>
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                        </group>
+                        <notebook>
+                            <page string="Detalles">
+                                <label for="cargos_ids" />
+                                <field name="cargos_ids" context="{'type': 'cargos', 'default_type': 'cargos'}">
+                                     <tree string="Cargos" create="false" edit="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="date" />
+                                         <field name="recaudacion"  sum="Total"/>
+                                         <field name="fondos_terceros"  sum="Total"/>
+                                         <field name="pagos"  sum="Total"/>
+                                         <field name="fondos_garantia"  sum="Total"/>
+                                         <field name="type" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <label for="descargos_ids" />
+                                <field name="descargos_ids"  context="{'type': 'descargos', 'default_type': 'descargos'}">
+                                     <tree string="Descargos" create="false" edit="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="date" />
+                                         <field name="recaudacion"  sum="Total"/>
+                                         <field name="fondos_terceros"  sum="Total"/>
+                                         <field name="pagos"  sum="Total"/>
+                                         <field name="fondos_garantia"  sum="Total"/>
+                                         <field name="type" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <label for="ajustes_ids" />
+                                <field name="ajustes_ids" context="{'type': 'ajuste', 'default_type': 'ajuste'}">
+                                     <tree string="Ajustes" editable="bottom">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="date" />
+                                         <field name="recaudacion"  sum="Total"/>
+                                         <field name="fondos_terceros"  sum="Total"/>
+                                         <field name="pagos"  sum="Total"/>
+                                         <field name="fondos_garantia"  sum="Total"/>
+                                         <field name="type" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group string="Saldos">
+                                        <field name="balance_final_recaudacion"/>
+                                        <field name="balance_final_fondos_terceros"/>
+                                        <field name="balance_final_pagos"/>
+                                        <field name="balance_final_fondos_garantia"/>
+                                        <field name="balance_final"/>
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                            <page string="Resumen" attrs="{'invisible':[('state','=','draft')]}">
+                                <label for="resumen_ids" />
+                                <field name="resumen_ids" >
+                                     <tree create="false" edit="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="tipo_rendicion_id" invisible="1"/>
+                                         <field name="code" />
+                                         <field name="type" />
+                                         <field name="cargos"  sum="Total"/>
+                                         <field name="descargos"  sum="Total"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <label for="balance_final_resumen" class="oe_subtotal_footer_separator oe_open_balance"
+                                               string="Saldo final" style="padding-right: 23px !important; padding-top: 6px !important;"/>
+                                        <field name="balance_final_resumen" nolabel="1" class="oe_subtotal_footer_separator oe_open_balance" />
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                            <page string="SIIF" attrs="{'invisible':[('state','=','draft')]}">
+                                <label for="mes_anterior_ids" />
+                                <field name="mes_anterior_ids" >
+                                     <tree string="Pendientes mes anterior" create="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="code" />
+                                         <field name="tipo_rendicion_id" />
+                                         <field name="doc" />
+                                         <field name="pendiente" sum="Total"/>
+                                         <field name="tipo" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <label for="recaudacion_ids" />
+                                <field name="recaudacion_ids" >
+                                     <tree string="Recaudacion" create="false" edit="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="tipo_rendicion_id" />
+                                         <field name="descargos" sum="Total"/>
+                                         <field name="pendiente" sum="Total"/>
+                                         <field name="recaudacion" sum="Total"/>
+                                         <field name="tipo" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <label for="mes_siguiente_ids" />
+                                <field name="mes_siguiente_ids" >
+                                     <tree string="Mes siguiente" create="false" edit="false" delete="false">
+                                         <field name="rendicion_caja_id" invisible="1"/>
+                                         <field name="tipo_rendicion_id" />
+                                         <field name="cargos" sum="Total"/>
+                                         <field name="recaudacion" sum="Total"/>
+                                         <field name="mes_siguiente" sum="Total"/>
+                                         <field name="tipo" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <label for="rendicion_ids" />
+                                <field name="rendicion_ids" >
+                                     <tree string="Rendición" create="false" edit="false" delete="false">
+                                         <field name="tipo_rendicion_id" invisible="1"/>
+                                         <field name="code" />
+                                         <field name="cargos" sum="Total"/>
+                                         <field name="descargos" sum="Total"/>
+                                         <field name="tipo" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group string="Saldos">
+                                        <field name="balance_final_pendiente"/>
+                                        <field name="balance_final_cargos"/>
+                                        <field name="balance_final_descargos"/>
+                                        <field name="balance_final_general"/><!---->
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_grp_rendicion_caja" model="ir.actions.act_window">
+            <field name="name">Rendición de cuentas de caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.rendicion.caja</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grp_rendicion_caja_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_rendicion_caja" name="Rendición de cuentas de caja"
+                  parent="account.menu_finance_bank_and_cash" action="action_view_grp_rendicion_caja" sequence="510"/>
+
+
+
+        <!--TODO: M SPRING 13 GAP 281-->
+        <!--TODO: Consulta rendicion de cuenta de caja-->
+
+        <record id="view_grp_rendicion_caja_line_tree" model="ir.ui.view">
+            <field name="name">grp.rendicion.caja.line.tree</field>
+            <field name="model">grp.rendicion.caja.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Consulta rendición de caja" create="false" edit="false" delete="false">
+                    <field name="rendicion_caja_id" invisible="1"/>
+                    <field name="period_id"/>
+                    <field name="caja_recaudadora_ids" widget="many2many_tags"/>
+                    <field name="balance_inicial"/>
+                    <field name="user_uid"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="recaudacion"/>
+                    <field name="fondos_terceros"/>
+                    <field name="pagos"/>
+                    <field name="fondos_garantia"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_grp_rendicion_caja_line" model="ir.actions.act_window">
+            <field name="name">Consulta rendición de cuentas de caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.rendicion.caja.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_grp_rendicion_caja_line_tree"/>
+        </record>
+
+        <menuitem id="menu_grp_rendicion_caja_line" name="Consulta rendicion de cuentas de caja"
+                  parent="account.menu_finance_bank_and_cash" action="action_view_grp_rendicion_caja_line" sequence="520"/>
+
+
+    </data>
+</openerp>

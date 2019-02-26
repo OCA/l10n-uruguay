@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="FormShowField">
+            <div class="main_form">
+                <a class="close close-field-show">X</a>
+                <table style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <h1>Fields Settings</h1>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h3>Color</h3>
+                                <div class="radio" color="radio-default">
+                                    <input type="radio" name="color" value="check-base"
+                                            id="base" />
+                                         <label for="base" style="color: #4c4c4c">Base</label>
+                                    <input type="radio" name="color" value="check-danger"
+                                            id="danger" />
+                                         <label for="danger" style="color: #f55753">Danger</label>
+                                    <input type="radio" name="color" value="check-complete"
+                                            id="complete" />
+                                         <label for="complete" style="color: #48b0f7">Complete</label>
+                                    <input type="radio" name="color" value="check-warning"
+                                            id="warning" />
+                                         <label for="warning" style="color: #f8d053">Warning</label>
+                                    <input type="radio" name="color" value="check-success"
+                                            id="success" />
+                                         <label for="success" style="color: #10cfbd">Success</label>
+                                    <input type="radio" name="color" value="check-primary"
+                                            id="primary" />
+                                         <label for="primary" style="color: #7C7BAD">Primary</label>
+                                    <input type="radio" name="color" value="check-info"
+                                            id="info" />
+                                         <label for="info" style="color: #3b4752">Info</label>
+                                 </div>
+                            </td>
+                        </tr>
+                        <t t-if="user_id==1">
+                            <tr>
+                                <td>
+                                    <h3>For All User</h3>
+                                    <div class="checkbox check-primary">
+                                        <input type="checkbox" value="true" id="all_user" />
+                                        <label for="all_user">All user</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><a class="btn btn-default" action="update" style="margin-right: 10px; float: right">Update</a></td>
+                            <td><a class="btn btn-default">Cancel</a></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+    </t>
+    <t t-name="ShowField">
+        <div class="input-group margin-bottom-sm choose_field_show" t-att-color="data.attrs.color" style="float: left; margin-right: 5px">
+            <t t-if="data.attrs.color!='check-base'">
+                <a type="button" class="btn btn-default fields_setting" title="Settings" style="
+                    border-radius: 0px 5px 5px 0px;
+                    margin-left: -1px; font-size: 13px">
+                    <i class="fa fa-cog" title="Settings" aria-hidden="true"></i>
+                    <span class="sr-only">Settings</span>
+                </a>
+                <a type="button" title="Choose fields to show!" class="btn btn-default toggle_select_field" style="float: left;border-radius: 5px 0px 0px 5px; font-size: 13px">
+                    Columns
+                    <i class="fa fa-chevron-down" title="Choose fields to show!."  style="margin-left: 4px" aria-hidden="true"></i>
+                </a>
+            </t>
+            <t t-if="data.attrs.color=='check-base'">
+                <button type="button" class="btn btn-default fields_setting" title="Settings" style="
+                    border-radius: 0px 5px 5px 0px;
+                    margin-left: -2px; padding-top: 5px; padding-bottom: 5px; margin-top: -5px">
+                    <i class="fa fa-cog" title="Settings" aria-hidden="true"></i>
+                    <span class="sr-only">Settings</span>
+                </button>
+                <button type="button" title="Choose fields to show!" class="btn btn-default toggle_select_field" style="float: left;border-radius: 5px 0px 0px 5px; padding-top: 5px; padding-bottom: 5px;">
+                    Columns
+                    <i class="fa fa-chevron-down" title="Choose fields to show!."  style="margin-left: 4px" aria-hidden="true"></i>
+                </button>
+            </t>
+            <div class="text_suggestion">
+                <div class="suggestion_action">
+                    <a class="btn btn-default update_fields_show" action="update" title="Update">
+                        <i class="fa fa-refresh fa-spin fa-1x fa-fw" title="Update" aria-hidden="true"></i>
+                        <span class="sr-only">Update</span>
+                    </a>
+                </div>
+                <div class="suggestion">
+                    <ul>
+                        <t t-foreach="data.suggestion" t-as="suggest">
+                            <li>
+
+                                <!--<input style="width: 25px;float: right;height: 16px;line-height: 0px;text-align: center;"></input>-->
+                                <div class="checkbox check-primary" t-att-color="data.attrs.color" t-att-shape="data.attrs.shape">
+                                    <input type="checkbox" t-att-value="suggest.value" t-att-sequence="suggest.sequence"
+                                           t-att-checked="suggest.checked" t-att-id="suggest.value" />
+                                    <label t-att-for="suggest.value"><input t-att-for="suggest.value" title="Sequence" class="sequence" t-att-value="suggest.sequence"></input><t t-esc="suggest.string" /></label>
+                                </div>
+                            </li>
+                        </t>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </t>
+    <!--<t t-name="radio">-->
+         <!--<div class="radio" t-att-color="widget.attrs.color" >-->
+             <!--<t t-foreach="widget.options" t-as="item">-->
+                 <!--<input type="radio" t-att-name="widget.name" t-att-value="item.value"-->
+                    <!--t-att-id="item.value" />-->
+                 <!--<label t-att-for="item.value"><t t-esc="item.string" /></label>-->
+             <!--</t>-->
+         <!--</div>-->
+    <!--</t>-->
+</templates>

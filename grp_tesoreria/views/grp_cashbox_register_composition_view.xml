@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_grp_cashbox_register_composition_form" model="ir.ui.view">
+            <field name="name">grp.cashbox.register.composition.form</field>
+            <field name="model">grp.cashbox.register.composition</field>
+            <field name="arch" type="xml">
+                <form string="Composición de efectivo tesorería">
+                    <header>
+                        <button name="action_confirm" states="draft" type="object" class="oe_highlight" string="Confirmar"
+                                groups="grp_tesoreria.group_grp_cashbox_register_responsible,grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_draft" states="confirm" type="object" string="Volver a Borrador"
+                                groups="grp_tesoreria.group_grp_cashbox_register_responsible,grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_cancel" states="confirm" type="object" string="Cancelar"
+                                groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <button name="action_update" states="draft" type="object" string="Actualizar"
+                                groups="grp_tesoreria.group_grp_cashbox_register_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="date" class="oe_inline"/>
+                            <h1>
+                                <field name="date" readonly="1" options="{'save_readonly':True}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="cashbox_register_id"/>
+                                <field name="currency_id"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Caja Pagadora">
+                                <group col="1">
+                                    <field name="caja_pagadora_line_ids" readonly="1" options="{'save_readonly':True}">
+                                        <tree editable="top">
+                                            <field name="name"/>
+                                            <field name="caja_config_id"/>
+                                            <field name="user_id"/>
+                                            <field name="date"/>
+                                            <field name="closing_date"/>
+                                            <field name="balance_end_real" sum="Total efectivo"/>
+                                            <field name="state"/>
+                                            <field name="caja_pagadora_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <group>
+                                            <field name="caja_pagadora_monetaryline_ids" nolabel="1">
+                                                <tree editable="top" create="false" delete="false">
+                                                    <field name="pieces" readonly="1"/>
+                                                    <field name="cashbox_number" readonly="1"/>
+                                                    <field name="cashbox_subtotal_amount" sum="Total efectivo"/>
+                                                    <field name="number"/>
+                                                    <field name="subtotal_amount" sum="Total efectivo"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Caja Recaudadora">
+                                <group col="1">
+                                    <field name="caja_recaudadora_line_ids" readonly="1" options="{'save_readonly':True}">
+                                        <tree editable="top">
+                                            <field name="name"/>
+                                            <field name="caja_config_id"/>
+                                            <field name="user_id"/>
+                                            <field name="no_recibo"/>
+                                            <field name="date"/>
+                                            <field name="amount" sum="Total efectivo"/>
+                                            <field name="shipment"/>
+                                            <field name="siff_ticket"/>
+                                            <field name="caja_recaudadora_line_id" invisible="1"/>
+                                            <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <group>
+                                            <field name="caja_recaudadora_monetaryline_ids" nolabel="1">
+                                                <tree editable="top" create="false" delete="false">
+                                                    <field name="pieces" readonly="1"/>
+                                                    <field name="number"/>
+                                                    <field name="subtotal_amount" sum="Total efectivo"/>
+                                                    <field name="type" invisible="1"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Resumen">
+                                <group col="1">
+                                    <field name="monetaryline_ids" readonly="1" options="{'save_readonly':True}" nolabel="1">
+                                        <tree editable="top">
+                                            <field name="pieces"/>
+                                            <field name="number"/>
+                                            <field name="subtotal_amount" sum="Total efectivo"/>
+                                            <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Fondos Terceros">
+                                <group col="1">
+                                    <field name="fondo_terceros_ids" readonly="1" options="{'save_readonly':True}" >
+                                        <tree editable="top">
+                                            <field name="name"/>
+                                            <field name="caja_config_id"/>
+                                            <field name="user_id"/>
+                                            <field name="no_recibo"/>
+                                            <field name="date"/>
+                                            <field name="amount" sum="Total efectivo"/>
+                                            <field name="shipment"/>
+                                            <field name="siff_ticket"/>
+                                            <field name="caja_recaudadora_line_id" invisible="1"/>
+                                            <field name="type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <group>
+                                            <field name="fterceros_monetaryline_ids" nolabel="1">
+                                                <tree editable="top" create="false" delete="false">
+                                                    <field name="pieces" readonly="1"/>
+                                                    <field name="number"/>
+                                                    <field name="subtotal_amount" sum="Total efectivo"/>
+                                                    <field name="type" invisible="1"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_grp_cashbox_register_composition_tree" model="ir.ui.view">
+            <field name="name">grp.cashbox.register.composition.tree</field>
+            <field name="model">grp.cashbox.register.composition</field>
+            <field name="arch" type="xml">
+                <tree string="Composiciones de efectivo tesorería">
+                    <field name="date"/>
+                    <field name="currency_id"/>
+                    <field name="cashbox_register_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_view_grp_cashbox_register_composition" model="ir.actions.act_window">
+            <field name="name">Composiciones de efectivo tesorería</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grp.cashbox.register.composition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_grp_cashbox_register_composition" name="Composiciones de efectivo tesorería"
+                  parent="menu_grp_account_tesoreria" sequence="500"
+                  action="action_view_grp_cashbox_register_composition"/>
+
+
+
+    </data>
+</openerp>

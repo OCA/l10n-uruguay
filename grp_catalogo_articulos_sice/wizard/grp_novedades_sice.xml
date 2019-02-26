@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Formulario del Wizard para proceso de novedades SICE a demanda -->
+        <record model="ir.ui.view" id="wizard_novedades_sice_form">
+            <field name="name">wizard.novedades.sice.form</field>
+            <field name="model">wizard.novedades.sice</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Actualización del catálogo de artículos SICE" version="7.0">
+                    <group>
+                        <group>
+                            <img src="grp_catalogo_articulos_sice/static/src/img/acce.png" />
+                        </group>
+                        <group>
+                            <center>
+                            <h2>
+                                Carga de novedades de artículos SICE<br/>
+                            </h2>
+                            </center>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="recibir_novedades_sice" string="Recibir novedades" type="object" />
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                  </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_novedades_sice">
+            <field name="name">Carga de novedades de artículos SICE</field>
+            <field name="res_model">wizard.novedades.sice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- MENU DE CARGA DE LAS NOVEDADES -->
+        <menuitem
+            name="Actualización del catálogo SICE"
+            id="menu_actualizacion_novedades_sice"
+            parent="grp_catalogo_articulos_sice_menu"
+            sequence="150"/>
+
+        <menuitem
+            name="Actualizar catálogo"
+            id="menu_wizard_novedades_sice"
+            action="action_novedades_sice"
+            parent="menu_actualizacion_novedades_sice"
+            sequence="10"/>
+
+        <!-- Ejecutar al inicio -->
+        <function model="wizard.novedades.sice" name="configurar_cron_novedades_sice"/>
+    </data>
+</openerp>
+

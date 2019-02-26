@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--
+        #############################################################################################
+        #    Proyecto:   GRP
+        #    Fecha:      11/05/2017
+        #    Autor:      Quanam
+        #    CompaÃ±ia:  Quanam - www.quanam.com
+        #    Adecuacion: Tesoreria
+        #############################################################################################
+        #Ref  Id Tarea                        Desa       Fecha        Descripcion
+        #001  Valores en custodia    CFERNANDEZ  18/01/2016     Creacion de form y tree de valores en custodia
+        #############################################################################################
+        -->
+        <!-- 002- Inicio-->
+
+
+        <record model="ir.ui.view" id="view_grp_valores_custodia_tree">
+            <field name="name">grp.valores_custodia.tree</field>
+            <field name="model">grp.valores_custodia</field>
+            <field name="priority" eval="5"/>
+            <field name="arch" type="xml">
+                <tree string="Valores en Custodia" colors="red:state == 'vencido'">
+                    <field name="name"/>
+                    <field name="tipo_id"/>
+                    <field name="fecha"/>
+                    <field name="fecha_vencimiento"/>
+                    <field name="partner_id"/>
+                    <field name="descripcion"/>
+                    <field name="state"/>
+                    <field name="monto"/>
+                    <field name="currency_id"/>
+                    <field name="fecha_fin_contrato"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_grp_valores_custodia_form">
+            <field name="name">grp.valores_custodia.form</field>
+            <field name="model">grp.valores_custodia</field>
+            <field name="arch" type="xml">
+                <form string="Valores en Custodia" version="7.0">
+                    <header>
+                        <button name="action_entregado" states="entrega_autorizada" string="Entregar"
+                                class="oe_highlight" type="object" attrs="{'invisible':['|',('btn_entregar_inv','=',True)]}"
+                                groups="grp_tesoreria.group_grp_tesoreria,grp_tesoreria.group_grp_tesoreria_interior"/>
+                        <button name="action_recibido" states="entregado" string="Recibir Tesorería"
+                                class="oe_highlight" type="object" groups="grp_tesoreria.group_grp_tesoreria,grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <button name="action_entrega_autorizada" states="recibido,vencido" string="Entrega Autorizada"
+                                class="oe_highlight" type="object"
+                                groups="grp_tesoreria.group_grp_tesoreria_interior"/>
+                        <button name="action_baja_oficio" states="vencido" string="Baja de oficio"
+                                class="oe_highlight" type="object"
+                                groups="grp_tesoreria.group_grp_tesoreria"/>
+                        <button name="action_entregado" states="borrador" string="Entregar a Tesorería"
+                                class="oe_highlight" type="object"
+                                groups="grp_seguridad.grp_compras_pc_Comprador,grp_tesoreria.group_grp_cajero_recaudador,grp_tesoreria.group_grp_tesoreria"/>
+                        <button name="action_caja" states="recibido" string="Ir a caja recaudadora"
+                                attrs="{'invisible':['|',('caja_recaudadora_id','=',False)]}" class="oe_highlight"
+                                type="object" groups="grp_tesoreria.group_grp_tesoreria,grp_tesoreria.group_grp_cajero_recaudador"/>
+                        <field name="state" widget="statusbar"
+                          statusbar_visible="borrador,entregado,recibido,vencido,entrega_autorizada,entrega_tesoreria,baja"
+                          statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                    </header>
+                    <sheet string="Valores en Custodia">
+                        <group id="Cabezal">
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" class="oe_inline" attrs="{'invisible':[('sequence','=',False)]}"/>
+                                    <field name="company_id" invisible="True"/>
+                                    <field name="es_tesoreria" invisible="True"/>
+                                    <field name="caja_recaudadora_id" invisible="True"/><!--TODO: M SPRING 11 GAP 292-->
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="tipo_id" attrs="{'readonly':[('state','not in',('borrador'))]}" domain="context.get('from_menu_valores_custodia', False) and [('efectivo','=',False)] or (context.get('default_caja_recaudadora_id', False) and [('efectivo','=',True)] or [])"/>
+                                <field name="payment_method" attrs="{'readonly':[('state','not in',('borrador'))],'required':[('tipo_efectivo','=',True)],'invisible':[('tipo_efectivo','=',False)]}"/>
+                                <field name="fecha" attrs="{'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="fecha_vencimiento" attrs="{'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="fecha_recepcion"
+                                       attrs="{'readonly':[('state','not in', ('entregado'))], 'required': [('state','in', ('entregado'))]}"/>
+                                <field name="fecha_fin_contrato"/>
+                                <field name="representante"/>
+                                <field name="cedula"/>
+                                <field name="efectivo" invisible="1"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="btn_entregar_inv" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"
+                                       attrs="{'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="descripcion"
+                                       attrs="{'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="currency_id"
+                                       attrs="{'readonly':[('state','not in',('borrador'))],'required': ['|',('tipo_transferencia','=', True),('tipo_efectivo','=', True)]}"/>
+                                <field name="monto" attrs="{'readonly':[('state','not in',('borrador'))],'required':[('efectivo','=',True)]}"/><!--TODO: M SPRING 11 GAP 292-->
+                                <field name="nro_licitacion"
+                                       attrs="{'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="operating_unit_id" readonly="context.get('ro_operating_unit_id', False)"
+                                        attrs="{'readonly':['|',('state','not in',('borrador'))]}" options="{'no_create': true, 'no_quick_create': true}" />
+                                <field name="tipo_procedimiento"/>
+                                <field name="readonly" attrs="{'readonly':[('state','not in',('borrador'))], 'invisible':[('tipo_efectivo','=',False)]}" />
+                                <field name="requerido" invisible="True"/>
+                                <field name="fecha_entregado" attrs="{'invisible':[('state','not in',('entregado'))]}"
+                                       readonly="True"/>
+                                <field name="boleto_siif"
+                                       attrs="{'readonly':[('state','not in',('borrador'))],'invisible':[('tipo_transferencia','=',False)]}"/>
+
+                                <field name="serie" attrs="{'required':[('payment_method','=','check')],'invisible':[('payment_method','!=','check')],'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="check_number" attrs="{'required':[('payment_method','=','check')],'invisible':[('payment_method','!=','check')],'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="check_date" attrs="{'required':[('payment_method','=','check')],'invisible':[('payment_method','!=','check')],'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="bank_id" attrs="{'required':[('payment_method','=','check')],'invisible':[('payment_method','!=','check')],'readonly':[('state','not in',('borrador'))]}"/>
+                                <field name="number_bank_account" attrs="{'required':[('payment_method','=','check')],'invisible':[('payment_method','!=','check')],'readonly':[('state','not in',('borrador'))]}"/>
+
+                                <field name="tipo_transferencia" invisible="1"/>
+                                <field name="tipo_efectivo" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="observaciones_tesoreria"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Otra información" >
+                                <group>
+                                    <group string="Asiento de Alta">
+                                        <field name="fecha_alta" readonly="1"/>
+                                        <field name="diario_alta" readonly="1"/>
+                                        <field name="asiento_alta" readonly="1"/>
+                                    </group>
+                                    <group string="Asiento de Baja">
+                                        <field name="fecha_baja" readonly="1"/>
+                                        <field name="diario_baja" readonly="1"/>
+                                        <field name="asiento_baja" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                       </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_grp_valores_custodia_search" model="ir.ui.view">
+            <field name="name">grp.valores_custodia.search</field>
+            <field name="model">grp.valores_custodia</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Valores en Custodia">
+
+                    <filter name="en_custodia" string="En custodia"
+                            domain="['|',('state','=','recibido'),('state','=','vencido')]"/>
+                    <filter name="pendientes_a_recibir" string="Pendientes de Recibir"
+                            domain="[('state','=','entregado')]"/>
+                    <newline/>
+                    <group expand="0" string="Agrupar por...">
+                        <!--<filter string="Usuario" domain="[]" context="{'group_by':'create_uid'}" />-->
+                        <filter string="Estado" name="group_estado" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Moneda" name="group_moneda" domain="[]" context="{'group_by':'currency_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_grp_valores_custodia">
+            <field name="name">Valores en Custodia</field>
+            <field name="res_model">grp.valores_custodia</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_group_estado': 1, 'from_menu_valores_custodia': True}</field>
+            <field name="view_id" ref="view_grp_valores_custodia_tree"/>
+            <field name="search_view_id" ref="view_grp_valores_custodia_search"/>
+        </record>
+
+        <menuitem id="menu_valores_custodia" name="Valores en Custodia"
+                  action="action_grp_valores_custodia"
+                  parent="account.menu_finance_bank_and_cash"
+                  groups="grp_tesoreria.group_grp_tesoreria"/>
+
+
+        <record model="ir.ui.view" id="view_grp_fecha_entrega_garantia_form">
+            <field name="name">grp.fecha_entrega_garantia_form</field>
+            <field name="model">grp.fecha_entrega_garantia</field>
+            <field name="arch" type="xml">
+                <form string="Fecha de entrega" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="garantia_id" invisible="1"/>
+                        <field name="tipo_custodia_efectivo" invisible="1"/>
+                        <field name="estado" invisible="1"/>
+                        <field name="fecha_asiento" attrs="{'invisible': [('tipo_custodia_efectivo','=',True)],'required': [('tipo_custodia_efectivo', '=', False)]}"/>
+                        <field name="diario_id" attrs="{'invisible': [('tipo_custodia_efectivo','=',True)],'required': [('tipo_custodia_efectivo', '=', False)]}"/>
+                    </group>
+                    <footer>
+                        <button name="button_entregado" string="Entregar" class="oe_highlight" type="object"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- 002- Fin-->
+
+        <record model="ir.actions.server" id="act_serv_notif_fin_contrato">
+            <field name="name">Notificación valores custodia fecha contrato</field>
+            <field name="model_id" ref="model_grp_valores_custodia"/>
+            <field name="state">code</field>
+            <field name="code">obj.enviar_notificacion_fin_contrato(context=context)</field>
+        </record>
+
+        <record id="automated_notif_fin_contrato" model="base.action.rule">
+              <field name="name">Notificación sobre valores para los cuales terminó el contrato</field>
+              <field name="model_id" ref="model_grp_valores_custodia"/>
+              <field name="active">1</field>
+              <field name="kind">on_time</field>
+              <field name="trg_date_id" search="[('model','=','grp.valores_custodia'),('name','=','fecha_fin_contrato')]"/>
+              <field name="trg_date_range">-15</field>
+              <field name="trg_date_range_type">day</field>
+              <field name="server_action_ids" eval="[(6,0,[ref('act_serv_notif_fin_contrato')])]"/>
+        </record>
+    </data>
+</openerp>

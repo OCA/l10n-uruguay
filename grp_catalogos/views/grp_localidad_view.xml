@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Vista lista: Localidad -->
+        <record id="localidad_view_tree" model="ir.ui.view">
+            <field name="name">view.localidad.tree</field>
+            <field name="model">grp.localidad</field>
+            <field name="arch" type="xml">
+                <tree string="Localidad" create="true">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista form: Localidad -->
+        <record id="localidad_view_form" model="ir.ui.view">
+            <field name="name">view.localidad.form</field>
+            <field name="model">grp.localidad</field>
+            <field name="arch" type="xml">
+                <form string="Localidad">
+                    <sheet>
+                        <group string="Localidad">
+                            <field name="name" style="width: 30%%"/>
+                            <field name="code" style="width: 10%%"/>
+                            <field name="country_id" style="width: 30%%" options="{'no_create_edit':true, 'no_quick_create':true, 'no_open':true}"/>
+                            <field name="state_id" style="width: 30%%" options="{'no_create_edit':true, 'no_quick_create':true, 'no_open':true}"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista search: Localidad -->
+        <record id="localidad_view_search" model="ir.ui.view">
+            <field name="name">view.localidad.search</field>
+            <field name="model">grp.localidad</field>
+            <field name="arch" type="xml">
+                <search string="Localidad">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <separator/>
+                    <filter string="Uruguay" name="filter_uruguay_country" icon="terp-personal" domain="[('country_id.code','=','UY')]"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter name="filter_loc_country_id" string="País" domain="[]" context="{'group_by':'country_id'}"/>
+                        <filter name="filter_loc_state_id" string="Departamento" domain="[]" context="{'group_by':'state_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Acción: Localidades
+        Vistas tree, form
+        (N): Capital humano/Configuracion/Empleado/Localidades -->
+        <record id="localidad_action" model="ir.actions.act_window">
+            <field name="name">Localidades</field>
+            <field name="res_model">grp.localidad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="context">{"search_default_filter_uruguay_country":1}</field>
+            <field name="search_view_id" ref="localidad_view_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Click para crear una nueva Localidad</p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú: Localidades
+        (N): Capital humano/Configuracion/Empleado/Localidades -->
+        <menuitem id="menu_hr_configuracion_empleado_loc" name="Localidades" action="localidad_action" parent="menu_hr_configuracion_empleado" sequence="20"/>
+        <menuitem id="menu_hr_configuracion_empleado_departamento" name="Departamentos" action="base.action_country_state" parent="menu_hr_configuracion_empleado" sequence="21"/>
+        <menuitem action="hr.open_module_tree_department" id="hr.menu_hr_department_tree" name="Unidad organizativa" parent="hr.menu_hr_configuration" sequence="5"/>
+
+    </data>
+</openerp>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--TODO: M SPRING 12 GAP 77-->
+        <record id="view_grp_invoice_contract_cession_wizard_form" model="ir.ui.view">
+            <field name="name">grp.invoice.contract.cession.wizard.form</field>
+            <field name="model">grp.invoice.contract.cession.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cesiones">
+                    <separator string="Cesiones"/>
+                    <field name="contract_id" invisible="1"/>
+                    <field name="invoice_id" invisible="1"/>
+                    <field height="300" width="700" name="line_ids" domain="[('select','=',False)]">
+                        <tree string="Cesiones" create="false" editable="bottom" delete="false">
+                            <field name="select"/>
+                            <field name="cession_type" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="date" readonly="1"/>
+                            <field name="saldo_ceder" readonly="1"/>
+                            <field name="contract_cesion_id" invisible="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button string="Cargar" name="import_contract_cessions" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_invoice_contract_cessions_wizard" model="ir.actions.act_window">
+            <field name="name">Cesiones</field>
+            <field name="res_model">grp.invoice.contract.cession.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_grp_invoice_contract_cession_wizard_form"/>
+        </record>
+    </data>
+</openerp>
